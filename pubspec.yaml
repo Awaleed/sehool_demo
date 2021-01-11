@@ -23,16 +23,21 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
   bloc: ^6.1.1
   cupertino_icons: ^1.0.2
   dio: ^3.0.10
   faker: ^1.3.0
+  flutter_bloc: ^6.1.1
   freezed_annotation: ^0.12.0
   get_it: ^5.0.4
+  google_fonts: ^1.1.1
   hive_flutter: ^0.3.1
   injectable: ^1.0.7
   json_annotation: ^3.1.1
   pretty_dio_logger: ^1.1.1
+  sailor: ^0.7.1
   validators: ^2.0.1
   velocity_x: ^1.3.1
 
@@ -46,6 +51,10 @@ dev_dependencies:
   hive_generator: ^0.8.2
   injectable_generator: ^1.0.7
   json_serializable: ^3.5.1
+  lint: ^1.5.1
+
+dependency_overrides:
+  intl: ^0.17.0-nullsafety.2
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -82,3 +91,5 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+flutter_intl:
+  enabled: true
