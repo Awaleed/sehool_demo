@@ -4,6 +4,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:sailor/sailor.dart';
+import 'package:sehool/src/screens/splash.dart';
 
 import 'generated/l10n.dart';
 import 'init_hive.dart';
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
           return BlocListener<AuthCubit, AuthState>(
             cubit: getIt<AuthCubit>(),
             listener: (context, state) {
-              //TODO: Navigate to splash
+              AppRouter.sailor.navigate(SplashScreen.routeName);
             },
             child: MaterialApp(
               title: 'Sehool',
