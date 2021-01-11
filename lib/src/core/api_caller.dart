@@ -10,61 +10,53 @@ import '../data/user_datasource.dart';
 mixin ApiCaller {
   static final box = Hive.box(userBoxName)
     ..listenable().addListener(() {
+      _userId = getIt<IUserLocalDataSource>().readUser().id;
       _configureDioClient();
     });
 
   static const _baseUrl = 'http://192.64.115.192/~gsportsup/public/api';
   static Dio _dio;
-  static PrettyDioLogger logger =
+  static PrettyDioLogger _logger =
       PrettyDioLogger(responseBody: false, requestHeader: true);
 
-  Dio get dio {
-    return _dio;
-  }
+  Dio get dio => _dio;
 
-  int get userId {
-    return 12;
-  }
+  static int _userId = getIt<IUserLocalDataSource>().readUser().id;
+
+  int get userId => _userId;
 
   Future<T> get<T>({
     @required String path,
-    @required T Function(dynamic) parser,
   }) async {
     _configureDioClient();
     final res = await _dio.get(path);
-    return parser(res.data);
+    return res.data;
   }
 
   Future<T> post<T>({
     @required String path,
-    // @required T Function(dynamic) parser,
     dynamic data,
   }) async {
     _configureDioClient();
     final res = await _dio.post(path, data: data);
-    // print(res.data);
     return res.data;
   }
 
   Future<T> put<T>({
     @required String path,
-    // @required T Function(dynamic) parser,
     dynamic data,
   }) async {
     _configureDioClient();
     final res = await _dio.put(path, data: data);
-    // print(res.data);
     return res.data;
   }
 
   Future<T> delete<T>({
     @required String path,
-    // @required T Function(dynamic) parser,
     dynamic data,
   }) async {
     _configureDioClient();
     final res = await _dio.delete(path, data: data);
-    // print(res.data);
     return res.data;
   }
 
@@ -98,6 +90,6 @@ mixin ApiCaller {
         baseUrl: _baseUrl,
         headers: _getHeaders(),
       ),
-    )..interceptors.add(logger);
+    )..interceptors.add(_logger);
   }
 }
