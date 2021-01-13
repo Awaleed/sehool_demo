@@ -22,6 +22,14 @@ class DropdownRepositoryImpl implements IDropdownRepository {
 
   @override
   Future<List> getDropdownValues(DropdownValueType type) async {
+    if (type == DropdownValueType.pickupMethod) {
+      return [
+        PickupMethodModel(id: 0, name: 'من المعرض'),
+        PickupMethodModel(id: 0, name: 'توصيل'),
+      ];
+    } else if (type == DropdownValueType.orderType) {
+      return OrderType.values;
+    }
     final res = await _dropdownRemoteDataSource.getDropdownValues(type);
     return ApiCaller.listParser(res, (data) {
       switch (type) {
@@ -37,9 +45,10 @@ class DropdownRepositoryImpl implements IDropdownRepository {
           data['lang'] = double.tryParse(data['lang'] ?? '0') ?? 0;
           data['lat'] = double.tryParse(data['lat'] ?? '0') ?? 0;
           data['note'] = data['description'];
-          data['address'] = faker.address.streetAddress();
+          data['address'] = data['description'];
+
           return AddressModel.fromJson(data);
-          // return FakeDataGenerator.addressModel;
+        // return FakeDataGenerator.addressModel;
       }
     });
   }
