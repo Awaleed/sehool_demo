@@ -40,7 +40,7 @@ class SplashCubit extends Cubit<SplashState> {
   Future<void> _checkIfAuthenticated() async {
     try {
       if (_userRepo.getUser() != null) {
-        _authRepository.me();
+        await _authRepository.me();
         emit(SplashState.authenticated);
       } else {
         emit(SplashState.unauthenticated);

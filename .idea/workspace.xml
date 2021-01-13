@@ -1,36 +1,143 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="main.dart" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/lib/main.dart">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
   </component>
-  <component name="ToolWindowManager">
-    <editor active="true" />
-    <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-    </layout>
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
   </component>
-  <component name="ProjectView">
-    <navigator currentView="ProjectPane" proportions="" version="1">
-    </navigator>
-    <panes>
-      <pane id="ProjectPane">
-        <option name="show-excluded-files" value="false" />
-      </pane>
-    </panes>
+  <component name="ChangeListManager">
+    <list default="true" id="da64d105-ffa7-40b5-a234-51e861c44f21" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.flutter-plugins" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/gradle.properties" beforeDir="false" afterPath="$PROJECT_DIR$/android/gradle.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/sehool_android.iml" beforeDir="false" afterPath="$PROJECT_DIR$/android/sehool_android.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/generated/intl/messages_ar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/generated/intl/messages_ar.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/generated/intl/messages_en.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/generated/intl/messages_en.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/generated/l10n.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/generated/l10n.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/init_injectable.config.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/init_injectable.config.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/init_injectable.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/init_injectable.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/l10n/intl_ar.arb" beforeDir="false" afterPath="$PROJECT_DIR$/lib/l10n/intl_ar.arb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/l10n/intl_en.arb" beforeDir="false" afterPath="$PROJECT_DIR$/lib/l10n/intl_en.arb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/home.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/login.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/signup.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/signup.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/tabs/hometab.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/core/api_caller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/core/api_caller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/cubits/address_cubit/address_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/cubits/address_cubit/address_cubit.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/cubits/address_cubit/address_cubit.freezed.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/cubits/address_cubit/address_cubit.freezed.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/cubits/address_cubit/address_state.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/cubits/address_cubit/address_state.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/cubits/dropdown_cubit/dropdown_cubit.freezed.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/cubits/dropdown_cubit/dropdown_cubit.freezed.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/cubits/dropdown_cubit/dropdown_state.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/cubits/dropdown_cubit/dropdown_state.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/cubits/forgot_password_cubit/forgot_password_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/cubits/forgot_password_cubit/forgot_password_cubit.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/cubits/forgot_password_cubit/forgot_password_cubit.freezed.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/cubits/forgot_password_cubit/forgot_password_cubit.freezed.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/cubits/forgot_password_cubit/forgot_password_state.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/cubits/forgot_password_cubit/forgot_password_state.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/cubits/login_cubit/login_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/cubits/login_cubit/login_cubit.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/cubits/profile_cubit/profile_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/cubits/profile_cubit/profile_cubit.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/cubits/registration_cubit/registration_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/cubits/registration_cubit/registration_cubit.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/cubits/splash_cubit/splash_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/cubits/splash_cubit/splash_cubit.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/data/dropdown_datasource.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/data/dropdown_datasource.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/data/user_datasource.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/data/user_datasource.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/models/address_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/models/address_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/models/address_model.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/models/address_model.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/models/dropdown_value_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/models/dropdown_value_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/models/dropdown_value_model.g.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/models/form_data_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/models/form_data_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/models/order_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/models/order_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/models/order_model.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/models/order_model.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/models/product_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/models/product_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/models/product_model.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/models/product_model.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/models/user_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/models/user_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/models/user_model.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/models/user_model.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/repositories/auth_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/repositories/auth_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/repositories/dropdown_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/repositories/dropdown_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/repositories/user_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/repositories/user_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/routes/config_routes.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/routes/config_routes.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/screens/auth/login.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/screens/auth/login.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/screens/home.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/screens/splash.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/screens/splash.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sehool.iml" beforeDir="false" afterPath="$PROJECT_DIR$/sehool.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/windows/flutter/generated_plugin_registrant.cc" beforeDir="false" afterPath="$PROJECT_DIR$/windows/flutter/generated_plugin_registrant.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/windows/flutter/generated_plugins.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/windows/flutter/generated_plugins.cmake" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[]" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1myHEGKhlQNHtJ8LYQEkn0BXO10" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="dart.analysis.tool.window.force.activate" value="true" />
+    <property name="dart.analysis.tool.window.visible" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="show.migrate.to.gradle.popup" value="false" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="da64d105-ffa7-40b5-a234-51e861c44f21" name="Default Changelist" comment="" />
+      <created>1610458796103</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1610458796103</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="552" y="165" key="#Plugins" timestamp="1610459013831">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state x="552" y="165" key="#Plugins/0.0.1920.1050@0.0.1920.1050" timestamp="1610459013831" />
+    <state x="640" y="260" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1610458821270">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state x="640" y="260" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.0.1920.1050/-1920.0.1920.1050@0.0.1920.1050" timestamp="1610458821270" />
+    <state x="623" y="231" width="672" height="678" key="search.everywhere.popup" timestamp="1610458980043">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state x="623" y="231" width="672" height="678" key="search.everywhere.popup/0.0.1920.1050@0.0.1920.1050" timestamp="1610458980043" />
   </component>
 </project>

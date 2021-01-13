@@ -1,6 +1,8 @@
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
+import '../../models/form_data_model.dart';
 
 import '../../../init_injectable.dart';
 import '../../models/user_model.dart';
@@ -16,13 +18,13 @@ class LoginCubit extends Cubit<LoginState> {
 
   final IAuthRepository _authRepository;
 
-  Future<void> login(UserModel credentials) async {
+  Future<void> login(Map<FormFieldType, FormFieldModel> credentials) async {
     emit(const LoginState.loading());
     try {
       await _authRepository.login(credentials);
       emit(const LoginState.success());
       getIt<AuthCubit>().authenticateUser();
-    } catch (e) {
+    } on DioError catch (e) {
       // TODO: Handel error messages
       emit(LoginState.failure(message: '$e'));
     }

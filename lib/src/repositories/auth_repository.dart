@@ -1,11 +1,12 @@
 import 'package:injectable/injectable.dart';
 
 import '../data/user_datasource.dart';
+import '../models/form_data_model.dart';
 import '../models/user_model.dart';
 
 abstract class IAuthRepository {
-  Future<UserModel> login(UserModel credentials);
-  Future<UserModel> register(UserModel credentials);
+  Future<UserModel> login(Map<FormFieldType, FormFieldModel> credentials);
+  Future<UserModel> register(Map<FormFieldType, FormFieldModel> credentials);
   Future<UserModel> me();
   Future<void> logout();
 
@@ -20,19 +21,47 @@ class AuthRepositoryImpl implements IAuthRepository {
   AuthRepositoryImpl(this._localSource, this._remoteSource);
 
   @override
-  Future<UserModel> login(UserModel credentials) async {
-    final res = await _remoteSource.login(credentials.toJson());
-    final user = UserWithTokenModel.fromJson(res);
-    await _localSource.saveUser(user);
-    return user.user;
+  Future<UserModel> login(
+      Map<FormFieldType, FormFieldModel> credentials) async {
+    final res = await _remoteSource.login(
+      FormFieldModel.generateJson(credentials),
+    );
+    final token = AccessTokenModel(
+      expiresIn: res['expires_in'],
+      token: res['access_token']['token'],
+      tokenType: res['token_type'],
+    );
+
+    final user = UserModel.fromJson(
+      res['access_token']['user']['original'],
+    );
+    await _localSource.saveUser(UserWithTokenModel(
+      user: user,
+      accessToken: token,
+    ));
+    return user;
   }
 
   @override
-  Future<UserModel> register(UserModel credentials) async {
-    final res = await _remoteSource.register(credentials.toJson());
-    final user = UserWithTokenModel.fromJson(res);
-    await _localSource.saveUser(user);
-    return user.user;
+  Future<UserModel> register(
+      Map<FormFieldType, FormFieldModel> credentials) async {
+    final res = await _remoteSource.register(
+      FormFieldModel.generateJson(credentials),
+    );
+    final token = AccessTokenModel(
+      expiresIn: res['expires_in'],
+      token: res['access_token']['token'],
+      tokenType: res['token_type'],
+    );
+
+    final user = UserModel.fromJson(
+      res['access_token']['user']['original'],
+    );
+    await _localSource.saveUser(UserWithTokenModel(
+      user: user,
+      accessToken: token,
+    ));
+    return user;
   }
 
   @override

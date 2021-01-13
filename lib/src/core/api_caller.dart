@@ -14,10 +14,13 @@ mixin ApiCaller {
       _configureDioClient();
     });
 
-  static const _baseUrl = 'http://192.64.115.192/~gsportsup/public/api';
+  static const _baseUrl = 'http://192.168.43.209:8000/api';
   static Dio _dio;
-  static PrettyDioLogger _logger =
-      PrettyDioLogger(responseBody: false, requestHeader: true);
+  static final PrettyDioLogger _logger = PrettyDioLogger(
+    responseBody: false,
+    requestHeader: true,
+    requestBody: true,
+  );
 
   Dio get dio => _dio;
 
@@ -60,7 +63,7 @@ mixin ApiCaller {
     return res.data;
   }
 
-  List<T> listParser<T>(dynamic data, T Function(dynamic data) parser) {
+  static List<T> listParser<T>(dynamic data, T Function(dynamic data) parser) {
     final list = <T>[];
     if (data is List) {
       for (final item in data) {

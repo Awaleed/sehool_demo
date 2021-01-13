@@ -1,17 +1,18 @@
-import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sailor/sailor.dart';
-import 'package:sehool/init_injectable.dart';
-import 'package:sehool/src/cubits/splash_cubit/splash_cubit.dart';
-import 'package:sehool/src/routes/config_routes.dart';
-import 'package:sehool/src/screens/auth/login.dart';
-import 'package:sehool/src/screens/home.dart';
-import 'package:sehool/src/screens/onboarding.dart';
+import 'package:sehool/src/screens/debug/playground.dart';
 import 'package:simple_animations/simple_animations.dart';
 import 'package:supercharged/supercharged.dart';
+
+import '../../init_injectable.dart';
+import '../cubits/splash_cubit/splash_cubit.dart';
+import '../routes/config_routes.dart';
+import 'auth/login.dart';
+import 'home/home.dart';
+import 'onboarding.dart';
 
 class SplashScreen extends StatelessWidget {
   static const routeName = '/';
@@ -25,20 +26,33 @@ class SplashScreen extends StatelessWidget {
     return BlocListener<SplashCubit, SplashState>(
       cubit: getIt<SplashCubit>(),
       listener: (context, state) async {
+        // AppRouter.sailor.navigate(
+        //   HomeScreen.routeName,
+        //   navigationType: NavigationType.pushAndRemoveUntil,
+        //   removeUntilPredicate: (_) => false,
+        // );
+        // return;
         // await Future.delayed(5.seconds);
+        String routeName;
         switch (state) {
           case SplashState.initial:
             break;
           case SplashState.firstLaunch:
-            AppRouter.sailor.navigate(OnboardingScreen.routeName);
+            routeName = OnboardingScreen.routeName;
             break;
           case SplashState.authenticated:
-            AppRouter.sailor.navigate(HomeScreen.routeName);
+            routeName = HomeScreen.routeName;
             break;
           case SplashState.unauthenticated:
-            AppRouter.sailor.navigate(LoginScreen.routeName);
+            routeName = LoginScreen.routeName;
             break;
         }
+
+        AppRouter.sailor.navigate(
+          routeName,
+          navigationType: NavigationType.pushAndRemoveUntil,
+          removeUntilPredicate: (_) => false,
+        );
       },
       child: Scaffold(
         body: Center(

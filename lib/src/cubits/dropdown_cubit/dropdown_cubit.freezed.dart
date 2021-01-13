@@ -24,7 +24,7 @@ class _$DropdownStateTearOff {
   }
 
 // ignore: unused_element
-  _Success success(List<DropdownValueModel> values) {
+  _Success success(List<dynamic> values) {
     return _Success(
       values,
     );
@@ -48,14 +48,14 @@ mixin _$DropdownState {
   TResult when<TResult extends Object>({
     @required TResult initial(),
     @required TResult loading(),
-    @required TResult success(List<DropdownValueModel> values),
+    @required TResult success(List<dynamic> values),
     @required TResult failure(String message),
   });
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object>({
     TResult initial(),
     TResult loading(),
-    TResult success(List<DropdownValueModel> values),
+    TResult success(List<dynamic> values),
     TResult failure(String message),
     @required TResult orElse(),
   });
@@ -131,7 +131,7 @@ class _$_Initial implements _Initial {
   TResult when<TResult extends Object>({
     @required TResult initial(),
     @required TResult loading(),
-    @required TResult success(List<DropdownValueModel> values),
+    @required TResult success(List<dynamic> values),
     @required TResult failure(String message),
   }) {
     assert(initial != null);
@@ -146,7 +146,7 @@ class _$_Initial implements _Initial {
   TResult maybeWhen<TResult extends Object>({
     TResult initial(),
     TResult loading(),
-    TResult success(List<DropdownValueModel> values),
+    TResult success(List<dynamic> values),
     TResult failure(String message),
     @required TResult orElse(),
   }) {
@@ -231,7 +231,7 @@ class _$_Loading implements _Loading {
   TResult when<TResult extends Object>({
     @required TResult initial(),
     @required TResult loading(),
-    @required TResult success(List<DropdownValueModel> values),
+    @required TResult success(List<dynamic> values),
     @required TResult failure(String message),
   }) {
     assert(initial != null);
@@ -246,7 +246,7 @@ class _$_Loading implements _Loading {
   TResult maybeWhen<TResult extends Object>({
     TResult initial(),
     TResult loading(),
-    TResult success(List<DropdownValueModel> values),
+    TResult success(List<dynamic> values),
     TResult failure(String message),
     @required TResult orElse(),
   }) {
@@ -297,7 +297,7 @@ abstract class _Loading implements DropdownState {
 abstract class _$SuccessCopyWith<$Res> {
   factory _$SuccessCopyWith(_Success value, $Res Function(_Success) then) =
       __$SuccessCopyWithImpl<$Res>;
-  $Res call({List<DropdownValueModel> values});
+  $Res call({List<dynamic> values});
 }
 
 /// @nodoc
@@ -314,7 +314,7 @@ class __$SuccessCopyWithImpl<$Res> extends _$DropdownStateCopyWithImpl<$Res>
     Object values = freezed,
   }) {
     return _then(_Success(
-      values == freezed ? _value.values : values as List<DropdownValueModel>,
+      values == freezed ? _value.values : values as List<dynamic>,
     ));
   }
 }
@@ -324,7 +324,7 @@ class _$_Success implements _Success {
   const _$_Success(this.values) : assert(values != null);
 
   @override
-  final List<DropdownValueModel> values;
+  final List<dynamic> values;
 
   @override
   String toString() {
@@ -352,7 +352,7 @@ class _$_Success implements _Success {
   TResult when<TResult extends Object>({
     @required TResult initial(),
     @required TResult loading(),
-    @required TResult success(List<DropdownValueModel> values),
+    @required TResult success(List<dynamic> values),
     @required TResult failure(String message),
   }) {
     assert(initial != null);
@@ -367,7 +367,7 @@ class _$_Success implements _Success {
   TResult maybeWhen<TResult extends Object>({
     TResult initial(),
     TResult loading(),
-    TResult success(List<DropdownValueModel> values),
+    TResult success(List<dynamic> values),
     TResult failure(String message),
     @required TResult orElse(),
   }) {
@@ -411,9 +411,9 @@ class _$_Success implements _Success {
 }
 
 abstract class _Success implements DropdownState {
-  const factory _Success(List<DropdownValueModel> values) = _$_Success;
+  const factory _Success(List<dynamic> values) = _$_Success;
 
-  List<DropdownValueModel> get values;
+  List<dynamic> get values;
   _$SuccessCopyWith<_Success> get copyWith;
 }
 
@@ -476,7 +476,7 @@ class _$_Failure implements _Failure {
   TResult when<TResult extends Object>({
     @required TResult initial(),
     @required TResult loading(),
-    @required TResult success(List<DropdownValueModel> values),
+    @required TResult success(List<dynamic> values),
     @required TResult failure(String message),
   }) {
     assert(initial != null);
@@ -491,7 +491,7 @@ class _$_Failure implements _Failure {
   TResult maybeWhen<TResult extends Object>({
     TResult initial(),
     TResult loading(),
-    TResult success(List<DropdownValueModel> values),
+    TResult success(List<dynamic> values),
     TResult failure(String message),
     @required TResult orElse(),
   }) {

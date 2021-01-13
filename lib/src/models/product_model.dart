@@ -24,10 +24,16 @@ class ReviewModel {
 
 @JsonSerializable(
     fieldRename: FieldRename.snake, explicitToJson: true, nullable: true)
-class SlicingMethod {
-  const SlicingMethod();
+class SlicingMethodModel {
+  const SlicingMethodModel({
+    this.id,
+    this.name,
+  });
 
-  factory SlicingMethod.fromJson(Map<String, dynamic> json) =>
-      _$SlicingMethodFromJson(json);
-  Map<String, dynamic> toJson() => _$SlicingMethodToJson(this);
+  final int id;
+  final String name;
+
+  factory SlicingMethodModel.fromJson(Map<String, dynamic> json) =>
+      _$SlicingMethodModelFromJson(json);
+  Map<String, dynamic> toJson() => _$SlicingMethodModelToJson(this);
 }

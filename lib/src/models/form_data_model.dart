@@ -1,47 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:sehool/generated/l10n.dart';
 import 'package:validators/validators.dart';
 
 enum FormFieldType {
-  height,
-  userId,
-  sportId,
-  weight,
-  mainPositionId,
-  otherPositionId,
-  startActivity,
-  skills,
-  professionalId,
-  currentClub,
-  achievements,
-  biography,
-  vision,
-  educationalLevel,
-  ageCategory,
-  certificate,
-  yearsOfExperience,
-  fitness,
-  specializations,
-  reference,
-  method,
-  language,
-  critic,
-  clubId,
-  leagueId,
-  playerId,
+  /// TODO: MODELS USED HERE REMOVE OTHER
   address,
-  establishment,
-  percentage,
-  conditions,
-  agencyId,
+  password,
+  name,
+  email,
+  notes,
+  phone,
+  cityId,
+  citySectionId,
+  level,
+  storeName,
+  vatNumber,
 }
 
 class FormFieldModel {
   final String name;
   final String hintText;
+  final String labelText;
   final IconData iconData;
   final TextInputType keyboardType;
   final String Function(dynamic value) validator;
-  final IconData icon;
   final void Function(dynamic value) onSave;
 
   dynamic value;
@@ -49,10 +32,10 @@ class FormFieldModel {
   FormFieldModel({
     this.name,
     this.hintText,
+    this.labelText,
     this.iconData,
     this.keyboardType,
     this.validator,
-    this.icon,
     this.onSave,
     this.value,
   });
@@ -70,351 +53,161 @@ class FormFieldModel {
   factory FormFieldModel.mapType(
       FormFieldType type, Map<FormFieldType, FormFieldModel> map) {
     switch (type) {
-      case FormFieldType.height:
+      case FormFieldType.name:
         return FormFieldModel(
-          hintText: 'الطول',
-          iconData: Icons.height_outlined,
+          hintText: S.current.john_doe,
+          labelText: S.current.full_name,
+          iconData: FontAwesomeIcons.userAlt,
+          keyboardType: TextInputType.text,
+          validator: _Validators.shortStringValidator,
+          onSave: (value) {
+            map[FormFieldType.name] = FormFieldModel(
+              name: 'name',
+              value: _toString(value),
+            );
+          },
+        );
+      // case FormFieldType.address:
+      //   return FormFieldModel(
+      //     hintText: S.current.address,
+      //     labelText: S.current.address ,
+      //     iconData: FontAwesomeIcons.user,
+      //     keyboardType: TextInputType.text,
+      //     validator: _Validators.notEmptyStringValidator,
+      //     onSave: (value) {
+      //       map[FormFieldType.address] = FormFieldModel(
+      //         name: 'username',
+      //         value: _toString(value),
+      //       );
+      //     },
+      //   );
+      case FormFieldType.password:
+        return FormFieldModel(
+          hintText: '************',
+          labelText: S.current.password,
+          iconData: FontAwesomeIcons.eyeSlash,
+          keyboardType: TextInputType.text,
+          validator: _Validators.longStringValidator,
+          onSave: (value) {
+            map[FormFieldType.password] = FormFieldModel(
+              name: 'password',
+              value: _toString(value),
+            );
+          },
+        );
+      case FormFieldType.email:
+        return FormFieldModel(
+          hintText: 'example@example.com',
+          labelText: S.current.email,
+          iconData: FontAwesomeIcons.solidEnvelope,
+          keyboardType: TextInputType.emailAddress,
+          validator: (value) {
+            if (!isEmail(value)) return S.current.should_be_a_valid_email;
+            return null;
+          },
+          onSave: (value) {
+            map[FormFieldType.email] = FormFieldModel(
+              name: 'email',
+              value: _toString(value),
+            );
+          },
+        );
+      case FormFieldType.phone:
+        return FormFieldModel(
+          hintText: '0599676388',
+          labelText: S.current.phone,
+          iconData: FontAwesomeIcons.phone,
           keyboardType: TextInputType.number,
           validator: _Validators.numericValidator,
           onSave: (value) {
-            map[FormFieldType.height] = FormFieldModel(
-              name: 'height',
-              value: _toDouble(value),
+            map[FormFieldType.phone] = FormFieldModel(
+              name: 'phone',
+              value: _toString(value),
             );
           },
         );
-      case FormFieldType.weight:
+      case FormFieldType.notes:
         return FormFieldModel(
-          iconData: Icons.panorama_horizontal_outlined,
-          hintText: 'الوزن',
-          validator: _Validators.numericValidator,
+          hintText: 'ملاحظات',
+          iconData: FontAwesomeIcons.paperclip,
           keyboardType: TextInputType.number,
+          validator: _Validators.notEmptyStringValidator,
           onSave: (value) {
-            map[FormFieldType.weight] = FormFieldModel(
-              name: 'weight',
-              value: _toDouble(value),
+            map[FormFieldType.notes] = FormFieldModel(
+              name: 'notes',
+              value: _toString(value),
             );
           },
         );
-      case FormFieldType.mainPositionId:
+      case FormFieldType.cityId:
         return FormFieldModel(
-          iconData: Icons.location_history_outlined,
-          hintText: 'المركز الرئيسي',
+          hintText: 'المدينة',
+          iconData: FontAwesomeIcons.locationArrow,
+          keyboardType: TextInputType.number,
+          validator: _Validators.notEmptyStringValidator,
+          onSave: (value) {
+            map[FormFieldType.cityId] = FormFieldModel(
+              name: 'city_id',
+              value: _toString(value),
+            );
+          },
+        );
+      case FormFieldType.citySectionId:
+        return FormFieldModel(
+          hintText: 'قطاع المدينة',
+          iconData: FontAwesomeIcons.locationArrow,
+          keyboardType: TextInputType.number,
+          validator: _Validators.notEmptyStringValidator,
+          onSave: (value) {
+            map[FormFieldType.citySectionId] = FormFieldModel(
+              name: 'city_section_id',
+              value: _toString(value),
+            );
+          },
+        );
+      case FormFieldType.level:
+        return FormFieldModel(
+          //TODO: Add localization
+          hintText: 'S.current.level',
+          labelText: 'S.current.level',
+          iconData: FontAwesomeIcons.solidUserCircle,
           validator: _Validators.notNullValidator,
           onSave: (value) {
-            map[FormFieldType.mainPositionId] = FormFieldModel(
-              name: 'main_position_id',
+            map[FormFieldType.level] = FormFieldModel(
+              name: 'level',
               value: _toInt(value),
             );
           },
         );
-      case FormFieldType.otherPositionId:
+      case FormFieldType.storeName:
+        //TODO: Add localization
         return FormFieldModel(
-          iconData: Icons.person_pin_circle_outlined,
-          hintText: 'المركز الفرعي',
-          validator: _Validators.notNullValidator,
+          hintText: 'S.current.store',
+          labelText: 'S.current.store',
+          iconData: FontAwesomeIcons.storeAlt,
+          keyboardType: TextInputType.text,
+          validator: _Validators.shortStringValidator,
           onSave: (value) {
-            map[FormFieldType.otherPositionId] = FormFieldModel(
-              name: 'other_position_id',
+            map[FormFieldType.storeName] = FormFieldModel(
+              name: 'store_name',
+              value: _toString(value),
+            );
+          },
+        );
+      case FormFieldType.vatNumber:
+        return FormFieldModel(
+          hintText: '123456789123456',
+          labelText: 'S.current.vat_number',
+          iconData: FontAwesomeIcons.moneyCheckAlt,
+          keyboardType: TextInputType.number,
+          validator: _Validators.notEmptyStringValidator,
+          onSave: (value) {
+            map[FormFieldType.vatNumber] = FormFieldModel(
+              name: 'vat_number',
               value: _toInt(value),
             );
           },
         );
-      case FormFieldType.startActivity:
-        return FormFieldModel(
-          hintText: 'تاريخ بدء النشاط',
-          iconData: Icons.date_range_outlined,
-          validator: _Validators.notNullValidator,
-          onSave: (value) {
-            map[FormFieldType.startActivity] = FormFieldModel(
-              name: 'start_activity',
-              value: _toString('$value'),
-            );
-          },
-        );
-      case FormFieldType.skills:
-        return FormFieldModel(
-          hintText: 'المهارات',
-          iconData: Icons.block_outlined,
-          validator: _Validators.notEmptyStringValidator,
-          onSave: (value) {
-            map[FormFieldType.skills] = FormFieldModel(
-              name: 'skills',
-              value: _toString(value),
-            );
-          },
-        );
-      case FormFieldType.professionalId:
-        return FormFieldModel(
-          iconData: Icons.next_week_outlined,
-          hintText: 'الاحتراف',
-          validator: _Validators.notNullValidator,
-          onSave: (value) {
-            map[FormFieldType.professionalId] = FormFieldModel(
-              name: 'professional_id',
-              value: _toInt(value),
-            );
-          },
-        );
-      case FormFieldType.currentClub:
-        return FormFieldModel(
-          iconData: Icons.people_alt_outlined,
-          hintText: 'النادي الحالي',
-          validator: _Validators.notNullValidator,
-          onSave: (value) {
-            map[FormFieldType.currentClub] = FormFieldModel(
-              name: 'current_club',
-              value: _toInt(value),
-            );
-          },
-        );
-      case FormFieldType.biography:
-        return FormFieldModel(
-          iconData: Icons.post_add_outlined,
-          hintText: 'السيرة الذاتية',
-          validator: _Validators.notEmptyStringValidator,
-          onSave: (value) {
-            map[FormFieldType.biography] = FormFieldModel(
-              name: 'biography',
-              value: _toString(value),
-            );
-          },
-        );
-      case FormFieldType.vision:
-        return FormFieldModel(
-          hintText: 'الرؤية',
-          iconData: Icons.visibility_rounded,
-          validator: _Validators.notEmptyStringValidator,
-          onSave: (value) {
-            map[FormFieldType.vision] = FormFieldModel(
-              name: 'vision',
-              value: _toString(value),
-            );
-          },
-        );
-      case FormFieldType.educationalLevel:
-        return FormFieldModel(
-          iconData: Icons.school,
-          hintText: 'المستوي التعليمي',
-          validator: _Validators.notNullValidator,
-          onSave: (value) {
-            map[FormFieldType.educationalLevel] = FormFieldModel(
-              name: 'educational_level',
-              value: _toInt(value),
-            );
-          },
-        );
-      case FormFieldType.ageCategory:
-        return FormFieldModel(
-          iconData: Icons.school,
-          hintText: 'الفئة العمرية',
-          validator: _Validators.notEmptyStringValidator,
-          onSave: (value) {
-            map[FormFieldType.ageCategory] = FormFieldModel(
-              name: 'age_category',
-              value: _toString(value),
-            );
-          },
-        );
-
-      case FormFieldType.certificate:
-        return FormFieldModel(
-          iconData: Icons.school,
-          hintText: 'الشهادة',
-          validator: _Validators.notEmptyStringValidator,
-          onSave: (value) {
-            map[FormFieldType.certificate] = FormFieldModel(
-              name: 'certificate',
-              value: _toString(value),
-            );
-          },
-        );
-      case FormFieldType.yearsOfExperience:
-        return FormFieldModel(
-          iconData: Icons.school,
-          hintText: 'سنوات الخبرة',
-          validator: _Validators.numericValidator,
-          onSave: (value) {
-            map[FormFieldType.yearsOfExperience] = FormFieldModel(
-              name: 'years_of_experience',
-              value: _toInt(value),
-            );
-          },
-        );
-
-      case FormFieldType.fitness:
-        return FormFieldModel(
-          iconData: Icons.school,
-          hintText: 'اللياقة',
-          validator: _Validators.numericValidator,
-          onSave: (value) {
-            map[FormFieldType.fitness] = FormFieldModel(
-              name: 'fitness',
-              value: _toInt(value),
-            );
-          },
-        );
-      case FormFieldType.reference:
-        return FormFieldModel(
-          iconData: Icons.school,
-          hintText: 'العمل السابق',
-          validator: _Validators.notEmptyStringValidator,
-          onSave: (value) {
-            map[FormFieldType.reference] = FormFieldModel(
-              name: 'reference',
-              value: _toString(value),
-            );
-          },
-        );
-      case FormFieldType.specializations:
-        return FormFieldModel(
-          iconData: Icons.school,
-          hintText: 'التخصص',
-          validator: _Validators.notEmptyStringValidator,
-          onSave: (value) {
-            map[FormFieldType.specializations] = FormFieldModel(
-              name: 'specializations',
-              value: _toString(value),
-            );
-          },
-        );
-      case FormFieldType.method:
-        return FormFieldModel(
-          iconData: Icons.change_history,
-          hintText: 'الطريقه',
-          validator: _Validators.notEmptyStringValidator,
-          onSave: (value) {
-            map[FormFieldType.method] = FormFieldModel(
-              name: 'method',
-              value: _toString(value),
-            );
-          },
-        );
-      case FormFieldType.language:
-        return FormFieldModel(
-          iconData: Icons.change_history,
-          hintText: 'اللغه',
-          validator: _Validators.notEmptyStringValidator,
-          onSave: (value) {
-            map[FormFieldType.language] = FormFieldModel(
-              name: 'language',
-              value: _toString(value),
-            );
-          },
-        );
-      case FormFieldType.critic:
-        return FormFieldModel(
-          iconData: Icons.change_history,
-          hintText: 'النقاد',
-          validator: _Validators.notEmptyStringValidator,
-          onSave: (value) {
-            map[FormFieldType.critic] = FormFieldModel(
-              name: 'critic',
-              value: _toString(value),
-            );
-          },
-        );
-      case FormFieldType.playerId:
-        return FormFieldModel(
-          iconData: Icons.change_history,
-          hintText: 'اللاعب',
-          validator: _Validators.notEmptyStringValidator,
-          onSave: (value) {
-            map[FormFieldType.playerId] = FormFieldModel(
-              name: 'player',
-              value: _toString(value),
-            );
-          },
-        );
-      case FormFieldType.clubId:
-        return FormFieldModel(
-          iconData: Icons.change_history,
-          hintText: 'النادي',
-          validator: _Validators.notEmptyStringValidator,
-          onSave: (value) {
-            map[FormFieldType.clubId] = FormFieldModel(
-              name: 'club',
-              value: _toString(value),
-            );
-          },
-        );
-      case FormFieldType.leagueId:
-        return FormFieldModel(
-          iconData: Icons.change_history,
-          hintText: 'الدوري',
-          validator: _Validators.notEmptyStringValidator,
-          onSave: (value) {
-            map[FormFieldType.leagueId] = FormFieldModel(
-              name: 'league',
-              value: _toString(value),
-            );
-          },
-        );
-      case FormFieldType.address:
-        return FormFieldModel(
-          iconData: Icons.change_history,
-          hintText: 'العنوان',
-          validator: _Validators.notEmptyStringValidator,
-          onSave: (value) {
-            map[FormFieldType.address] = FormFieldModel(
-              name: 'address',
-              value: _toString(value),
-            );
-          },
-        );
-      case FormFieldType.establishment:
-        return FormFieldModel(
-          iconData: Icons.change_history,
-          hintText: 'الموسسه',
-          validator: _Validators.notEmptyStringValidator,
-          onSave: (value) {
-            map[FormFieldType.establishment] = FormFieldModel(
-              name: 'establishment',
-              value: _toString(value),
-            );
-          },
-        );
-      case FormFieldType.percentage:
-        return FormFieldModel(
-          iconData: Icons.change_history,
-          hintText: 'النسبه',
-          validator: _Validators.notEmptyStringValidator,
-          onSave: (value) {
-            map[FormFieldType.percentage] = FormFieldModel(
-              name: 'percentage',
-              value: _toString(value),
-            );
-          },
-        );
-      case FormFieldType.agencyId:
-        return FormFieldModel(
-          iconData: Icons.change_history,
-          hintText: 'الوكاله',
-          validator: _Validators.notEmptyStringValidator,
-          onSave: (value) {
-            // ignore: unnecessary_statements
-            map[FormFieldType.agencyId] = FormFieldModel(
-              name: 'agency',
-              value: _toString(value),
-            );
-          },
-        );
-      case FormFieldType.conditions:
-        return FormFieldModel(
-          iconData: Icons.change_history,
-          hintText: 'الحاله',
-          validator: _Validators.notEmptyStringValidator,
-          onSave: (value) {
-            // ignore: unnecessary_statements
-            map[FormFieldType.conditions] = FormFieldModel(
-              name: 'conditions',
-              value: _toString(value),
-            );
-          },
-        );
-
-      case FormFieldType.userId:
-      case FormFieldType.sportId:
       default:
         throw UnsupportedError(
           'Unsupported FormFieldModel with prams FormFieldType $type, Map<FormFieldType, FormFieldModel> $BigInt.one',
@@ -432,6 +225,26 @@ abstract class _Validators {
     if (value is String) {
       if (value.isEmpty || value == null) {
         return 'إملاء هذا الحقل';
+      }
+      return null;
+    }
+    throw UnsupportedError('value $value');
+  }
+
+  static String shortStringValidator(value) {
+    if (value is String) {
+      if (value.length < 3 || value == null) {
+        return S.current.should_be_more_than_3_letters;
+      }
+      return null;
+    }
+    throw UnsupportedError('value $value');
+  }
+
+  static String longStringValidator(value) {
+    if (value is String) {
+      if (value.length < 3 || value == null) {
+        return S.current.should_be_more_than_3_letters;
       }
       return null;
     }

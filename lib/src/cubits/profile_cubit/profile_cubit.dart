@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:sehool/src/models/form_data_model.dart';
 
 import '../../models/user_model.dart';
 import '../../repositories/user_repository.dart';
@@ -36,10 +37,10 @@ class ProfileCubit extends Cubit<ProfileState> {
     }
   }
 
-  Future<void> updateProfile(UserModel model) async {
+  Future<void> updateProfile(Map<FormFieldType, FormFieldModel> data) async {
     emit(const ProfileState.loading());
     try {
-      final value = await _userRepository.updateProfile(model);
+      final value = await _userRepository.updateProfile(data);
       emit(ProfileState.success(value));
     } catch (e) {
       // TODO: Handel error messages

@@ -14,6 +14,17 @@ class AddressCubit extends Cubit<AddressState> {
 
   final IUserRepository _userRepository;
 
+  Future<void> getAddresses() async {
+    emit(const AddressState.loading());
+    try {
+      final value = await _userRepository.getAddresses();
+      emit(AddressState.success(value));
+    } catch (e) {
+      // TODO: Handel error messages
+      emit(AddressState.failure(message: '$e'));
+    }
+  }
+
   Future<void> addAddress(AddressModel model) async {
     emit(const AddressState.loading());
     try {

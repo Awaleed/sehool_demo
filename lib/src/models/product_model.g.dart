@@ -20,9 +20,15 @@ ReviewModel _$ReviewModelFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$ReviewModelToJson(ReviewModel instance) =>
     <String, dynamic>{};
 
-SlicingMethod _$SlicingMethodFromJson(Map<String, dynamic> json) {
-  return SlicingMethod();
+SlicingMethodModel _$SlicingMethodModelFromJson(Map<String, dynamic> json) {
+  return SlicingMethodModel(
+    id: json['id'] as int,
+    name: json['name'] as String,
+  );
 }
 
-Map<String, dynamic> _$SlicingMethodToJson(SlicingMethod instance) =>
-    <String, dynamic>{};
+Map<String, dynamic> _$SlicingMethodModelToJson(SlicingMethodModel instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+    };

@@ -11,3 +11,17 @@ class OrderModel {
       _$OrderModelFromJson(json);
   Map<String, dynamic> toJson() => _$OrderModelToJson(this);
 }
+
+@JsonSerializable(
+    fieldRename: FieldRename.snake, explicitToJson: true, nullable: true)
+class PaymentMethodModel {
+  const PaymentMethodModel({
+    this.id,
+    this.name,
+  });
+  final int id;
+  final String name;
+  factory PaymentMethodModel.fromJson(Map<String, dynamic> json) =>
+      _$PaymentMethodModelFromJson(json);
+  Map<String, dynamic> toJson() => _$PaymentMethodModelToJson(this);
+}

@@ -14,13 +14,10 @@ class _$ForgotPasswordStateTearOff {
   const _$ForgotPasswordStateTearOff();
 
 // ignore: unused_element
-  _Loading loading() {
-    return const _Loading();
-  }
-
-// ignore: unused_element
-  _EnterYourEmail enterYourEmail() {
-    return const _EnterYourEmail();
+  _EnterYourEmail enterYourEmail({String email}) {
+    return _EnterYourEmail(
+      email: email,
+    );
   }
 
 // ignore: unused_element
@@ -28,6 +25,20 @@ class _$ForgotPasswordStateTearOff {
     return _EnterNewPassword(
       email: email,
       timeout: timeout,
+    );
+  }
+
+// ignore: unused_element
+  _EnterYourEmailLoading enterYourEmailLoading({String email}) {
+    return _EnterYourEmailLoading(
+      email: email,
+    );
+  }
+
+// ignore: unused_element
+  _EnterNewPasswordLoading enterNewPasswordLoading({String email}) {
+    return _EnterNewPasswordLoading(
+      email: email,
     );
   }
 
@@ -62,9 +73,10 @@ const $ForgotPasswordState = _$ForgotPasswordStateTearOff();
 mixin _$ForgotPasswordState {
   @optionalTypeArgs
   TResult when<TResult extends Object>({
-    @required TResult loading(),
-    @required TResult enterYourEmail(),
+    @required TResult enterYourEmail(String email),
     @required TResult enterNewPassword(String email, int timeout),
+    @required TResult enterYourEmailLoading(String email),
+    @required TResult enterNewPasswordLoading(String email),
     @required TResult success(),
     @required TResult failureOnEnterYourEmail(String message),
     @required
@@ -72,9 +84,10 @@ mixin _$ForgotPasswordState {
   });
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object>({
-    TResult loading(),
-    TResult enterYourEmail(),
+    TResult enterYourEmail(String email),
     TResult enterNewPassword(String email, int timeout),
+    TResult enterYourEmailLoading(String email),
+    TResult enterNewPasswordLoading(String email),
     TResult success(),
     TResult failureOnEnterYourEmail(String message),
     TResult failureOnNewPassword(String message, String email, int timeout),
@@ -82,18 +95,20 @@ mixin _$ForgotPasswordState {
   });
   @optionalTypeArgs
   TResult map<TResult extends Object>({
-    @required TResult loading(_Loading value),
     @required TResult enterYourEmail(_EnterYourEmail value),
     @required TResult enterNewPassword(_EnterNewPassword value),
+    @required TResult enterYourEmailLoading(_EnterYourEmailLoading value),
+    @required TResult enterNewPasswordLoading(_EnterNewPasswordLoading value),
     @required TResult success(_Success value),
     @required TResult failureOnEnterYourEmail(_FailureOnEnterYourEmail value),
     @required TResult failureOnNewPassword(_FailureOnNewPassword value),
   });
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object>({
-    TResult loading(_Loading value),
     TResult enterYourEmail(_EnterYourEmail value),
     TResult enterNewPassword(_EnterNewPassword value),
+    TResult enterYourEmailLoading(_EnterYourEmailLoading value),
+    TResult enterNewPasswordLoading(_EnterNewPasswordLoading value),
     TResult success(_Success value),
     TResult failureOnEnterYourEmail(_FailureOnEnterYourEmail value),
     TResult failureOnNewPassword(_FailureOnNewPassword value),
@@ -119,124 +134,11 @@ class _$ForgotPasswordStateCopyWithImpl<$Res>
 }
 
 /// @nodoc
-abstract class _$LoadingCopyWith<$Res> {
-  factory _$LoadingCopyWith(_Loading value, $Res Function(_Loading) then) =
-      __$LoadingCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$LoadingCopyWithImpl<$Res>
-    extends _$ForgotPasswordStateCopyWithImpl<$Res>
-    implements _$LoadingCopyWith<$Res> {
-  __$LoadingCopyWithImpl(_Loading _value, $Res Function(_Loading) _then)
-      : super(_value, (v) => _then(v as _Loading));
-
-  @override
-  _Loading get _value => super._value as _Loading;
-}
-
-/// @nodoc
-class _$_Loading implements _Loading {
-  const _$_Loading();
-
-  @override
-  String toString() {
-    return 'ForgotPasswordState.loading()';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) || (other is _Loading);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object>({
-    @required TResult loading(),
-    @required TResult enterYourEmail(),
-    @required TResult enterNewPassword(String email, int timeout),
-    @required TResult success(),
-    @required TResult failureOnEnterYourEmail(String message),
-    @required
-        TResult failureOnNewPassword(String message, String email, int timeout),
-  }) {
-    assert(loading != null);
-    assert(enterYourEmail != null);
-    assert(enterNewPassword != null);
-    assert(success != null);
-    assert(failureOnEnterYourEmail != null);
-    assert(failureOnNewPassword != null);
-    return loading();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object>({
-    TResult loading(),
-    TResult enterYourEmail(),
-    TResult enterNewPassword(String email, int timeout),
-    TResult success(),
-    TResult failureOnEnterYourEmail(String message),
-    TResult failureOnNewPassword(String message, String email, int timeout),
-    @required TResult orElse(),
-  }) {
-    assert(orElse != null);
-    if (loading != null) {
-      return loading();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object>({
-    @required TResult loading(_Loading value),
-    @required TResult enterYourEmail(_EnterYourEmail value),
-    @required TResult enterNewPassword(_EnterNewPassword value),
-    @required TResult success(_Success value),
-    @required TResult failureOnEnterYourEmail(_FailureOnEnterYourEmail value),
-    @required TResult failureOnNewPassword(_FailureOnNewPassword value),
-  }) {
-    assert(loading != null);
-    assert(enterYourEmail != null);
-    assert(enterNewPassword != null);
-    assert(success != null);
-    assert(failureOnEnterYourEmail != null);
-    assert(failureOnNewPassword != null);
-    return loading(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object>({
-    TResult loading(_Loading value),
-    TResult enterYourEmail(_EnterYourEmail value),
-    TResult enterNewPassword(_EnterNewPassword value),
-    TResult success(_Success value),
-    TResult failureOnEnterYourEmail(_FailureOnEnterYourEmail value),
-    TResult failureOnNewPassword(_FailureOnNewPassword value),
-    @required TResult orElse(),
-  }) {
-    assert(orElse != null);
-    if (loading != null) {
-      return loading(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _Loading implements ForgotPasswordState {
-  const factory _Loading() = _$_Loading;
-}
-
-/// @nodoc
 abstract class _$EnterYourEmailCopyWith<$Res> {
   factory _$EnterYourEmailCopyWith(
           _EnterYourEmail value, $Res Function(_EnterYourEmail) then) =
       __$EnterYourEmailCopyWithImpl<$Res>;
+  $Res call({String email});
 }
 
 /// @nodoc
@@ -249,51 +151,74 @@ class __$EnterYourEmailCopyWithImpl<$Res>
 
   @override
   _EnterYourEmail get _value => super._value as _EnterYourEmail;
+
+  @override
+  $Res call({
+    Object email = freezed,
+  }) {
+    return _then(_EnterYourEmail(
+      email: email == freezed ? _value.email : email as String,
+    ));
+  }
 }
 
 /// @nodoc
 class _$_EnterYourEmail implements _EnterYourEmail {
-  const _$_EnterYourEmail();
+  const _$_EnterYourEmail({this.email});
+
+  @override
+  final String email;
 
   @override
   String toString() {
-    return 'ForgotPasswordState.enterYourEmail()';
+    return 'ForgotPasswordState.enterYourEmail(email: $email)';
   }
 
   @override
   bool operator ==(dynamic other) {
-    return identical(this, other) || (other is _EnterYourEmail);
+    return identical(this, other) ||
+        (other is _EnterYourEmail &&
+            (identical(other.email, email) ||
+                const DeepCollectionEquality().equals(other.email, email)));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode =>
+      runtimeType.hashCode ^ const DeepCollectionEquality().hash(email);
+
+  @override
+  _$EnterYourEmailCopyWith<_EnterYourEmail> get copyWith =>
+      __$EnterYourEmailCopyWithImpl<_EnterYourEmail>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object>({
-    @required TResult loading(),
-    @required TResult enterYourEmail(),
+    @required TResult enterYourEmail(String email),
     @required TResult enterNewPassword(String email, int timeout),
+    @required TResult enterYourEmailLoading(String email),
+    @required TResult enterNewPasswordLoading(String email),
     @required TResult success(),
     @required TResult failureOnEnterYourEmail(String message),
     @required
         TResult failureOnNewPassword(String message, String email, int timeout),
   }) {
-    assert(loading != null);
     assert(enterYourEmail != null);
     assert(enterNewPassword != null);
+    assert(enterYourEmailLoading != null);
+    assert(enterNewPasswordLoading != null);
     assert(success != null);
     assert(failureOnEnterYourEmail != null);
     assert(failureOnNewPassword != null);
-    return enterYourEmail();
+    return enterYourEmail(email);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object>({
-    TResult loading(),
-    TResult enterYourEmail(),
+    TResult enterYourEmail(String email),
     TResult enterNewPassword(String email, int timeout),
+    TResult enterYourEmailLoading(String email),
+    TResult enterNewPasswordLoading(String email),
     TResult success(),
     TResult failureOnEnterYourEmail(String message),
     TResult failureOnNewPassword(String message, String email, int timeout),
@@ -301,7 +226,7 @@ class _$_EnterYourEmail implements _EnterYourEmail {
   }) {
     assert(orElse != null);
     if (enterYourEmail != null) {
-      return enterYourEmail();
+      return enterYourEmail(email);
     }
     return orElse();
   }
@@ -309,16 +234,18 @@ class _$_EnterYourEmail implements _EnterYourEmail {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object>({
-    @required TResult loading(_Loading value),
     @required TResult enterYourEmail(_EnterYourEmail value),
     @required TResult enterNewPassword(_EnterNewPassword value),
+    @required TResult enterYourEmailLoading(_EnterYourEmailLoading value),
+    @required TResult enterNewPasswordLoading(_EnterNewPasswordLoading value),
     @required TResult success(_Success value),
     @required TResult failureOnEnterYourEmail(_FailureOnEnterYourEmail value),
     @required TResult failureOnNewPassword(_FailureOnNewPassword value),
   }) {
-    assert(loading != null);
     assert(enterYourEmail != null);
     assert(enterNewPassword != null);
+    assert(enterYourEmailLoading != null);
+    assert(enterNewPasswordLoading != null);
     assert(success != null);
     assert(failureOnEnterYourEmail != null);
     assert(failureOnNewPassword != null);
@@ -328,9 +255,10 @@ class _$_EnterYourEmail implements _EnterYourEmail {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object>({
-    TResult loading(_Loading value),
     TResult enterYourEmail(_EnterYourEmail value),
     TResult enterNewPassword(_EnterNewPassword value),
+    TResult enterYourEmailLoading(_EnterYourEmailLoading value),
+    TResult enterNewPasswordLoading(_EnterNewPasswordLoading value),
     TResult success(_Success value),
     TResult failureOnEnterYourEmail(_FailureOnEnterYourEmail value),
     TResult failureOnNewPassword(_FailureOnNewPassword value),
@@ -345,7 +273,10 @@ class _$_EnterYourEmail implements _EnterYourEmail {
 }
 
 abstract class _EnterYourEmail implements ForgotPasswordState {
-  const factory _EnterYourEmail() = _$_EnterYourEmail;
+  const factory _EnterYourEmail({String email}) = _$_EnterYourEmail;
+
+  String get email;
+  _$EnterYourEmailCopyWith<_EnterYourEmail> get copyWith;
 }
 
 /// @nodoc
@@ -416,17 +347,19 @@ class _$_EnterNewPassword implements _EnterNewPassword {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object>({
-    @required TResult loading(),
-    @required TResult enterYourEmail(),
+    @required TResult enterYourEmail(String email),
     @required TResult enterNewPassword(String email, int timeout),
+    @required TResult enterYourEmailLoading(String email),
+    @required TResult enterNewPasswordLoading(String email),
     @required TResult success(),
     @required TResult failureOnEnterYourEmail(String message),
     @required
         TResult failureOnNewPassword(String message, String email, int timeout),
   }) {
-    assert(loading != null);
     assert(enterYourEmail != null);
     assert(enterNewPassword != null);
+    assert(enterYourEmailLoading != null);
+    assert(enterNewPasswordLoading != null);
     assert(success != null);
     assert(failureOnEnterYourEmail != null);
     assert(failureOnNewPassword != null);
@@ -436,9 +369,10 @@ class _$_EnterNewPassword implements _EnterNewPassword {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object>({
-    TResult loading(),
-    TResult enterYourEmail(),
+    TResult enterYourEmail(String email),
     TResult enterNewPassword(String email, int timeout),
+    TResult enterYourEmailLoading(String email),
+    TResult enterNewPasswordLoading(String email),
     TResult success(),
     TResult failureOnEnterYourEmail(String message),
     TResult failureOnNewPassword(String message, String email, int timeout),
@@ -454,16 +388,18 @@ class _$_EnterNewPassword implements _EnterNewPassword {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object>({
-    @required TResult loading(_Loading value),
     @required TResult enterYourEmail(_EnterYourEmail value),
     @required TResult enterNewPassword(_EnterNewPassword value),
+    @required TResult enterYourEmailLoading(_EnterYourEmailLoading value),
+    @required TResult enterNewPasswordLoading(_EnterNewPasswordLoading value),
     @required TResult success(_Success value),
     @required TResult failureOnEnterYourEmail(_FailureOnEnterYourEmail value),
     @required TResult failureOnNewPassword(_FailureOnNewPassword value),
   }) {
-    assert(loading != null);
     assert(enterYourEmail != null);
     assert(enterNewPassword != null);
+    assert(enterYourEmailLoading != null);
+    assert(enterNewPasswordLoading != null);
     assert(success != null);
     assert(failureOnEnterYourEmail != null);
     assert(failureOnNewPassword != null);
@@ -473,9 +409,10 @@ class _$_EnterNewPassword implements _EnterNewPassword {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object>({
-    TResult loading(_Loading value),
     TResult enterYourEmail(_EnterYourEmail value),
     TResult enterNewPassword(_EnterNewPassword value),
+    TResult enterYourEmailLoading(_EnterYourEmailLoading value),
+    TResult enterNewPasswordLoading(_EnterNewPasswordLoading value),
     TResult success(_Success value),
     TResult failureOnEnterYourEmail(_FailureOnEnterYourEmail value),
     TResult failureOnNewPassword(_FailureOnNewPassword value),
@@ -496,6 +433,303 @@ abstract class _EnterNewPassword implements ForgotPasswordState {
   String get email;
   int get timeout;
   _$EnterNewPasswordCopyWith<_EnterNewPassword> get copyWith;
+}
+
+/// @nodoc
+abstract class _$EnterYourEmailLoadingCopyWith<$Res> {
+  factory _$EnterYourEmailLoadingCopyWith(_EnterYourEmailLoading value,
+          $Res Function(_EnterYourEmailLoading) then) =
+      __$EnterYourEmailLoadingCopyWithImpl<$Res>;
+  $Res call({String email});
+}
+
+/// @nodoc
+class __$EnterYourEmailLoadingCopyWithImpl<$Res>
+    extends _$ForgotPasswordStateCopyWithImpl<$Res>
+    implements _$EnterYourEmailLoadingCopyWith<$Res> {
+  __$EnterYourEmailLoadingCopyWithImpl(_EnterYourEmailLoading _value,
+      $Res Function(_EnterYourEmailLoading) _then)
+      : super(_value, (v) => _then(v as _EnterYourEmailLoading));
+
+  @override
+  _EnterYourEmailLoading get _value => super._value as _EnterYourEmailLoading;
+
+  @override
+  $Res call({
+    Object email = freezed,
+  }) {
+    return _then(_EnterYourEmailLoading(
+      email: email == freezed ? _value.email : email as String,
+    ));
+  }
+}
+
+/// @nodoc
+class _$_EnterYourEmailLoading implements _EnterYourEmailLoading {
+  const _$_EnterYourEmailLoading({this.email});
+
+  @override
+  final String email;
+
+  @override
+  String toString() {
+    return 'ForgotPasswordState.enterYourEmailLoading(email: $email)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is _EnterYourEmailLoading &&
+            (identical(other.email, email) ||
+                const DeepCollectionEquality().equals(other.email, email)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^ const DeepCollectionEquality().hash(email);
+
+  @override
+  _$EnterYourEmailLoadingCopyWith<_EnterYourEmailLoading> get copyWith =>
+      __$EnterYourEmailLoadingCopyWithImpl<_EnterYourEmailLoading>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object>({
+    @required TResult enterYourEmail(String email),
+    @required TResult enterNewPassword(String email, int timeout),
+    @required TResult enterYourEmailLoading(String email),
+    @required TResult enterNewPasswordLoading(String email),
+    @required TResult success(),
+    @required TResult failureOnEnterYourEmail(String message),
+    @required
+        TResult failureOnNewPassword(String message, String email, int timeout),
+  }) {
+    assert(enterYourEmail != null);
+    assert(enterNewPassword != null);
+    assert(enterYourEmailLoading != null);
+    assert(enterNewPasswordLoading != null);
+    assert(success != null);
+    assert(failureOnEnterYourEmail != null);
+    assert(failureOnNewPassword != null);
+    return enterYourEmailLoading(email);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object>({
+    TResult enterYourEmail(String email),
+    TResult enterNewPassword(String email, int timeout),
+    TResult enterYourEmailLoading(String email),
+    TResult enterNewPasswordLoading(String email),
+    TResult success(),
+    TResult failureOnEnterYourEmail(String message),
+    TResult failureOnNewPassword(String message, String email, int timeout),
+    @required TResult orElse(),
+  }) {
+    assert(orElse != null);
+    if (enterYourEmailLoading != null) {
+      return enterYourEmailLoading(email);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object>({
+    @required TResult enterYourEmail(_EnterYourEmail value),
+    @required TResult enterNewPassword(_EnterNewPassword value),
+    @required TResult enterYourEmailLoading(_EnterYourEmailLoading value),
+    @required TResult enterNewPasswordLoading(_EnterNewPasswordLoading value),
+    @required TResult success(_Success value),
+    @required TResult failureOnEnterYourEmail(_FailureOnEnterYourEmail value),
+    @required TResult failureOnNewPassword(_FailureOnNewPassword value),
+  }) {
+    assert(enterYourEmail != null);
+    assert(enterNewPassword != null);
+    assert(enterYourEmailLoading != null);
+    assert(enterNewPasswordLoading != null);
+    assert(success != null);
+    assert(failureOnEnterYourEmail != null);
+    assert(failureOnNewPassword != null);
+    return enterYourEmailLoading(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object>({
+    TResult enterYourEmail(_EnterYourEmail value),
+    TResult enterNewPassword(_EnterNewPassword value),
+    TResult enterYourEmailLoading(_EnterYourEmailLoading value),
+    TResult enterNewPasswordLoading(_EnterNewPasswordLoading value),
+    TResult success(_Success value),
+    TResult failureOnEnterYourEmail(_FailureOnEnterYourEmail value),
+    TResult failureOnNewPassword(_FailureOnNewPassword value),
+    @required TResult orElse(),
+  }) {
+    assert(orElse != null);
+    if (enterYourEmailLoading != null) {
+      return enterYourEmailLoading(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _EnterYourEmailLoading implements ForgotPasswordState {
+  const factory _EnterYourEmailLoading({String email}) =
+      _$_EnterYourEmailLoading;
+
+  String get email;
+  _$EnterYourEmailLoadingCopyWith<_EnterYourEmailLoading> get copyWith;
+}
+
+/// @nodoc
+abstract class _$EnterNewPasswordLoadingCopyWith<$Res> {
+  factory _$EnterNewPasswordLoadingCopyWith(_EnterNewPasswordLoading value,
+          $Res Function(_EnterNewPasswordLoading) then) =
+      __$EnterNewPasswordLoadingCopyWithImpl<$Res>;
+  $Res call({String email});
+}
+
+/// @nodoc
+class __$EnterNewPasswordLoadingCopyWithImpl<$Res>
+    extends _$ForgotPasswordStateCopyWithImpl<$Res>
+    implements _$EnterNewPasswordLoadingCopyWith<$Res> {
+  __$EnterNewPasswordLoadingCopyWithImpl(_EnterNewPasswordLoading _value,
+      $Res Function(_EnterNewPasswordLoading) _then)
+      : super(_value, (v) => _then(v as _EnterNewPasswordLoading));
+
+  @override
+  _EnterNewPasswordLoading get _value =>
+      super._value as _EnterNewPasswordLoading;
+
+  @override
+  $Res call({
+    Object email = freezed,
+  }) {
+    return _then(_EnterNewPasswordLoading(
+      email: email == freezed ? _value.email : email as String,
+    ));
+  }
+}
+
+/// @nodoc
+class _$_EnterNewPasswordLoading implements _EnterNewPasswordLoading {
+  const _$_EnterNewPasswordLoading({this.email});
+
+  @override
+  final String email;
+
+  @override
+  String toString() {
+    return 'ForgotPasswordState.enterNewPasswordLoading(email: $email)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is _EnterNewPasswordLoading &&
+            (identical(other.email, email) ||
+                const DeepCollectionEquality().equals(other.email, email)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^ const DeepCollectionEquality().hash(email);
+
+  @override
+  _$EnterNewPasswordLoadingCopyWith<_EnterNewPasswordLoading> get copyWith =>
+      __$EnterNewPasswordLoadingCopyWithImpl<_EnterNewPasswordLoading>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object>({
+    @required TResult enterYourEmail(String email),
+    @required TResult enterNewPassword(String email, int timeout),
+    @required TResult enterYourEmailLoading(String email),
+    @required TResult enterNewPasswordLoading(String email),
+    @required TResult success(),
+    @required TResult failureOnEnterYourEmail(String message),
+    @required
+        TResult failureOnNewPassword(String message, String email, int timeout),
+  }) {
+    assert(enterYourEmail != null);
+    assert(enterNewPassword != null);
+    assert(enterYourEmailLoading != null);
+    assert(enterNewPasswordLoading != null);
+    assert(success != null);
+    assert(failureOnEnterYourEmail != null);
+    assert(failureOnNewPassword != null);
+    return enterNewPasswordLoading(email);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object>({
+    TResult enterYourEmail(String email),
+    TResult enterNewPassword(String email, int timeout),
+    TResult enterYourEmailLoading(String email),
+    TResult enterNewPasswordLoading(String email),
+    TResult success(),
+    TResult failureOnEnterYourEmail(String message),
+    TResult failureOnNewPassword(String message, String email, int timeout),
+    @required TResult orElse(),
+  }) {
+    assert(orElse != null);
+    if (enterNewPasswordLoading != null) {
+      return enterNewPasswordLoading(email);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object>({
+    @required TResult enterYourEmail(_EnterYourEmail value),
+    @required TResult enterNewPassword(_EnterNewPassword value),
+    @required TResult enterYourEmailLoading(_EnterYourEmailLoading value),
+    @required TResult enterNewPasswordLoading(_EnterNewPasswordLoading value),
+    @required TResult success(_Success value),
+    @required TResult failureOnEnterYourEmail(_FailureOnEnterYourEmail value),
+    @required TResult failureOnNewPassword(_FailureOnNewPassword value),
+  }) {
+    assert(enterYourEmail != null);
+    assert(enterNewPassword != null);
+    assert(enterYourEmailLoading != null);
+    assert(enterNewPasswordLoading != null);
+    assert(success != null);
+    assert(failureOnEnterYourEmail != null);
+    assert(failureOnNewPassword != null);
+    return enterNewPasswordLoading(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object>({
+    TResult enterYourEmail(_EnterYourEmail value),
+    TResult enterNewPassword(_EnterNewPassword value),
+    TResult enterYourEmailLoading(_EnterYourEmailLoading value),
+    TResult enterNewPasswordLoading(_EnterNewPasswordLoading value),
+    TResult success(_Success value),
+    TResult failureOnEnterYourEmail(_FailureOnEnterYourEmail value),
+    TResult failureOnNewPassword(_FailureOnNewPassword value),
+    @required TResult orElse(),
+  }) {
+    assert(orElse != null);
+    if (enterNewPasswordLoading != null) {
+      return enterNewPasswordLoading(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _EnterNewPasswordLoading implements ForgotPasswordState {
+  const factory _EnterNewPasswordLoading({String email}) =
+      _$_EnterNewPasswordLoading;
+
+  String get email;
+  _$EnterNewPasswordLoadingCopyWith<_EnterNewPasswordLoading> get copyWith;
 }
 
 /// @nodoc
@@ -535,17 +769,19 @@ class _$_Success implements _Success {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object>({
-    @required TResult loading(),
-    @required TResult enterYourEmail(),
+    @required TResult enterYourEmail(String email),
     @required TResult enterNewPassword(String email, int timeout),
+    @required TResult enterYourEmailLoading(String email),
+    @required TResult enterNewPasswordLoading(String email),
     @required TResult success(),
     @required TResult failureOnEnterYourEmail(String message),
     @required
         TResult failureOnNewPassword(String message, String email, int timeout),
   }) {
-    assert(loading != null);
     assert(enterYourEmail != null);
     assert(enterNewPassword != null);
+    assert(enterYourEmailLoading != null);
+    assert(enterNewPasswordLoading != null);
     assert(success != null);
     assert(failureOnEnterYourEmail != null);
     assert(failureOnNewPassword != null);
@@ -555,9 +791,10 @@ class _$_Success implements _Success {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object>({
-    TResult loading(),
-    TResult enterYourEmail(),
+    TResult enterYourEmail(String email),
     TResult enterNewPassword(String email, int timeout),
+    TResult enterYourEmailLoading(String email),
+    TResult enterNewPasswordLoading(String email),
     TResult success(),
     TResult failureOnEnterYourEmail(String message),
     TResult failureOnNewPassword(String message, String email, int timeout),
@@ -573,16 +810,18 @@ class _$_Success implements _Success {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object>({
-    @required TResult loading(_Loading value),
     @required TResult enterYourEmail(_EnterYourEmail value),
     @required TResult enterNewPassword(_EnterNewPassword value),
+    @required TResult enterYourEmailLoading(_EnterYourEmailLoading value),
+    @required TResult enterNewPasswordLoading(_EnterNewPasswordLoading value),
     @required TResult success(_Success value),
     @required TResult failureOnEnterYourEmail(_FailureOnEnterYourEmail value),
     @required TResult failureOnNewPassword(_FailureOnNewPassword value),
   }) {
-    assert(loading != null);
     assert(enterYourEmail != null);
     assert(enterNewPassword != null);
+    assert(enterYourEmailLoading != null);
+    assert(enterNewPasswordLoading != null);
     assert(success != null);
     assert(failureOnEnterYourEmail != null);
     assert(failureOnNewPassword != null);
@@ -592,9 +831,10 @@ class _$_Success implements _Success {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object>({
-    TResult loading(_Loading value),
     TResult enterYourEmail(_EnterYourEmail value),
     TResult enterNewPassword(_EnterNewPassword value),
+    TResult enterYourEmailLoading(_EnterYourEmailLoading value),
+    TResult enterNewPasswordLoading(_EnterNewPasswordLoading value),
     TResult success(_Success value),
     TResult failureOnEnterYourEmail(_FailureOnEnterYourEmail value),
     TResult failureOnNewPassword(_FailureOnNewPassword value),
@@ -674,17 +914,19 @@ class _$_FailureOnEnterYourEmail implements _FailureOnEnterYourEmail {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object>({
-    @required TResult loading(),
-    @required TResult enterYourEmail(),
+    @required TResult enterYourEmail(String email),
     @required TResult enterNewPassword(String email, int timeout),
+    @required TResult enterYourEmailLoading(String email),
+    @required TResult enterNewPasswordLoading(String email),
     @required TResult success(),
     @required TResult failureOnEnterYourEmail(String message),
     @required
         TResult failureOnNewPassword(String message, String email, int timeout),
   }) {
-    assert(loading != null);
     assert(enterYourEmail != null);
     assert(enterNewPassword != null);
+    assert(enterYourEmailLoading != null);
+    assert(enterNewPasswordLoading != null);
     assert(success != null);
     assert(failureOnEnterYourEmail != null);
     assert(failureOnNewPassword != null);
@@ -694,9 +936,10 @@ class _$_FailureOnEnterYourEmail implements _FailureOnEnterYourEmail {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object>({
-    TResult loading(),
-    TResult enterYourEmail(),
+    TResult enterYourEmail(String email),
     TResult enterNewPassword(String email, int timeout),
+    TResult enterYourEmailLoading(String email),
+    TResult enterNewPasswordLoading(String email),
     TResult success(),
     TResult failureOnEnterYourEmail(String message),
     TResult failureOnNewPassword(String message, String email, int timeout),
@@ -712,16 +955,18 @@ class _$_FailureOnEnterYourEmail implements _FailureOnEnterYourEmail {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object>({
-    @required TResult loading(_Loading value),
     @required TResult enterYourEmail(_EnterYourEmail value),
     @required TResult enterNewPassword(_EnterNewPassword value),
+    @required TResult enterYourEmailLoading(_EnterYourEmailLoading value),
+    @required TResult enterNewPasswordLoading(_EnterNewPasswordLoading value),
     @required TResult success(_Success value),
     @required TResult failureOnEnterYourEmail(_FailureOnEnterYourEmail value),
     @required TResult failureOnNewPassword(_FailureOnNewPassword value),
   }) {
-    assert(loading != null);
     assert(enterYourEmail != null);
     assert(enterNewPassword != null);
+    assert(enterYourEmailLoading != null);
+    assert(enterNewPasswordLoading != null);
     assert(success != null);
     assert(failureOnEnterYourEmail != null);
     assert(failureOnNewPassword != null);
@@ -731,9 +976,10 @@ class _$_FailureOnEnterYourEmail implements _FailureOnEnterYourEmail {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object>({
-    TResult loading(_Loading value),
     TResult enterYourEmail(_EnterYourEmail value),
     TResult enterNewPassword(_EnterNewPassword value),
+    TResult enterYourEmailLoading(_EnterYourEmailLoading value),
+    TResult enterNewPasswordLoading(_EnterNewPasswordLoading value),
     TResult success(_Success value),
     TResult failureOnEnterYourEmail(_FailureOnEnterYourEmail value),
     TResult failureOnNewPassword(_FailureOnNewPassword value),
@@ -832,17 +1078,19 @@ class _$_FailureOnNewPassword implements _FailureOnNewPassword {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object>({
-    @required TResult loading(),
-    @required TResult enterYourEmail(),
+    @required TResult enterYourEmail(String email),
     @required TResult enterNewPassword(String email, int timeout),
+    @required TResult enterYourEmailLoading(String email),
+    @required TResult enterNewPasswordLoading(String email),
     @required TResult success(),
     @required TResult failureOnEnterYourEmail(String message),
     @required
         TResult failureOnNewPassword(String message, String email, int timeout),
   }) {
-    assert(loading != null);
     assert(enterYourEmail != null);
     assert(enterNewPassword != null);
+    assert(enterYourEmailLoading != null);
+    assert(enterNewPasswordLoading != null);
     assert(success != null);
     assert(failureOnEnterYourEmail != null);
     assert(failureOnNewPassword != null);
@@ -852,9 +1100,10 @@ class _$_FailureOnNewPassword implements _FailureOnNewPassword {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object>({
-    TResult loading(),
-    TResult enterYourEmail(),
+    TResult enterYourEmail(String email),
     TResult enterNewPassword(String email, int timeout),
+    TResult enterYourEmailLoading(String email),
+    TResult enterNewPasswordLoading(String email),
     TResult success(),
     TResult failureOnEnterYourEmail(String message),
     TResult failureOnNewPassword(String message, String email, int timeout),
@@ -870,16 +1119,18 @@ class _$_FailureOnNewPassword implements _FailureOnNewPassword {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object>({
-    @required TResult loading(_Loading value),
     @required TResult enterYourEmail(_EnterYourEmail value),
     @required TResult enterNewPassword(_EnterNewPassword value),
+    @required TResult enterYourEmailLoading(_EnterYourEmailLoading value),
+    @required TResult enterNewPasswordLoading(_EnterNewPasswordLoading value),
     @required TResult success(_Success value),
     @required TResult failureOnEnterYourEmail(_FailureOnEnterYourEmail value),
     @required TResult failureOnNewPassword(_FailureOnNewPassword value),
   }) {
-    assert(loading != null);
     assert(enterYourEmail != null);
     assert(enterNewPassword != null);
+    assert(enterYourEmailLoading != null);
+    assert(enterNewPasswordLoading != null);
     assert(success != null);
     assert(failureOnEnterYourEmail != null);
     assert(failureOnNewPassword != null);
@@ -889,9 +1140,10 @@ class _$_FailureOnNewPassword implements _FailureOnNewPassword {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object>({
-    TResult loading(_Loading value),
     TResult enterYourEmail(_EnterYourEmail value),
     TResult enterNewPassword(_EnterNewPassword value),
+    TResult enterYourEmailLoading(_EnterYourEmailLoading value),
+    TResult enterNewPasswordLoading(_EnterNewPasswordLoading value),
     TResult success(_Success value),
     TResult failureOnEnterYourEmail(_FailureOnEnterYourEmail value),
     TResult failureOnNewPassword(_FailureOnNewPassword value),

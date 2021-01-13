@@ -35,6 +35,10 @@ import 'src/cubits/reveiw_cubit/review_cubit.dart';
 import 'src/cubits/settings_cubit/settings_cubit.dart';
 import 'src/cubits/splash_cubit/splash_cubit.dart';
 
+/// Environment names
+const _prod = 'prod';
+const _test = 'test';
+
 /// adds generated dependencies
 /// to the provided [GetIt] instance
 
@@ -64,7 +68,10 @@ GetIt $initGetIt(
       () => ForgotPasswordCubit(get<IAuthRepository>()));
 
   // Eager singletons must be registered in the right order
-  gh.singleton<IDropdownRemoteDataSource>(DropdownRemoteDataSource());
+  gh.singleton<IDropdownRemoteDataSource>(DropdownRemoteDataSource(),
+      registerFor: {_prod});
+  gh.singleton<IDropdownRemoteDataSource>(FakeDropdownRemoteDataSource(),
+      registerFor: {_test});
   gh.singleton<IDropdownRepository>(
       DropdownRepositoryImpl(get<IDropdownRemoteDataSource>()));
   gh.singleton<ILazyListRemoteDataSource>(LazyListRemoteDataSource());
@@ -80,7 +87,10 @@ GetIt $initGetIt(
   gh.singleton<ISettingsRepository>(
       SettingsRepositoryImpl(get<ISettingsDataSource>()));
   gh.singleton<IUserLocalDataSource>(UserLocalDataSource());
-  gh.singleton<IUserRemoteDataSource>(UserRemoteDataSource());
+  gh.singleton<IUserRemoteDataSource>(UserRemoteDataSource(),
+      registerFor: {_prod});
+  gh.singleton<IUserRemoteDataSource>(FakeUserRemoteDataSource(),
+      registerFor: {_test});
   gh.singleton<IUserRepository>(UserRepositoryImpl(
       get<IUserLocalDataSource>(), get<IUserRemoteDataSource>()));
   gh.singleton<SettingsCubit>(SettingsCubit(get<ISettingsRepository>()));

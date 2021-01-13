@@ -17,7 +17,7 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
   int _timeOut;
 
   Future<void> requestCode(String email) async {
-    emit(const ForgotPasswordState.loading());
+    emit(ForgotPasswordState.enterYourEmailLoading(email: email));
     try {
       final timeOut = await _authRepository.forgotPassword(email);
       _email = email;
@@ -32,10 +32,10 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
   }
 
   Future<void> setPassword(String password) async {
-    emit(const ForgotPasswordState.loading());
+    emit(ForgotPasswordState.enterNewPasswordLoading(email: _email));
     try {
       await _authRepository.resetPassword(_email, password);
-      emit(ForgotPasswordState.success());
+      emit(const ForgotPasswordState.success());
     } catch (e) {
       // TODO: Handel error messages
       emit(ForgotPasswordState.failureOnNewPassword(
@@ -44,5 +44,11 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
         timeout: _timeOut,
       ));
     }
+  }
+
+  void editEmail() => emit(ForgotPasswordState.enterYourEmail(email: _email));
+
+  void resend() {
+    requestCode(_email);
   }
 }

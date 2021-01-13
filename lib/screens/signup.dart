@@ -13,7 +13,7 @@ class Signup extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Image.asset('assets/logo.png'),
+              Image.asset('assets/images/logo.png'),
               SizedBox(
                 height: 20,
               ),
