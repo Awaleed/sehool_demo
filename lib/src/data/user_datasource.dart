@@ -110,7 +110,7 @@ class UserRemoteDataSource extends IUserRemoteDataSource with ApiCaller {
     Map<String, dynamic> credentials,
   ) async {
     //TODO FIXME
-    await Future.delayed(200.milliseconds);
+    await Future.delayed(1500.milliseconds);
     return {'time_out': 5};
   }
 
@@ -118,7 +118,7 @@ class UserRemoteDataSource extends IUserRemoteDataSource with ApiCaller {
   Future<Map<String, dynamic>> resetPassword(
       Map<String, dynamic> credentials) async {
     //TODO FIXME
-    await Future.delayed(200.milliseconds);
+    await Future.delayed(1500.milliseconds);
     if (random.boolean()) throw DioError(response: Response(statusCode: 400));
     return {'time_out': 5};
   }

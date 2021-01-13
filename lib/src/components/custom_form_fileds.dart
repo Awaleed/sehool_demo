@@ -39,6 +39,7 @@ class CustomTextFromField extends StatelessWidget {
       initialValue: initialValue,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       enabled: enabled,
+      keyboardType: _model.keyboardType,
       onSaved: _model.onSave,
       validator: _model.validator,
       obscureText: obscureText,

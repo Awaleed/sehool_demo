@@ -41,7 +41,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   @override
   void dispose() {
     cubit.close();
-    resendTimer.cancel();
+    if (resendTimer != null && resendTimer.isActive) resendTimer.cancel();
     super.dispose();
   }
 
