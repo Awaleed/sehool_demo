@@ -187,6 +187,7 @@ class ProductScreen extends StatelessWidget {
                 ),
               ),
               CommentsListSliver(productId: product.id),
+              const SliverToBoxAdapter(child: SizedBox(height: 100)),
             ],
           ),
           Positioned(

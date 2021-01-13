@@ -4,7 +4,7 @@ import '../core/api_caller.dart';
 
 abstract class IProductRemoteDataSource {
   Future<Map<String, dynamic>> getProduct(int id);
-  Future<Map<String, dynamic>> addReview(int id, Map<String, dynamic> data);
+  Future<Map<String, dynamic>> addReview(Map<String, dynamic> data);
 
   Future<List> getReviews(Map<String, int> data);
 }
@@ -19,9 +19,9 @@ class ProductRemoteDataSource extends IProductRemoteDataSource with ApiCaller {
   }
 
   @override
-  Future<Map<String, dynamic>> addReview(int id, Map<String, dynamic> data) {
+  Future<Map<String, dynamic>> addReview(Map<String, dynamic> data) {
     return post(
-      path: '/products/$id/reviews/new',
+      path: '/reviews',
       data: data,
     );
   }

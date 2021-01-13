@@ -37,7 +37,7 @@ class ReviewCubit extends Cubit<ReviewState> {
         rating: rating,
         review: review,
       );
-      emit(ReviewState.success([value]));
+      emit(ReviewState.success(value));
     } catch (e) {
       // TODO: Handel error messages
       emit(ReviewState.failure(message: '$e'));
