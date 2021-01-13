@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:sehool/src/core/api_caller.dart';
 
@@ -6,7 +7,7 @@ import '../models/product_model.dart';
 
 abstract class IProductRepository {
   Future<ProductModel> getProduct(int id);
-  Future<ReviewModel> addReview({
+  Future<List<ReviewModel>> addReview({
     int productId,
     int rating,
     String review,
@@ -22,8 +23,19 @@ class ProductRepositoryImpl implements IProductRepository {
   ProductRepositoryImpl(this._productRemoteDataSource);
 
   @override
-  Future<ReviewModel> addReview({int productId, int rating, String review}) {
-    _productRemoteDataSource.addReview(productId, {'data': ''});
+  Future<List<ReviewModel>> addReview(
+      {int productId, int rating, String review}) async {
+    final res = await _productRemoteDataSource.addReview(
+      {
+        'product_id': productId,
+        'rating': rating,
+        'comment': review,
+      },
+    );
+    if (res['Error'] != null && !res['Error']) {
+      return getReviews(productId: productId);
+    }
+    throw DioError(response: Response(data: res));
   }
 
   @override

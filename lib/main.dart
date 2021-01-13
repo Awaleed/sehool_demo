@@ -9,6 +9,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'generated/l10n.dart';
 import 'init_hive.dart';
 import 'init_injectable.dart';
+import 'src/core/custom_bloc_observer.dart';
 import 'src/cubits/auth_cubit/auth_cubit.dart';
 import 'src/data/settings_datasource.dart';
 import 'src/routes/config_routes.dart';
@@ -19,6 +20,9 @@ Future<void> main() async {
   await initHive();
   configureDependencies();
   AppRouter.createRoutes();
+
+  Bloc.observer = CustomBlocObserver();
+
   await SystemChrome.setEnabledSystemUIOverlays([
     SystemUiOverlay.top,
     SystemUiOverlay.bottom,

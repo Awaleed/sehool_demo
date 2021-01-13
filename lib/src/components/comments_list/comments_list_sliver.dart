@@ -64,7 +64,8 @@ class _CommentsListSliverState extends State<CommentsListSliver> {
             return const CommentsListLoadingItemWidget();
           } else {
             return CommentsListItemWidget(
-                review: reviews.elementAt(index));
+              review: reviews.elementAt(index),
+            );
           }
         },
         childCount: isLoading ? reviews.length + 5 : reviews.length,
