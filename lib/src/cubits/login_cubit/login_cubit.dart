@@ -24,7 +24,8 @@ class LoginCubit extends Cubit<LoginState> {
       await _authRepository.login(credentials);
       emit(const LoginState.success());
       getIt<AuthCubit>().authenticateUser();
-    } on DioError catch (e) {
+        } catch (e) {
+      addError(e);
       // TODO: Handel error messages
       emit(LoginState.failure(message: '$e'));
     }

@@ -20,7 +20,8 @@ class CheckoutCubit extends Cubit<CheckoutState> {
     try {
       final value = await _orderRepository.placeOrder(model);
       emit(CheckoutState.success(value));
-    } catch (e) {
+        } catch (e) {
+      addError(e);
       // TODO: Handel error messages
       emit(CheckoutState.failure(message: '$e'));
     }

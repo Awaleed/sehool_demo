@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sehool/generated/l10n.dart';
+import '../../../generated/l10n.dart';
 
 class VideosCarouselLoadingItemWidget extends StatelessWidget {
   const VideosCarouselLoadingItemWidget({Key key}) : super(key: key);

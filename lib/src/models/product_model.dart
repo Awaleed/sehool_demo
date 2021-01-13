@@ -59,8 +59,20 @@ class SlicingMethodModel {
 
   final int id;
   final String name;
+  @override
+  String toString() => name;
 
   factory SlicingMethodModel.fromJson(Map<String, dynamic> json) =>
       _$SlicingMethodModelFromJson(json);
   Map<String, dynamic> toJson() => _$SlicingMethodModelToJson(this);
+
+  @override
+  bool operator ==(Object o) {
+    if (identical(this, o)) return true;
+
+    return o is SlicingMethodModel && o.id == id && o.name == name;
+  }
+
+  @override
+  int get hashCode => id.hashCode ^ name.hashCode;
 }

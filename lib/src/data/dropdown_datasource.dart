@@ -8,7 +8,7 @@ import '../helpers/fake_data_generator.dart';
 import '../models/dropdown_value_model.dart';
 
 abstract class IDropdownRemoteDataSource {
-  Future<List> getDropdownValues(String path);
+  Future<List> getDropdownValues(DropdownValueType type);
 }
 
 @prod
@@ -16,8 +16,20 @@ abstract class IDropdownRemoteDataSource {
 class DropdownRemoteDataSource extends IDropdownRemoteDataSource
     with ApiCaller {
   @override
-  Future<List> getDropdownValues(String path) {
-    return get(path: '/$path');
+  Future<List> getDropdownValues(DropdownValueType type) {
+    return get(path: () {
+      switch (type) {
+        case DropdownValueType.slicingMethods:
+          return '/slicerTypes';
+        case DropdownValueType.cites:
+        case DropdownValueType.citySections:
+        case DropdownValueType.paymentMethods:
+        case DropdownValueType.addresses:
+          return '/addresses';
+        default:
+          throw UnsupportedError('message');
+      }
+    }());
   }
 }
 
@@ -25,9 +37,8 @@ class DropdownRemoteDataSource extends IDropdownRemoteDataSource
 @Singleton(as: IDropdownRemoteDataSource)
 class FakeDropdownRemoteDataSource extends IDropdownRemoteDataSource {
   @override
-  Future<List> getDropdownValues(String path) async {
+  Future<List> getDropdownValues(DropdownValueType type) async {
     await Future.delayed(random.integer(1000).milliseconds);
-    final type = EnumToString.fromString(DropdownValueType.values, path);
     switch (type) {
       case DropdownValueType.cites:
         return List.generate(

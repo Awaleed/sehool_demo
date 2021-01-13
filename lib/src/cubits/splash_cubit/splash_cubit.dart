@@ -45,7 +45,7 @@ class SplashCubit extends Cubit<SplashState> {
       } else {
         emit(SplashState.unauthenticated);
       }
-    } catch (e) {
+        } catch (e) {
       emit(SplashState.unauthenticated);
     }
   }

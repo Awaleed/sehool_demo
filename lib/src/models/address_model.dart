@@ -23,9 +23,36 @@ class AddressModel {
   final String note;
   final String address;
 
+  @override
+  String toString() => address;
   factory AddressModel.fromJson(Map<String, dynamic> json) =>
       _$AddressModelFromJson(json);
   Map<String, dynamic> toJson() => _$AddressModelToJson(this);
+
+  @override
+  bool operator ==(Object o) {
+    if (identical(this, o)) return true;
+
+    return o is AddressModel &&
+        o.id == id &&
+        o.city == city &&
+        o.citySection == citySection &&
+        o.lang == lang &&
+        o.lat == lat &&
+        o.note == note &&
+        o.address == address;
+  }
+
+  @override
+  int get hashCode {
+    return id.hashCode ^
+        city.hashCode ^
+        citySection.hashCode ^
+        lang.hashCode ^
+        lat.hashCode ^
+        note.hashCode ^
+        address.hashCode;
+  }
 }
 
 @JsonSerializable(

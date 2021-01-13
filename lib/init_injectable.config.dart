@@ -9,6 +9,7 @@ import 'package:injectable/injectable.dart';
 
 import 'src/cubits/address_cubit/address_cubit.dart';
 import 'src/cubits/auth_cubit/auth_cubit.dart';
+import 'src/cubits/cart_cubit/cart_cubit.dart';
 import 'src/cubits/checkout_cubit/checkout_cubit.dart';
 import 'src/cubits/dropdown_cubit/dropdown_cubit.dart';
 import 'src/cubits/forgot_password_cubit/forgot_password_cubit.dart';
@@ -68,6 +69,7 @@ GetIt $initGetIt(
       () => ForgotPasswordCubit(get<IAuthRepository>()));
 
   // Eager singletons must be registered in the right order
+  gh.singleton<CartCubit>(CartCubit());
   gh.singleton<IDropdownRemoteDataSource>(DropdownRemoteDataSource(),
       registerFor: {_prod});
   gh.singleton<IDropdownRemoteDataSource>(FakeDropdownRemoteDataSource(),
@@ -75,6 +77,8 @@ GetIt $initGetIt(
   gh.singleton<IDropdownRepository>(
       DropdownRepositoryImpl(get<IDropdownRemoteDataSource>()));
   gh.singleton<ILazyListRemoteDataSource>(LazyListRemoteDataSource());
+  gh.singleton<ILazyListRepository>(
+      LazyListRepositoryImpl(get<ILazyListRemoteDataSource>()));
   gh.singleton<IOrderRemoteDataSource>(OrderRemoteDataSource());
   gh.singleton<IOrderRepository>(
       OrderRepositoryImpl(get<IOrderRemoteDataSource>()));

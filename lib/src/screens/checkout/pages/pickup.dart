@@ -1,37 +1,72 @@
-import 'package:arabic_numbers/arabic_numbers.dart';
-import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 
-class CartReviewPage extends StatefulWidget {
-  const CartReviewPage({Key key}) : super(key: key);
+import '../../../routes/config_routes.dart';
+import '../../profile/dialogs/new_address_dialog.dart';
+
+class PickupPage extends StatefulWidget {
+  const PickupPage({Key key}) : super(key: key);
 
   @override
-  _CartReviewPageState createState() => _CartReviewPageState();
+  _PickupPageState createState() => _PickupPageState();
 }
 
-class _CartReviewPageState extends State<CartReviewPage> {
+class _PickupPageState extends State<PickupPage> {
   String selectedValue;
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
-        children: const [
-          SizedBox(height: 20),
+        children: [
+          const SizedBox(height: 20),
+          const Padding(padding: EdgeInsets.all(10), child: _TotalCard()),
           Center(
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: _TotalCard(),
+              padding: const EdgeInsets.all(20.0),
+              child: InputDecorator(
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Colors.white70,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                ),
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton(
+                    value: selectedValue,
+                    dropdownColor: Colors.amber.withOpacity(.8),
+                    onChanged: (value) {
+                      setState(() {
+                        selectedValue = value;
+                      });
+                    },
+                    icon: const SizedBox.shrink(),
+                    isExpanded: true,
+                    items: ['normal', 'light', 'full', 'none', ' + اضافة جديد']
+                        .map(
+                          (e) => DropdownMenuItem(
+                            value: e,
+                            onTap: e != ' + اضافة جديد'
+                                ? null
+                                : () => AppRouter.sailor
+                                    .navigate(NewAddressDialog.routeName),
+                            child: Center(
+                              child: Text(
+                                e,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline5
+                                    .copyWith(color: Colors.black),
+                              ),
+                            ),
+                          ),
+                        )
+                        .toList(),
+                  ),
+                ),
+              ),
             ),
           ),
-          SizedBox(height: 20),
-          Center(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: _TotalCard(),
-            ),
-          ),
-          SizedBox(height: 20),
         ],
       ),
     );
@@ -61,52 +96,9 @@ class _HomeCard extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(25),
               child: Image.asset(
-                'assets/images/meat1.jpg',
+                'assets/images/map.png',
                 fit: BoxFit.cover,
               ),
-            ),
-          ),
-        ),
-        Positioned(
-          left: 0,
-          right: 0,
-          bottom: 35,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              FittedBox(
-                child: Text(
-                  faker.food.dish(),
-                  maxLines: 1,
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline5
-                      .copyWith(color: Colors.white),
-                ),
-              ),
-              Text(
-                'الكمية المتاحة ${ArabicNumbers().convert(random.integer(100))} قطعة',
-                style: Theme.of(context)
-                    .textTheme
-                    .subtitle2
-                    .copyWith(color: Colors.white),
-              )
-            ],
-          ),
-        ),
-        Container(
-          padding: const EdgeInsets.only(bottom: 50, top: 20),
-          decoration: BoxDecoration(
-            color: Colors.black38,
-            borderRadius: BorderRadius.circular(25),
-            gradient: const LinearGradient(
-              begin: Alignment.bottomCenter,
-              end: Alignment.topCenter,
-              colors: [
-                Colors.black,
-                Colors.transparent,
-                Colors.transparent,
-              ],
             ),
           ),
         ),
@@ -122,7 +114,7 @@ class _TotalCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 75),
+      padding: const EdgeInsets.only(top: 80),
       child: Stack(
         clipBehavior: Clip.none,
         children: [
@@ -145,11 +137,15 @@ class _TotalCard extends StatelessWidget {
                   ),
                   const Divider(),
                   ListTile(
-                    title: Text('الكمية'),
+                    title: Text('المدينة'),
                     subtitle: Text('10'),
                   ),
                   ListTile(
-                    title: Text('طريقة التقطيع'),
+                    title: Text('الحي'),
+                    subtitle: Text('بدون'),
+                  ),
+                  ListTile(
+                    title: Text('العنوان'),
                     subtitle: Text('بدون'),
                   ),
                   ListTile(
@@ -161,7 +157,7 @@ class _TotalCard extends StatelessWidget {
             ),
           ),
           const Positioned(
-            top: -75,
+            top: -80,
             left: 15,
             right: 15,
             height: 150,

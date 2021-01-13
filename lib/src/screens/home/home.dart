@@ -1,18 +1,13 @@
-import 'package:arabic_numbers/arabic_numbers.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:faker/faker.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
-
-import 'package:sailor/sailor.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sehool/init_injectable.dart';
+import 'package:sehool/src/cubits/cart_cubit/cart_cubit.dart';
 import 'package:supercharged/supercharged.dart';
 
-import '../../../generated/l10n.dart';
-import '../../../screens/tabs/historytab.dart';
-import '../../../screens/tabs/profiletab.dart';
 import '../../routes/config_routes.dart';
-import '../cart/cart.dart';
+import '../checkout/checkout.dart';
 import 'pages/main.dart';
 import 'pages/profile.dart';
 import 'pages/videos.dart';
@@ -47,11 +42,6 @@ class _HomeScreenState extends State<HomeScreen> {
         label: 'شاهد',
         page: VideosPage(),
       ),
-      // _TabBarItem(
-      //   icon: FontAwesomeIcons.history,
-      //   label: 'الطلبات',
-      //   page: HistoryTab(),
-      // ),
       _TabBarItem(
         icon: FluentIcons.person_24_regular,
         label: 'ملفي',
@@ -107,18 +97,29 @@ class _HomeScreenState extends State<HomeScreen> {
                     ...pages.map((e) => e.page),
                   ],
                 )),
-                Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      FloatingActionButton.extended(
-                          onPressed: () =>
-                              AppRouter.sailor.navigate(CartScreen.routeName),
-                          label: const Text('2 منتجات في السلة'),
-                          icon: const Icon(FluentIcons.cart_24_filled)),
-                    ],
-                  ),
+                BlocBuilder<CartCubit, CartState>(
+                  cubit: getIt<CartCubit>(),
+                  builder: (context, state) {
+                    if (state.cart.cartItems.isEmpty) {
+                      return const SizedBox.shrink();
+                    }
+                    return Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          FloatingActionButton.extended(
+                            onPressed: () => AppRouter.sailor
+                                .navigate(CheckoutScreen.routeName),
+                            label: Text(
+                              '${state.cart.cartItems.length} منتجات في السلة',
+                            ),
+                            icon: const Icon(FluentIcons.cart_24_filled),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
                 ),
                 SizedBox(
                   height: 75,

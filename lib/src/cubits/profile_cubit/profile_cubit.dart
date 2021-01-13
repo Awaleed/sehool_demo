@@ -20,7 +20,8 @@ class ProfileCubit extends Cubit<ProfileState> {
     try {
       final value = await _userRepository.updateProfileImage(path);
       emit(ProfileState.success(value));
-    } catch (e) {
+        } catch (e) {
+      addError(e);
       // TODO: Handel error messages
       emit(ProfileState.failure(message: '$e'));
     }
@@ -31,7 +32,8 @@ class ProfileCubit extends Cubit<ProfileState> {
     try {
       final value = await _userRepository.changePassword(password);
       emit(ProfileState.success(value));
-    } catch (e) {
+        } catch (e) {
+      addError(e);
       // TODO: Handel error messages
       emit(ProfileState.failure(message: '$e'));
     }
@@ -42,7 +44,8 @@ class ProfileCubit extends Cubit<ProfileState> {
     try {
       final value = await _userRepository.updateProfile(data);
       emit(ProfileState.success(value));
-    } catch (e) {
+        } catch (e) {
+      addError(e);
       // TODO: Handel error messages
       emit(ProfileState.failure(message: '$e'));
     }

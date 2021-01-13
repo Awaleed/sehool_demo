@@ -32,7 +32,8 @@ class LazyListCubit extends Cubit<LazyListState> {
       } else {
         emit(LazyListState.success(values));
       }
-    } catch (e) {
+        } catch (e) {
+      addError(e);
       // TODO: Handel error messages
       emit(LazyListState.failure(message: '$e'));
     }
@@ -59,7 +60,8 @@ class LazyListCubit extends Cubit<LazyListState> {
       } else {
         emit(LazyListState.success(currentValues));
       }
-    } catch (e) {
+        } catch (e) {
+      addError(e);
       // TODO: Handel error messages
       emit(
         LazyListState.failureOnLoadMore(message: '$e', values: currentValues),

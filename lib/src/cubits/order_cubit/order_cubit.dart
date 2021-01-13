@@ -19,7 +19,8 @@ class OrderCubit extends Cubit<OrderState> {
     try {
       final value = await _productRepository.getOrder(id);
       emit(OrderState.success(value));
-    } catch (e) {
+        } catch (e) {
+      addError(e);
       // TODO: Handel error messages
       emit(OrderState.failure(message: '$e'));
     }
@@ -36,7 +37,8 @@ class OrderCubit extends Cubit<OrderState> {
         reason: reason,
       );
       emit(OrderState.success(value));
-    } catch (e) {
+        } catch (e) {
+      addError(e);
       // TODO: Handel error messages
       emit(OrderState.failure(message: '$e'));
     }

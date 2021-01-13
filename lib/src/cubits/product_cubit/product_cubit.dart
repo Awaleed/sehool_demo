@@ -19,7 +19,8 @@ class ProductCubit extends Cubit<ProductState> {
     try {
       final value = await _productRepository.getProduct(id);
       emit(ProductState.success(value));
-    } catch (e) {
+        } catch (e) {
+      addError(e);
       // TODO: Handel error messages
       emit(ProductState.failure(message: '$e'));
     }

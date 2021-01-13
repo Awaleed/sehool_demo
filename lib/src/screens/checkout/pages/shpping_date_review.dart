@@ -1,17 +1,20 @@
+import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../routes/config_routes.dart';
-import '../../../profile/dialogs/new_address_dialog.dart';
+import 'package:intl/intl.dart';
+import 'package:velocity_x/velocity_x.dart';
 
-class PaymentMethodReviewPage extends StatefulWidget {
-  const PaymentMethodReviewPage({Key key}) : super(key: key);
+import '../../../routes/config_routes.dart';
+import '../../profile/dialogs/new_address_dialog.dart';
+
+class ShippingDatePage extends StatefulWidget {
+  const ShippingDatePage({Key key}) : super(key: key);
 
   @override
-  _PaymentMethodReviewPageState createState() =>
-      _PaymentMethodReviewPageState();
+  _ShippingDatePageState createState() => _ShippingDatePageState();
 }
 
-class _PaymentMethodReviewPageState extends State<PaymentMethodReviewPage> {
+class _ShippingDatePageState extends State<ShippingDatePage> {
   String selectedValue;
 
   @override
@@ -43,7 +46,7 @@ class _PaymentMethodReviewPageState extends State<PaymentMethodReviewPage> {
                     },
                     icon: const SizedBox.shrink(),
                     isExpanded: true,
-                    items: ['normal', 'light', 'full', 'none', ' + اضافة جديد']
+                    items: ['حالا', 'مجدولة']
                         .map(
                           (e) => DropdownMenuItem(
                             value: e,
@@ -74,6 +77,40 @@ class _PaymentMethodReviewPageState extends State<PaymentMethodReviewPage> {
   }
 }
 
+class _HomeCard extends StatelessWidget {
+  const _HomeCard({Key key, this.id}) : super(key: key);
+  final int id;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      clipBehavior: Clip.none,
+      fit: StackFit.expand,
+      children: [
+        Card(
+          elevation: 10,
+          clipBehavior: Clip.hardEdge,
+          margin: EdgeInsets.zero,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(25),
+          ),
+          child: Hero(
+            tag: 'image$id',
+            createRectTween: (begin, end) => RectTween(begin: begin, end: end),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(25),
+              child: Image.asset(
+                'assets/images/map.png',
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
 class _TotalCard extends StatelessWidget {
   const _TotalCard({Key key, this.id}) : super(key: key);
   final int id;
@@ -97,7 +134,7 @@ class _TotalCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Text(
-                  'المجموع',
+                  'التاريخ',
                   style: Theme.of(context).textTheme.headline5,
                 ),
                 const Divider(),
@@ -110,12 +147,27 @@ class _TotalCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(25),
                   ),
                   child: ListTile(
-                    title: Text('2,500 ريال'),
+                    onTap: () => showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime.now(),
+                      lastDate: DateTime(2030),
+                    ),
+                    title: Text(
+                      DateFormat.MEd().format(
+                        DateTime.now().add(
+                          random.integer(30).days,
+                        ),
+                      ),
+                    ),
+                    subtitle: Text(
+                      'بعد 3 ايام',
+                    ),
                   ),
                 ),
                 const Divider(),
                 Text(
-                  'رصيد المحفظة',
+                  'الساعة',
                   style: Theme.of(context).textTheme.headline5,
                 ),
                 const Divider(),
@@ -128,7 +180,21 @@ class _TotalCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(25),
                   ),
                   child: ListTile(
-                    title: Text('1000 ريال'),
+                    onTap: () => showTimePicker(
+                      context: context,
+                      initialTime: TimeOfDay(
+                        hour: DateTime.now().hour,
+                        minute: DateTime.now().minute,
+                      ),
+                    ),
+                    title: Text(
+                      DateFormat.Hm().format(
+                        DateTime.now().add(
+                          random.integer(30).days,
+                        ),
+                      ),
+                    ),
+                    subtitle: Text('صباحا'),
                   ),
                 ),
                 const Divider(),

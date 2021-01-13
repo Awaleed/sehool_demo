@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
-import 'package:sehool/src/core/api_caller.dart';
-import 'package:sehool/src/models/product_model.dart';
-import 'package:sehool/src/models/video_model.dart';
+import '../core/api_caller.dart';
+import '../models/product_model.dart';
+import '../models/video_model.dart';
 
 import '../core/api_caller.dart';
 import '../data/lazy_list_datasource.dart';

@@ -50,8 +50,6 @@ class ProductRepositoryImpl implements IProductRepository {
     );
 
     return ApiCaller.listParser(res, (data) {
-      data['rating'] = int.tryParse(data['rating'] ?? '0') ?? 0;
-
       return ReviewModel.fromJson(data);
     });
   }

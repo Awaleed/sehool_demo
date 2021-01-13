@@ -1,11 +1,11 @@
 import 'package:sailor/sailor.dart';
+import 'package:sehool/src/screens/checkout/checkout.dart';
 import 'package:supercharged/supercharged.dart';
 
 import '../screens/auth/forgot_password.dart';
 import '../screens/auth/login.dart';
 import '../screens/auth/register.dart';
 import '../screens/cart/add_to_cart.dart';
-import '../screens/cart/cart.dart';
 import '../screens/debug/playground.dart';
 import '../screens/home/home.dart';
 import '../screens/onboarding.dart';
@@ -90,8 +90,8 @@ abstract class AppRouter {
           params: [SailorParam(name: 'product', isRequired: true)],
         ),
         SailorRoute(
-          name: CartScreen.routeName,
-          builder: (context, args, paramMap) => const CartScreen(),
+          name: CheckoutScreen.routeName,
+          builder: (context, args, paramMap) => const CheckoutScreen(),
         ),
 
         /// Profile Screens

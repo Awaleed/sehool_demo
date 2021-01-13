@@ -1,4 +1,9 @@
+import 'dart:math';
+
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
+import 'package:sehool/init_injectable.dart';
+import 'package:sehool/src/cubits/auth_cubit/auth_cubit.dart';
 
 class CustomBlocObserver extends BlocObserver {
   @override
@@ -16,6 +21,11 @@ class CustomBlocObserver extends BlocObserver {
   @override
   void onError(Cubit cubit, Object error, StackTrace stackTrace) {
     print('onError -- cubit: ${cubit.runtimeType}, error: $error');
+    if (error is DioError) {
+      if (error.response.statusCode == 401) {
+        getIt<AuthCubit>().unauthenticateUser();
+      }
+    }
     super.onError(cubit, error, stackTrace);
   }
 

@@ -25,7 +25,8 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
       emit(
         ForgotPasswordState.enterNewPassword(email: email, timeout: timeOut),
       );
-    } catch (e) {
+        } catch (e) {
+      addError(e);
       // TODO: Handel error messages
       emit(ForgotPasswordState.failureOnEnterYourEmail(message: '$e'));
     }
@@ -36,7 +37,8 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
     try {
       await _authRepository.resetPassword(_email, password);
       emit(const ForgotPasswordState.success());
-    } catch (e) {
+        } catch (e) {
+      addError(e);
       // TODO: Handel error messages
       emit(ForgotPasswordState.failureOnNewPassword(
         email: _email,

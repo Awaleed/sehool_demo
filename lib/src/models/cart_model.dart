@@ -1,64 +1,65 @@
-import 'package:sehool/src/models/address_model.dart';
-import 'package:sehool/src/models/product_model.dart';
+import 'package:flutter/foundation.dart';
 
+import 'address_model.dart';
 import 'order_model.dart';
+import 'product_model.dart';
 
 class CartModel {
-  const CartModel(
-    this.cartItems,
-    this.address,
-    this.pickupMethod,
-    this.orderDate,
-    this.paymentMethod,
-    this.notes,
-  );
+  List<CartItemModel> cartItems = [];
+  AddressModel address;
+  PickupMethodModel pickupMethod;
+  DateTime orderDate;
+  PaymentMethodModel paymentMethod;
+  String notes;
 
-  final List<CartItemModel> cartItems;
-  final AddressModel address;
-  final PickupMethodModel pickupMethod;
-  final DateTime orderDate;
-  final PaymentMethodModel paymentMethod;
-  final String notes;
+  @override
+  bool operator ==(Object o) {
+    if (identical(this, o)) return true;
 
-  CartModel copyWith({
-    List<CartItemModel> cartItems,
-    AddressModel address,
-    PickupMethodModel pickupMethod,
-    DateTime orderDate,
-    PaymentMethodModel paymentMethod,
-    String notes,
-  }) {
-    return CartModel(
-      cartItems ?? this.cartItems,
-      address ?? this.address,
-      pickupMethod ?? this.pickupMethod,
-      orderDate ?? this.orderDate,
-      paymentMethod ?? this.paymentMethod,
-      notes ?? this.notes,
-    );
+    return o is CartModel &&
+        listEquals(o.cartItems, cartItems) &&
+        o.address == address &&
+        o.pickupMethod == pickupMethod &&
+        o.orderDate == orderDate &&
+        o.paymentMethod == paymentMethod &&
+        o.notes == notes;
+  }
+
+  @override
+  int get hashCode {
+    return cartItems.hashCode ^
+        address.hashCode ^
+        pickupMethod.hashCode ^
+        orderDate.hashCode ^
+        paymentMethod.hashCode ^
+        notes.hashCode;
   }
 }
 
 class CartItemModel {
-  const CartItemModel({
-    this.quantity,
-    this.slicingMethod,
-    this.notes,
-  });
+  int get quantity => _quantity;
+  int _quantity = 1;
 
-  final int quantity;
-  final SlicingMethodModel slicingMethod;
-  final String notes;
+  ProductModel product;
+  SlicingMethodModel slicingMethod;
+  String notes;
 
-  CartItemModel copyWith({
-    int quantity,
-    SlicingMethodModel slicingMethod,
-    String notes,
-  }) {
-    return CartItemModel(
-      quantity: quantity ?? this.quantity,
-      slicingMethod: slicingMethod ?? this.slicingMethod,
-      notes: notes ?? this.notes,
-    );
+  void incrementCart() => _quantity < 100 ? _quantity++ : _quantity;
+  void decrementCart() => _quantity > 1 ? _quantity-- : _quantity;
+
+  bool get validate => product != null && slicingMethod != null && quantity > 0;
+
+  @override
+  bool operator ==(Object o) {
+    if (identical(this, o)) return true;
+
+    return o is CartItemModel &&
+        o.quantity == quantity &&
+        o.slicingMethod == slicingMethod &&
+        o.notes == notes;
   }
+
+  @override
+  int get hashCode =>
+      quantity.hashCode ^ slicingMethod.hashCode ^ notes.hashCode;
 }

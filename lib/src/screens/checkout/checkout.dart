@@ -3,24 +3,24 @@ import 'package:faker/faker.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:sehool/init_injectable.dart';
+import 'package:sehool/src/cubits/cart_cubit/cart_cubit.dart';
+import 'package:sehool/src/models/cart_model.dart';
 
 import '../../patched_components/stepper.dart';
-import 'pages/checkout/address_review.dart';
-import 'pages/checkout/cart_review.dart';
-import 'pages/checkout/checkout.dart';
-import 'pages/checkout/checkout_notes.dart';
-import 'pages/checkout/payment_method_review.dart';
-import 'pages/checkout/shpping_date_review.dart';
-import 'pages/finish.dart';
-import 'pages/notes.dart';
-import 'pages/quantity.dart';
-import 'pages/slicing_method.dart';
+import 'pages/address_review.dart';
+import 'pages/cart_review.dart';
+import 'pages/checkout.dart';
+import 'pages/checkout_notes.dart';
+import 'pages/payment_method_review.dart';
+import 'pages/shpping_date_review.dart';
 
-class CartScreen extends StatelessWidget {
+class CheckoutScreen extends StatelessWidget {
   static const routeName = '/cart';
 
-  const CartScreen({
+  const CheckoutScreen({
     Key key,
   }) : super(key: key);
 
@@ -36,8 +36,8 @@ class CartScreen extends StatelessWidget {
       ),
       body: Stack(
         fit: StackFit.expand,
-        children: const [
-          DecoratedBox(
+        children: [
+          const DecoratedBox(
             decoration: BoxDecoration(
               color: Colors.amber,
               image: DecorationImage(
@@ -49,7 +49,10 @@ class CartScreen extends StatelessWidget {
             ),
           ),
           SafeArea(
-            child: NewWidget(),
+            child: BlocBuilder<CartCubit, CartState>(
+              cubit: getIt<CartCubit>(),
+              builder: (context, state) => CheckoutStepper(cart: state.cart),
+            ),
           ),
         ],
       ),
@@ -57,29 +60,32 @@ class CartScreen extends StatelessWidget {
   }
 }
 
-class NewWidget extends StatefulWidget {
-  const NewWidget({
+class CheckoutStepper extends StatefulWidget {
+  const CheckoutStepper({
     Key key,
+    @required this.cart,
   }) : super(key: key);
 
+  final CartModel cart;
+
   @override
-  _NewWidgetState createState() => _NewWidgetState();
+  _CheckoutStepperState createState() => _CheckoutStepperState();
 }
 
-class _NewWidgetState extends State<NewWidget> {
+class _CheckoutStepperState extends State<CheckoutStepper> {
   int currentStep = 0;
   List<PatchedStep> get steps => [
         PatchedStep(
           isActive: 0 == currentStep,
           title: const Text('محتويات العربة',
               style: TextStyle(color: Colors.white)),
-          content: const CartReviewPage(),
+          content: CartReviewPage(cartItems: widget.cart.cartItems),
         ),
         PatchedStep(
           isActive: 1 == currentStep,
           title:
               const Text('عنوان الشحن', style: TextStyle(color: Colors.white)),
-          content: const AddressReviewPage(),
+          content: AddressReviewPage(cart: widget.cart),
         ),
         PatchedStep(
           isActive: 2 == currentStep,

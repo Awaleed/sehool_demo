@@ -5,13 +5,14 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
+import 'package:sehool/src/models/cart_model.dart';
+
 import '../../models/product_model.dart';
+import '../../patched_components/stepper.dart';
 import 'pages/finish.dart';
 import 'pages/notes.dart';
 import 'pages/quantity.dart';
 import 'pages/slicing_method.dart';
-
-import '../../patched_components/stepper.dart';
 
 class AddToCartScreen extends StatelessWidget {
   static const routeName = '/add_to_cart';
@@ -27,16 +28,11 @@ class AddToCartScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        // pinned: true,
-        // expandedHeight: 400,
-        elevation: 0,
-        backgroundColor: Colors.black54,
-      ),
+      appBar: AppBar(elevation: 0, backgroundColor: Colors.black54),
       body: Stack(
         fit: StackFit.expand,
-        children: const [
-          DecoratedBox(
+        children: [
+          const DecoratedBox(
             decoration: BoxDecoration(
               color: Colors.amber,
               image: DecorationImage(
@@ -47,53 +43,55 @@ class AddToCartScreen extends StatelessWidget {
               ),
             ),
           ),
-          SafeArea(
-            child: NewWidget(),
-          ),
+          SafeArea(child: CartStepper(product: product)),
         ],
       ),
     );
   }
 }
 
-class NewWidget extends StatefulWidget {
-  const NewWidget({
+class CartStepper extends StatefulWidget {
+  const CartStepper({
     Key key,
+    @required this.product,
   }) : super(key: key);
-
+  final ProductModel product;
   @override
-  _NewWidgetState createState() => _NewWidgetState();
+  _CartStepperState createState() => _CartStepperState();
 }
 
-class _NewWidgetState extends State<NewWidget> {
+class _CartStepperState extends State<CartStepper> {
   int currentStep = 0;
+  CartItemModel cartItem;
+
   List<PatchedStep> get steps => [
         PatchedStep(
           isActive: 0 == currentStep,
           title: const Text('الكمية', style: TextStyle(color: Colors.white)),
-          content: const QuantityPage(),
+          content: QuantityPage(cartItem: cartItem),
         ),
         PatchedStep(
           isActive: 1 == currentStep,
           title: const Text('طريقة التقطيع',
               style: TextStyle(color: Colors.white)),
-          content: const SlicingMethodPage(),
+          content: SlicingMethodPage(cartItem: cartItem),
         ),
         PatchedStep(
           isActive: 2 == currentStep,
           title: const Text('ملاحظات', style: TextStyle(color: Colors.white)),
-          content: const NotesPage(),
+          content: NotesPage(cartItem: cartItem),
         ),
         PatchedStep(
           isActive: 3 == currentStep,
           title: const Text('انهاء', style: TextStyle(color: Colors.white)),
-          content: const FinishPage(),
+          content: FinishPage(cartItem: cartItem),
         ),
       ];
 
   @override
   void initState() {
     super.initState();
+    cartItem = CartItemModel()..product = widget.product;
   }
 
   @override

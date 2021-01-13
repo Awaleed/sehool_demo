@@ -1,5 +1,7 @@
 import 'package:enum_to_string/enum_to_string.dart';
+import 'package:faker/faker.dart';
 import 'package:injectable/injectable.dart';
+import 'package:sehool/src/helpers/fake_data_generator.dart';
 
 import '../core/api_caller.dart';
 import '../data/dropdown_datasource.dart';
@@ -20,9 +22,7 @@ class DropdownRepositoryImpl implements IDropdownRepository {
 
   @override
   Future<List> getDropdownValues(DropdownValueType type) async {
-    final res = await _dropdownRemoteDataSource.getDropdownValues(
-      EnumToString.convertToString(type),
-    );
+    final res = await _dropdownRemoteDataSource.getDropdownValues(type);
     return ApiCaller.listParser(res, (data) {
       switch (type) {
         case DropdownValueType.cites:
@@ -34,7 +34,12 @@ class DropdownRepositoryImpl implements IDropdownRepository {
         case DropdownValueType.paymentMethods:
           return PaymentMethodModel.fromJson(data);
         case DropdownValueType.addresses:
+          data['lang'] = double.tryParse(data['lang'] ?? '0') ?? 0;
+          data['lat'] = double.tryParse(data['lat'] ?? '0') ?? 0;
+          data['note'] = data['description'];
+          data['address'] = faker.address.streetAddress();
           return AddressModel.fromJson(data);
+          // return FakeDataGenerator.addressModel;
       }
     });
   }

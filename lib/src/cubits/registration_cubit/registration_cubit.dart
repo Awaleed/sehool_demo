@@ -24,7 +24,8 @@ class RegistrationCubit extends Cubit<RegistrationState> {
       await _authRepository.register(credentials);
       emit(const RegistrationState.success());
       getIt<AuthCubit>().authenticateUser();
-    } catch (e) {
+        } catch (e) {
+      addError(e);
       // TODO: Handel error messages
       emit(RegistrationState.failure(message: '$e'));
     }
