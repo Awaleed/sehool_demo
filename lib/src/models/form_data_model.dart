@@ -243,8 +243,8 @@ abstract class _Validators {
 
   static String longStringValidator(value) {
     if (value is String) {
-      if (value.length < 3 || value == null) {
-        return S.current.should_be_more_than_3_letters;
+      if (value.length < 6 || value == null) {
+        return S.current.should_be_more_than_6_letters;
       }
       return null;
     }
