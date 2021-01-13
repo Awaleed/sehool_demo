@@ -2,17 +2,17 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sailor/sailor.dart';
-import 'package:sehool/src/components/custom_form_fileds.dart';
-import 'package:sehool/src/cubits/forgot_password_cubit/forgot_password_cubit.dart';
-import 'package:sehool/src/helpers/helper.dart';
-import 'package:sehool/src/models/form_data_model.dart';
-import 'package:sehool/src/routes/config_routes.dart';
-import 'package:sehool/src/screens/auth/login.dart';
+import 'package:supercharged/supercharged.dart';
+
 import '../../../generated/l10n.dart';
 import '../../../init_injectable.dart';
-import 'package:supercharged/supercharged.dart';
+import '../../components/custom_form_fileds.dart';
+import '../../cubits/forgot_password_cubit/forgot_password_cubit.dart';
+import '../../helpers/helper.dart';
+import '../../models/form_data_model.dart';
+import '../../routes/config_routes.dart';
+import 'login.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   static const routeName = '/forgot_password';

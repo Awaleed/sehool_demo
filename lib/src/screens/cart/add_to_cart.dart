@@ -1,10 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:faker/faker.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:sehool/src/models/product_model.dart';
+
+import '../../models/product_model.dart';
 import 'pages/finish.dart';
 import 'pages/notes.dart';
 import 'pages/quantity.dart';
@@ -133,7 +134,7 @@ class _NewWidgetState extends State<NewWidget> {
                       },
                 child: Row(
                   children: const [
-                    FaIcon(FontAwesomeIcons.chevronRight),
+                    Icon(FluentIcons.arrow_clockwise_24_regular),
                     SizedBox(width: 10),
                     Text('السابق'),
                   ],
@@ -159,7 +160,7 @@ class _NewWidgetState extends State<NewWidget> {
                   children: const [
                     Text('التالي'),
                     SizedBox(width: 10),
-                    FaIcon(FontAwesomeIcons.chevronLeft),
+                    Icon(FluentIcons.arrow_forward_24_regular)
                   ],
                 ),
               ),

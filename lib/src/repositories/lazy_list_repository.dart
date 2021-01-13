@@ -1,10 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
-import 'package:sehool/src/core/api_caller.dart';
-import 'package:sehool/src/models/product_model.dart';
 
+import '../core/api_caller.dart';
 import '../data/lazy_list_datasource.dart';
 import '../models/lazy_list_model.dart';
+import '../models/product_model.dart';
 
 abstract class ILazyListRepository {
   Future<List> getLazyListValues({

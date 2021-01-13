@@ -1,12 +1,11 @@
 import 'package:sailor/sailor.dart';
-import 'package:sehool/src/screens/cart/cart.dart';
-import 'package:sehool/src/screens/video/video.dart';
 import 'package:supercharged/supercharged.dart';
 
 import '../screens/auth/forgot_password.dart';
 import '../screens/auth/login.dart';
 import '../screens/auth/register.dart';
 import '../screens/cart/add_to_cart.dart';
+import '../screens/cart/cart.dart';
 import '../screens/debug/playground.dart';
 import '../screens/home/home.dart';
 import '../screens/onboarding.dart';
@@ -16,6 +15,7 @@ import '../screens/profile/pages/addresses.dart';
 import '../screens/profile/pages/language.dart';
 import '../screens/profile/profile_settings.dart';
 import '../screens/splash.dart';
+import '../screens/video/video.dart';
 
 abstract class AppRouter {
   static final sailor = Sailor(

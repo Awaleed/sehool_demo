@@ -2,18 +2,20 @@ import 'package:arabic_numbers/arabic_numbers.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:faker/faker.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 import 'package:sailor/sailor.dart';
-import 'package:sehool/generated/l10n.dart';
-import 'package:sehool/screens/tabs/historytab.dart';
-import 'package:sehool/screens/tabs/profiletab.dart';
-import 'package:sehool/src/routes/config_routes.dart';
-import 'package:sehool/src/screens/cart/cart.dart';
-import 'package:sehool/src/screens/home/pages/main.dart';
-import 'package:sehool/src/screens/home/pages/profile.dart';
-import 'package:sehool/src/screens/home/pages/videos.dart';
 import 'package:supercharged/supercharged.dart';
+
+import '../../../generated/l10n.dart';
+import '../../../screens/tabs/historytab.dart';
+import '../../../screens/tabs/profiletab.dart';
+import '../../routes/config_routes.dart';
+import '../cart/cart.dart';
+import 'pages/main.dart';
+import 'pages/profile.dart';
+import 'pages/videos.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home';
@@ -36,12 +38,12 @@ class _HomeScreenState extends State<HomeScreen> {
     pageController = PageController(initialPage: selectedIndex);
     pages = const [
       _TabBarItem(
-        icon: FontAwesomeIcons.home,
+        icon: FluentIcons.home_24_regular,
         label: 'الرئيسية',
         page: MainPage(),
       ),
       _TabBarItem(
-        icon: FontAwesomeIcons.video,
+        icon: FluentIcons.video_24_regular,
         label: 'شاهد',
         page: VideosPage(),
       ),
@@ -51,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
       //   page: HistoryTab(),
       // ),
       _TabBarItem(
-        icon: FontAwesomeIcons.user,
+        icon: FluentIcons.person_24_regular,
         label: 'ملفي',
         page: ProfilePage(),
       ),
@@ -111,11 +113,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       FloatingActionButton.extended(
-                        onPressed: () =>
-                            AppRouter.sailor.navigate(CartScreen.routeName),
-                        label: const Text('2 منتجات في السلة'),
-                        icon: const FaIcon(FontAwesomeIcons.shoppingCart),
-                      ),
+                          onPressed: () =>
+                              AppRouter.sailor.navigate(CartScreen.routeName),
+                          label: const Text('2 منتجات في السلة'),
+                          icon: const Icon(FluentIcons.cart_24_filled)),
                     ],
                   ),
                 ),
@@ -154,7 +155,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 child: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    FaIcon(
+                                    Icon(
                                       item.icon,
                                       color: isSelected
                                           ? Colors.amber

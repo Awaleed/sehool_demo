@@ -1,7 +1,6 @@
 import 'package:arabic_numbers/arabic_numbers.dart';
 import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class NotesPage extends StatefulWidget {
   const NotesPage({Key key}) : super(key: key);

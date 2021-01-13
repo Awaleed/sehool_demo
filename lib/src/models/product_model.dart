@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:sehool/src/models/user_model.dart';
+
+import 'user_model.dart';
 
 part 'product_model.g.dart';
 

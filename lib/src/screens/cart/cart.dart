@@ -1,21 +1,21 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:faker/faker.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:sehool/src/screens/cart/pages/checkout/payment_method_review.dart';
+
+import '../../patched_components/stepper.dart';
+import 'pages/checkout/address_review.dart';
 import 'pages/checkout/cart_review.dart';
 import 'pages/checkout/checkout.dart';
 import 'pages/checkout/checkout_notes.dart';
+import 'pages/checkout/payment_method_review.dart';
 import 'pages/checkout/shpping_date_review.dart';
-import 'pages/checkout/address_review.dart';
 import 'pages/finish.dart';
 import 'pages/notes.dart';
 import 'pages/quantity.dart';
 import 'pages/slicing_method.dart';
-
-import '../../patched_components/stepper.dart';
 
 class CartScreen extends StatelessWidget {
   static const routeName = '/cart';
@@ -147,7 +147,7 @@ class _NewWidgetState extends State<NewWidget> {
                       },
                 child: Row(
                   children: const [
-                    FaIcon(FontAwesomeIcons.chevronRight),
+                    Icon(FluentIcons.arrow_left_24_regular),
                     SizedBox(width: 10),
                     Text('السابق'),
                   ],
@@ -173,7 +173,7 @@ class _NewWidgetState extends State<NewWidget> {
                   children: const [
                     Text('التالي'),
                     SizedBox(width: 10),
-                    FaIcon(FontAwesomeIcons.chevronLeft),
+                    Icon(FluentIcons.arrow_right_24_regular),
                   ],
                 ),
               ),

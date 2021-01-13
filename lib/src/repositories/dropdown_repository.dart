@@ -1,11 +1,12 @@
-import 'package:injectable/injectable.dart';
-import 'package:sehool/src/core/api_caller.dart';
-import 'package:sehool/src/models/address_model.dart';
 import 'package:enum_to_string/enum_to_string.dart';
-import 'package:sehool/src/models/order_model.dart';
-import 'package:sehool/src/models/product_model.dart';
+import 'package:injectable/injectable.dart';
+
+import '../core/api_caller.dart';
 import '../data/dropdown_datasource.dart';
+import '../models/address_model.dart';
 import '../models/dropdown_value_model.dart';
+import '../models/order_model.dart';
+import '../models/product_model.dart';
 
 abstract class IDropdownRepository {
   Future<List> getDropdownValues(DropdownValueType type);

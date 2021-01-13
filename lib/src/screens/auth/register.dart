@@ -1,17 +1,17 @@
 import 'package:division/division.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:enum_to_string/enum_to_string.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:sehool/generated/l10n.dart';
-import 'package:sehool/src/components/custom_form_fileds.dart';
-import 'package:sehool/src/cubits/registration_cubit/registration_cubit.dart';
-import 'package:sehool/src/helpers/helper.dart';
-import 'package:sehool/src/models/form_data_model.dart';
-import 'package:sehool/src/models/user_model.dart';
-import 'package:sehool/src/routes/config_routes.dart';
-import 'package:sehool/src/screens/auth/login.dart';
+import '../../../generated/l10n.dart';
+import '../../components/custom_form_fileds.dart';
+import '../../cubits/registration_cubit/registration_cubit.dart';
+import '../../helpers/helper.dart';
+import '../../models/form_data_model.dart';
+import '../../models/user_model.dart';
+import '../../routes/config_routes.dart';
+import 'login.dart';
 
 import '../../../init_injectable.dart';
 
@@ -114,8 +114,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   onPressed: () =>
                       setState(() => passwordVisible = !passwordVisible),
                   icon: Icon(passwordVisible
-                      ? FontAwesomeIcons.eyeSlash
-                      : FontAwesomeIcons.eye),
+                      ? FluentIcons.eye_hide_24_regular
+                      : FluentIcons.eye_show_24_regular),
                 ),
                 obscureText: passwordVisible,
               ),

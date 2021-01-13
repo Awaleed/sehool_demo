@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sehool/generated/l10n.dart';
+import '../../../generated/l10n.dart';
 
 class ProductsCarouselLoadingItemWidget extends StatelessWidget {
   const ProductsCarouselLoadingItemWidget({Key key}) : super(key: key);

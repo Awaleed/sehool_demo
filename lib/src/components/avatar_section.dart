@@ -1,11 +1,11 @@
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 // import 'package:image_cropper/image_cropper.dart';
 // import 'package:image_picker/image_picker.dart';
 import 'package:validators/validators.dart';
-import 'package:file_selector/file_selector.dart';
 
 class AvatarSection extends FormField<File> {
   AvatarSection({

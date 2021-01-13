@@ -4,8 +4,8 @@ import 'package:dio/dio.dart';
 import 'package:faker/faker.dart';
 import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
-import 'package:sehool/init_injectable.dart';
-import 'package:sehool/src/helpers/fake_data_generator.dart';
+import '../../init_injectable.dart';
+import '../helpers/fake_data_generator.dart';
 
 import '../core/api_caller.dart';
 import '../models/user_model.dart';

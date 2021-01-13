@@ -1,9 +1,8 @@
 import 'package:injectable/injectable.dart';
-import 'package:sehool/src/models/checkout_model.dart';
 
 import '../data/order_datasource.dart';
+import '../models/checkout_model.dart';
 import '../models/order_model.dart';
-import '../models/product_model.dart';
 
 abstract class IOrderRepository {
   Future<OrderModel> getOrder(int id);

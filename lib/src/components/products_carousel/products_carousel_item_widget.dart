@@ -1,7 +1,8 @@
 import 'package:arabic_numbers/arabic_numbers.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 import '../../../generated/l10n.dart';
 import '../../models/product_model.dart';
 import '../../routes/config_routes.dart';
@@ -110,7 +111,7 @@ class ProductsCarouselItemWidget extends StatelessWidget {
               hoverColor: Colors.amber.withOpacity(.3),
               splashColor: Colors.amber.withOpacity(.3),
               icon: const Icon(
-                FontAwesomeIcons.cartPlus,
+                FluentIcons.cart_24_regular,
                 color: Colors.white,
               ),
               label: Text(

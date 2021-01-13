@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:sehool/generated/l10n.dart';
-import 'package:sehool/src/cubits/profile_cubit/profile_cubit.dart';
-import 'package:sehool/src/data/user_datasource.dart';
-import 'package:sehool/src/helpers/helper.dart';
-import 'package:sehool/src/models/form_data_model.dart';
 
+import '../../../generated/l10n.dart';
 import '../../../init_injectable.dart';
 import '../../components/avatar_section.dart';
 import '../../components/my_loading_overlay.dart';
+import '../../cubits/profile_cubit/profile_cubit.dart';
+import '../../data/user_datasource.dart';
+import '../../helpers/helper.dart';
+import '../../models/form_data_model.dart';
 
 class ProfileSettingsScreen extends StatefulWidget {
   static const routeName = '/profile_settings';

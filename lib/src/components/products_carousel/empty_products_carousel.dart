@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../../generated/l10n.dart';
 
 class EmptyProductsCarousel extends StatelessWidget {
@@ -33,7 +34,8 @@ class EmptyProductsCarousel extends StatelessWidget {
             const SizedBox(height: 15),
             Opacity(
               opacity: 0.4,
-              child: Text(S.of(context).no_suggestions,
+              child: Text(
+                S.of(context).no_suggestions,
                 textAlign: TextAlign.center,
                 style: Theme.of(context)
                     .textTheme

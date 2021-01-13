@@ -1,7 +1,8 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:sehool/generated/l10n.dart';
 import 'package:validators/validators.dart';
+
+import '../../generated/l10n.dart';
 
 enum FormFieldType {
   /// TODO: MODELS USED HERE REMOVE OTHER
@@ -57,7 +58,7 @@ class FormFieldModel {
         return FormFieldModel(
           hintText: S.current.john_doe,
           labelText: S.current.full_name,
-          iconData: FontAwesomeIcons.userAlt,
+          iconData: FluentIcons.person_28_regular,
           keyboardType: TextInputType.text,
           validator: _Validators.shortStringValidator,
           onSave: (value) {
@@ -85,7 +86,7 @@ class FormFieldModel {
         return FormFieldModel(
           hintText: '************',
           labelText: S.current.password,
-          iconData: FontAwesomeIcons.eyeSlash,
+          iconData: FluentIcons.eye_show_24_regular,
           keyboardType: TextInputType.text,
           validator: _Validators.longStringValidator,
           onSave: (value) {
@@ -99,7 +100,7 @@ class FormFieldModel {
         return FormFieldModel(
           hintText: 'example@example.com',
           labelText: S.current.email,
-          iconData: FontAwesomeIcons.solidEnvelope,
+          iconData: FluentIcons.mail_28_regular,
           keyboardType: TextInputType.emailAddress,
           validator: (value) {
             if (!isEmail(value)) return S.current.should_be_a_valid_email;
@@ -116,7 +117,7 @@ class FormFieldModel {
         return FormFieldModel(
           hintText: '0599676388',
           labelText: S.current.phone,
-          iconData: FontAwesomeIcons.phone,
+          iconData: FluentIcons.phone_28_regular,
           keyboardType: TextInputType.number,
           validator: _Validators.numericValidator,
           onSave: (value) {
@@ -129,7 +130,7 @@ class FormFieldModel {
       case FormFieldType.notes:
         return FormFieldModel(
           hintText: 'ملاحظات',
-          iconData: FontAwesomeIcons.paperclip,
+          iconData: FluentIcons.send_28_regular,
           keyboardType: TextInputType.number,
           validator: _Validators.notEmptyStringValidator,
           onSave: (value) {
@@ -142,7 +143,7 @@ class FormFieldModel {
       case FormFieldType.cityId:
         return FormFieldModel(
           hintText: 'المدينة',
-          iconData: FontAwesomeIcons.locationArrow,
+          iconData: FluentIcons.location_28_regular,
           keyboardType: TextInputType.number,
           validator: _Validators.notEmptyStringValidator,
           onSave: (value) {
@@ -155,7 +156,7 @@ class FormFieldModel {
       case FormFieldType.citySectionId:
         return FormFieldModel(
           hintText: 'قطاع المدينة',
-          iconData: FontAwesomeIcons.locationArrow,
+          iconData: FluentIcons.location_28_regular,
           keyboardType: TextInputType.number,
           validator: _Validators.notEmptyStringValidator,
           onSave: (value) {
@@ -170,7 +171,7 @@ class FormFieldModel {
           //TODO: Add localization
           hintText: 'S.current.level',
           labelText: 'S.current.level',
-          iconData: FontAwesomeIcons.solidUserCircle,
+          iconData: FluentIcons.person_accounts_24_regular,
           validator: _Validators.notNullValidator,
           onSave: (value) {
             map[FormFieldType.level] = FormFieldModel(
@@ -184,7 +185,7 @@ class FormFieldModel {
         return FormFieldModel(
           hintText: 'S.current.store',
           labelText: 'S.current.store',
-          iconData: FontAwesomeIcons.storeAlt,
+          iconData: FluentIcons.store_24_regular,
           keyboardType: TextInputType.text,
           validator: _Validators.shortStringValidator,
           onSave: (value) {
@@ -198,7 +199,7 @@ class FormFieldModel {
         return FormFieldModel(
           hintText: '123456789123456',
           labelText: 'S.current.vat_number',
-          iconData: FontAwesomeIcons.moneyCheckAlt,
+          iconData: FluentIcons.money_24_regular,
           keyboardType: TextInputType.number,
           validator: _Validators.notEmptyStringValidator,
           onSave: (value) {

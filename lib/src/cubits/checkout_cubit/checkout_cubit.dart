@@ -1,9 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
-import 'package:sehool/src/models/checkout_model.dart';
-import '../../models/order_model.dart';
 
+import '../../models/checkout_model.dart';
+import '../../models/order_model.dart';
 import '../../repositories/order_repository.dart';
 
 part 'checkout_cubit.freezed.dart';

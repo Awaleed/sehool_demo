@@ -1,7 +1,8 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
-import 'package:sehool/src/helpers/helper.dart';
-import 'package:sehool/src/models/form_data_model.dart';
+
+import '../helpers/helper.dart';
+import '../models/form_data_model.dart';
 
 class CustomTextFromField extends StatelessWidget {
   const CustomTextFromField({

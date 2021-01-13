@@ -1,11 +1,11 @@
 import 'package:arabic_numbers/arabic_numbers.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:faker/faker.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:sehool/generated/l10n.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 
+import '../../../generated/l10n.dart';
 import 'image_colors.dart';
 
 class Playground extends StatelessWidget {
@@ -111,16 +111,16 @@ class Playground extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 IconButton(
-                  icon: const FaIcon(
-                    FontAwesomeIcons.user,
+                  icon: const Icon(
+                    FluentIcons.person_24_filled,
                     color: Colors.white,
                   ),
                   iconSize: 30,
                   onPressed: () {},
                 ),
                 IconButton(
-                  icon: const FaIcon(
-                    FontAwesomeIcons.video,
+                  icon: const Icon(
+                    FluentIcons.video_24_filled,
                     color: Colors.white,
                   ),
                   iconSize: 30,
@@ -136,8 +136,8 @@ class Playground extends StatelessWidget {
                     borderRadius: BorderRadius.circular(25),
                   ),
                   child: TextButton.icon(
-                    icon: const FaIcon(
-                      FontAwesomeIcons.home,
+                    icon: const Icon(
+                      FluentIcons.home_24_filled,
                       color: Colors.amber,
                     ),
                     label: Text(

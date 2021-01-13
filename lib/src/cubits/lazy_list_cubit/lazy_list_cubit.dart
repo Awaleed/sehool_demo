@@ -2,9 +2,9 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
-import 'package:sehool/src/repositories/lazy_list_repository.dart';
 
 import '../../models/lazy_list_model.dart';
+import '../../repositories/lazy_list_repository.dart';
 
 part 'lazy_list_cubit.freezed.dart';
 part 'lazy_list_state.dart';

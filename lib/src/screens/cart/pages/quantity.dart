@@ -1,7 +1,7 @@
 import 'package:arabic_numbers/arabic_numbers.dart';
 import 'package:faker/faker.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class QuantityPage extends StatefulWidget {
   const QuantityPage({Key key}) : super(key: key);
@@ -36,7 +36,7 @@ class _QuantityPageState extends State<QuantityPage> {
                   ),
                 ),
                 onPressed: () {},
-                child: const FaIcon(FontAwesomeIcons.plus),
+                child: const Icon(FluentIcons.add_24_regular),
               ),
               Text(
                 '1',
@@ -55,7 +55,7 @@ class _QuantityPageState extends State<QuantityPage> {
                   ),
                 ),
                 onPressed: () {},
-                child: const FaIcon(FontAwesomeIcons.minus),
+                child: const Icon(FluentIcons.remove_24_regular),
               ),
             ],
           ),

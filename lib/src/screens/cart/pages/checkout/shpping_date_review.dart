@@ -1,11 +1,11 @@
-import 'package:arabic_numbers/arabic_numbers.dart';
 import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:sehool/src/routes/config_routes.dart';
-import 'package:sehool/src/screens/profile/dialogs/new_address_dialog.dart';
+
 import 'package:intl/intl.dart';
 import 'package:velocity_x/velocity_x.dart';
+
+import '../../../../routes/config_routes.dart';
+import '../../../profile/dialogs/new_address_dialog.dart';
 
 class ShippingDatePage extends StatefulWidget {
   const ShippingDatePage({Key key}) : super(key: key);

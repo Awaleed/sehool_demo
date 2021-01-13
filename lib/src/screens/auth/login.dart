@@ -1,7 +1,7 @@
 import 'package:division/division.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../components/custom_form_fileds.dart';
 import 'forgot_password.dart';
 
@@ -105,8 +105,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   onPressed: () =>
                       setState(() => passwordVisible = !passwordVisible),
                   icon: Icon(passwordVisible
-                      ? FontAwesomeIcons.eyeSlash
-                      : FontAwesomeIcons.eye),
+                      ? FluentIcons.eye_hide_24_regular
+                      : FluentIcons.eye_show_24_regular),
                 ),
                 obscureText: passwordVisible,
               ),

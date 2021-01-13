@@ -4,17 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 // import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sailor/sailor.dart';
+
 import '../../../../generated/l10n.dart';
-import '../../../components/address_picker_card.dart';
+import '../../../../init_injectable.dart';
 import '../../../components/my_loading_overlay.dart';
 import '../../../cubits/address_cubit/address_cubit.dart';
 import '../../../cubits/dropdown_cubit/dropdown_cubit.dart';
-import '../../../models/address_model.dart';
+import '../../../helpers/helper.dart';
 import '../../../models/dropdown_value_model.dart';
 import '../../../models/form_data_model.dart';
-import '../../../patched_components/places_picker/src/place_picker.dart';
-import '../../../../init_injectable.dart';
-import '../../../helpers/helper.dart';
 
 class NewAddressDialog extends StatelessWidget {
   static const routeName = '/addresses/new';

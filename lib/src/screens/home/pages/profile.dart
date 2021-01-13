@@ -1,15 +1,16 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:sehool/init_injectable.dart';
-import 'package:sehool/src/components/my_loading_overlay.dart';
-import 'package:sehool/src/cubits/auth_cubit/auth_cubit.dart';
-import 'package:sehool/src/data/user_datasource.dart';
-import 'package:sehool/src/routes/config_routes.dart';
-import 'package:sehool/src/screens/profile/pages/addresses.dart';
-import 'package:sehool/src/screens/profile/pages/language.dart';
-import 'package:sehool/src/screens/profile/profile_settings.dart';
 import 'package:validators/validators.dart';
+
 import '../../../../generated/l10n.dart';
+import '../../../../init_injectable.dart';
+import '../../../components/my_loading_overlay.dart';
+import '../../../cubits/auth_cubit/auth_cubit.dart';
+import '../../../data/user_datasource.dart';
+import '../../../routes/config_routes.dart';
+import '../../profile/pages/addresses.dart';
+import '../../profile/pages/language.dart';
+import '../../profile/profile_settings.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key key}) : super(key: key);

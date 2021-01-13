@@ -1,10 +1,10 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:sehool/src/cubits/reveiw_cubit/review_cubit.dart';
-import 'package:sehool/src/helpers/helper.dart';
 
 import '../../init_injectable.dart';
+import '../cubits/reveiw_cubit/review_cubit.dart';
+import '../helpers/helper.dart';
 
 class NewReviewField extends StatefulWidget {
   const NewReviewField({
@@ -67,7 +67,7 @@ class _NewReviewFieldState extends State<NewReviewField> {
         children: [
           IconButton(
             color: Colors.amber,
-            icon: const Icon(FontAwesomeIcons.paperPlane),
+            icon: const Icon(FluentIcons.send_28_filled),
             onPressed: canSend
                 ? () {
                     Helpers.dismissFauces(context);

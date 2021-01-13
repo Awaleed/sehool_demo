@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sehool/generated/l10n.dart';
+import '../../../generated/l10n.dart';
 
 class CommentsListLoadingItemWidget extends StatelessWidget {
   const CommentsListLoadingItemWidget({Key key}) : super(key: key);

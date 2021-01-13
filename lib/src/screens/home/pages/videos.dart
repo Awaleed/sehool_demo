@@ -5,9 +5,9 @@ import 'package:division/division.dart';
 import 'package:faker/faker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sehool/generated/l10n.dart';
-import 'package:sehool/src/routes/config_routes.dart';
-import 'package:sehool/src/screens/video/video.dart';
+import '../../../../generated/l10n.dart';
+import '../../../routes/config_routes.dart';
+import '../../video/video.dart';
 
 class VideosPage extends StatelessWidget {
   const VideosPage({Key key}) : super(key: key);

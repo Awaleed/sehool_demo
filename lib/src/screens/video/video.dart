@@ -1,16 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'dart:async';
-
-import 'package:arabic_numbers/arabic_numbers.dart';
-import 'package:faker/faker.dart';
+import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:sehool/src/components/my_loading_overlay.dart';
-import 'package:sehool/src/cubits/lazy_list_cubit/lazy_list_cubit.dart';
-import 'package:sehool/src/patched_components/custom_material_controls.dart';
 import 'package:video_player/video_player.dart';
-import 'package:chewie/chewie.dart';
-import 'package:supercharged/supercharged.dart';
+
+import '../../cubits/lazy_list_cubit/lazy_list_cubit.dart';
+import '../../patched_components/custom_material_controls.dart';
 
 class VideoScreen extends StatefulWidget {
   static const routeName = '/video';

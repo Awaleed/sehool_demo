@@ -1,17 +1,19 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:faker/faker.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:sehool/generated/l10n.dart';
-import 'package:sehool/src/components/comments_list/comments_list_sliver.dart';
-import 'package:sehool/src/components/new_review_field.dart';
-import 'package:sehool/src/models/product_model.dart';
-import 'package:sehool/src/routes/config_routes.dart';
-import 'package:sehool/src/screens/cart/add_to_cart.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+
 import 'package:simple_animations/simple_animations.dart';
 import 'package:supercharged/supercharged.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+
+import '../../../generated/l10n.dart';
+import '../../components/comments_list/comments_list_sliver.dart';
+import '../../components/new_review_field.dart';
+import '../../models/product_model.dart';
+import '../../routes/config_routes.dart';
+import '../cart/add_to_cart.dart';
 
 class ProductScreen extends StatelessWidget {
   static const routeName = '/product';
@@ -133,8 +135,8 @@ class ProductScreen extends StatelessWidget {
                             backgroundColor: Colors.black,
                             hoverColor: Colors.amber.withOpacity(.3),
                             splashColor: Colors.amber.withOpacity(.3),
-                            child: const FaIcon(
-                              FontAwesomeIcons.cartPlus,
+                            child: const Icon(
+                              FluentIcons.add_24_filled,
                               color: Colors.white,
                             ),
                           ),

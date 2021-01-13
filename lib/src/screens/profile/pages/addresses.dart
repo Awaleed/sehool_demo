@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sailor/sailor.dart';
-import 'package:sehool/src/routes/config_routes.dart';
-import 'package:sehool/src/screens/profile/dialogs/new_address_dialog.dart';
 
 import '../../../../generated/l10n.dart';
 import '../../../../init_injectable.dart';
 import '../../../components/empty_addresses_widget.dart';
 import '../../../cubits/address_cubit/address_cubit.dart';
 import '../../../models/address_model.dart';
+import '../../../routes/config_routes.dart';
+import '../dialogs/new_address_dialog.dart';
 
 class AddressesScreen extends StatefulWidget {
   static const routeName = '/addresses';

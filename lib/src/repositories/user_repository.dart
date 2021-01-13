@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
-import 'package:sehool/src/core/api_caller.dart';
-import 'package:sehool/src/models/address_model.dart';
-import 'package:sehool/src/models/form_data_model.dart';
+import '../core/api_caller.dart';
+import '../models/address_model.dart';
+import '../models/form_data_model.dart';
 
 import '../data/user_datasource.dart';
 import '../models/user_model.dart';
@@ -78,7 +78,8 @@ class UserRepositoryImpl implements IUserRepository {
   @override
   Future<UserModel> updateProfile(
       Map<FormFieldType, FormFieldModel> data) async {
-    final res = await _remoteSource.updateProfile(FormFieldModel.generateJson(data));
+    final res =
+        await _remoteSource.updateProfile(FormFieldModel.generateJson(data));
     final user = UserModel.fromJson(res);
     await _localSource.updateUser(user);
     return user;

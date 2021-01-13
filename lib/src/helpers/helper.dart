@@ -4,7 +4,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:supercharged/supercharged.dart';
 
-import '../repositories/user_repository.dart';
 import 'flash_helper.dart';
 
 abstract class Helpers {

@@ -1,12 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sehool/src/cubits/lazy_list_cubit/lazy_list_cubit.dart';
-import 'package:sehool/src/models/lazy_list_model.dart';
-import 'package:sehool/src/models/product_model.dart';
 
 import '../../../init_injectable.dart';
-import 'empty_products_carousel.dart';
+import '../../cubits/lazy_list_cubit/lazy_list_cubit.dart';
+import '../../models/lazy_list_model.dart';
+import '../../models/product_model.dart';
 import 'products_carousel_item_widget.dart';
 import 'products_carousel_loading_item_widget.dart';
 
@@ -62,7 +61,6 @@ class _ProductsCarouselWidgetState extends State<ProductsCarouselWidget> {
     List<ProductModel> productsList, {
     bool isLoading = false,
   }) {
-
     // TODO: add lazy load more
     return CarouselSlider.builder(
       itemCount: isLoading ? productsList.length + 5 : productsList.length,
