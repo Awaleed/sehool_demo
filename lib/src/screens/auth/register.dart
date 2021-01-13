@@ -161,9 +161,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   }
                 },
           child: isLoading
-              ? const Center(child: CircularProgressIndicator())
+              ? const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Center(child: CircularProgressIndicator()),
+                )
               : Txt(
-                  S.of(context).login,
+                  S.of(context).register,
                   style: TxtStyle()..textColor(Colors.white),
                 ),
         ),

@@ -1,4 +1,5 @@
 import 'package:arabic_numbers/arabic_numbers.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
@@ -71,7 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
           const DecoratedBox(
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: NetworkImage(
+                image: CachedNetworkImageProvider(
                   'https://i.pinimg.com/originals/77/59/a2/7759a2ff203398743fd020a4bedbff14.jpg',
                 ),
                 fit: BoxFit.cover,

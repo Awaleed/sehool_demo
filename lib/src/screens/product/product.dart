@@ -2,21 +2,26 @@ import 'package:faker/faker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:sehool/generated/l10n.dart';
+import 'package:sehool/src/components/comments_list/comments_list_sliver.dart';
+import 'package:sehool/src/components/new_review_field.dart';
+import 'package:sehool/src/models/product_model.dart';
 import 'package:sehool/src/routes/config_routes.dart';
 import 'package:sehool/src/screens/cart/add_to_cart.dart';
 import 'package:simple_animations/simple_animations.dart';
 import 'package:supercharged/supercharged.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class ProductScreen extends StatelessWidget {
   static const routeName = '/product';
 
   const ProductScreen({
     Key key,
-    @required this.heroTag,
+    @required this.product,
   }) : super(key: key);
 
-  final String heroTag;
+  final ProductModel product;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +33,7 @@ class ProductScreen extends StatelessWidget {
             decoration: BoxDecoration(
               color: Colors.amber,
               image: DecorationImage(
-                image: NetworkImage(
+                image: CachedNetworkImageProvider(
                   'https://i.pinimg.com/originals/77/59/a2/7759a2ff203398743fd020a4bedbff14.jpg',
                 ),
                 fit: BoxFit.cover,
@@ -36,7 +41,6 @@ class ProductScreen extends StatelessWidget {
             ),
           ),
           CustomScrollView(
-            // clipBehavior: Clip.none,
             slivers: [
               SliverAppBar(
                 pinned: true,
@@ -66,18 +70,21 @@ class ProductScreen extends StatelessWidget {
                             child: child,
                           ),
                           child: Text(
-                            faker.food.dish(),
+                            product.name,
                             maxLines: 1,
-                            style: const TextStyle(color: Colors.white),
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline6
+                                .copyWith(color: Colors.white),
                           ),
                         ),
                         background: Stack(
                           fit: StackFit.expand,
                           children: [
                             Hero(
-                              tag: 'image$heroTag',
-                              child: Image.asset(
-                                'assets/images/meat1.jpg',
+                              tag: 'image${product.id}',
+                              child: CachedNetworkImage(
+                                imageUrl: product.image,
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -118,10 +125,10 @@ class ProductScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           FloatingActionButton(
-                            heroTag: 'btn$heroTag',
+                            heroTag: 'btn${product.id}',
                             onPressed: () => AppRouter.sailor.navigate(
                               AddToCartScreen.routeName,
-                              params: {'heroTag': heroTag},
+                              params: {'product': product},
                             ),
                             backgroundColor: Colors.black,
                             hoverColor: Colors.amber.withOpacity(.3),
@@ -138,104 +145,54 @@ class ProductScreen extends StatelessWidget {
                 ),
               ),
               const SliverToBoxAdapter(child: SizedBox(height: 20)),
-              SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (_, __) => const _Card(),
+              SliverToBoxAdapter(
+                child: Card(
+                  elevation: 10,
+                  clipBehavior: Clip.hardEdge,
+                  color: Colors.white70,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Text(
+                          S.of(context).description,
+                          style: Theme.of(context).textTheme.headline5,
+                        ),
+                        const Divider(),
+                        Text(product.description),
+                      ],
+                    ),
+                  ),
                 ),
               ),
+              const SliverToBoxAdapter(child: SizedBox(height: 20)),
+              SliverToBoxAdapter(
+                child: Card(
+                  elevation: 10,
+                  clipBehavior: Clip.hardEdge,
+                  color: Colors.white70,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ListTile(title: Text(S.of(context).comments)),
+                  ),
+                ),
+              ),
+              CommentsListSliver(productId: product.id),
             ],
           ),
           Positioned(
             bottom: 0,
             left: 0,
             right: 0,
-            child: Container(
-              color: Colors.black54,
-              padding: const EdgeInsets.all(5),
-              child: Row(
-                children: [
-                  IconButton(
-                    color: Colors.white,
-                    icon: const FaIcon(FontAwesomeIcons.paperPlane),
-                    onPressed: () {},
-                  ),
-                  Expanded(
-                    child: TextField(
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Colors.white54,
-                        contentPadding:
-                            const EdgeInsets.symmetric(horizontal: 15),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            child: NewReviewField(productId: product.id),
           ),
-        ],
-      ),
-    );
-  }
-}
-
-class _Card extends StatelessWidget {
-  const _Card({Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.all(8.0),
-      child: Stack(
-        clipBehavior: Clip.none,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(right: 30),
-            child: Card(
-              color: Colors.white70,
-              margin: EdgeInsets.zero,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(25),
-              ),
-              child: ListTile(
-                title: Padding(
-                  padding: const EdgeInsets.only(right: 20),
-                  child: Row(
-                    children: [
-                      Text(faker.lorem.word()),
-                      const Spacer(),
-                      RatingBarIndicator(
-                        rating: 2.75,
-                        itemBuilder: (context, index) => const Icon(
-                          Icons.star,
-                          color: Colors.amber,
-                        ),
-                        itemCount: 5,
-                        itemSize: 13.0,
-                        // direction: Axis.vertical,
-                      )
-                    ],
-                  ),
-                ),
-                subtitle: Text(faker.lorem.sentence() +
-                    faker.lorem.sentence() +
-                    faker.lorem.sentence() +
-                    faker.lorem.sentence() +
-                    faker.lorem.sentence() +
-                    faker.lorem.sentence()),
-              ),
-            ),
-          ),
-          Positioned(
-            right: 0,
-            top: -10,
-            child: CircleAvatar(
-              radius: 30,
-            ),
-          )
         ],
       ),
     );

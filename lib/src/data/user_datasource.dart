@@ -13,7 +13,7 @@ import 'package:supercharged/supercharged.dart';
 
 const String userBoxName = 'UserBox';
 const String currentUserKey = 'currentUser';
-UserModel get kUser => FakeDataGenerator.userModel;// getIt<IUserLocalDataSource>().readUser();
+UserModel get kUser => getIt<IUserLocalDataSource>().readUser();
 
 abstract class IUserLocalDataSource {
   Future<void> saveUser(UserWithTokenModel user);

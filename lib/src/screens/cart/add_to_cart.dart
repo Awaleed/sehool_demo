@@ -1,8 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:faker/faker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:sehool/src/models/product_model.dart';
 import 'pages/finish.dart';
 import 'pages/notes.dart';
 import 'pages/quantity.dart';
@@ -15,10 +17,10 @@ class AddToCartScreen extends StatelessWidget {
 
   const AddToCartScreen({
     Key key,
-    @required this.heroTag,
+    @required this.product,
   }) : super(key: key);
 
-  final String heroTag;
+  final ProductModel product;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +39,7 @@ class AddToCartScreen extends StatelessWidget {
             decoration: BoxDecoration(
               color: Colors.amber,
               image: DecorationImage(
-                image: NetworkImage(
+                image: CachedNetworkImageProvider(
                   'https://i.pinimg.com/originals/77/59/a2/7759a2ff203398743fd020a4bedbff14.jpg',
                 ),
                 fit: BoxFit.cover,

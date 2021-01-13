@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'dart:async';
 
 import 'package:arabic_numbers/arabic_numbers.dart';
@@ -106,7 +107,7 @@ class _VideoScreenState extends State<VideoScreen> {
           const DecoratedBox(
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: NetworkImage(
+                image: CachedNetworkImageProvider(
                   'https://i.pinimg.com/originals/77/59/a2/7759a2ff203398743fd020a4bedbff14.jpg',
                 ),
                 fit: BoxFit.cover,

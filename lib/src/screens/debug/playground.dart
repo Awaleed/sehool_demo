@@ -4,6 +4,7 @@ import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sehool/generated/l10n.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 import 'image_colors.dart';
 
@@ -23,7 +24,7 @@ class Playground extends StatelessWidget {
           const DecoratedBox(
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: NetworkImage(
+                image: CachedNetworkImageProvider(
                   'https://i.pinimg.com/originals/77/59/a2/7759a2ff203398743fd020a4bedbff14.jpg',
                 ),
                 fit: BoxFit.cover,

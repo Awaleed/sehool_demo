@@ -27,10 +27,11 @@ class LazyListCubit extends Cubit<LazyListState> {
         pageUrl: _nextPageUrl,
       );
 
-      if (_nextPageUrl.value == null)
+      if (_nextPageUrl.value == null) {
         emit(LazyListState.finished(values));
-      else
+      } else {
         emit(LazyListState.success(values));
+      }
     } catch (e) {
       // TODO: Handel error messages
       emit(LazyListState.failure(message: '$e'));
@@ -53,10 +54,11 @@ class LazyListCubit extends Cubit<LazyListState> {
         pageUrl: _nextPageUrl,
       );
       currentValues.addAll(values);
-      if (_nextPageUrl.value == null)
+      if (_nextPageUrl.value == null) {
         emit(LazyListState.finished(currentValues));
-      else
+      } else {
         emit(LazyListState.success(currentValues));
+      }
     } catch (e) {
       // TODO: Handel error messages
       emit(

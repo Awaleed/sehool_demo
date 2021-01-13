@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:sehool/src/core/api_caller.dart';
+import 'package:sehool/src/models/product_model.dart';
 
 import '../data/lazy_list_datasource.dart';
 import '../models/lazy_list_model.dart';
@@ -21,8 +23,29 @@ class LazyListRepositoryImpl implements ILazyListRepository {
   Future<List> getLazyListValues({
     LazyListType type,
     ValueNotifier<String> pageUrl,
-  }) {
+  }) async {
     // TODO: Map LazyListType to url
-    _lazyListRemoteDataSource.getLazyListValues(type, pageUrl);
+    final res = await _lazyListRemoteDataSource.getLazyListValues(
+      type,
+      pageUrl,
+    );
+
+    final list = ApiCaller.listParser(
+      res,
+      (data) {
+        switch (type) {
+          case LazyListType.products:
+            data['price'] = double.tryParse(data['price'] ?? '0') ?? 0;
+            data['qyt'] = int.tryParse(data['qyt'] ?? '0') ?? 0;
+            return ProductModel.fromJson(data);
+          case LazyListType.videos:
+          case LazyListType.reviews:
+          case LazyListType.orders:
+          default:
+            throw UnsupportedError('Unsupported LazyListType with pram $type');
+        }
+      },
+    );
+    return list;
   }
 }

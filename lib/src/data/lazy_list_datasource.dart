@@ -19,6 +19,21 @@ class LazyListRemoteDataSource extends ILazyListRemoteDataSource
     LazyListType type,
     ValueNotifier<String> pageUrl,
   ) async {
-    return get<List>(path: pageUrl.value);
+    return get<List>(
+      path: pageUrl.value ??
+          () {
+            switch (type) {
+              case LazyListType.products:
+                return '/products';
+              case LazyListType.videos:
+              case LazyListType.reviews:
+              case LazyListType.orders:
+              default:
+                throw UnsupportedError(
+                  'Unsupported LazyListType with pram $type',
+                );
+            }
+          }(),
+    );
   }
 }

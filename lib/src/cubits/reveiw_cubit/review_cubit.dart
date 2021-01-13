@@ -14,6 +14,17 @@ class ReviewCubit extends Cubit<ReviewState> {
 
   final IProductRepository _productRepository;
 
+  Future<void> getReviews(int productId) async {
+    emit(const ReviewState.loading());
+    try {
+      final values = await _productRepository.getReviews(productId: productId);
+      emit(ReviewState.success(values));
+    } catch (e) {
+      // TODO: Handel error messages
+      emit(ReviewState.failure(message: '$e'));
+    }
+  }
+
   Future<void> addReview({
     int productId,
     int rating,
@@ -26,7 +37,7 @@ class ReviewCubit extends Cubit<ReviewState> {
         rating: rating,
         review: review,
       );
-      emit(ReviewState.success(value));
+      emit(ReviewState.success([value]));
     } catch (e) {
       // TODO: Handel error messages
       emit(ReviewState.failure(message: '$e'));

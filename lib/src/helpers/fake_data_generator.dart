@@ -50,4 +50,12 @@ abstract class FakeDataGenerator {
         city: cityModel,
         name: faker.address.neighborhood(),
       );
+  static ProductModel get productModel => ProductModel(
+        id: random.integer(1000),
+        name: faker.person.name(),
+        image: faker.image.image(),
+        description: faker.lorem.sentence(),
+        price: (random.decimal(scale: 100000) * 100).toInt() / 100,
+        qyt: random.integer(1000),
+      );
 }

@@ -66,19 +66,19 @@ abstract class AppRouter {
         SailorRoute(
           name: ProductScreen.routeName,
           builder: (context, args, paramMap) =>
-              ProductScreen(heroTag: paramMap.param('heroTag')),
-          params: [SailorParam(name: 'heroTag', isRequired: true)],
+              ProductScreen(product: paramMap.param('product')),
+          params: [SailorParam(name: 'product', isRequired: true)],
         ),
 
         /// Video Screens
         SailorRoute(
           name: VideoScreen.routeName,
           builder: (context, args, paramMap) => VideoScreen(
-            heroTag: paramMap.param('heroTag'),
+            heroTag: paramMap.param('product'),
             cubit: paramMap.param('cubit'),
           ),
           params: [
-            SailorParam(name: 'heroTag', isRequired: true),
+            SailorParam(name: 'product', isRequired: true),
             SailorParam(name: 'cubit', isRequired: true),
           ],
         ),
@@ -87,8 +87,8 @@ abstract class AppRouter {
         SailorRoute(
           name: AddToCartScreen.routeName,
           builder: (context, args, paramMap) =>
-              AddToCartScreen(heroTag: paramMap.param('heroTag')),
-          params: [SailorParam(name: 'heroTag', isRequired: true)],
+              AddToCartScreen(product: paramMap.param('product')),
+          params: [SailorParam(name: 'product', isRequired: true)],
         ),
         SailorRoute(
           name: CartScreen.routeName,

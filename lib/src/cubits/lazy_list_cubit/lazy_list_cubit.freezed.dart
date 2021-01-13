@@ -45,9 +45,10 @@ class _$LazyListStateTearOff {
   }
 
 // ignore: unused_element
-  _Failure failure({String message}) {
+  _Failure failure({String message, List<dynamic> values}) {
     return _Failure(
       message: message,
+      values: values,
     );
   }
 
@@ -73,7 +74,7 @@ mixin _$LazyListState {
     @required TResult loadingMore(List<dynamic> values),
     @required TResult success(List<dynamic> values),
     @required TResult finished(List<dynamic> values),
-    @required TResult failure(String message),
+    @required TResult failure(String message, List<dynamic> values),
     @required TResult failureOnLoadMore(String message, List<dynamic> values),
   });
   @optionalTypeArgs
@@ -83,7 +84,7 @@ mixin _$LazyListState {
     TResult loadingMore(List<dynamic> values),
     TResult success(List<dynamic> values),
     TResult finished(List<dynamic> values),
-    TResult failure(String message),
+    TResult failure(String message, List<dynamic> values),
     TResult failureOnLoadMore(String message, List<dynamic> values),
     @required TResult orElse(),
   });
@@ -174,7 +175,7 @@ class _$_Initial with DiagnosticableTreeMixin implements _Initial {
     @required TResult loadingMore(List<dynamic> values),
     @required TResult success(List<dynamic> values),
     @required TResult finished(List<dynamic> values),
-    @required TResult failure(String message),
+    @required TResult failure(String message, List<dynamic> values),
     @required TResult failureOnLoadMore(String message, List<dynamic> values),
   }) {
     assert(initial != null);
@@ -195,7 +196,7 @@ class _$_Initial with DiagnosticableTreeMixin implements _Initial {
     TResult loadingMore(List<dynamic> values),
     TResult success(List<dynamic> values),
     TResult finished(List<dynamic> values),
-    TResult failure(String message),
+    TResult failure(String message, List<dynamic> values),
     TResult failureOnLoadMore(String message, List<dynamic> values),
     @required TResult orElse(),
   }) {
@@ -298,7 +299,7 @@ class _$_Loading with DiagnosticableTreeMixin implements _Loading {
     @required TResult loadingMore(List<dynamic> values),
     @required TResult success(List<dynamic> values),
     @required TResult finished(List<dynamic> values),
-    @required TResult failure(String message),
+    @required TResult failure(String message, List<dynamic> values),
     @required TResult failureOnLoadMore(String message, List<dynamic> values),
   }) {
     assert(initial != null);
@@ -319,7 +320,7 @@ class _$_Loading with DiagnosticableTreeMixin implements _Loading {
     TResult loadingMore(List<dynamic> values),
     TResult success(List<dynamic> values),
     TResult finished(List<dynamic> values),
-    TResult failure(String message),
+    TResult failure(String message, List<dynamic> values),
     TResult failureOnLoadMore(String message, List<dynamic> values),
     @required TResult orElse(),
   }) {
@@ -447,7 +448,7 @@ class _$_LoadingMore with DiagnosticableTreeMixin implements _LoadingMore {
     @required TResult loadingMore(List<dynamic> values),
     @required TResult success(List<dynamic> values),
     @required TResult finished(List<dynamic> values),
-    @required TResult failure(String message),
+    @required TResult failure(String message, List<dynamic> values),
     @required TResult failureOnLoadMore(String message, List<dynamic> values),
   }) {
     assert(initial != null);
@@ -468,7 +469,7 @@ class _$_LoadingMore with DiagnosticableTreeMixin implements _LoadingMore {
     TResult loadingMore(List<dynamic> values),
     TResult success(List<dynamic> values),
     TResult finished(List<dynamic> values),
-    TResult failure(String message),
+    TResult failure(String message, List<dynamic> values),
     TResult failureOnLoadMore(String message, List<dynamic> values),
     @required TResult orElse(),
   }) {
@@ -597,7 +598,7 @@ class _$_Success with DiagnosticableTreeMixin implements _Success {
     @required TResult loadingMore(List<dynamic> values),
     @required TResult success(List<dynamic> values),
     @required TResult finished(List<dynamic> values),
-    @required TResult failure(String message),
+    @required TResult failure(String message, List<dynamic> values),
     @required TResult failureOnLoadMore(String message, List<dynamic> values),
   }) {
     assert(initial != null);
@@ -618,7 +619,7 @@ class _$_Success with DiagnosticableTreeMixin implements _Success {
     TResult loadingMore(List<dynamic> values),
     TResult success(List<dynamic> values),
     TResult finished(List<dynamic> values),
-    TResult failure(String message),
+    TResult failure(String message, List<dynamic> values),
     TResult failureOnLoadMore(String message, List<dynamic> values),
     @required TResult orElse(),
   }) {
@@ -747,7 +748,7 @@ class _$_Finished with DiagnosticableTreeMixin implements _Finished {
     @required TResult loadingMore(List<dynamic> values),
     @required TResult success(List<dynamic> values),
     @required TResult finished(List<dynamic> values),
-    @required TResult failure(String message),
+    @required TResult failure(String message, List<dynamic> values),
     @required TResult failureOnLoadMore(String message, List<dynamic> values),
   }) {
     assert(initial != null);
@@ -768,7 +769,7 @@ class _$_Finished with DiagnosticableTreeMixin implements _Finished {
     TResult loadingMore(List<dynamic> values),
     TResult success(List<dynamic> values),
     TResult finished(List<dynamic> values),
-    TResult failure(String message),
+    TResult failure(String message, List<dynamic> values),
     TResult failureOnLoadMore(String message, List<dynamic> values),
     @required TResult orElse(),
   }) {
@@ -831,7 +832,7 @@ abstract class _Finished implements LazyListState {
 abstract class _$FailureCopyWith<$Res> {
   factory _$FailureCopyWith(_Failure value, $Res Function(_Failure) then) =
       __$FailureCopyWithImpl<$Res>;
-  $Res call({String message});
+  $Res call({String message, List<dynamic> values});
 }
 
 /// @nodoc
@@ -846,23 +847,27 @@ class __$FailureCopyWithImpl<$Res> extends _$LazyListStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object message = freezed,
+    Object values = freezed,
   }) {
     return _then(_Failure(
       message: message == freezed ? _value.message : message as String,
+      values: values == freezed ? _value.values : values as List<dynamic>,
     ));
   }
 }
 
 /// @nodoc
 class _$_Failure with DiagnosticableTreeMixin implements _Failure {
-  const _$_Failure({this.message});
+  const _$_Failure({this.message, this.values});
 
   @override
   final String message;
+  @override
+  final List<dynamic> values;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'LazyListState.failure(message: $message)';
+    return 'LazyListState.failure(message: $message, values: $values)';
   }
 
   @override
@@ -870,7 +875,8 @@ class _$_Failure with DiagnosticableTreeMixin implements _Failure {
     super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'LazyListState.failure'))
-      ..add(DiagnosticsProperty('message', message));
+      ..add(DiagnosticsProperty('message', message))
+      ..add(DiagnosticsProperty('values', values));
   }
 
   @override
@@ -878,12 +884,17 @@ class _$_Failure with DiagnosticableTreeMixin implements _Failure {
     return identical(this, other) ||
         (other is _Failure &&
             (identical(other.message, message) ||
-                const DeepCollectionEquality().equals(other.message, message)));
+                const DeepCollectionEquality()
+                    .equals(other.message, message)) &&
+            (identical(other.values, values) ||
+                const DeepCollectionEquality().equals(other.values, values)));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(message);
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(message) ^
+      const DeepCollectionEquality().hash(values);
 
   @override
   _$FailureCopyWith<_Failure> get copyWith =>
@@ -897,7 +908,7 @@ class _$_Failure with DiagnosticableTreeMixin implements _Failure {
     @required TResult loadingMore(List<dynamic> values),
     @required TResult success(List<dynamic> values),
     @required TResult finished(List<dynamic> values),
-    @required TResult failure(String message),
+    @required TResult failure(String message, List<dynamic> values),
     @required TResult failureOnLoadMore(String message, List<dynamic> values),
   }) {
     assert(initial != null);
@@ -907,7 +918,7 @@ class _$_Failure with DiagnosticableTreeMixin implements _Failure {
     assert(finished != null);
     assert(failure != null);
     assert(failureOnLoadMore != null);
-    return failure(message);
+    return failure(message, values);
   }
 
   @override
@@ -918,13 +929,13 @@ class _$_Failure with DiagnosticableTreeMixin implements _Failure {
     TResult loadingMore(List<dynamic> values),
     TResult success(List<dynamic> values),
     TResult finished(List<dynamic> values),
-    TResult failure(String message),
+    TResult failure(String message, List<dynamic> values),
     TResult failureOnLoadMore(String message, List<dynamic> values),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
     if (failure != null) {
-      return failure(message);
+      return failure(message, values);
     }
     return orElse();
   }
@@ -971,9 +982,10 @@ class _$_Failure with DiagnosticableTreeMixin implements _Failure {
 }
 
 abstract class _Failure implements LazyListState {
-  const factory _Failure({String message}) = _$_Failure;
+  const factory _Failure({String message, List<dynamic> values}) = _$_Failure;
 
   String get message;
+  List<dynamic> get values;
   _$FailureCopyWith<_Failure> get copyWith;
 }
 
@@ -1062,7 +1074,7 @@ class _$_FailureOnLoadMore
     @required TResult loadingMore(List<dynamic> values),
     @required TResult success(List<dynamic> values),
     @required TResult finished(List<dynamic> values),
-    @required TResult failure(String message),
+    @required TResult failure(String message, List<dynamic> values),
     @required TResult failureOnLoadMore(String message, List<dynamic> values),
   }) {
     assert(initial != null);
@@ -1083,7 +1095,7 @@ class _$_FailureOnLoadMore
     TResult loadingMore(List<dynamic> values),
     TResult success(List<dynamic> values),
     TResult finished(List<dynamic> values),
-    TResult failure(String message),
+    TResult failure(String message, List<dynamic> values),
     TResult failureOnLoadMore(String message, List<dynamic> values),
     @required TResult orElse(),
   }) {

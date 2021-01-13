@@ -14,7 +14,7 @@ mixin ApiCaller {
       _configureDioClient();
     });
 
-  static const _baseUrl = 'http://192.168.43.209:8000/api';
+  static const _baseUrl = 'http://192.168.9.103:8000/api';
   static Dio _dio;
   static final PrettyDioLogger _logger = PrettyDioLogger(
     responseBody: false,
@@ -30,9 +30,10 @@ mixin ApiCaller {
 
   Future<T> get<T>({
     @required String path,
+    dynamic data,
   }) async {
     _configureDioClient();
-    final res = await _dio.get(path);
+    final res = await _dio.get(path, queryParameters: data);
     return res.data;
   }
 
