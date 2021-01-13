@@ -75,8 +75,6 @@ GetIt $initGetIt(
   gh.singleton<IDropdownRepository>(
       DropdownRepositoryImpl(get<IDropdownRemoteDataSource>()));
   gh.singleton<ILazyListRemoteDataSource>(LazyListRemoteDataSource());
-  gh.singleton<ILazyListRepository>(
-      LazyListRepositoryImpl(get<ILazyListRemoteDataSource>()));
   gh.singleton<IOrderRemoteDataSource>(OrderRemoteDataSource());
   gh.singleton<IOrderRepository>(
       OrderRepositoryImpl(get<IOrderRemoteDataSource>()));

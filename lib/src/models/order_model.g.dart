@@ -25,3 +25,16 @@ Map<String, dynamic> _$PaymentMethodModelToJson(PaymentMethodModel instance) =>
       'id': instance.id,
       'name': instance.name,
     };
+
+PickupMethodModel _$PickupMethodModelFromJson(Map<String, dynamic> json) {
+  return PickupMethodModel(
+    id: json['id'] as int,
+    name: json['name'] as String,
+  );
+}
+
+Map<String, dynamic> _$PickupMethodModelToJson(PickupMethodModel instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+    };

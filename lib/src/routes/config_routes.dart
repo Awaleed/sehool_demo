@@ -74,8 +74,7 @@ abstract class AppRouter {
         SailorRoute(
           name: VideoScreen.routeName,
           builder: (context, args, paramMap) => VideoScreen(
-            heroTag: paramMap.param('product'),
-            cubit: paramMap.param('cubit'),
+            video: paramMap.param('video'),
           ),
           params: [
             SailorParam(name: 'product', isRequired: true),

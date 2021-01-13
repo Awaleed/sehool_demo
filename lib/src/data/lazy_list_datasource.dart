@@ -26,6 +26,7 @@ class LazyListRemoteDataSource extends ILazyListRemoteDataSource
               case LazyListType.products:
                 return '/products';
               case LazyListType.videos:
+                return '/videos';
               case LazyListType.reviews:
               case LazyListType.orders:
               default:

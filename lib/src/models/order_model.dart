@@ -25,3 +25,18 @@ class PaymentMethodModel {
       _$PaymentMethodModelFromJson(json);
   Map<String, dynamic> toJson() => _$PaymentMethodModelToJson(this);
 }
+
+@JsonSerializable(
+    fieldRename: FieldRename.snake, explicitToJson: true, nullable: true)
+class PickupMethodModel {
+  const PickupMethodModel({
+    this.id,
+    this.name,
+  });
+  final int id;
+  final String name;
+
+  factory PickupMethodModel.fromJson(Map<String, dynamic> json) =>
+      _$PickupMethodModelFromJson(json);
+  Map<String, dynamic> toJson() => _$PickupMethodModelToJson(this);
+}

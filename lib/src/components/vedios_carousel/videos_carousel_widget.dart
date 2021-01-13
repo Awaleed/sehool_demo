@@ -6,28 +6,29 @@ import '../../../init_injectable.dart';
 import '../../cubits/lazy_list_cubit/lazy_list_cubit.dart';
 import '../../models/lazy_list_model.dart';
 import '../../models/product_model.dart';
-import 'products_carousel_item_widget.dart';
-import 'products_carousel_loading_item_widget.dart';
+import '../../models/video_model.dart';
+import 'videos_carousel_item_widget.dart';
+import 'videos_carousel_loading_item_widget.dart';
 
-class ProductsCarouselWidget extends StatefulWidget {
-  const ProductsCarouselWidget({
+class VideosCarouselWidget extends StatefulWidget {
+  const VideosCarouselWidget({
     Key key,
-    @required this.productsList,
+    @required this.videosList,
   }) : super(key: key);
 
-  final List<ProductModel> productsList;
+  final List<ProductModel> videosList;
 
   @override
-  _ProductsCarouselWidgetState createState() => _ProductsCarouselWidgetState();
+  _VideosCarouselWidgetState createState() => _VideosCarouselWidgetState();
 }
 
-class _ProductsCarouselWidgetState extends State<ProductsCarouselWidget> {
+class _VideosCarouselWidgetState extends State<VideosCarouselWidget> {
   LazyListCubit cubit;
 
   @override
   void initState() {
     super.initState();
-    cubit = getIt<LazyListCubit>()..getContent(LazyListType.products);
+    cubit = getIt<LazyListCubit>()..getContent(LazyListType.videos);
   }
 
   @override
@@ -57,26 +58,26 @@ class _ProductsCarouselWidgetState extends State<ProductsCarouselWidget> {
   }
 
   CarouselSlider _buildUI(
-    List productsList, {
+    List videosList, {
     bool isLoading = false,
   }) {
     // TODO: add lazy load more
     return CarouselSlider.builder(
-      itemCount: isLoading ? productsList.length + 5 : productsList.length,
+      itemCount: isLoading ? videosList.length + 5 : videosList.length,
       itemBuilder: (context, index) {
-        if (index >= productsList.length) {
-          return const ProductsCarouselLoadingItemWidget();
+        if (index >= videosList.length) {
+          return const VideosCarouselLoadingItemWidget();
         } else {
-          return ProductsCarouselItemWidget(
-            product: productsList.elementAt(index),
+          return VideosCarouselItemWidget(
+            video: videosList.elementAt(index),
           );
         }
       },
       options: CarouselOptions(
-        aspectRatio: 9 / 12,
-        viewportFraction: .5,
-        height: 300,
         enlargeCenterPage: true,
+        scrollDirection: Axis.vertical,
+        aspectRatio: 1,
+        viewportFraction: .6,
       ),
     );
   }

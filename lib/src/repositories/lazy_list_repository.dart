@@ -1,5 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:sehool/src/core/api_caller.dart';
+import 'package:sehool/src/models/product_model.dart';
+import 'package:sehool/src/models/video_model.dart';
 
 import '../core/api_caller.dart';
 import '../data/lazy_list_datasource.dart';
@@ -39,6 +42,7 @@ class LazyListRepositoryImpl implements ILazyListRepository {
             data['qyt'] = int.tryParse(data['qyt'] ?? '0') ?? 0;
             return ProductModel.fromJson(data);
           case LazyListType.videos:
+            return VideoModel.fromJson(data);
           case LazyListType.reviews:
           case LazyListType.orders:
           default:

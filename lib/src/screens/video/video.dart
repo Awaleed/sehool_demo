@@ -2,6 +2,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:sehool/src/components/my_loading_overlay.dart';
+import 'package:sehool/src/cubits/lazy_list_cubit/lazy_list_cubit.dart';
+import 'package:sehool/src/models/video_model.dart';
+import 'package:sehool/src/patched_components/custom_material_controls.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../cubits/lazy_list_cubit/lazy_list_cubit.dart';
@@ -12,12 +16,10 @@ class VideoScreen extends StatefulWidget {
 
   const VideoScreen({
     Key key,
-    this.heroTag,
-    this.cubit,
+    this.video,
   }) : super(key: key);
 
-  final String heroTag;
-  final LazyListCubit cubit;
+  final VideoModel video;
 
   @override
   _VideoScreenState createState() => _VideoScreenState();
