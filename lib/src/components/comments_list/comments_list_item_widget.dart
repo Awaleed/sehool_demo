@@ -31,7 +31,7 @@ class CommentsListItemWidget extends StatelessWidget {
               color: Colors.white70,
               margin: EdgeInsets.zero,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(25),
+                borderRadius: BorderRadius.circular(10),
               ),
               child: ListTile(
                 title: Padding(

@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:division/division.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -134,50 +135,48 @@ class _HomeScreenState extends State<HomeScreen> {
                           for (var i = 0; i < pages.length; i++) {
                             final isSelected = selectedIndex == i;
                             final item = pages[i];
-                            final widget = GestureDetector(
-                              onTap: () {
-                                if (!isSelected) onPageChanged(i);
-                              },
-                              child: AnimatedContainer(
-                                duration: 600.milliseconds,
-                                curve: Curves.easeOut,
-                                width: isSelected ? 150 : 70,
-                                alignment: Alignment.center,
-                                padding: const EdgeInsets.symmetric(
+                            final tab = Parent(
+                              gesture: Gestures()
+                                ..onTap(() {
+                                  if (!isSelected) onPageChanged(i);
+                                }),
+                              style: ParentStyle()
+                                ..animate(600, Curves.easeOut)
+                                ..width(isSelected ? 150 : 70)
+                                ..background.color(isSelected
+                                    ? Colors.black87
+                                    : Colors.transparent)
+                                ..padding(
                                   horizontal: 20,
                                   vertical: 10,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: isSelected
-                                      ? Colors.black87
-                                      : Colors.transparent,
-                                  borderRadius: BorderRadius.circular(25),
-                                ),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Icon(
-                                      item.icon,
-                                      color: isSelected
-                                          ? Colors.amber
-                                          : Colors.white,
-                                    ),
-                                    if (isSelected)
-                                      Flexible(
-                                        child: FittedBox(
-                                          child: Text(
-                                            '  ${item.label}',
-                                            style: const TextStyle(
-                                              color: Colors.amber,
-                                            ),
+                                )
+                                ..borderRadius(all: 50)
+                                ..alignmentContent.center(),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(
+                                    item.icon,
+                                    color: isSelected
+                                        ? Colors.amber
+                                        : Colors.white,
+                                  ),
+                                  if (isSelected)
+                                    Flexible(
+                                      child: FittedBox(
+                                        child: Text(
+                                          '  ${item.label}',
+                                          style: const TextStyle(
+                                            color: Colors.amber,
                                           ),
                                         ),
                                       ),
-                                  ],
-                                ),
+                                    ),
+                                ],
                               ),
                             );
-                            list.add(widget);
+
+                            list.add(tab);
                           }
                           return list;
                         }()
