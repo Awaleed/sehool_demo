@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:division/division.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sailor/sailor.dart';
@@ -47,49 +48,54 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: SingleChildScrollView(
-          child: Form(
-            key: formKey,
-            child: BlocConsumer<ForgotPasswordCubit, ForgotPasswordState>(
-              cubit: cubit,
-              listener: (context, state) {
-                state.maybeWhen(
-                  success: () => AppRouter.sailor.navigate(
-                    LoginScreen.routeName,
-                    navigationType: NavigationType.pushAndRemoveUntil,
-                    removeUntilPredicate: (_) => false,
-                  ),
-                  enterNewPassword: (email, timeout) {
-                    credentials.clear();
-                    formKey.currentState.reset();
-                    timerValue = timeout;
-                    resendTimer = Timer.periodic(1.seconds, (timer) {
-                      if (timerValue == 0) timer.cancel();
-                      setState(() {
-                        timerValue--;
+    return Parent(
+      style: ParentStyle()
+        ..background.image(path: 'assets/images/bg.jpg', fit: BoxFit.cover),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Center(
+          child: SingleChildScrollView(
+            child: Form(
+              key: formKey,
+              child: BlocConsumer<ForgotPasswordCubit, ForgotPasswordState>(
+                cubit: cubit,
+                listener: (context, state) {
+                  state.maybeWhen(
+                    success: () => AppRouter.sailor.navigate(
+                      LoginScreen.routeName,
+                      navigationType: NavigationType.pushAndRemoveUntil,
+                      removeUntilPredicate: (_) => false,
+                    ),
+                    enterNewPassword: (email, timeout) {
+                      credentials.clear();
+                      formKey.currentState.reset();
+                      timerValue = timeout;
+                      resendTimer = Timer.periodic(1.seconds, (timer) {
+                        if (timerValue == 0) timer.cancel();
+                        setState(() {
+                          timerValue--;
+                        });
                       });
-                    });
-                  },
-                  orElse: () {},
-                );
-              },
-              builder: (context, state) {
-                return state.when(
-                  enterYourEmail: (email) => _buildEnterEmail(email),
-                  enterYourEmailLoading: (email) =>
-                      _buildEnterEmail(email, true),
-                  enterNewPassword: (email, timeout) =>
-                      _buildEnterPassword(email, timeout),
-                  enterNewPasswordLoading: (email) =>
-                      _buildEnterPassword(email, null, true),
-                  success: () => _buildEnterEmail(),
-                  failureOnEnterYourEmail: (_) => _buildEnterEmail(),
-                  failureOnNewPassword: (message, email, timeout) =>
-                      _buildEnterPassword(email, timeout),
-                );
-              },
+                    },
+                    orElse: () {},
+                  );
+                },
+                builder: (context, state) {
+                  return state.when(
+                    enterYourEmail: (email) => _buildEnterEmail(email),
+                    enterYourEmailLoading: (email) =>
+                        _buildEnterEmail(email, true),
+                    enterNewPassword: (email, timeout) =>
+                        _buildEnterPassword(email, timeout),
+                    enterNewPasswordLoading: (email) =>
+                        _buildEnterPassword(email, null, true),
+                    success: () => _buildEnterEmail(),
+                    failureOnEnterYourEmail: (_) => _buildEnterEmail(),
+                    failureOnNewPassword: (message, email, timeout) =>
+                        _buildEnterPassword(email, timeout),
+                  );
+                },
+              ),
             ),
           ),
         ),
@@ -111,7 +117,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 style: Theme.of(context)
                     .textTheme
                     .headline2
-                    .copyWith(color: Theme.of(context).primaryColor),
+                    .copyWith(color: Colors.white),
               ),
             ),
           ),
@@ -168,7 +174,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     style: Theme.of(context)
                         .textTheme
                         .headline2
-                        .copyWith(color: Theme.of(context).primaryColor),
+                        .copyWith(color: Colors.white),
                   ),
                   Row(
                     mainAxisSize: MainAxisSize.min,
@@ -179,7 +185,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         style: Theme.of(context)
                             .textTheme
                             .headline2
-                            .copyWith(color: Theme.of(context).primaryColor),
+                            .copyWith(color: Colors.white),
                       ),
                       const SizedBox(width: 20),
                       Center(

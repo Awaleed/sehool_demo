@@ -117,7 +117,7 @@ class FormFieldModel {
         return FormFieldModel(
           hintText: '0599676388',
           labelText: S.current.phone,
-          iconData: FluentIcons.phone_28_regular,
+          iconData: FluentIcons.call_28_regular,
           keyboardType: TextInputType.number,
           validator: _Validators.numericValidator,
           onSave: (value) {
