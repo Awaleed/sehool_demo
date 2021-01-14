@@ -140,10 +140,7 @@ class _CheckoutStepperState extends State<CheckoutStepper> {
         PatchedStep(
           isActive: currentStep == i,
           state: steps[i].state,
-          title: Text(
-            steps[i].label,
-            style: const TextStyle(color: Colors.white),
-          ),
+          title: steps[i].label,
           subtitle: steps[i].icon,
           content: steps[i].child,
         ),

@@ -45,8 +45,7 @@ class AddToCartScreen extends StatelessWidget {
           ),
           SafeArea(
             child: CartStepper(
-              cartItem: cartItem ?? (CartItemModel()
-                ..product = product),
+              cartItem: cartItem ?? (CartItemModel()..product = product),
             ),
           ),
         ],
@@ -72,23 +71,41 @@ class _CartStepperState extends State<CartStepper> {
         _StepItem(
           label: S.current.quantity,
           child: QuantityPage(cartItem: widget.cartItem),
-          icon: const Icon(Icons.ac_unit),
+          icon: const Icon(
+            FluentIcons.re_order_dots_24_regular,
+            size: 50,
+            color: Colors.amber,
+          ),
+          header: FluentIcons.re_order_dots_24_regular,
         ),
         _StepItem(
-          label: S.current.slicing_method,
-          child: SlicingMethodPage(cartItem: widget.cartItem),
-          icon: const Icon(Icons.ac_unit),
-        ),
+            label: S.current.slicing_method,
+            child: SlicingMethodPage(cartItem: widget.cartItem),
+            icon: const Icon(
+              FluentIcons.cut_24_regular,
+              size: 50,
+              color: Colors.amber,
+            ),
+            header: FluentIcons.cut_24_regular),
         _StepItem(
           label: S.current.notes,
           child: NotesPage(cartItem: widget.cartItem),
-          icon: const Icon(Icons.ac_unit),
+          icon: const Icon(
+            FluentIcons.note_24_regular,
+            size: 50,
+            color: Colors.amber,
+          ),
+          header: FluentIcons.note_24_regular,
         ),
         _StepItem(
-          label: S.current.finish,
-          child: FinishPage(cartItem: widget.cartItem),
-          icon: const Icon(Icons.ac_unit),
-        ),
+            label: S.current.finish,
+            child: FinishPage(cartItem: widget.cartItem),
+            icon: const Icon(
+              FluentIcons.checkmark_48_regular,
+              size: 50,
+              color: Colors.amber,
+            ),
+            header: FluentIcons.checkmark_48_regular),
       ];
 
   List<PatchedStep> get stepsWidget {
@@ -97,12 +114,10 @@ class _CartStepperState extends State<CartStepper> {
         PatchedStep(
           isActive: currentStep == i,
           state: steps[i].state,
-          title: Text(
-            steps[i].label,
-            style: const TextStyle(color: Colors.white),
-          ),
+          title: steps[i].label,
           subtitle: steps[i].icon,
           content: steps[i].child,
+          header: steps[i].header,
         ),
     ];
   }
@@ -206,6 +221,7 @@ class _StepItem {
   final String label;
   final Widget child;
   final Widget icon;
+  final IconData header;
   final PatchedStepState state;
   _StepItem({
     this.label,
@@ -216,5 +232,6 @@ class _StepItem {
       size: 100,
     ),
     this.state = PatchedStepState.indexed,
+    this.header,
   });
 }

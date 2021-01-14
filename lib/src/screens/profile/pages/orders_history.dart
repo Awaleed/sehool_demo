@@ -32,7 +32,7 @@ class _OrdersHistoryState extends State<OrdersHistory> {
                   .copyWith(color: Colors.white),
             ),
           ),
-          body: _buildList()),
+          body: EmptyOrdersWidget()),
     );
   }
 
