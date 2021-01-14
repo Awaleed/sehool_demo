@@ -56,7 +56,7 @@
 //                 child: ElevatedButton(
 //                   onPressed: () => widget.onSaveLocation(),
 //                   child: Text(
-//                     S.of(context).save,
+//                     S.current.save,
 //                     style: const TextStyle(color: Colors.white),
 //                   ),
 //                 ),

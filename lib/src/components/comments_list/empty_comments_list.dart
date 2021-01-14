@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../../generated/l10n.dart';
 
-class EmptyProductsCarousel extends StatelessWidget {
-  const EmptyProductsCarousel({Key key}) : super(key: key);
+class EmptyCommentsList extends StatelessWidget {
+  const EmptyCommentsList({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class EmptyProductsCarousel extends StatelessWidget {
             Opacity(
               opacity: 0.4,
               child: Text(
-                S.of(context).no_suggestions,
+                S.current.no_suggestions,
                 textAlign: TextAlign.center,
                 style: Theme.of(context)
                     .textTheme

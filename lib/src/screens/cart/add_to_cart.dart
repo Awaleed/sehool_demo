@@ -1,12 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:faker/faker.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:sehool/generated/l10n.dart';
 
-import 'package:sehool/src/models/cart_model.dart';
-
+import '../../models/cart_model.dart';
 import '../../models/product_model.dart';
 import '../../patched_components/stepper.dart';
 import 'pages/finish.dart';
@@ -19,10 +17,12 @@ class AddToCartScreen extends StatelessWidget {
 
   const AddToCartScreen({
     Key key,
-    @required this.product,
+    this.product,
+    this.cartItem,
   }) : super(key: key);
 
   final ProductModel product;
+  final CartItemModel cartItem;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +43,12 @@ class AddToCartScreen extends StatelessWidget {
               ),
             ),
           ),
-          SafeArea(child: CartStepper(product: product)),
+          SafeArea(
+            child: CartStepper(
+              cartItem: cartItem ?? (CartItemModel()
+                ..product = product),
+            ),
+          ),
         ],
       ),
     );
@@ -53,45 +58,53 @@ class AddToCartScreen extends StatelessWidget {
 class CartStepper extends StatefulWidget {
   const CartStepper({
     Key key,
-    @required this.product,
+    @required this.cartItem,
   }) : super(key: key);
-  final ProductModel product;
+  final CartItemModel cartItem;
   @override
   _CartStepperState createState() => _CartStepperState();
 }
 
 class _CartStepperState extends State<CartStepper> {
   int currentStep = 0;
-  CartItemModel cartItem;
 
-  List<PatchedStep> get steps => [
-        PatchedStep(
-          isActive: 0 == currentStep,
-          title: const Text('الكمية', style: TextStyle(color: Colors.white)),
-          content: QuantityPage(cartItem: cartItem),
+  List<_StepItem> get steps => [
+        _StepItem(
+          label: S.current.quantity,
+          child: QuantityPage(cartItem: widget.cartItem),
+          icon: const Icon(Icons.ac_unit),
         ),
-        PatchedStep(
-          isActive: 1 == currentStep,
-          title: const Text('طريقة التقطيع',
-              style: TextStyle(color: Colors.white)),
-          content: SlicingMethodPage(cartItem: cartItem),
+        _StepItem(
+          label: S.current.slicing_method,
+          child: SlicingMethodPage(cartItem: widget.cartItem),
+          icon: const Icon(Icons.ac_unit),
         ),
-        PatchedStep(
-          isActive: 2 == currentStep,
-          title: const Text('ملاحظات', style: TextStyle(color: Colors.white)),
-          content: NotesPage(cartItem: cartItem),
+        _StepItem(
+          label: S.current.notes,
+          child: NotesPage(cartItem: widget.cartItem),
+          icon: const Icon(Icons.ac_unit),
         ),
-        PatchedStep(
-          isActive: 3 == currentStep,
-          title: const Text('انهاء', style: TextStyle(color: Colors.white)),
-          content: FinishPage(cartItem: cartItem),
+        _StepItem(
+          label: S.current.finish,
+          child: FinishPage(cartItem: widget.cartItem),
+          icon: const Icon(Icons.ac_unit),
         ),
       ];
 
-  @override
-  void initState() {
-    super.initState();
-    cartItem = CartItemModel()..product = widget.product;
+  List<PatchedStep> get stepsWidget {
+    return <PatchedStep>[
+      for (var i = 0; i < steps.length; i++)
+        PatchedStep(
+          isActive: currentStep == i,
+          state: steps[i].state,
+          title: Text(
+            steps[i].label,
+            style: const TextStyle(color: Colors.white),
+          ),
+          subtitle: steps[i].icon,
+          content: steps[i].child,
+        ),
+    ];
   }
 
   @override
@@ -107,59 +120,55 @@ class _CartStepperState extends State<CartStepper> {
             }),
             controlsBuilder: (context, {onStepCancel, onStepContinue}) =>
                 const SizedBox.shrink(),
-            patchedSteps: steps,
+            patchedSteps: stepsWidget,
           ),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
           child: Row(
             children: <Widget>[
-              ElevatedButton(
-                style: ButtonStyle(
-                  shape: MaterialStateProperty.all(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25),
-                    ),
-                  ),
-                ),
-                onPressed: currentStep == 0
-                    ? null
-                    : () {
-                        setState(() {
-                          currentStep--;
-                        });
-                      },
-                child: Row(
-                  children: const [
-                    Icon(FluentIcons.arrow_left_24_regular),
-                    SizedBox(width: 10),
-                    Text('السابق'),
+              _buildButton(
+                label: Row(
+                  children: [
+                    const Icon(FluentIcons.arrow_left_24_regular),
+                    const SizedBox(width: 10),
+                    Text(S.current.previous),
                   ],
                 ),
+                enabled: currentStep == 0,
+                onTap: () {
+                  for (var i = currentStep - 1; i >= 0; i--) {
+                    final _StepItem step = steps[i];
+                    if (step.state == PatchedStepState.disabled) {
+                      continue;
+                    } else {
+                      setState(() => currentStep = i);
+                      break;
+                    }
+                  }
+                },
               ),
               const Spacer(),
-              ElevatedButton(
-                style: ButtonStyle(
-                  shape: MaterialStateProperty.all(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25),
-                    ),
-                  ),
-                ),
-                onPressed: currentStep == steps.length - 1
-                    ? null
-                    : () {
-                        setState(() {
-                          currentStep++;
-                        });
-                      },
-                child: Row(
-                  children: const [
-                    Text('التالي'),
-                    SizedBox(width: 10),
-                    Icon(FluentIcons.arrow_forward_24_regular)
+              _buildButton(
+                label: Row(
+                  children: [
+                    Text(S.current.next),
+                    const SizedBox(width: 10),
+                    const Icon(FluentIcons.arrow_right_24_regular),
                   ],
                 ),
+                enabled: currentStep == steps.length - 1,
+                onTap: () {
+                  for (var i = currentStep + 1; i < steps.length; i++) {
+                    final _StepItem step = steps[i];
+                    if (step.state == PatchedStepState.disabled) {
+                      continue;
+                    } else {
+                      setState(() => currentStep = i);
+                      break;
+                    }
+                  }
+                },
               ),
             ],
           ),
@@ -167,64 +176,45 @@ class _CartStepperState extends State<CartStepper> {
       ],
     );
   }
-}
 
-class _Card extends StatelessWidget {
-  const _Card({Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.all(8.0),
-      child: Stack(
-        clipBehavior: Clip.none,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(right: 30),
-            child: Card(
-              color: Colors.white70,
-              margin: EdgeInsets.zero,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(25),
-              ),
-              child: ListTile(
-                title: Padding(
-                  padding: const EdgeInsets.only(right: 20),
-                  child: Row(
-                    children: [
-                      Text(faker.lorem.word()),
-                      const Spacer(),
-                      RatingBarIndicator(
-                        rating: 2.75,
-                        itemBuilder: (context, index) => const Icon(
-                          Icons.star,
-                          color: Colors.amber,
-                        ),
-                        itemCount: 5,
-                        itemSize: 13.0,
-                        // direction: Axis.vertical,
-                      )
-                    ],
-                  ),
-                ),
-                subtitle: Text(faker.lorem.sentence() +
-                    faker.lorem.sentence() +
-                    faker.lorem.sentence() +
-                    faker.lorem.sentence() +
-                    faker.lorem.sentence() +
-                    faker.lorem.sentence()),
-              ),
-            ),
+  Widget _buildButton({
+    Widget label,
+    bool enabled = true,
+    VoidCallback onTap,
+  }) {
+    return ElevatedButton(
+      style: ButtonStyle(
+        minimumSize: MaterialStateProperty.all(
+          const Size.fromRadius(30),
+        ),
+        padding: MaterialStateProperty.all(
+          const EdgeInsets.symmetric(horizontal: 30),
+        ),
+        shape: MaterialStateProperty.all(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(25),
           ),
-          Positioned(
-            right: 0,
-            top: -10,
-            child: CircleAvatar(
-              radius: 30,
-            ),
-          )
-        ],
+        ),
       ),
+      onPressed: enabled ? null : onTap,
+      child: label,
     );
   }
+}
+
+class _StepItem {
+  final String label;
+  final Widget child;
+  final Widget icon;
+  final PatchedStepState state;
+  _StepItem({
+    this.label,
+    this.child,
+    this.icon = const Icon(
+      Icons.track_changes,
+      color: Colors.amber,
+      size: 100,
+    ),
+    this.state = PatchedStepState.indexed,
+  });
 }

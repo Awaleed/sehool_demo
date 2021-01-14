@@ -130,7 +130,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Center(child: CircularProgressIndicator()),
                 )
               : Txt(
-                  S.of(context).login,
+                  S.current.login,
                   style: TxtStyle()..textColor(Colors.white),
                 ),
         ),
@@ -138,13 +138,13 @@ class _LoginScreenState extends State<LoginScreen> {
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Txt(S.of(context).i_dont_have_an_account),
+            Txt(S.current.i_dont_have_an_account),
             TextButton(
               onPressed: isLoading
                   ? null
                   : () =>
                       AppRouter.sailor.navigate(RegistrationScreen.routeName),
-              child: Txt(S.of(context).register),
+              child: Txt(S.current.register),
             ),
           ],
         ),
@@ -152,14 +152,14 @@ class _LoginScreenState extends State<LoginScreen> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              S.of(context).i_forgot_password,
+              S.current.i_forgot_password,
             ),
             TextButton(
               onPressed: isLoading
                   ? null
                   : () =>
                       AppRouter.sailor.navigate(ForgotPasswordScreen.routeName),
-              child: Text(S.of(context).restore),
+              child: Text(S.current.restore),
             ),
           ],
         ),

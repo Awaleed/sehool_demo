@@ -1,10 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'src/models/settings_model.dart';
 
 import 'src/data/settings_datasource.dart';
 import 'src/data/user_datasource.dart';
+import 'src/models/settings_model.dart';
 
 List<String> _boxesNames = [
   settingsBoxName,

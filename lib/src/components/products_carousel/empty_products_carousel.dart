@@ -35,7 +35,7 @@ class EmptyProductsCarousel extends StatelessWidget {
             Opacity(
               opacity: 0.4,
               child: Text(
-                S.of(context).no_suggestions,
+                S.current.no_suggestions,
                 textAlign: TextAlign.center,
                 style: Theme.of(context)
                     .textTheme

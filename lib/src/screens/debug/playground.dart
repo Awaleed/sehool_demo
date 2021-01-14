@@ -141,7 +141,7 @@ class Playground extends StatelessWidget {
                       color: Colors.amber,
                     ),
                     label: Text(
-                      S.of(context).home,
+                      S.current.home,
                       style: const TextStyle(color: Colors.amber),
                     ),
                     // iconSize: 30,
@@ -227,7 +227,7 @@ class _HomeCard extends StatelessWidget {
                       ),
                     ),
                     child: Text(
-                      S.of(context).add_to_cart,
+                      S.current.add_to_cart,
                       style: const TextStyle(color: Colors.white),
                     ),
                   ),

@@ -216,13 +216,13 @@ class FormFieldModel {
     }
   }
 
-  static double _toDouble(String value) => double.tryParse(value ?? '0') ?? 0;
+  // static double _toDouble(String value) => double.tryParse(value ?? '0') ?? 0;
   static int _toInt(String value) => int.tryParse(value ?? '0') ?? 0;
   static String _toString(String value) => value?.trim();
 }
 
 abstract class _Validators {
-  static String notEmptyStringValidator(value) {
+  static String notEmptyStringValidator(dynamic value) {
     if (value is String) {
       if (value.isEmpty || value == null) {
         return 'إملاء هذا الحقل';
@@ -232,7 +232,7 @@ abstract class _Validators {
     throw UnsupportedError('value $value');
   }
 
-  static String shortStringValidator(value) {
+  static String shortStringValidator(dynamic value) {
     if (value is String) {
       if (value.length < 3 || value == null) {
         return S.current.should_be_more_than_3_letters;
@@ -242,7 +242,7 @@ abstract class _Validators {
     throw UnsupportedError('value $value');
   }
 
-  static String longStringValidator(value) {
+  static String longStringValidator(dynamic value) {
     if (value is String) {
       if (value.length < 6 || value == null) {
         return S.current.should_be_more_than_6_letters;
@@ -252,14 +252,14 @@ abstract class _Validators {
     throw UnsupportedError('value $value');
   }
 
-  static String notNullValidator(value) {
+  static String notNullValidator(dynamic value) {
     if (value == null) {
       return 'الرجاء إختيار واحد';
     }
     return null;
   }
 
-  static String numericValidator(value) {
+  static String numericValidator(dynamic value) {
     if (value is String) {
       if (!isNumeric(value) || value.isEmpty || value == null) {
         return 'أدخل رقم صحيح';

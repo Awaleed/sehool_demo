@@ -3,10 +3,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sehool/src/cubits/cart_cubit/cart_cubit.dart';
 
 import '../../../generated/l10n.dart';
 import '../../../init_injectable.dart';
+import '../../cubits/cart_cubit/cart_cubit.dart';
+import '../../helpers/helper.dart';
 import '../../models/product_model.dart';
 import '../../routes/config_routes.dart';
 import '../../screens/cart/add_to_cart.dart';
@@ -23,10 +24,8 @@ class ProductsCarouselItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => AppRouter.sailor.navigate(
-        ProductScreen.routeName,
-        params: {'product': product},
-      ),
+      onTap: () => AppRouter.sailor
+          .navigate(ProductScreen.routeName, params: {'product': product}),
       child: Stack(
         clipBehavior: Clip.none,
         fit: StackFit.expand,
@@ -34,7 +33,7 @@ class ProductsCarouselItemWidget extends StatelessWidget {
           Card(
             elevation: 10,
             clipBehavior: Clip.hardEdge,
-            margin: EdgeInsets.zero,
+            margin: const EdgeInsets.only(bottom: 30),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(25),
             ),
@@ -54,6 +53,7 @@ class ProductsCarouselItemWidget extends StatelessWidget {
           ),
           Container(
             padding: const EdgeInsets.only(bottom: 50, top: 20),
+            margin: const EdgeInsets.only(bottom: 30),
             decoration: BoxDecoration(
               color: Colors.black,
               borderRadius: BorderRadius.circular(25),
@@ -71,7 +71,7 @@ class ProductsCarouselItemWidget extends StatelessWidget {
           Positioned(
             left: 0,
             right: 0,
-            bottom: 35,
+            bottom: 35 + 30.0,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -85,9 +85,8 @@ class ProductsCarouselItemWidget extends StatelessWidget {
                         .copyWith(color: Colors.white),
                   ),
                 ),
-                // TODO: add localization
                 Text(
-                  'الكمية المتاحة ${ArabicNumbers().convert(product.qyt)} قطعة',
+                  '${S.current.available_quantity} ${Helpers.isArabic(context) ? ArabicNumbers().convert(product.qyt) : product.qyt} ${S.current.piece}',
                   style: Theme.of(context)
                       .textTheme
                       .subtitle2
@@ -97,7 +96,7 @@ class ProductsCarouselItemWidget extends StatelessWidget {
             ),
           ),
           Positioned(
-            bottom: -30,
+            bottom: 0,
             height: 60,
             left: 30,
             right: 30,
@@ -132,9 +131,7 @@ class ProductsCarouselItemWidget extends StatelessWidget {
                     color: Colors.white,
                   ),
                   label: Text(
-                    inCart
-                        ? S.of(context).remove_from_cart
-                        : S.of(context).add_to_cart,
+                    inCart ? S.current.remove_from_cart : S.current.add_to_cart,
                     style: const TextStyle(color: Colors.white),
                   ),
                 );

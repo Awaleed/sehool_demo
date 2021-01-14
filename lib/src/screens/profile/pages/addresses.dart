@@ -46,7 +46,7 @@ class _AddressesScreenState extends State<AddressesScreen> {
           elevation: 0,
           backgroundColor: Colors.black54,
           title: Text(
-            S.of(context).addresses,
+            S.current.addresses,
             style: Theme.of(context)
                 .textTheme
                 .headline6
@@ -57,7 +57,7 @@ class _AddressesScreenState extends State<AddressesScreen> {
               icon: const Icon(FluentIcons.add_28_regular),
               onPressed: () => AppRouter.sailor.navigate(
                 NewAddressDialog.routeName,
-                params: {'AddressCubit': cubit},
+                params: {'Address_cubit': cubit},
               ),
             ),
           ],
@@ -98,9 +98,9 @@ class _AddressesScreenState extends State<AddressesScreen> {
                           decoration: InputDecoration(
                             isDense: true,
                             border: const OutlineInputBorder(),
-                            labelText: S.of(context).shipping_address +
+                            labelText: S.current.shipping_address +
                                 (index == 0
-                                    ? ' - ${S.of(context).default_address}'
+                                    ? ' - ${S.current.default_address}'
                                     : ''),
                             filled: false,
                           ),
@@ -112,14 +112,14 @@ class _AddressesScreenState extends State<AddressesScreen> {
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
                                 Text(
-                                  '${S.of(context).address}: ${address.address}',
+                                  '${S.current.address}: ${address.address}',
                                 ),
                                 Text(
-                                  '${S.of(context).notes}: ${address.note ?? ''}',
+                                  '${S.current.notes}: ${address.note ?? ''}',
                                 ),
                                 TextButton(
                                   onPressed: () {},
-                                  child: Text(S.of(context).show_on_map),
+                                  child: Text(S.current.show_on_map),
                                 ),
                               ],
                             ),
@@ -130,7 +130,7 @@ class _AddressesScreenState extends State<AddressesScreen> {
                           children: [
                             TextButton(
                               onPressed: () => cubit.deleteAddress(address.id),
-                              child: Text(S.of(context).delete),
+                              child: Text(S.current.delete),
                             ),
                           ],
                         ),

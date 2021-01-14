@@ -1,12 +1,7 @@
-import 'package:arabic_numbers/arabic_numbers.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:sehool/generated/l10n.dart';
-import 'package:sehool/src/components/cart_item_preview.dart';
-import 'package:sehool/src/components/cart_product_preview.dart';
+
 import '../models/cart_model.dart';
-import '../models/product_model.dart';
 
 class CheckoutAddressCard extends StatelessWidget {
   const CheckoutAddressCard({Key key, @required this.cart}) : super(key: key);
@@ -38,20 +33,21 @@ class CheckoutAddressCard extends StatelessWidget {
                   ),
                   const Divider(),
                   ListTile(
-                    title: Text('S.of(context).city'),
-                    subtitle: Text(cart.address?.city?.name ?? 'بدون'),
+                    title: Text(S.current.cites),
+                    subtitle: Text(cart.address?.city?.name ?? S.current.none),
                   ),
                   ListTile(
-                    title: Text('الحي'),
-                    subtitle: Text(cart.address?.citySection?.name ?? 'بدون'),
+                    title: Text(S.current.city_section),
+                    subtitle:
+                        Text(cart.address?.citySection?.name ?? S.current.none),
                   ),
                   ListTile(
-                    title: Text('العنوان'),
-                    subtitle: Text(cart.address?.address ?? 'بدون'),
+                    title: Text(S.current.address),
+                    subtitle: Text(cart.address?.address ?? S.current.none),
                   ),
                   ListTile(
-                    title: Text('ملاحظات'),
-                    subtitle: Text(cart.address?.note ?? 'بدون'),
+                    title: Text(S.current.notes),
+                    subtitle: Text(cart.address?.note ?? S.current.none),
                   ),
                 ],
               ),

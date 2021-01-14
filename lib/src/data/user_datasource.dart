@@ -4,12 +4,12 @@ import 'package:dio/dio.dart';
 import 'package:faker/faker.dart';
 import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
-import '../../init_injectable.dart';
-import '../helpers/fake_data_generator.dart';
-
-import '../core/api_caller.dart';
-import '../models/user_model.dart';
 import 'package:supercharged/supercharged.dart';
+
+import '../../init_injectable.dart';
+import '../core/api_caller.dart';
+import '../helpers/fake_data_generator.dart';
+import '../models/user_model.dart';
 
 const String userBoxName = 'UserBox';
 const String currentUserKey = 'currentUser';

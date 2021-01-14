@@ -35,6 +35,196 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
+  /// `Balance`
+  String get balance {
+    return Intl.message(
+      'Balance',
+      name: 'balance',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Rial`
+  String get rial {
+    return Intl.message(
+      'Rial',
+      name: 'rial',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `secluded`
+  String get secluded {
+    return Intl.message(
+      'secluded',
+      name: 'secluded',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `unsecluded`
+  String get unsecluded {
+    return Intl.message(
+      'unsecluded',
+      name: 'unsecluded',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `pickup`
+  String get pickup {
+    return Intl.message(
+      'pickup',
+      name: 'pickup',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `None`
+  String get none {
+    return Intl.message(
+      'None',
+      name: 'none',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Summery`
+  String get summery {
+    return Intl.message(
+      'Summery',
+      name: 'summery',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cites`
+  String get cites {
+    return Intl.message(
+      'Cites',
+      name: 'cites',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `City section`
+  String get city_section {
+    return Intl.message(
+      'City section',
+      name: 'city_section',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pickup method`
+  String get pickup_method {
+    return Intl.message(
+      'Pickup method',
+      name: 'pickup_method',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delivery date`
+  String get delivery_date {
+    return Intl.message(
+      'Delivery date',
+      name: 'delivery_date',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Previous`
+  String get previous {
+    return Intl.message(
+      'Previous',
+      name: 'previous',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Finish`
+  String get finish {
+    return Intl.message(
+      'Finish',
+      name: 'finish',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Slicing Method`
+  String get slicing_method {
+    return Intl.message(
+      'Slicing Method',
+      name: 'slicing_method',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please wait`
+  String get please_wait {
+    return Intl.message(
+      'Please wait',
+      name: 'please_wait',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Piece`
+  String get piece {
+    return Intl.message(
+      'Piece',
+      name: 'piece',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Available quantity`
+  String get available_quantity {
+    return Intl.message(
+      'Available quantity',
+      name: 'available_quantity',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Products in cart`
+  String get products_in_cart {
+    return Intl.message(
+      'Products in cart',
+      name: 'products_in_cart',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Watch`
+  String get watch {
+    return Intl.message(
+      'Watch',
+      name: 'watch',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `About`
   String get about {
     return Intl.message(

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sehool/generated/l10n.dart';
+import '../../generated/l10n.dart';
 
 import '../models/cart_model.dart';
 
@@ -23,7 +23,7 @@ class CartTextField extends StatelessWidget {
         cart?.notes = value;
       },
       decoration: InputDecoration(
-        hintText: S.of(context).notes,
+        hintText: S.current.notes,
         filled: true,
         fillColor: Colors.white70,
         border: OutlineInputBorder(
@@ -31,8 +31,8 @@ class CartTextField extends StatelessWidget {
         ),
       ),
       keyboardType: TextInputType.multiline,
-      minLines: 3,
-      maxLines: 10,
+      minLines: 5,
+      maxLines: 20,
     );
   }
 }

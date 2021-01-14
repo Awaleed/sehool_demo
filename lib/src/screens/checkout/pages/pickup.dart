@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:sehool/src/components/cart_dropdown.dart';
-import 'package:sehool/src/models/cart_model.dart';
-import 'package:sehool/src/models/dropdown_value_model.dart';
-import 'package:sehool/src/models/order_model.dart';
+import '../../../components/cart_dropdown.dart';
+import '../../../models/cart_model.dart';
+import '../../../models/dropdown_value_model.dart';
+import '../../../models/order_model.dart';
 
 import '../../../routes/config_routes.dart';
 import '../../profile/dialogs/new_address_dialog.dart';
@@ -19,16 +19,16 @@ class PickupPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          const SizedBox(height: 20),
-          const Padding(padding: EdgeInsets.all(10), child: _TotalCard()),
-          Center(
-            child: Padding(
+    return Center(
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
               padding: const EdgeInsets.all(20.0),
-              child: CartDropdown<PickupMethod>(
+              child: CartDropdown(
                 dropdownType: DropdownValueType.pickupMethod,
+                itemAsString: (value) => mapPickupMethodToLabel(value),
                 initialValue: cart.pickupMethod,
                 onValueChanged: (value) {
                   cart.pickupMethod = value;
@@ -36,8 +36,8 @@ class PickupPage extends StatelessWidget {
                 },
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -73,68 +73,6 @@ class _HomeCard extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-}
-
-class _TotalCard extends StatelessWidget {
-  const _TotalCard({Key key, this.id}) : super(key: key);
-  final int id;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 80),
-      child: Stack(
-        clipBehavior: Clip.none,
-        children: [
-          Card(
-            elevation: 10,
-            clipBehavior: Clip.hardEdge,
-            margin: EdgeInsets.zero,
-            color: Colors.white70,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(25),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text(
-                    ' ',
-                    style: Theme.of(context).textTheme.headline5,
-                  ),
-                  const Divider(),
-                  ListTile(
-                    title: Text('المدينة'),
-                    subtitle: Text('10'),
-                  ),
-                  ListTile(
-                    title: Text('الحي'),
-                    subtitle: Text('بدون'),
-                  ),
-                  ListTile(
-                    title: Text('العنوان'),
-                    subtitle: Text('بدون'),
-                  ),
-                  ListTile(
-                    title: Text('ملاحظات'),
-                    subtitle: Text('بدون'),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          const Positioned(
-            top: -80,
-            left: 15,
-            right: 15,
-            height: 150,
-            child: _HomeCard(),
-          ),
-        ],
-      ),
     );
   }
 }

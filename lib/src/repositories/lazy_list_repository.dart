@@ -1,13 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
-import '../core/api_caller.dart';
-import '../models/product_model.dart';
-import '../models/video_model.dart';
+import 'package:sehool/src/models/banner_model.dart';
 
 import '../core/api_caller.dart';
 import '../data/lazy_list_datasource.dart';
 import '../models/lazy_list_model.dart';
 import '../models/product_model.dart';
+import '../models/video_model.dart';
 
 abstract class ILazyListRepository {
   Future<List> getLazyListValues({
@@ -38,11 +37,13 @@ class LazyListRepositoryImpl implements ILazyListRepository {
       (data) {
         switch (type) {
           case LazyListType.products:
-            data['price'] = double.tryParse(data['price'] ?? '0') ?? 0;
-            data['qyt'] = int.tryParse(data['qyt'] ?? '0') ?? 0;
+            data['price'] = double.tryParse('${data['price']}' ?? '0') ?? 0;
+            data['qyt'] = int.tryParse('${data['qyt']}' ?? '0') ?? 0;
             return ProductModel.fromJson(data);
           case LazyListType.videos:
             return VideoModel.fromJson(data);
+          case LazyListType.banners:
+            return BannerModel.fromJson(data);
           case LazyListType.reviews:
           case LazyListType.orders:
           default:

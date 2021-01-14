@@ -1,10 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
+
 import '../core/api_caller.dart';
+import '../data/user_datasource.dart';
 import '../models/address_model.dart';
 import '../models/form_data_model.dart';
-
-import '../data/user_datasource.dart';
 import '../models/user_model.dart';
 
 abstract class IUserRepository {
@@ -52,7 +52,7 @@ class UserRepositoryImpl implements IUserRepository {
 
   @override
   Future<UserModel> changePassword(String password) {
-    _remoteSource.changePassword({'password': ''});
+    throw UnsupportedError('message');
   }
 
   @override

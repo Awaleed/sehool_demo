@@ -87,7 +87,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   children: [
                     ListTile(
                       leading: const Icon(FluentIcons.settings_28_regular),
-                      title: Text(S.of(context).settings),
+                      title: Text(S.current.settings),
                       onTap: () async {
                         await AppRouter.sailor.navigate(
                           ProfileSettingsScreen.routeName,
@@ -98,20 +98,20 @@ class _ProfilePageState extends State<ProfilePage> {
                     ListTile(
                       leading:
                           const Icon(FluentIcons.globe_location_24_regular),
-                      title: Text(S.of(context).addresses),
+                      title: Text(S.current.addresses),
                       onTap: () =>
                           AppRouter.sailor.navigate(AddressesScreen.routeName),
                     ),
                     ListTile(
                       leading:
                           const Icon(FluentIcons.local_language_28_regular),
-                      title: Text(S.of(context).languages),
+                      title: Text(S.current.languages),
                       onTap: () =>
                           AppRouter.sailor.navigate(LanguageScreen.routeName),
                     ),
                     ListTile(
                       leading: const Icon(FluentIcons.chat_help_24_regular),
-                      title: Text(S.of(context).help_support),
+                      title: Text(S.current.help_support),
                       onTap: () {},
                     ),
                     ListTile(
@@ -137,7 +137,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         color: Colors.red,
                       ),
                       title: Text(
-                        S.of(context).log_out,
+                        S.current.log_out,
                         style: const TextStyle(color: Colors.red),
                       ),
                       onTap: () => getIt<AuthCubit>().unauthenticateUser(),

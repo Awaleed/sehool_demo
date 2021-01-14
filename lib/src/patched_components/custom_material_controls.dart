@@ -1,9 +1,11 @@
 import 'dart:async';
 
 import 'package:arabic_numbers/arabic_numbers.dart';
-import 'package:chewie/src/chewie_player.dart';
-import 'package:chewie/src/chewie_progress_colors.dart';
+import 'package:chewie/chewie.dart';
+
+// ignore: implementation_imports
 import 'package:chewie/src/material_progress_bar.dart';
+// ignore: implementation_imports
 import 'package:chewie/src/utils.dart';
 import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
@@ -172,6 +174,7 @@ class _CustomMaterialControlsState extends State<CustomMaterialControls>
     super.didChangeDependencies();
   }
 
+  // ignore: unused_element
   AnimatedOpacity _buildBottomBar(
     BuildContext context,
   ) {

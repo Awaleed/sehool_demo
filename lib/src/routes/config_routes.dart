@@ -1,11 +1,11 @@
 import 'package:sailor/sailor.dart';
-import 'package:sehool/src/screens/checkout/checkout.dart';
 import 'package:supercharged/supercharged.dart';
 
 import '../screens/auth/forgot_password.dart';
 import '../screens/auth/login.dart';
 import '../screens/auth/register.dart';
 import '../screens/cart/add_to_cart.dart';
+import '../screens/checkout/checkout.dart';
 import '../screens/debug/playground.dart';
 import '../screens/home/home.dart';
 import '../screens/onboarding.dart';
@@ -77,7 +77,7 @@ abstract class AppRouter {
             video: paramMap.param('video'),
           ),
           params: [
-            SailorParam(name: 'product', isRequired: true),
+            SailorParam(name: 'video', isRequired: true),
             SailorParam(name: 'cubit', isRequired: true),
           ],
         ),
@@ -85,9 +85,14 @@ abstract class AppRouter {
         /// Cart Screens
         SailorRoute(
           name: AddToCartScreen.routeName,
-          builder: (context, args, paramMap) =>
-              AddToCartScreen(product: paramMap.param('product')),
-          params: [SailorParam(name: 'product', isRequired: true)],
+          builder: (context, args, paramMap) => AddToCartScreen(
+            product: paramMap.param('product'),
+            cartItem: paramMap.param('cart_item'),
+          ),
+          params: [
+            SailorParam(name: 'product'),
+            SailorParam(name: 'cart_item'),
+          ],
         ),
         SailorRoute(
           name: CheckoutScreen.routeName,
@@ -109,8 +114,10 @@ abstract class AppRouter {
         ),
         SailorRoute(
           name: NewAddressDialog.routeName,
-          builder: (context, args, paramMap) => NewAddressDialog(),
-          params: [SailorParam(name: 'AddressCubit', isRequired: true)],
+          builder: (context, args, paramMap) => NewAddressDialog(
+            cubit: paramMap.param('address_cubit'),
+          ),
+          params: [SailorParam(name: 'address_cubit')],
         ),
 
         /// Debug Screens

@@ -15,11 +15,11 @@ class SettingsCubit extends Cubit<SettingsState> {
 
   final ISettingsRepository _settingsRepository;
 
-  void getSettings() async {
+  void getSettings() {
     try {
       final value = _settingsRepository.getSettings();
       emit(SettingsState.loaded(value));
-        } catch (e) {
+    } catch (e) {
       addError(e);
       emit(SettingsState.failure(message: '$e'));
     }
@@ -32,7 +32,7 @@ class SettingsCubit extends Cubit<SettingsState> {
       value.save();
       _settingsRepository.saveSettings(value);
       emit(SettingsState.loaded(value));
-        } catch (e) {
+    } catch (e) {
       addError(e);
       // TODO: Handel error messages
       emit(SettingsState.failure(message: '$e'));
@@ -46,7 +46,7 @@ class SettingsCubit extends Cubit<SettingsState> {
       value.save();
       _settingsRepository.saveSettings(value);
       emit(SettingsState.loaded(value));
-        } catch (e) {
+    } catch (e) {
       addError(e);
       // TODO: Handel error messages
       emit(SettingsState.failure(message: '$e'));

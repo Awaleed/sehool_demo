@@ -33,62 +33,43 @@ class _LanguageScreenState extends State<LanguageScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Parent(
-      style: ParentStyle()
-        ..background.image(path: 'assets/images/bg.jpg', fit: BoxFit.cover),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          elevation: 0,
-          backgroundColor: Colors.black54,
-          title: Txt(
-            S.of(context).languages,
-            style: TxtStyle()..textColor(Colors.white60),
-          ),
-        ),
-        body: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(vertical: 10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: ListTile(
-                  contentPadding: const EdgeInsets.symmetric(),
-                  leading: const Icon(
-                    FluentIcons.translate_24_regular,
-                    color: Colors.white,
-                  ),
-                  title: Text(
-                    S.of(context).app_language,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline4
-                        .copyWith(color: Colors.white),
-                  ),
-                  subtitle: Text(
-                    S.of(context).select_your_preferred_languages,
-                    style: Theme.of(context)
-                        .textTheme
-                        .subtitle1
-                        .copyWith(color: Colors.white60),
-                  ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(S.current.languages),
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: ListTile(
+                contentPadding: const EdgeInsets.symmetric(),
+                leading: Icon(
+                  Icons.translate,
+                  color: Theme.of(context).hintColor,
                 ),
+                title: Text(
+                  S.current.app_language,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.headline4,
+                ),
+                subtitle: Text(S.current.select_your_preferred_languages),
               ),
-              const SizedBox(height: 10),
-              BlocBuilder<SettingsCubit, SettingsState>(
-                cubit: cubit,
-                builder: (context, state) {
-                  return state.maybeWhen(
-                    loaded: (value) => _buildList(value.languageCode),
-                    orElse: () => _buildList(),
-                  );
-                },
-              ),
-            ],
-          ),
+            ),
+            const SizedBox(height: 10),
+            BlocBuilder<SettingsCubit, SettingsState>(
+              cubit: cubit,
+              builder: (context, state) {
+                return state.maybeWhen(
+                  loaded: (value) => _buildList(value.languageCode),
+                  orElse: () => _buildList(),
+                );
+              },
+            ),
+          ],
         ),
       ),
     );

@@ -1,4 +1,3 @@
-import 'package:enum_to_string/enum_to_string.dart';
 import 'package:faker/faker.dart';
 import 'package:injectable/injectable.dart';
 import 'package:supercharged/supercharged.dart';

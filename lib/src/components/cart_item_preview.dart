@@ -1,8 +1,7 @@
-import 'package:arabic_numbers/arabic_numbers.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:sehool/generated/l10n.dart';
+
 import '../models/cart_model.dart';
-import '../models/product_model.dart';
 
 class CartItemPreview extends StatelessWidget {
   const CartItemPreview({Key key, @required this.cartItem}) : super(key: key);
@@ -24,21 +23,25 @@ class CartItemPreview extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              'الملخص:',
+              S.current.summery,
               style: Theme.of(context).textTheme.headline5,
             ),
             const Divider(),
             ListTile(
-              title: Text('الكمية'),
+              title: Text(S.current.quantity),
               subtitle: Text('${cartItem.quantity}'),
             ),
             ListTile(
-              title: Text('طريقة التقطيع'),
-              subtitle: Text(cartItem.slicingMethod?.name ?? 'لم يتم الاختيار'),
+              title: Text(S.current.slicing_method),
+              subtitle: Text(cartItem.slicingMethod?.name ?? S.current.none),
             ),
             ListTile(
-              title: Text('ملاحظات'),
-              subtitle: Text(cartItem.notes ?? 'بدون'),
+              title: Text(S.current.notes),
+              subtitle: Text(cartItem.notes ?? S.current.none),
+            ),
+            ListTile(
+              title: Text(S.current.total),
+              subtitle: Text('${cartItem.total} ${S.current.rial}'),
             ),
           ],
         ),

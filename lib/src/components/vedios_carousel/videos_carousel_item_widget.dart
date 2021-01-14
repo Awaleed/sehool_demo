@@ -1,13 +1,9 @@
-import 'package:arabic_numbers/arabic_numbers.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+
 import '../../models/video_model.dart';
-import '../../screens/video/video.dart';
-import '../../../generated/l10n.dart';
-import '../../models/product_model.dart';
 import '../../routes/config_routes.dart';
-import '../../screens/cart/add_to_cart.dart';
-import '../../screens/product/product.dart';
+import '../../screens/video/video.dart';
 
 class VideosCarouselItemWidget extends StatelessWidget {
   const VideosCarouselItemWidget({
@@ -32,6 +28,7 @@ class VideosCarouselItemWidget extends StatelessWidget {
             elevation: 10,
             clipBehavior: Clip.hardEdge,
             margin: EdgeInsets.zero,
+            color: Colors.transparent,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(25),
             ),
@@ -41,8 +38,8 @@ class VideosCarouselItemWidget extends StatelessWidget {
                   RectTween(begin: begin, end: end),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(25),
-                child: Image.asset(
-                  'assets/images/meat1.jpg',
+                child: CachedNetworkImage(
+                  imageUrl: video.preview,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -110,7 +107,7 @@ class VideosCarouselItemWidget extends StatelessWidget {
           //       ),
           //     ),
           //     child: Text(
-          //       S.of(context).add_to_cart,
+          //       S.current.add_to_cart,
           //       style: const TextStyle(color: Colors.white),
           //     ),
           //   ),

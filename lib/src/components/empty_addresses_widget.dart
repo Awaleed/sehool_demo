@@ -38,7 +38,7 @@ class EmptyAddressesWidget extends StatelessWidget {
           Opacity(
             opacity: 0.4,
             child: Text(
-              S.of(context).dont_have_any_address,
+              S.current.dont_have_any_address,
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.headline4.merge(
                   const TextStyle(

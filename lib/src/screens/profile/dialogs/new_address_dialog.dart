@@ -18,14 +18,17 @@ import '../../../models/form_data_model.dart';
 class NewAddressDialog extends StatelessWidget {
   static const routeName = '/addresses/new';
 
-  NewAddressDialog({Key key}) : super(key: key);
+  NewAddressDialog({
+    Key key,
+    this.cubit,
+  }) : super(key: key);
 
   final formKey = GlobalKey<FormState>();
   final data = <FormFieldType, FormFieldModel>{};
+  final AddressCubit cubit;
 
   @override
   Widget build(BuildContext context) {
-    final cubit = Sailor.param<AddressCubit>(context, 'AddressCubit');
     return BlocBuilder<AddressCubit, AddressState>(
       cubit: cubit,
       builder: (context, state) {
@@ -131,7 +134,7 @@ class NewAddressDialog extends StatelessWidget {
   //   bool enabled,
   // }) {
   //   return AddressPickerCard(
-  //     label: S.of(context).show_on_map,
+  //     label: S.current.show_on_map,
   //     onSaved: (newValue) {
   //       // setState(() {
   //       //   location = newValue;

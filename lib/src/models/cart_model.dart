@@ -13,6 +13,8 @@ class CartModel {
   PaymentMethodModel paymentMethod;
   String notes;
 
+  double total = 0;
+
   @override
   bool operator ==(Object o) {
     if (identical(this, o)) return true;
@@ -46,6 +48,8 @@ class CartItemModel {
   ProductModel product;
   SlicingMethodModel slicingMethod;
   String notes;
+
+  get total => null;
 
   void incrementCart() => _quantity < 100 ? _quantity++ : _quantity;
   void decrementCart() => _quantity > 1 ? _quantity-- : _quantity;

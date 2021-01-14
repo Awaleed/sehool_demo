@@ -1,26 +1,22 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:faker/faker.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:sehool/init_injectable.dart';
-import 'package:sehool/src/components/cart_text_field.dart';
-import 'package:sehool/src/cubits/cart_cubit/cart_cubit.dart';
-import 'package:sehool/src/models/cart_model.dart';
-import 'package:sehool/src/models/order_model.dart';
-import 'package:sehool/src/screens/checkout/pages/pickup.dart';
-import 'package:simple_animations/simple_animations.dart';
+import 'package:sehool/generated/l10n.dart';
 
+import '../../../init_injectable.dart';
+import '../../cubits/cart_cubit/cart_cubit.dart';
+import '../../models/cart_model.dart';
+import '../../models/order_model.dart';
 import '../../patched_components/stepper.dart';
 import 'pages/address_review.dart';
 import 'pages/cart_review.dart';
 import 'pages/checkout.dart';
 import 'pages/checkout_notes.dart';
 import 'pages/payment_method_review.dart';
+import 'pages/pickup.dart';
 import 'pages/shpping_date_review.dart';
-import 'package:supercharged/supercharged.dart';
 
 class CheckoutScreen extends StatelessWidget {
   static const routeName = '/cart';
@@ -82,21 +78,21 @@ class _CheckoutStepperState extends State<CheckoutStepper> {
   ValueChanged get onChange => (_) => setState(() {});
   List<_StepItem> get steps => [
         _StepItem(
-          label: 'محتويات العربة',
+          label: S.current.cart_contents,
           child: CartReviewPage(
             cartItems: widget.cart.cartItems,
             onChanged: onChange,
           ),
         ),
         _StepItem(
-          label: 'نوع التوصيل',
+          label: S.current.pickup_method,
           child: PickupPage(
             cart: widget.cart,
             onChanged: onChange,
           ),
         ),
         _StepItem(
-          label: 'عنوان الشحن',
+          label: S.current.shipping_address,
           child: AddressReviewPage(
             cart: widget.cart,
             onChanged: onChange,
@@ -106,7 +102,7 @@ class _CheckoutStepperState extends State<CheckoutStepper> {
               : PatchedStepState.disabled,
         ),
         _StepItem(
-          label: 'موعد الشحن',
+          label: S.current.delivery_date,
           child: ShippingDatePage(
             cart: widget.cart,
             onChanged: onChange,
@@ -116,18 +112,21 @@ class _CheckoutStepperState extends State<CheckoutStepper> {
               : PatchedStepState.disabled,
         ),
         _StepItem(
-          label: 'ملاحظاف',
+          label: S.current.notes,
           child: CheckoutNotesPage(
             cart: widget.cart,
             onChanged: onChange,
           ),
         ),
         _StepItem(
-          label: 'الدفع',
-          child: PaymentMethodReviewPage(),
+          label: S.current.payment_mode,
+          child: PaymentMethodReviewPage(
+            cart: widget.cart,
+            onChanged: onChange,
+          ),
         ),
         _StepItem(
-          label: 'انهاء',
+          label: S.current.finish,
           child: CheckoutPage(
             cart: widget.cart,
             onChanged: onChange,
@@ -139,7 +138,6 @@ class _CheckoutStepperState extends State<CheckoutStepper> {
     return <PatchedStep>[
       for (var i = 0; i < steps.length; i++)
         PatchedStep(
-          index: i,
           isActive: currentStep == i,
           state: steps[i].state,
           title: Text(
@@ -172,10 +170,10 @@ class _CheckoutStepperState extends State<CheckoutStepper> {
             children: <Widget>[
               _buildButton(
                 label: Row(
-                  children: const [
-                    Icon(FluentIcons.arrow_left_24_regular),
-                    SizedBox(width: 10),
-                    Text('السابق'),
+                  children: [
+                    const Icon(FluentIcons.arrow_left_24_regular),
+                    const SizedBox(width: 10),
+                    Text(S.current.previous),
                   ],
                 ),
                 enabled: currentStep == 0,
@@ -194,10 +192,10 @@ class _CheckoutStepperState extends State<CheckoutStepper> {
               const Spacer(),
               _buildButton(
                 label: Row(
-                  children: const [
-                    Text('التالي'),
-                    SizedBox(width: 10),
-                    Icon(FluentIcons.arrow_right_24_regular),
+                  children: [
+                    Text(S.current.next),
+                    const SizedBox(width: 10),
+                    const Icon(FluentIcons.arrow_right_24_regular),
                   ],
                 ),
                 enabled: currentStep == steps.length - 1,
@@ -227,6 +225,12 @@ class _CheckoutStepperState extends State<CheckoutStepper> {
   }) {
     return ElevatedButton(
       style: ButtonStyle(
+        minimumSize: MaterialStateProperty.all(
+          const Size.fromRadius(30),
+        ),
+        padding: MaterialStateProperty.all(
+          const EdgeInsets.symmetric(horizontal: 30),
+        ),
         shape: MaterialStateProperty.all(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(25),

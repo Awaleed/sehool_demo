@@ -5,17 +5,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../init_injectable.dart';
 import '../../cubits/lazy_list_cubit/lazy_list_cubit.dart';
 import '../../models/lazy_list_model.dart';
-import '../../models/product_model.dart';
+import 'empty_products_carousel.dart';
 import 'products_carousel_item_widget.dart';
 import 'products_carousel_loading_item_widget.dart';
 
 class ProductsCarouselWidget extends StatefulWidget {
   const ProductsCarouselWidget({
     Key key,
-    @required this.productsList,
   }) : super(key: key);
-
-  final List<ProductModel> productsList;
 
   @override
   _ProductsCarouselWidgetState createState() => _ProductsCarouselWidgetState();
@@ -56,11 +53,13 @@ class _ProductsCarouselWidgetState extends State<ProductsCarouselWidget> {
     );
   }
 
-  CarouselSlider _buildUI(
+  Widget _buildUI(
     List productsList, {
     bool isLoading = false,
   }) {
-    // TODO: add lazy load more
+    if (productsList.isEmpty && !isLoading) {
+      return const EmptyProductsCarousel();
+    }
     return CarouselSlider.builder(
       itemCount: isLoading ? productsList.length + 5 : productsList.length,
       itemBuilder: (context, index) {
@@ -75,7 +74,7 @@ class _ProductsCarouselWidgetState extends State<ProductsCarouselWidget> {
       options: CarouselOptions(
         aspectRatio: 9 / 12,
         viewportFraction: .5,
-        height: 300,
+        height: 400,
         enlargeCenterPage: true,
       ),
     );

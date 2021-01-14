@@ -11,4 +11,4 @@ final getIt = GetIt.instance;
   asExtension: false, // default
 )
 void configureDependencies() =>
-    $initGetIt(getIt, environment: Environment.prod);
+    $initGetIt(getIt, environment: Environment.test);

@@ -1,8 +1,8 @@
 import 'package:arabic_numbers/arabic_numbers.dart';
 import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
-import 'package:sehool/src/components/checkout_item_preview.dart';
-import 'package:sehool/src/models/cart_model.dart';
+import '../../../components/checkout_item_preview.dart';
+import '../../../models/cart_model.dart';
 
 class CartReviewPage extends StatelessWidget {
   const CartReviewPage({Key key, @required this.cartItems, this.onChanged})

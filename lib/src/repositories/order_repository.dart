@@ -22,16 +22,16 @@ class OrderRepositoryImpl implements IOrderRepository {
 
   @override
   Future<OrderModel> cancelOrder({int orderId, String reason}) {
-    _orderRemoteDataSource.cancelOrder(orderId, {'data': 'reason'});
+    throw UnsupportedError('message');
   }
 
   @override
   Future<OrderModel> getOrder(int id) {
-    _orderRemoteDataSource.getOrder(id);
+    throw UnsupportedError('message');
   }
 
   @override
   Future<OrderModel> placeOrder(CheckoutModel model) {
-    _orderRemoteDataSource.placeOrder(model.toJson());
+    throw UnsupportedError('message');
   }
 }

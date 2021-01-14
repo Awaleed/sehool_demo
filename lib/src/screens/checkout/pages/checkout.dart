@@ -1,10 +1,15 @@
 import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:sehool/src/components/checkout_address.dart';
-import 'package:sehool/src/models/cart_model.dart';
-import 'package:sehool/src/screens/checkout/pages/shpping_date_review.dart';
+import 'package:sehool/src/models/order_model.dart';
 import 'package:supercharged/supercharged.dart';
+
+import 'package:sehool/generated/l10n.dart';
+import 'package:sehool/src/data/user_datasource.dart';
+
+import '../../../components/checkout_address.dart';
+import '../../../models/cart_model.dart';
+import 'shpping_date_review.dart';
 
 class CheckoutPage extends StatelessWidget {
   const CheckoutPage({
@@ -19,27 +24,31 @@ class CheckoutPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const SizedBox(height: 20),
-          const Center(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: _TotalCard(),
-            ),
-          ),
           const SizedBox(height: 20),
           Center(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: CheckoutAddressCard(cart: cart),
+              child: _SummeryCard(cart: cart),
             ),
           ),
           const SizedBox(height: 20),
+          if (cart.pickupMethod == PickupMethod.delivery) ...[
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: CheckoutAddressCard(cart: cart),
+              ),
+            ),
+            const SizedBox(height: 20),
+          ],
           Center(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: ShippingDateCard(
-                date: cart.orderDate,
+                cart: cart,
+                enabeld: false,
                 onChanged: null,
               ),
             ),
@@ -48,9 +57,9 @@ class CheckoutPage extends StatelessWidget {
           Center(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: TextField(
-                // value: selectedValue,
-                // dropdownColor: Colors.amber.withOpacity(.8),
+              child: TextFormField(
+                initialValue: cart.notes,
+                readOnly: true,
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.white70,
@@ -61,105 +70,36 @@ class CheckoutPage extends StatelessWidget {
                 keyboardType: TextInputType.multiline,
                 minLines: 7,
                 maxLines: 14,
-
-                // selectedItemBuilder: (_) => [
-                //   'normal',
-                //   'light',
-                //   'full',
-                //   'none',
-                // ]
-                //     .map(
-                //       (e) => Row(
-                //         mainAxisAlignment: MainAxisAlignment.center,
-                //         children: [
-                //           Text(
-                //             e,
-                //             style: Theme.of(context)
-                //                 .textTheme
-                //                 .headline5
-                //                 .copyWith(color: Colors.black),
-                //           ),
-                //         ],
-                //       ),
-                //     )
-                //     .toList(),
               ),
             ),
           ),
           const SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              ElevatedButton(
-                style: ButtonStyle(
-                  shape: MaterialStateProperty.all(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25),
-                    ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: ElevatedButton(
+              style: ButtonStyle(
+                textStyle: MaterialStateProperty.all(
+                    Theme.of(context).textTheme.headline4),
+                shape: MaterialStateProperty.all(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(25),
                   ),
                 ),
-                onPressed: () {},
-                child: Text('اتمام الدفع'),
               ),
-              ElevatedButton(
-                style: ButtonStyle(
-                  shape: MaterialStateProperty.all(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25),
-                    ),
-                  ),
-                ),
-                onPressed: () {},
-                child: Text('اضافة المزيد'),
-              ),
-            ],
+              onPressed: () {},
+              child: Text(S.current.checkout),
+            ),
           ),
+          const SizedBox(height: 20),
         ],
       ),
     );
   }
 }
 
-class _HomeCard extends StatelessWidget {
-  const _HomeCard({Key key, this.id}) : super(key: key);
-  final int id;
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      clipBehavior: Clip.none,
-      fit: StackFit.expand,
-      children: [
-        Card(
-          elevation: 2,
-          clipBehavior: Clip.hardEdge,
-          color: Colors.amber.withOpacity(.8),
-          margin: EdgeInsets.zero,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(25),
-          ),
-          child: Hero(
-            tag: 'image$id',
-            createRectTween: (begin, end) => RectTween(begin: begin, end: end),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(25),
-              child: FittedBox(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text('ملخص الطلب'),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class _TotalCard extends StatelessWidget {
-  const _TotalCard({Key key, this.id}) : super(key: key);
-  final int id;
+class _SummeryCard extends StatelessWidget {
+  const _SummeryCard({Key key, @required this.cart}) : super(key: key);
+  final CartModel cart;
 
   @override
   Widget build(BuildContext context) {
@@ -182,28 +122,22 @@ class _TotalCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
-                    ' ',
+                    '',
                     style: Theme.of(context).textTheme.headline5,
                   ),
                   const Divider(),
-                  ListTile(
-                    title: Text(faker.lorem.word()),
-                    subtitle: Text('10 قطع, بدون تقطيع'),
-                    trailing: Text('1,200 ريال'),
-                  ),
-                  ListTile(
-                    title: Text(faker.lorem.word()),
-                    subtitle: Text('10 قطع, بدون تقطيع'),
-                    trailing: Text('1,200 ريال'),
-                  ),
-                  ListTile(
-                    title: Text(faker.lorem.word()),
-                    subtitle: Text('10 قطع, بدون تقطيع'),
-                    trailing: Text('1,200 ريال'),
+                  ...cart.cartItems.map(
+                    (e) => ListTile(
+                      title: Text(e.product.name),
+                      subtitle: Text(
+                        '${e.quantity} ${S.current.piece}, ${e.slicingMethod.name}',
+                      ),
+                      trailing: Text('${cart.total} ${S.current.rial}'),
+                    ),
                   ),
                   const Divider(),
                   Text(
-                    'المجموع',
+                    S.current.total,
                     style: Theme.of(context).textTheme.headline5,
                   ),
                   const Divider(),
@@ -216,12 +150,12 @@ class _TotalCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(25),
                     ),
                     child: ListTile(
-                      title: Text('2,500 ريال'),
+                      title: Text('${cart.total} ${S.current.rial}'),
                     ),
                   ),
                   const Divider(),
                   Text(
-                    'طريقة الدفع',
+                    S.current.payment_mode,
                     style: Theme.of(context).textTheme.headline5,
                   ),
                   const Divider(),
@@ -233,20 +167,35 @@ class _TotalCard extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(25),
                     ),
-                    child: ListTile(
-                      title: Text('VISA'),
-                    ),
+                    child: ListTile(title: Text(cart.paymentMethod.name)),
                   ),
                 ],
               ),
             ),
           ),
-          const Positioned(
+          Positioned(
             top: -75,
             left: 15,
             right: 15,
             height: 150,
-            child: _HomeCard(),
+            child: Card(
+              elevation: 2,
+              clipBehavior: Clip.hardEdge,
+              color: Colors.amber.withOpacity(.8),
+              margin: EdgeInsets.zero,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(25),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(25),
+                child: FittedBox(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(S.current.summery),
+                  ),
+                ),
+              ),
+            ),
           ),
         ],
       ),

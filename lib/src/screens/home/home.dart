@@ -3,10 +3,10 @@ import 'package:division/division.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sehool/init_injectable.dart';
-import 'package:sehool/src/cubits/cart_cubit/cart_cubit.dart';
-import 'package:supercharged/supercharged.dart';
 
+import '../../../generated/l10n.dart';
+import '../../../init_injectable.dart';
+import '../../cubits/cart_cubit/cart_cubit.dart';
 import '../../routes/config_routes.dart';
 import '../checkout/checkout.dart';
 import 'pages/main.dart';
@@ -32,21 +32,21 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     selectedIndex = 0;
     pageController = PageController(initialPage: selectedIndex);
-    pages = const [
+    pages = [
       _TabBarItem(
         icon: FluentIcons.home_24_regular,
-        label: 'الرئيسية',
-        page: MainPage(),
+        label: S.current.home,
+        page: const MainPage(),
       ),
       _TabBarItem(
         icon: FluentIcons.video_24_regular,
-        label: 'شاهد',
-        page: VideosPage(),
+        label: S.current.watch,
+        page: const VideosPage(),
       ),
       _TabBarItem(
         icon: FluentIcons.person_24_regular,
-        label: 'ملفي',
-        page: ProfilePage(),
+        label: S.current.profile,
+        page: const ProfilePage(),
       ),
     ];
   }
@@ -91,13 +91,12 @@ class _HomeScreenState extends State<HomeScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Expanded(
-                    child: PageView(
-                  physics: const NeverScrollableScrollPhysics(),
-                  controller: pageController,
-                  children: [
-                    ...pages.map((e) => e.page),
-                  ],
-                )),
+                  child: PageView(
+                    physics: const NeverScrollableScrollPhysics(),
+                    controller: pageController,
+                    children: [...pages.map((e) => e.page)],
+                  ),
+                ),
                 BlocBuilder<CartCubit, CartState>(
                   cubit: getIt<CartCubit>(),
                   builder: (context, state) {
@@ -113,7 +112,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             onPressed: () => AppRouter.sailor
                                 .navigate(CheckoutScreen.routeName),
                             label: Text(
-                              '${state.cart.cartItems.length} منتجات في السلة',
+                              '${state.cart.cartItems.length} ${S.current.products_in_cart}',
                             ),
                             icon: const Icon(FluentIcons.cart_24_filled),
                           ),

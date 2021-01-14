@@ -25,22 +25,19 @@ class ProductRepositoryImpl implements IProductRepository {
   @override
   Future<List<ReviewModel>> addReview(
       {int productId, int rating, String review}) async {
-    final res = await _productRemoteDataSource.addReview(
+    await _productRemoteDataSource.addReview(
       {
         'product_id': productId,
         'rating': rating,
         'comment': review,
       },
     );
-    if (res['Error'] != null && !res['Error']) {
-      return getReviews(productId: productId);
-    }
-    throw DioError(response: Response(data: res));
+    return getReviews(productId: productId);
   }
 
   @override
   Future<ProductModel> getProduct(int id) {
-    _productRemoteDataSource.getProduct(id);
+    throw UnsupportedError('message');
   }
 
   @override

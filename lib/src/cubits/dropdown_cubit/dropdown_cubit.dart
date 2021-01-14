@@ -20,10 +20,14 @@ class DropdownCubit extends Cubit<DropdownState> {
     try {
       final values = await _dropdownRepository.getDropdownValues(type);
       emit(DropdownState.success(values));
-        } catch (e) {
+    } catch (e) {
       addError(e);
       // TODO: Handel error messages
       emit(DropdownState.failure(message: '$e'));
     }
+  }
+
+  Future<void> setDropdownValues(List values) async {
+    emit(DropdownState.success(values));
   }
 }

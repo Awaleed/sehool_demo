@@ -1,8 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../../../../generated/l10n.dart';
-import '../../../routes/config_routes.dart';
-import '../../video/video.dart';
 
 import '../../../components/vedios_carousel/videos_carousel_widget.dart';
 

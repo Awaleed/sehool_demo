@@ -1,8 +1,8 @@
 import 'package:arabic_numbers/arabic_numbers.dart';
 import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
-import 'package:sehool/src/components/cart_text_field.dart';
-import 'package:sehool/src/models/cart_model.dart';
+import '../../../components/cart_text_field.dart';
+import '../../../models/cart_model.dart';
 
 class CheckoutNotesPage extends StatelessWidget {
   const CheckoutNotesPage({Key key, @required this.cart, this.onChanged})

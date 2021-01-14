@@ -24,9 +24,16 @@ class _$ReviewStateTearOff {
   }
 
 // ignore: unused_element
-  _Success success(List<ReviewModel> value) {
+  _AddingReview addingReview(List<ReviewModel> values) {
+    return _AddingReview(
+      values,
+    );
+  }
+
+// ignore: unused_element
+  _Success success(List<ReviewModel> values) {
     return _Success(
-      value,
+      values,
     );
   }
 
@@ -48,14 +55,16 @@ mixin _$ReviewState {
   TResult when<TResult extends Object>({
     @required TResult initial(),
     @required TResult loading(),
-    @required TResult success(List<ReviewModel> value),
+    @required TResult addingReview(List<ReviewModel> values),
+    @required TResult success(List<ReviewModel> values),
     @required TResult failure(String message),
   });
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object>({
     TResult initial(),
     TResult loading(),
-    TResult success(List<ReviewModel> value),
+    TResult addingReview(List<ReviewModel> values),
+    TResult success(List<ReviewModel> values),
     TResult failure(String message),
     @required TResult orElse(),
   });
@@ -63,6 +72,7 @@ mixin _$ReviewState {
   TResult map<TResult extends Object>({
     @required TResult initial(_Initial value),
     @required TResult loading(_Loading value),
+    @required TResult addingReview(_AddingReview value),
     @required TResult success(_Success value),
     @required TResult failure(_Failure value),
   });
@@ -70,6 +80,7 @@ mixin _$ReviewState {
   TResult maybeMap<TResult extends Object>({
     TResult initial(_Initial value),
     TResult loading(_Loading value),
+    TResult addingReview(_AddingReview value),
     TResult success(_Success value),
     TResult failure(_Failure value),
     @required TResult orElse(),
@@ -130,11 +141,13 @@ class _$_Initial implements _Initial {
   TResult when<TResult extends Object>({
     @required TResult initial(),
     @required TResult loading(),
-    @required TResult success(List<ReviewModel> value),
+    @required TResult addingReview(List<ReviewModel> values),
+    @required TResult success(List<ReviewModel> values),
     @required TResult failure(String message),
   }) {
     assert(initial != null);
     assert(loading != null);
+    assert(addingReview != null);
     assert(success != null);
     assert(failure != null);
     return initial();
@@ -145,7 +158,8 @@ class _$_Initial implements _Initial {
   TResult maybeWhen<TResult extends Object>({
     TResult initial(),
     TResult loading(),
-    TResult success(List<ReviewModel> value),
+    TResult addingReview(List<ReviewModel> values),
+    TResult success(List<ReviewModel> values),
     TResult failure(String message),
     @required TResult orElse(),
   }) {
@@ -161,11 +175,13 @@ class _$_Initial implements _Initial {
   TResult map<TResult extends Object>({
     @required TResult initial(_Initial value),
     @required TResult loading(_Loading value),
+    @required TResult addingReview(_AddingReview value),
     @required TResult success(_Success value),
     @required TResult failure(_Failure value),
   }) {
     assert(initial != null);
     assert(loading != null);
+    assert(addingReview != null);
     assert(success != null);
     assert(failure != null);
     return initial(this);
@@ -176,6 +192,7 @@ class _$_Initial implements _Initial {
   TResult maybeMap<TResult extends Object>({
     TResult initial(_Initial value),
     TResult loading(_Loading value),
+    TResult addingReview(_AddingReview value),
     TResult success(_Success value),
     TResult failure(_Failure value),
     @required TResult orElse(),
@@ -230,11 +247,13 @@ class _$_Loading implements _Loading {
   TResult when<TResult extends Object>({
     @required TResult initial(),
     @required TResult loading(),
-    @required TResult success(List<ReviewModel> value),
+    @required TResult addingReview(List<ReviewModel> values),
+    @required TResult success(List<ReviewModel> values),
     @required TResult failure(String message),
   }) {
     assert(initial != null);
     assert(loading != null);
+    assert(addingReview != null);
     assert(success != null);
     assert(failure != null);
     return loading();
@@ -245,7 +264,8 @@ class _$_Loading implements _Loading {
   TResult maybeWhen<TResult extends Object>({
     TResult initial(),
     TResult loading(),
-    TResult success(List<ReviewModel> value),
+    TResult addingReview(List<ReviewModel> values),
+    TResult success(List<ReviewModel> values),
     TResult failure(String message),
     @required TResult orElse(),
   }) {
@@ -261,11 +281,13 @@ class _$_Loading implements _Loading {
   TResult map<TResult extends Object>({
     @required TResult initial(_Initial value),
     @required TResult loading(_Loading value),
+    @required TResult addingReview(_AddingReview value),
     @required TResult success(_Success value),
     @required TResult failure(_Failure value),
   }) {
     assert(initial != null);
     assert(loading != null);
+    assert(addingReview != null);
     assert(success != null);
     assert(failure != null);
     return loading(this);
@@ -276,6 +298,7 @@ class _$_Loading implements _Loading {
   TResult maybeMap<TResult extends Object>({
     TResult initial(_Initial value),
     TResult loading(_Loading value),
+    TResult addingReview(_AddingReview value),
     TResult success(_Success value),
     TResult failure(_Failure value),
     @required TResult orElse(),
@@ -293,10 +316,142 @@ abstract class _Loading implements ReviewState {
 }
 
 /// @nodoc
+abstract class _$AddingReviewCopyWith<$Res> {
+  factory _$AddingReviewCopyWith(
+          _AddingReview value, $Res Function(_AddingReview) then) =
+      __$AddingReviewCopyWithImpl<$Res>;
+  $Res call({List<ReviewModel> values});
+}
+
+/// @nodoc
+class __$AddingReviewCopyWithImpl<$Res> extends _$ReviewStateCopyWithImpl<$Res>
+    implements _$AddingReviewCopyWith<$Res> {
+  __$AddingReviewCopyWithImpl(
+      _AddingReview _value, $Res Function(_AddingReview) _then)
+      : super(_value, (v) => _then(v as _AddingReview));
+
+  @override
+  _AddingReview get _value => super._value as _AddingReview;
+
+  @override
+  $Res call({
+    Object values = freezed,
+  }) {
+    return _then(_AddingReview(
+      values == freezed ? _value.values : values as List<ReviewModel>,
+    ));
+  }
+}
+
+/// @nodoc
+class _$_AddingReview implements _AddingReview {
+  const _$_AddingReview(this.values) : assert(values != null);
+
+  @override
+  final List<ReviewModel> values;
+
+  @override
+  String toString() {
+    return 'ReviewState.addingReview(values: $values)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is _AddingReview &&
+            (identical(other.values, values) ||
+                const DeepCollectionEquality().equals(other.values, values)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^ const DeepCollectionEquality().hash(values);
+
+  @override
+  _$AddingReviewCopyWith<_AddingReview> get copyWith =>
+      __$AddingReviewCopyWithImpl<_AddingReview>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object>({
+    @required TResult initial(),
+    @required TResult loading(),
+    @required TResult addingReview(List<ReviewModel> values),
+    @required TResult success(List<ReviewModel> values),
+    @required TResult failure(String message),
+  }) {
+    assert(initial != null);
+    assert(loading != null);
+    assert(addingReview != null);
+    assert(success != null);
+    assert(failure != null);
+    return addingReview(values);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object>({
+    TResult initial(),
+    TResult loading(),
+    TResult addingReview(List<ReviewModel> values),
+    TResult success(List<ReviewModel> values),
+    TResult failure(String message),
+    @required TResult orElse(),
+  }) {
+    assert(orElse != null);
+    if (addingReview != null) {
+      return addingReview(values);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object>({
+    @required TResult initial(_Initial value),
+    @required TResult loading(_Loading value),
+    @required TResult addingReview(_AddingReview value),
+    @required TResult success(_Success value),
+    @required TResult failure(_Failure value),
+  }) {
+    assert(initial != null);
+    assert(loading != null);
+    assert(addingReview != null);
+    assert(success != null);
+    assert(failure != null);
+    return addingReview(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object>({
+    TResult initial(_Initial value),
+    TResult loading(_Loading value),
+    TResult addingReview(_AddingReview value),
+    TResult success(_Success value),
+    TResult failure(_Failure value),
+    @required TResult orElse(),
+  }) {
+    assert(orElse != null);
+    if (addingReview != null) {
+      return addingReview(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _AddingReview implements ReviewState {
+  const factory _AddingReview(List<ReviewModel> values) = _$_AddingReview;
+
+  List<ReviewModel> get values;
+  _$AddingReviewCopyWith<_AddingReview> get copyWith;
+}
+
+/// @nodoc
 abstract class _$SuccessCopyWith<$Res> {
   factory _$SuccessCopyWith(_Success value, $Res Function(_Success) then) =
       __$SuccessCopyWithImpl<$Res>;
-  $Res call({List<ReviewModel> value});
+  $Res call({List<ReviewModel> values});
 }
 
 /// @nodoc
@@ -310,37 +465,37 @@ class __$SuccessCopyWithImpl<$Res> extends _$ReviewStateCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object value = freezed,
+    Object values = freezed,
   }) {
     return _then(_Success(
-      value == freezed ? _value.value : value as List<ReviewModel>,
+      values == freezed ? _value.values : values as List<ReviewModel>,
     ));
   }
 }
 
 /// @nodoc
 class _$_Success implements _Success {
-  const _$_Success(this.value) : assert(value != null);
+  const _$_Success(this.values) : assert(values != null);
 
   @override
-  final List<ReviewModel> value;
+  final List<ReviewModel> values;
 
   @override
   String toString() {
-    return 'ReviewState.success(value: $value)';
+    return 'ReviewState.success(values: $values)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is _Success &&
-            (identical(other.value, value) ||
-                const DeepCollectionEquality().equals(other.value, value)));
+            (identical(other.values, values) ||
+                const DeepCollectionEquality().equals(other.values, values)));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(value);
+      runtimeType.hashCode ^ const DeepCollectionEquality().hash(values);
 
   @override
   _$SuccessCopyWith<_Success> get copyWith =>
@@ -351,14 +506,16 @@ class _$_Success implements _Success {
   TResult when<TResult extends Object>({
     @required TResult initial(),
     @required TResult loading(),
-    @required TResult success(List<ReviewModel> value),
+    @required TResult addingReview(List<ReviewModel> values),
+    @required TResult success(List<ReviewModel> values),
     @required TResult failure(String message),
   }) {
     assert(initial != null);
     assert(loading != null);
+    assert(addingReview != null);
     assert(success != null);
     assert(failure != null);
-    return success(value);
+    return success(values);
   }
 
   @override
@@ -366,13 +523,14 @@ class _$_Success implements _Success {
   TResult maybeWhen<TResult extends Object>({
     TResult initial(),
     TResult loading(),
-    TResult success(List<ReviewModel> value),
+    TResult addingReview(List<ReviewModel> values),
+    TResult success(List<ReviewModel> values),
     TResult failure(String message),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
     if (success != null) {
-      return success(value);
+      return success(values);
     }
     return orElse();
   }
@@ -382,11 +540,13 @@ class _$_Success implements _Success {
   TResult map<TResult extends Object>({
     @required TResult initial(_Initial value),
     @required TResult loading(_Loading value),
+    @required TResult addingReview(_AddingReview value),
     @required TResult success(_Success value),
     @required TResult failure(_Failure value),
   }) {
     assert(initial != null);
     assert(loading != null);
+    assert(addingReview != null);
     assert(success != null);
     assert(failure != null);
     return success(this);
@@ -397,6 +557,7 @@ class _$_Success implements _Success {
   TResult maybeMap<TResult extends Object>({
     TResult initial(_Initial value),
     TResult loading(_Loading value),
+    TResult addingReview(_AddingReview value),
     TResult success(_Success value),
     TResult failure(_Failure value),
     @required TResult orElse(),
@@ -410,9 +571,9 @@ class _$_Success implements _Success {
 }
 
 abstract class _Success implements ReviewState {
-  const factory _Success(List<ReviewModel> value) = _$_Success;
+  const factory _Success(List<ReviewModel> values) = _$_Success;
 
-  List<ReviewModel> get value;
+  List<ReviewModel> get values;
   _$SuccessCopyWith<_Success> get copyWith;
 }
 
@@ -475,11 +636,13 @@ class _$_Failure implements _Failure {
   TResult when<TResult extends Object>({
     @required TResult initial(),
     @required TResult loading(),
-    @required TResult success(List<ReviewModel> value),
+    @required TResult addingReview(List<ReviewModel> values),
+    @required TResult success(List<ReviewModel> values),
     @required TResult failure(String message),
   }) {
     assert(initial != null);
     assert(loading != null);
+    assert(addingReview != null);
     assert(success != null);
     assert(failure != null);
     return failure(message);
@@ -490,7 +653,8 @@ class _$_Failure implements _Failure {
   TResult maybeWhen<TResult extends Object>({
     TResult initial(),
     TResult loading(),
-    TResult success(List<ReviewModel> value),
+    TResult addingReview(List<ReviewModel> values),
+    TResult success(List<ReviewModel> values),
     TResult failure(String message),
     @required TResult orElse(),
   }) {
@@ -506,11 +670,13 @@ class _$_Failure implements _Failure {
   TResult map<TResult extends Object>({
     @required TResult initial(_Initial value),
     @required TResult loading(_Loading value),
+    @required TResult addingReview(_AddingReview value),
     @required TResult success(_Success value),
     @required TResult failure(_Failure value),
   }) {
     assert(initial != null);
     assert(loading != null);
+    assert(addingReview != null);
     assert(success != null);
     assert(failure != null);
     return failure(this);
@@ -521,6 +687,7 @@ class _$_Failure implements _Failure {
   TResult maybeMap<TResult extends Object>({
     TResult initial(_Initial value),
     TResult loading(_Loading value),
+    TResult addingReview(_AddingReview value),
     TResult success(_Success value),
     TResult failure(_Failure value),
     @required TResult orElse(),

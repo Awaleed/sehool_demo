@@ -1,11 +1,9 @@
 import 'package:bloc/bloc.dart';
-import 'package:dio/dio.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
-import '../../models/form_data_model.dart';
 
 import '../../../init_injectable.dart';
-import '../../models/user_model.dart';
+import '../../models/form_data_model.dart';
 import '../../repositories/auth_repository.dart';
 import '../auth_cubit/auth_cubit.dart';
 

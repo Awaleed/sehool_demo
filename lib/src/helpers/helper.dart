@@ -19,7 +19,6 @@ abstract class Helpers {
     @required dynamic error,
   }) {
     String message;
-    bool shouldLogout = false;
     if (error is DioError && error?.response?.data != null) {
       if (error?.response?.data is Map) {
         message = error?.response?.data['message']?.toString() ??
@@ -46,13 +45,6 @@ abstract class Helpers {
     final completer = Completer();
     Future.delayed(3.seconds).then((_) {
       completer.complete();
-      if (shouldLogout) {
-        // UserRepository().logout();
-        // ExtendedNavigator.root.pushAndRemoveUntil(
-        //   Routes.splashScreen,
-        //   (route) => false,
-        // );
-      }
     });
 
     FlashHelper.blockErrorMessage(

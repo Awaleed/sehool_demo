@@ -1,6 +1,9 @@
+import 'package:faker/faker.dart';
 import 'package:injectable/injectable.dart';
+import 'package:sehool/src/helpers/fake_data_generator.dart';
 
 import '../core/api_caller.dart';
+import 'package:supercharged/supercharged.dart';
 
 abstract class IProductRemoteDataSource {
   Future<Map<String, dynamic>> getProduct(int id);
@@ -9,6 +12,7 @@ abstract class IProductRemoteDataSource {
   Future<List> getReviews(Map<String, int> data);
 }
 
+@prod
 @Singleton(as: IProductRemoteDataSource)
 class ProductRemoteDataSource extends IProductRemoteDataSource with ApiCaller {
   @override
@@ -29,4 +33,32 @@ class ProductRemoteDataSource extends IProductRemoteDataSource with ApiCaller {
   @override
   Future<List> getReviews(Map<String, dynamic> data) =>
       get(path: '/reviews', data: data);
+}
+
+@test
+@Singleton(as: IProductRemoteDataSource)
+class FakeProductRemoteDataSource extends IProductRemoteDataSource
+    with ApiCaller {
+  @override
+  Future<Map<String, dynamic>> getProduct(int id) {
+    return get(
+      path: '/products/$id',
+    );
+  }
+
+  @override
+  Future<Map<String, dynamic>> addReview(Map<String, dynamic> data) async {
+    await Future.delayed(random.integer(1000).milliseconds);
+
+    return {'message': 'success'};
+  }
+
+  @override
+  Future<List> getReviews(Map<String, dynamic> data) async {
+    await Future.delayed(random.integer(1000).milliseconds);
+    return List.generate(
+      10,
+      (_) => FakeDataGenerator.reviewModel.toJson(),
+    );
+  }
 }

@@ -7,7 +7,13 @@ import '../../models/cart_model.dart';
 class CartCubit extends Cubit<CartState> {
   CartCubit() : super(CartState(cart: CartModel()));
   void addItem(CartItemModel value) {
-    state.cart.cartItems.add(value);
+    final foundIndex = state.cart.cartItems
+        .indexWhere((e) => e.product.id == value.product.id);
+    if (foundIndex > -1) {
+      state.cart.cartItems[foundIndex] = value;
+    } else {
+      state.cart.cartItems.add(value);
+    }
     emit(state);
   }
 

@@ -6,78 +6,29 @@ import '../../init_injectable.dart';
 import '../cubits/reveiw_cubit/review_cubit.dart';
 import '../helpers/helper.dart';
 
-class NewReviewField extends StatefulWidget {
+class NewReviewField extends StatelessWidget {
   const NewReviewField({
     Key key,
     @required this.productId,
+    @required this.cubit,
+    @required this.textEditingController,
+    @required this.isLoading,
   }) : super(key: key);
 
   final int productId;
-
-  @override
-  _NewReviewFieldState createState() => _NewReviewFieldState();
-}
-
-class _NewReviewFieldState extends State<NewReviewField> {
-  ReviewCubit cubit;
-  bool canSend = false;
-  TextEditingController textEditingController;
-
-  @override
-  void initState() {
-    super.initState();
-    cubit = getIt<ReviewCubit>();
-    textEditingController = TextEditingController();
-    textEditingController.addListener(checkIfFieldEmpty);
-  }
-
-  @override
-  void dispose() {
-    cubit.close();
-    textEditingController.dispose();
-    super.dispose();
-  }
-
-  void checkIfFieldEmpty() {
-    setState(() {
-      canSend = textEditingController.text.isNotEmpty;
-    });
-  }
+  final ReviewCubit cubit;
+  final TextEditingController textEditingController;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ReviewCubit, ReviewState>(
-      cubit: cubit,
-      builder: (context, state) {
-        return state.when(
-          initial: () => _buildUI(),
-          loading: () => _buildUI(isLoading: true),
-          success: (_) => _buildUI(),
-          failure: (_) => throw UnimplementedError(),
-        );
-      },
-    );
-  }
-
-  Container _buildUI({bool isLoading = false}) {
+    final canSend =
+        (textEditingController?.text?.isNotEmpty ?? false) && !isLoading;
     return Container(
       color: Colors.black54,
       padding: const EdgeInsets.all(5),
       child: Row(
         children: [
-          IconButton(
-            color: Colors.amber,
-            icon: const Icon(FluentIcons.send_28_filled),
-            onPressed: canSend
-                ? () {
-                    Helpers.dismissFauces(context);
-                    cubit.addReview(
-                      productId: widget.productId,
-                      review: textEditingController.text.trim(),
-                    );
-                  }
-                : null,
-          ),
           Expanded(
             child: TextField(
               controller: textEditingController,
@@ -91,6 +42,20 @@ class _NewReviewFieldState extends State<NewReviewField> {
                 ),
               ),
             ),
+          ),
+          IconButton(
+            color: Colors.amber,
+            icon: const Icon(FluentIcons.send_28_filled),
+            onPressed: canSend
+                ? () async {
+                    Helpers.dismissFauces(context);
+                    await cubit.addReview(
+                      productId: productId,
+                      review: textEditingController.text.trim(),
+                    );
+                    textEditingController.clear();
+                  }
+                : null,
           ),
         ],
       ),

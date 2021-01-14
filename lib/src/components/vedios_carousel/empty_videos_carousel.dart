@@ -33,7 +33,7 @@ class EmptyVideosCarousel extends StatelessWidget {
             const SizedBox(height: 15),
             Opacity(
               opacity: 0.4,
-              child: Text(S.of(context).no_suggestions,
+              child: Text(S.current.no_suggestions,
                 textAlign: TextAlign.center,
                 style: Theme.of(context)
                     .textTheme

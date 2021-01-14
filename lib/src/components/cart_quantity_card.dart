@@ -18,11 +18,10 @@ class _CartQuantityCardState extends State<CartQuantityCard> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         _buildButton(
-          onTap: widget.cartItem.quantity >= 100
-              ? null
-              : widget.cartItem.incrementCart,
-          icon: FluentIcons.add_24_regular,
-        ),
+            onTap: widget.cartItem.quantity <= 1
+                ? null
+                : widget.cartItem.decrementCart,
+            icon: Icons.remove_rounded),
         Text(
           '${widget.cartItem.quantity}',
           style: Theme.of(context)
@@ -31,10 +30,11 @@ class _CartQuantityCardState extends State<CartQuantityCard> {
               .copyWith(color: Colors.white),
         ),
         _buildButton(
-            onTap: widget.cartItem.quantity <= 1
-                ? null
-                : widget.cartItem.decrementCart,
-            icon: Icons.remove_rounded),
+          onTap: widget.cartItem.quantity >= 100
+              ? null
+              : widget.cartItem.incrementCart,
+          icon: FluentIcons.add_24_regular,
+        ),
       ],
     );
   }

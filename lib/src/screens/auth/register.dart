@@ -166,7 +166,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   child: Center(child: CircularProgressIndicator()),
                 )
               : Txt(
-                  S.of(context).register,
+                  S.current.register,
                   style: TxtStyle()..textColor(Colors.white),
                 ),
         ),
@@ -174,12 +174,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Txt(S.of(context).i_have_account_back_to_login),
+            Txt(S.current.i_have_account_back_to_login),
             TextButton(
               onPressed: isLoading
                   ? null
                   : () => AppRouter.sailor.navigate(LoginScreen.routeName),
-              child: Txt(S.of(context).login),
+              child: Txt(S.current.login),
             ),
           ],
         ),
@@ -199,9 +199,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       itemAsString: (item) {
         switch (item) {
           case UserLevel.customer:
-            return S.of(context).customers;
+            return S.current.customers;
           case UserLevel.merchant:
-            return S.of(context).merchants;
+            return S.current.merchants;
           default:
             return '';
         }

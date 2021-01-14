@@ -9,12 +9,16 @@ class VideoModel {
     this.id,
     this.title,
     this.description,
+    this.video,
+    this.preview,
   });
 
   final int id;
   final String title;
   final String description;
-  
+  final String video;
+  final String preview;
+
   factory VideoModel.fromJson(Map<String, dynamic> json) =>
       _$VideoModelFromJson(json);
   Map<String, dynamic> toJson() => _$VideoModelToJson(this);

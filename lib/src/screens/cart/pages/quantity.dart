@@ -10,15 +10,19 @@ class QuantityPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          padding: const EdgeInsets.all(20.0),
-          height: 300,
-          child: CartProductPreview(product: cartItem.product),
-        ),
-        Expanded(child: CartQuantityCard(cartItem: cartItem)),
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            padding: const EdgeInsets.all(20.0),
+            height: 300,
+            child: CartProductPreview(product: cartItem.product),
+          ),
+          CartQuantityCard(cartItem: cartItem),
+        ],
+      ),
     );
   }
 }

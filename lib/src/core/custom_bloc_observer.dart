@@ -1,9 +1,9 @@
-import 'dart:math';
 
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
-import 'package:sehool/init_injectable.dart';
-import 'package:sehool/src/cubits/auth_cubit/auth_cubit.dart';
+
+import '../../init_injectable.dart';
+import '../cubits/auth_cubit/auth_cubit.dart';
 
 class CustomBlocObserver extends BlocObserver {
   @override

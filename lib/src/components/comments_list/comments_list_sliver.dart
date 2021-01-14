@@ -5,53 +5,23 @@ import '../../cubits/reveiw_cubit/review_cubit.dart';
 import '../../models/product_model.dart';
 import 'comments_list_item_widget.dart';
 import 'comments_list_loading_item_widget.dart';
+import 'empty_comments_list.dart';
 
-class CommentsListSliver extends StatefulWidget {
+class CommentsListSliver extends StatelessWidget {
   const CommentsListSliver({
     Key key,
-    @required this.productId,
+    @required this.reviews,
+    @required this.isLoading,
   }) : super(key: key);
 
-  final int productId;
-
-  @override
-  _CommentsListSliverState createState() => _CommentsListSliverState();
-}
-
-class _CommentsListSliverState extends State<CommentsListSliver> {
-  ReviewCubit cubit;
-
-  List<ReviewModel> reviews = [];
-  bool isLoading = true;
-  String error;
-
-  @override
-  void initState() {
-    super.initState();
-    cubit = getIt<ReviewCubit>()..getReviews(widget.productId);
-
-    cubit.listen((state) {
-      state.when(
-        initial: () => setState(() => isLoading = true),
-        loading: () => setState(() => isLoading = true),
-        success: (values) => setState(() {
-          isLoading = false;
-          reviews = values;
-        }),
-        //TODO: handel ERRORS
-        failure: (message) => throw UnimplementedError(),
-      );
-    });
-  }
-
-  @override
-  void dispose() {
-    cubit.close();
-    super.dispose();
-  }
+  final List<ReviewModel> reviews;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
+    if (reviews.isEmpty && !isLoading) {
+      return const EmptyCommentsList();
+    }
     return SliverList(
       delegate: SliverChildBuilderDelegate(
         (context, index) {

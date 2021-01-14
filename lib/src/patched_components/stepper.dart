@@ -1,9 +1,8 @@
-import 'dart:async';
 
-import 'package:simple_animations/simple_animations.dart';
-import 'package:supercharged/supercharged.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:simple_animations/simple_animations.dart';
+import 'package:supercharged/supercharged.dart';
 
 enum PatchedStepState { indexed, editing, complete, disabled, error }
 
@@ -23,7 +22,6 @@ const double _kTriangleHeight = _kPatchedStepSize * 0.866025;
 @immutable
 class PatchedStep {
   const PatchedStep({
-    @required this.index,
     @required this.title,
     this.subtitle,
     @required this.content,
@@ -38,7 +36,6 @@ class PatchedStep {
   final Widget content;
   final PatchedStepState state;
   final bool isActive;
-  final int index;
 }
 
 class PatchedStepper extends StatefulWidget {

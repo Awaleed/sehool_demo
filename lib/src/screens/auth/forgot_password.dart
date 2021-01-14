@@ -106,7 +106,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Text(
-                S.of(context).i_forgot_password,
+                S.current.i_forgot_password,
                 textAlign: TextAlign.center,
                 style: Theme.of(context)
                     .textTheme
@@ -138,7 +138,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           child: isLoading
               ? const Center(child: CircularProgressIndicator())
               : Text(
-                  S.of(context).send,
+                  S.current.send,
                   style: const TextStyle(
                     color: Colors.white,
                   ),
@@ -163,7 +163,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               child: Column(
                 children: [
                   Text(
-                    S.of(context).the_code_has_been_sent_to,
+                    S.current.the_code_has_been_sent_to,
                     textAlign: TextAlign.center,
                     style: Theme.of(context)
                         .textTheme
@@ -196,7 +196,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                   cubit.editEmail();
                                 },
                           icon: const Icon(Icons.edit),
-                          label: Text(S.of(context).edit),
+                          label: Text(S.current.edit),
                         ),
                       ),
                     ],
@@ -248,7 +248,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               child: isLoading
                   ? const Center(child: CircularProgressIndicator())
                   : Text(
-                      S.of(context).send,
+                      S.current.send,
                       style: const TextStyle(
                         color: Colors.white,
                       ),

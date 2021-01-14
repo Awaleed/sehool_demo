@@ -1,6 +1,8 @@
 import 'package:arabic_numbers/arabic_numbers.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:sehool/generated/l10n.dart';
+import 'package:sehool/src/helpers/helper.dart';
 import '../models/product_model.dart';
 
 class CartProductPreview extends StatelessWidget {
@@ -66,7 +68,7 @@ class CartProductPreview extends StatelessWidget {
                 ),
               ),
               Text(
-                'الكمية المتاحة ${ArabicNumbers().convert(product.qyt)} قطعة',
+                '${S.current.available_quantity} ${Helpers.isArabic(context) ? ArabicNumbers().convert(product.qyt) : product.qyt} ${S.current.piece}',
                 style: Theme.of(context)
                     .textTheme
                     .subtitle2

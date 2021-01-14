@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../../generated/l10n.dart';
 
 class VideosCarouselLoadingItemWidget extends StatelessWidget {
@@ -43,7 +44,7 @@ class VideosCarouselLoadingItemWidget extends StatelessWidget {
             children: [
               // TODO: add localization
               Text(
-                'S.of(context).wait...',
+                '${S.current.please_wait}...',
                 style: Theme.of(context)
                     .textTheme
                     .subtitle2

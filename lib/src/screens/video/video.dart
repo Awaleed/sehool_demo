@@ -2,13 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../../components/my_loading_overlay.dart';
-import '../../cubits/lazy_list_cubit/lazy_list_cubit.dart';
-import '../../models/video_model.dart';
-import '../../patched_components/custom_material_controls.dart';
 import 'package:video_player/video_player.dart';
 
-import '../../cubits/lazy_list_cubit/lazy_list_cubit.dart';
+import '../../models/video_model.dart';
 import '../../patched_components/custom_material_controls.dart';
 
 class VideoScreen extends StatefulWidget {
@@ -37,9 +33,7 @@ class _VideoScreenState extends State<VideoScreen> {
     // print(
     //     'http://www.sample-videos.com/video123/mp4/720/big_buck_bunny_720p_20mb.mp4');
     SystemChrome.setEnabledSystemUIOverlays([]);
-    _videoPlayerController = VideoPlayerController.network(
-      'https://www.sample-videos.com/video123/mp4/720/big_buck_bunny_720p_10mb.mp4',
-    );
+    _videoPlayerController = VideoPlayerController.network(widget.video.video);
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeRight,
       DeviceOrientation.landscapeLeft,

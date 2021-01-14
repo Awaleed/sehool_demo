@@ -5,18 +5,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../init_injectable.dart';
 import '../../cubits/lazy_list_cubit/lazy_list_cubit.dart';
 import '../../models/lazy_list_model.dart';
-import '../../models/product_model.dart';
-import '../../models/video_model.dart';
+import 'empty_videos_carousel.dart';
 import 'videos_carousel_item_widget.dart';
 import 'videos_carousel_loading_item_widget.dart';
 
 class VideosCarouselWidget extends StatefulWidget {
   const VideosCarouselWidget({
     Key key,
-    @required this.videosList,
   }) : super(key: key);
-
-  final List<ProductModel> videosList;
 
   @override
   _VideosCarouselWidgetState createState() => _VideosCarouselWidgetState();
@@ -57,11 +53,13 @@ class _VideosCarouselWidgetState extends State<VideosCarouselWidget> {
     );
   }
 
-  CarouselSlider _buildUI(
+  Widget _buildUI(
     List videosList, {
     bool isLoading = false,
   }) {
-    // TODO: add lazy load more
+    if (videosList.isEmpty && !isLoading) {
+      return const EmptyVideosCarousel();
+    }
     return CarouselSlider.builder(
       itemCount: isLoading ? videosList.length + 5 : videosList.length,
       itemBuilder: (context, index) {

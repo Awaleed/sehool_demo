@@ -11,6 +11,8 @@ VideoModel _$VideoModelFromJson(Map<String, dynamic> json) {
     id: json['id'] as int,
     title: json['title'] as String,
     description: json['description'] as String,
+    video: json['video'] as String,
+    preview: json['preview'] as String,
   );
 }
 
@@ -19,4 +21,6 @@ Map<String, dynamic> _$VideoModelToJson(VideoModel instance) =>
       'id': instance.id,
       'title': instance.title,
       'description': instance.description,
+      'video': instance.video,
+      'preview': instance.preview,
     };

@@ -5,6 +5,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:sailor/sailor.dart';
 
 import 'generated/l10n.dart';
 import 'init_hive.dart';
@@ -72,10 +73,10 @@ class MyApp extends StatelessWidget {
             locale: box.get(currentSettingsKey)?.locale,
             onGenerateRoute: AppRouter.sailor.generator(),
             navigatorKey: AppRouter.sailor.navigatorKey,
-            // navigatorObservers: [
-            //   SailorLoggingObserver(),
-            //   AppRouter.sailor.navigationStackObserver,
-            // ],
+            navigatorObservers: [
+              SailorLoggingObserver(),
+              AppRouter.sailor.navigationStackObserver,
+            ],
           ),
         );
       },

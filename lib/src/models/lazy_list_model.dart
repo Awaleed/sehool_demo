@@ -3,4 +3,5 @@ enum LazyListType {
   products,
   reviews,
   orders,
+  banners,
 }
