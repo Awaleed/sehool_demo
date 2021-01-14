@@ -11,8 +11,12 @@ class PickupPage extends StatelessWidget {
   const PickupPage({
     Key key,
     @required this.cart,
+    this.onChanged,
   }) : super(key: key);
+
   final CartModel cart;
+  final ValueChanged onChanged;
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -23,11 +27,12 @@ class PickupPage extends StatelessWidget {
           Center(
             child: Padding(
               padding: const EdgeInsets.all(20.0),
-              child: CartDropdown<PickupMethodModel>(
+              child: CartDropdown<PickupMethod>(
                 dropdownType: DropdownValueType.pickupMethod,
                 initialValue: cart.pickupMethod,
                 onValueChanged: (value) {
                   cart.pickupMethod = value;
+                  onChanged?.call(value);
                 },
               ),
             ),
@@ -49,7 +54,7 @@ class _HomeCard extends StatelessWidget {
       fit: StackFit.expand,
       children: [
         Card(
-          elevation: 10,
+          elevation: 2,
           clipBehavior: Clip.hardEdge,
           margin: EdgeInsets.zero,
           shape: RoundedRectangleBorder(

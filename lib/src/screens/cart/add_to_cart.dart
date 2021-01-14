@@ -105,7 +105,6 @@ class _CartStepperState extends State<CartStepper> {
             onPatchedStepTapped: (value) => setState(() {
               currentStep = value;
             }),
-            type: PatchedStepperType.horizontal,
             controlsBuilder: (context, {onStepCancel, onStepContinue}) =>
                 const SizedBox.shrink(),
             patchedSteps: steps,

@@ -5,8 +5,11 @@ import 'package:sehool/src/components/cart_text_field.dart';
 import 'package:sehool/src/models/cart_model.dart';
 
 class CheckoutNotesPage extends StatelessWidget {
-  const CheckoutNotesPage({Key key, @required this.cart}) : super(key: key);
+  const CheckoutNotesPage({Key key, @required this.cart, this.onChanged})
+      : super(key: key);
+
   final CartModel cart;
+  final ValueChanged onChanged;
 
   @override
   Widget build(BuildContext context) {

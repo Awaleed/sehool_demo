@@ -5,9 +5,11 @@ import 'package:sehool/src/components/checkout_item_preview.dart';
 import 'package:sehool/src/models/cart_model.dart';
 
 class CartReviewPage extends StatelessWidget {
-  const CartReviewPage({Key key, @required this.cartItems}) : super(key: key);
+  const CartReviewPage({Key key, @required this.cartItems, this.onChanged})
+      : super(key: key);
   final List<CartItemModel> cartItems;
-
+  final ValueChanged onChanged;
+  
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(

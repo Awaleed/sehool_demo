@@ -7,7 +7,7 @@ import 'product_model.dart';
 class CartModel {
   List<CartItemModel> cartItems = [];
   AddressModel address;
-  PickupMethodModel pickupMethod;
+  PickupMethod pickupMethod;
   DateTime orderDate = DateTime.now();
   OrderType type;
   PaymentMethodModel paymentMethod;

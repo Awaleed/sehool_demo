@@ -12,9 +12,12 @@ class AddressReviewPage extends StatefulWidget {
   const AddressReviewPage({
     Key key,
     @required this.cart,
+    this.onChanged,
   }) : super(key: key);
-  final CartModel cart;
 
+  final CartModel cart;
+  final ValueChanged onChanged;
+  
   @override
   _AddressReviewPageState createState() => _AddressReviewPageState();
 }

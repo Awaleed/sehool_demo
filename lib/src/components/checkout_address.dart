@@ -20,7 +20,7 @@ class CheckoutAddressCard extends StatelessWidget {
         clipBehavior: Clip.none,
         children: [
           Card(
-            elevation: 10,
+            elevation: 2,
             clipBehavior: Clip.hardEdge,
             margin: EdgeInsets.zero,
             color: Colors.white70,
@@ -81,7 +81,7 @@ class _HomeCard extends StatelessWidget {
       fit: StackFit.expand,
       children: [
         Card(
-          elevation: 10,
+          elevation: 2,
           clipBehavior: Clip.hardEdge,
           margin: EdgeInsets.zero,
           shape: RoundedRectangleBorder(

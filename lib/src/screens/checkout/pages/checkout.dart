@@ -1,18 +1,20 @@
 import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:sehool/src/components/checkout_address.dart';
+import 'package:sehool/src/models/cart_model.dart';
+import 'package:sehool/src/screens/checkout/pages/shpping_date_review.dart';
 import 'package:supercharged/supercharged.dart';
 
-class CheckoutPage extends StatefulWidget {
-  const CheckoutPage({Key key}) : super(key: key);
+class CheckoutPage extends StatelessWidget {
+  const CheckoutPage({
+    Key key,
+    @required this.cart,
+    this.onChanged,
+  }) : super(key: key);
 
-  @override
-  _CheckoutPageState createState() => _CheckoutPageState();
-}
-
-class _CheckoutPageState extends State<CheckoutPage> {
-  String selectedValue;
-
+  final CartModel cart;
+  final ValueChanged onChanged;
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -26,17 +28,20 @@ class _CheckoutPageState extends State<CheckoutPage> {
             ),
           ),
           const SizedBox(height: 20),
-          const Center(
+          Center(
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: _TotalCardAddress(),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: CheckoutAddressCard(cart: cart),
             ),
           ),
           const SizedBox(height: 20),
-          const Center(
+          Center(
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: _TotalCardDate(),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: ShippingDateCard(
+                date: cart.orderDate,
+                onChanged: null,
+              ),
             ),
           ),
           const SizedBox(height: 20),
@@ -56,11 +61,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 keyboardType: TextInputType.multiline,
                 minLines: 7,
                 maxLines: 14,
-                onChanged: (value) {
-                  setState(() {
-                    selectedValue = value;
-                  });
-                },
+
                 // selectedItemBuilder: (_) => [
                 //   'normal',
                 //   'light',
@@ -130,8 +131,9 @@ class _HomeCard extends StatelessWidget {
       fit: StackFit.expand,
       children: [
         Card(
-          elevation: 10,
+          elevation: 2,
           clipBehavior: Clip.hardEdge,
+          color: Colors.amber.withOpacity(.8),
           margin: EdgeInsets.zero,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(25),
@@ -147,22 +149,6 @@ class _HomeCard extends StatelessWidget {
                   child: Text('ملخص الطلب'),
                 ),
               ),
-            ),
-          ),
-        ),
-        Container(
-          padding: const EdgeInsets.only(bottom: 50, top: 20),
-          decoration: BoxDecoration(
-            color: Colors.black38,
-            borderRadius: BorderRadius.circular(25),
-            gradient: const LinearGradient(
-              begin: Alignment.bottomCenter,
-              end: Alignment.topCenter,
-              colors: [
-                Colors.black,
-                Colors.transparent,
-                Colors.transparent,
-              ],
             ),
           ),
         ),
@@ -222,7 +208,7 @@ class _TotalCard extends StatelessWidget {
                   ),
                   const Divider(),
                   Card(
-                    elevation: 10,
+                    elevation: 2,
                     clipBehavior: Clip.hardEdge,
                     margin: EdgeInsets.zero,
                     color: Colors.white70,
@@ -240,7 +226,7 @@ class _TotalCard extends StatelessWidget {
                   ),
                   const Divider(),
                   Card(
-                    elevation: 10,
+                    elevation: 2,
                     clipBehavior: Clip.hardEdge,
                     margin: EdgeInsets.zero,
                     color: Colors.white70,

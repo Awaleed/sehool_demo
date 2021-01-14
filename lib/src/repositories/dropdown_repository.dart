@@ -23,10 +23,7 @@ class DropdownRepositoryImpl implements IDropdownRepository {
   @override
   Future<List> getDropdownValues(DropdownValueType type) async {
     if (type == DropdownValueType.pickupMethod) {
-      return [
-        PickupMethodModel(id: 0, name: 'من المعرض'),
-        PickupMethodModel(id: 0, name: 'توصيل'),
-      ];
+      return PickupMethod.values;
     } else if (type == DropdownValueType.orderType) {
       return OrderType.values;
     }

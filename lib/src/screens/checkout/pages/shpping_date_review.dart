@@ -15,8 +15,11 @@ class ShippingDatePage extends StatefulWidget {
   const ShippingDatePage({
     Key key,
     @required this.cart,
+    this.onChanged,
   }) : super(key: key);
+
   final CartModel cart;
+  final ValueChanged onChanged;
 
   @override
   _ShippingDatePageState createState() => _ShippingDatePageState();
@@ -94,7 +97,7 @@ class ShippingDateCard extends StatelessWidget {
                 ),
                 const Divider(),
                 Card(
-                  elevation: 10,
+                  elevation: 2,
                   clipBehavior: Clip.hardEdge,
                   margin: EdgeInsets.zero,
                   color: Colors.white70,
@@ -102,17 +105,19 @@ class ShippingDateCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(25),
                   ),
                   child: ListTile(
-                    onTap: () async {
-                      final _date = await showDatePicker(
-                        context: context,
-                        initialDate: date,
-                        firstDate: DateTime.now(),
-                        lastDate: DateTime(2030),
-                      );
-                      if (_date != null) {
-                        onChanged(date.setDate(_date));
-                      }
-                    },
+                    onTap: onChanged == null
+                        ? null
+                        : () async {
+                            final _date = await showDatePicker(
+                              context: context,
+                              initialDate: date,
+                              firstDate: DateTime.now(),
+                              lastDate: DateTime(2030),
+                            );
+                            if (_date != null) {
+                              onChanged(date.setDate(_date));
+                            }
+                          },
                     title: date == null
                         ? null
                         : Text(DateFormat.MEd().format(date)),
@@ -126,7 +131,7 @@ class ShippingDateCard extends StatelessWidget {
                 ),
                 const Divider(),
                 Card(
-                  elevation: 10,
+                  elevation: 2,
                   clipBehavior: Clip.hardEdge,
                   margin: EdgeInsets.zero,
                   color: Colors.white70,
@@ -134,18 +139,20 @@ class ShippingDateCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(25),
                   ),
                   child: ListTile(
-                    onTap: () async {
-                      final _time = await showTimePicker(
-                        context: context,
-                        initialTime: TimeOfDay(
-                          hour: date.hour,
-                          minute: date.minute,
-                        ),
-                      );
-                      if (_time != null) {
-                        onChanged(date.setTime(_time));
-                      }
-                    },
+                    onTap: onChanged == null
+                        ? null
+                        : () async {
+                            final _time = await showTimePicker(
+                              context: context,
+                              initialTime: TimeOfDay(
+                                hour: date.hour,
+                                minute: date.minute,
+                              ),
+                            );
+                            if (_time != null) {
+                              onChanged(date.setTime(_time));
+                            }
+                          },
                     title: date == null
                         ? null
                         : Text(DateFormat.Hm().format(date)),

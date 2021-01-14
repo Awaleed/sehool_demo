@@ -14,7 +14,7 @@ class CartProductPreview extends StatelessWidget {
       fit: StackFit.expand,
       children: [
         Card(
-          elevation: 10,
+          elevation: 2,
           clipBehavior: Clip.hardEdge,
           margin: EdgeInsets.zero,
           shape: RoundedRectangleBorder(

@@ -206,7 +206,6 @@ class NewAddressDialog extends StatelessWidget {
         builder: (BuildContext context, DropdownState state) {
           return state.when(
             success: (values) {
-              print('type: $type, values: $values');
               return DropdownSearch(
                 items: values,
                 label: _model.hintText,
