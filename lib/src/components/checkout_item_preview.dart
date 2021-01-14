@@ -54,6 +54,10 @@ class CheckoutItemPreview extends StatelessWidget {
                       title: Text(S.current.notes),
                       subtitle: Text(cartItem.notes ?? S.current.none),
                     ),
+                    ListTile(
+                      title: Text(S.current.total),
+                      subtitle: Text('${cartItem.total} ${S.current.rial}'),
+                    ),
                   ],
                 ),
               ),

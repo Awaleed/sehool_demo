@@ -12,16 +12,3 @@ OrderModel _$OrderModelFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$OrderModelToJson(OrderModel instance) =>
     <String, dynamic>{};
-
-PaymentMethodModel _$PaymentMethodModelFromJson(Map<String, dynamic> json) {
-  return PaymentMethodModel(
-    id: json['id'] as int,
-    name: json['name'] as String,
-  );
-}
-
-Map<String, dynamic> _$PaymentMethodModelToJson(PaymentMethodModel instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'name': instance.name,
-    };

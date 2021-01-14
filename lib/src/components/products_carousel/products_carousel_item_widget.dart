@@ -121,21 +121,43 @@ class ProductsCarouselItemWidget extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(25),
                   ),
-                  backgroundColor: Colors.black,
+                  backgroundColor: Colors.amber,
                   hoverColor: Colors.amber.withOpacity(.3),
                   splashColor: Colors.amber.withOpacity(.3),
                   icon: Icon(
-                    inCart
-                        ? FluentIcons.remove_24_regular
-                        : FluentIcons.cart_24_regular,
-                    color: Colors.white,
-                  ),
+                      inCart
+                          ? FluentIcons.remove_24_regular
+                          : FluentIcons.cart_24_regular,
+                      color: Colors.black),
                   label: Text(
                     inCart ? S.current.remove_from_cart : S.current.add_to_cart,
-                    style: const TextStyle(color: Colors.white),
+                    style: const TextStyle(
+                        color: Colors.black, fontWeight: FontWeight.bold),
                   ),
                 );
               },
+            ),
+          ),
+          Positioned(
+            top: -30,
+            height: 60,
+            left: 30,
+            right: 30,
+            child: Container(
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: Colors.black,
+                borderRadius: BorderRadius.circular(25),
+              ),
+              child: FittedBox(
+                child: Text(
+                  '${product.price} ${S.current.rial} / ${S.current.piece}',
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline5
+                      .copyWith(color: Colors.amber),
+                ),
+              ),
             ),
           ),
         ],

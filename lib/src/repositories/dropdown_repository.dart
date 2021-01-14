@@ -1,3 +1,4 @@
+import 'package:enum_to_string/enum_to_string.dart';
 import 'package:injectable/injectable.dart';
 
 import '../core/api_caller.dart';
@@ -34,15 +35,14 @@ class DropdownRepositoryImpl implements IDropdownRepository {
         case DropdownValueType.slicingMethods:
           return SlicingMethodModel.fromJson(data);
         case DropdownValueType.paymentMethods:
-          return PaymentMethodModel.fromJson(data);
+          return EnumToString.fromString(PaymentMethodType.values, '$data');
         case DropdownValueType.addresses:
-          // data['lang'] = double.tryParse(data['lang'] ?? '0') ?? 0;
-          // data['lat'] = double.tryParse(data['lat'] ?? '0') ?? 0;
-          // data['note'] = data['description'];
-          // data['address'] = data['description'];
+          data['lang'] = double.tryParse(data['lang'] ?? '0') ?? 0;
+          data['lat'] = double.tryParse(data['lat'] ?? '0') ?? 0;
+          data['note'] = data['description'];
+          data['address'] = data['description'];
 
           return AddressModel.fromJson(data);
-        // return FakeDataGenerator.addressModel;
         case DropdownValueType.pickupMethod:
         case DropdownValueType.orderType:
         default:

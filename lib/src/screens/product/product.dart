@@ -148,7 +148,6 @@ class _ProductScreenState extends State<ProductScreen> {
                               padding:
                                   const EdgeInsets.only(bottom: 50, top: 20),
                               decoration: const BoxDecoration(
-                                color: Colors.purple,
                                 gradient: LinearGradient(
                                   begin: Alignment.bottomCenter,
                                   end: Alignment.topCenter,
@@ -161,6 +160,34 @@ class _ProductScreenState extends State<ProductScreen> {
                               ),
                             ),
                           ),
+                          Positioned(
+                            top: kToolbarHeight,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                children: [
+                                  Container(
+                                    alignment: Alignment.center,
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 20,
+                                      vertical: 10,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: Colors.black,
+                                      borderRadius: BorderRadius.circular(25),
+                                    ),
+                                    child: Text(
+                                      '${widget.product.price} ${S.current.rial} / ${S.current.piece}',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headline5
+                                          .copyWith(color: Colors.amber),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
                         ],
                       ),
                     ),

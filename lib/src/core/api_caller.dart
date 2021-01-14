@@ -14,7 +14,7 @@ mixin ApiCaller {
       _configureDioClient();
     });
 
-  static const _baseUrl = 'http://192.168.9.103:8000/api';
+  static const _baseUrl = 'http://192.168.9.104:8000/api';
   static Dio _dio;
   static final PrettyDioLogger _logger = PrettyDioLogger(
     responseBody: false,

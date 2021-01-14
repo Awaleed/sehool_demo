@@ -167,7 +167,7 @@ class _SummeryCard extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(25),
                     ),
-                    child: ListTile(title: Text(cart.paymentMethod.name)),
+                    child: ListTile(title: Text('${cart.paymentMethod}')),
                   ),
                 ],
               ),

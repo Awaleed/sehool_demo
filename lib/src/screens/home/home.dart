@@ -24,31 +24,30 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int selectedIndex;
-  List<_TabBarItem> pages;
   PageController pageController;
+  List<_TabBarItem> get pages => [
+        _TabBarItem(
+          icon: FluentIcons.home_24_regular,
+          label: S.current.home,
+          page: const MainPage(),
+        ),
+        _TabBarItem(
+          icon: FluentIcons.video_24_regular,
+          label: S.current.watch,
+          page: const VideosPage(),
+        ),
+        _TabBarItem(
+          icon: FluentIcons.person_24_regular,
+          label: S.current.profile,
+          page: const ProfilePage(),
+        ),
+      ];
 
   @override
   void initState() {
     super.initState();
     selectedIndex = 0;
     pageController = PageController(initialPage: selectedIndex);
-    pages = [
-      _TabBarItem(
-        icon: FluentIcons.home_24_regular,
-        label: S.current.home,
-        page: const MainPage(),
-      ),
-      _TabBarItem(
-        icon: FluentIcons.video_24_regular,
-        label: S.current.watch,
-        page: const VideosPage(),
-      ),
-      _TabBarItem(
-        icon: FluentIcons.person_24_regular,
-        label: S.current.profile,
-        page: const ProfilePage(),
-      ),
-    ];
   }
 
   void onPageChanged(int index) {

@@ -26,10 +26,10 @@ abstract class FakeDataGenerator {
             'https://www.sample-videos.com/video123/mp4/720/big_buck_bunny_720p_10mb.mp4',
       );
 
-  static PaymentMethodModel get paymentMethodsModel => PaymentMethodModel(
-        id: random.integer(1000),
-        name: faker.lorem.word(),
-      );
+  // static PaymentMethodModel get paymentMethodsModel => PaymentMethodModel(
+  //       id: random.integer(1000),
+  //       name: faker.lorem.word(),
+  //     );
 
   static UserWithTokenModel get userWithTokenModel => UserWithTokenModel(
         accessToken: AccessTokenModel(token: faker.guid.guid()),

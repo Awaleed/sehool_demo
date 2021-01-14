@@ -40,6 +40,7 @@ class _PaymentMethodReviewPageState extends State<PaymentMethodReviewPage> {
               child: CartDropdown(
                 dropdownType: DropdownValueType.paymentMethods,
                 initialValue: widget.cart.paymentMethod,
+                itemAsString: (value) => mapPaymentMethodTypeToLabel(value),
                 onValueChanged: (value) {
                   setState(() {
                     widget.cart.paymentMethod = value;

@@ -10,10 +10,16 @@ class CartModel {
   PickupMethod pickupMethod;
   DateTime orderDate = DateTime.now();
   OrderType type;
-  PaymentMethodModel paymentMethod;
+  PaymentMethodType paymentMethod;
   String notes;
 
-  double total = 0;
+  double get total {
+    double value = 0;
+    for (var item in cartItems) {
+      value += item.total;
+    }
+    return value;
+  }
 
   @override
   bool operator ==(Object o) {
@@ -49,7 +55,7 @@ class CartItemModel {
   SlicingMethodModel slicingMethod;
   String notes;
 
-  get total => null;
+  double get total => product.price * _quantity;
 
   void incrementCart() => _quantity < 100 ? _quantity++ : _quantity;
   void decrementCart() => _quantity > 1 ? _quantity-- : _quantity;

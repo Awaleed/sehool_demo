@@ -4,7 +4,20 @@ import 'package:sehool/generated/l10n.dart';
 part 'order_model.g.dart';
 
 enum OrderType { secluded, unsecluded }
+enum PaymentMethodType { cash, visa, wallet }
 enum PickupMethod { pickup, delivery }
+String mapPaymentMethodTypeToLabel(PaymentMethodType type) {
+  switch (type) {
+    case PaymentMethodType.cash:
+      return S.current.cash_on_delivery;
+    case PaymentMethodType.visa:
+      return 'VISA';
+    case PaymentMethodType.wallet:
+      return S.current.balance;
+  }
+  throw UnsupportedError('message');
+}
+
 String mapOrderTypeToLabel(OrderType type) {
   switch (type) {
     case OrderType.secluded:
@@ -35,20 +48,20 @@ class OrderModel {
   Map<String, dynamic> toJson() => _$OrderModelToJson(this);
 }
 
-@JsonSerializable(
-    fieldRename: FieldRename.snake, explicitToJson: true, nullable: true)
-class PaymentMethodModel {
-  const PaymentMethodModel({
-    this.id,
-    this.name,
-  });
-  final int id;
-  final String name;
+// @JsonSerializable(
+//     fieldRename: FieldRename.snake, explicitToJson: true, nullable: true)
+// class PaymentMethodModel {
+//   const PaymentMethodModel({
+//     this.id,
+//     this.name,
+//   });
+//   final int id;
+//   final String name;
 
-  @override
-  String toString() => name;
+//   @override
+//   String toString() => name;
 
-  factory PaymentMethodModel.fromJson(Map<String, dynamic> json) =>
-      _$PaymentMethodModelFromJson(json);
-  Map<String, dynamic> toJson() => _$PaymentMethodModelToJson(this);
-}
+//   factory PaymentMethodModel.fromJson(Map<String, dynamic> json) =>
+//       _$PaymentMethodModelFromJson(json);
+//   Map<String, dynamic> toJson() => _$PaymentMethodModelToJson(this);
+// }

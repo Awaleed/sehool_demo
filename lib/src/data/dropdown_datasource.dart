@@ -1,5 +1,6 @@
 import 'package:faker/faker.dart';
 import 'package:injectable/injectable.dart';
+import 'package:sehool/src/models/order_model.dart';
 import 'package:supercharged/supercharged.dart';
 
 import '../core/api_caller.dart';
@@ -23,6 +24,7 @@ class DropdownRemoteDataSource extends IDropdownRemoteDataSource
         case DropdownValueType.cites:
         case DropdownValueType.citySections:
         case DropdownValueType.paymentMethods:
+          return '/paymentMethod';
         case DropdownValueType.addresses:
           return '/addresses';
         default:
@@ -55,10 +57,7 @@ class FakeDropdownRemoteDataSource extends IDropdownRemoteDataSource {
           (_) => FakeDataGenerator.slicingMethodsModel.toJson(),
         );
       case DropdownValueType.paymentMethods:
-        return List.generate(
-          10,
-          (_) => FakeDataGenerator.paymentMethodsModel.toJson(),
-        );
+        return PaymentMethodType.values;
       case DropdownValueType.addresses:
         return List.generate(
           10,
