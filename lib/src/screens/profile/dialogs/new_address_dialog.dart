@@ -31,7 +31,7 @@ class NewAddressDialog extends StatelessWidget {
       builder: (context, state) {
         return state.when(
           initial: () => _buildUi(context, cubit),
-          loading: () => _buildUi(context, cubit, isLoading: false),
+          loading: () => _buildUi(context, cubit, isLoading: true),
           success: (value) => _buildUi(context, cubit),
           // TODO: Handel ERROR STATE
           failure: (message) => throw UnimplementedError(),
