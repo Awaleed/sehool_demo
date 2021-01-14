@@ -79,8 +79,21 @@ class _CartDropdownState extends State<CartDropdown> {
       dropdownColor: Colors.amber.withOpacity(.8),
       onChanged: isLoading
           ? null
-          : (value) {
-              if (value == 'add_a_new_address') return;
+          : (value) async {
+              if (value == 'add_a_new_address') {
+                final _cubit = getIt<AddressCubit>();
+                await AppRouter.sailor.navigate(
+                  NewAddressDialog.routeName,
+                  params: {'address_cubit': _cubit},
+                );
+                final values = cubit.state.maybeWhen(
+                  success: (value) => value,
+                  orElse: () => null,
+                );
+                if (values != null) cubit.setDropdownValues(values);
+                _cubit.close();
+                return;
+              }
               widget.onValueChanged?.call(value);
               setState(() => selectedValue = value);
             },
@@ -132,24 +145,6 @@ class _CartDropdownState extends State<CartDropdown> {
         if (widget.dropdownType == DropdownValueType.addresses)
           DropdownMenuItem(
             value: 'add_a_new_address' as dynamic,
-            onTap: () async {
-              Navigator.of(context).pop();
-              final _cubit = getIt<AddressCubit>();
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => Scaffold(
-                  appBar: AppBar(),
-                ),
-              ));
-              // await AppRouter.sailor.navigate(
-              //   ProfileSettingsScreen.routeName,
-              // );
-              final values = cubit.state.maybeWhen(
-                success: (value) => value,
-                orElse: () => null,
-              );
-              if (values != null) cubit.setDropdownValues(values);
-              _cubit.close();
-            },
             child: Center(
               child: Text(
                 '${S.current.add_a_new_address} +',
