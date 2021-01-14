@@ -85,105 +85,115 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
-          SafeArea(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Expanded(
-                  child: PageView(
-                    physics: const NeverScrollableScrollPhysics(),
-                    controller: pageController,
-                    children: [...pages.map((e) => e.page)],
+          Padding(
+            padding: const EdgeInsets.only(bottom: 70),
+            child: PageView(
+              physics: const NeverScrollableScrollPhysics(),
+              controller: pageController,
+              children: [...pages.map((e) => e.page)],
+            ),
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              BlocBuilder<CartCubit, CartState>(
+                cubit: getIt<CartCubit>(),
+                builder: (context, state) {
+                  if (state.cart.cartItems.isEmpty) {
+                    return const SizedBox.shrink();
+                  }
+                  return Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        FloatingActionButton.extended(
+                          onPressed: () => AppRouter.sailor
+                              .navigate(CheckoutScreen.routeName),
+                          label: Text(
+                            '${state.cart.cartItems.length} ${S.current.products_in_cart}',
+                          ),
+                          icon: const Icon(FluentIcons.cart_24_filled),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.black45,
+                  gradient: LinearGradient(
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter,
+                    colors: [
+                      Colors.black,
+                      Colors.transparent,
+                    ],
                   ),
                 ),
-                BlocBuilder<CartCubit, CartState>(
-                  cubit: getIt<CartCubit>(),
-                  builder: (context, state) {
-                    if (state.cart.cartItems.isEmpty) {
-                      return const SizedBox.shrink();
-                    }
-                    return Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          FloatingActionButton.extended(
-                            onPressed: () => AppRouter.sailor
-                                .navigate(CheckoutScreen.routeName),
-                            label: Text(
-                              '${state.cart.cartItems.length} ${S.current.products_in_cart}',
-                            ),
-                            icon: const Icon(FluentIcons.cart_24_filled),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-                SizedBox(
-                  height: 75,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 5),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        ...() {
-                          final list = <Widget>[];
-                          for (var i = 0; i < pages.length; i++) {
-                            final isSelected = selectedIndex == i;
-                            final item = pages[i];
-                            final tab = Parent(
-                              gesture: Gestures()
-                                ..onTap(() {
-                                  if (!isSelected) onPageChanged(i);
-                                }),
-                              style: ParentStyle()
-                                ..animate(600, Curves.easeOut)
-                                ..width(isSelected ? 150 : 70)
-                                ..background.color(isSelected
-                                    ? Colors.black87
-                                    : Colors.transparent)
-                                ..padding(
-                                  horizontal: 20,
-                                  vertical: 10,
-                                )
-                                ..borderRadius(all: 50)
-                                ..alignmentContent.center(),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Icon(
-                                    item.icon,
-                                    color: isSelected
-                                        ? Colors.amber
-                                        : Colors.white,
-                                  ),
-                                  if (isSelected)
-                                    Flexible(
-                                      child: FittedBox(
-                                        child: Text(
-                                          '  ${item.label}',
-                                          style: const TextStyle(
-                                            color: Colors.amber,
-                                          ),
+                height: 75,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 5),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      ...() {
+                        final list = <Widget>[];
+                        for (var i = 0; i < pages.length; i++) {
+                          final isSelected = selectedIndex == i;
+                          final item = pages[i];
+                          final tab = Parent(
+                            gesture: Gestures()
+                              ..onTap(() {
+                                if (!isSelected) onPageChanged(i);
+                              }),
+                            style: ParentStyle()
+                              ..animate(600, Curves.easeOut)
+                              ..width(isSelected ? 150 : 70)
+                              ..background.color(isSelected
+                                  ? Colors.black87
+                                  : Colors.transparent)
+                              ..padding(
+                                horizontal: 20,
+                                vertical: 10,
+                              )
+                              ..borderRadius(all: 50)
+                              ..alignmentContent.center(),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(
+                                  item.icon,
+                                  color:
+                                      isSelected ? Colors.amber : Colors.white,
+                                ),
+                                if (isSelected)
+                                  Flexible(
+                                    child: FittedBox(
+                                      child: Text(
+                                        '  ${item.label}',
+                                        style: const TextStyle(
+                                          color: Colors.amber,
                                         ),
                                       ),
                                     ),
-                                ],
-                              ),
-                            );
+                                  ),
+                              ],
+                            ),
+                          );
 
-                            list.add(tab);
-                          }
-                          return list;
-                        }()
-                      ],
-                    ),
+                          list.add(tab);
+                        }
+                        return list;
+                      }()
+                    ],
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ],
       ),

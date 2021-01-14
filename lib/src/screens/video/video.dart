@@ -24,7 +24,7 @@ class VideoScreen extends StatefulWidget {
 class _VideoScreenState extends State<VideoScreen> {
   VideoPlayerController _videoPlayerController;
   ChewieController _chewieController;
-  double _aspectRatio = 16 / 9;
+  double _aspectRatio;
 
   @override
   void initState() {
@@ -32,8 +32,28 @@ class _VideoScreenState extends State<VideoScreen> {
 
     // print(
     //     'http://www.sample-videos.com/video123/mp4/720/big_buck_bunny_720p_20mb.mp4');
-    SystemChrome.setEnabledSystemUIOverlays([]);
-    _videoPlayerController = VideoPlayerController.network(widget.video.video);
+    _videoPlayerController = VideoPlayerController.network(widget.video.video)
+      ..addListener(() {
+        _chewieController = ChewieController(
+          allowedScreenSleep: false,
+          allowFullScreen: true,
+          deviceOrientationsAfterFullScreen: [
+            DeviceOrientation.landscapeRight,
+            DeviceOrientation.landscapeLeft,
+            DeviceOrientation.portraitUp,
+            DeviceOrientation.portraitDown,
+          ],
+          videoPlayerController: _videoPlayerController,
+          aspectRatio: _aspectRatio,
+          autoInitialize: true,
+          autoPlay: true,
+          showControls: true,
+          customControls: CustomMaterialControls(),
+          // overlay: Placeholder(),
+        );
+        setState(() {});
+      });
+    _aspectRatio = _videoPlayerController.value.aspectRatio;
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeRight,
       DeviceOrientation.landscapeLeft,

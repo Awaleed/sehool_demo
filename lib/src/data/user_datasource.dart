@@ -75,7 +75,7 @@ abstract class IUserRemoteDataSource {
 
   Future<List> getAddresses();
   Future<List> addAddress(Map<String, dynamic> data);
-  Future<List> deleteAddress(Map<String, dynamic> data);
+  Future deleteAddress(int id);
   Future<List> updateAddress(Map<String, dynamic> data);
 
   Future<Map<String, dynamic>> changePassword(Map<String, dynamic> data);
@@ -125,15 +125,12 @@ class UserRemoteDataSource extends IUserRemoteDataSource with ApiCaller {
 
   @override
   Future<List> getAddresses() {
-    return get(path: '/auth/login');
+    return get(path: '/addresses');
   }
 
   @override
   Future<List> addAddress(Map<String, dynamic> data) {
-    return post(
-      path: '/auth/login',
-      data: data,
-    );
+    return post(path: '/addresses', data: data);
   }
 
   @override
@@ -145,11 +142,8 @@ class UserRemoteDataSource extends IUserRemoteDataSource with ApiCaller {
   }
 
   @override
-  Future<List> deleteAddress(Map<String, dynamic> data) {
-    return post(
-      path: '/auth/login',
-      data: data,
-    );
+  Future deleteAddress(int id) {
+    return delete(path: '/addresses/$id');
   }
 
   @override
@@ -205,7 +199,7 @@ class FakeUserRemoteDataSource extends IUserRemoteDataSource {
   }
 
   @override
-  Future<List> deleteAddress(Map<String, dynamic> data) async {
+  Future deleteAddress(int id) async {
     await Future.delayed(random.integer(1000).milliseconds);
     return List.generate(
       10,

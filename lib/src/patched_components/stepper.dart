@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:simple_animations/simple_animations.dart';
@@ -409,20 +408,6 @@ class _Animated extends StatelessWidget {
               ),
             ),
           ],
-          // duration: 500.milliseconds,
-          // firstCurve: Curves.easeOut,
-          // secondCurve: Curves.easeOut,
-          // crossFadeState: CrossFadeState.values[value],
-          // firstChild:
-          // secondChild:
-          // secondChild: PlayAnimation(
-          //   tween: 0.0.tweenTo(1.0),
-          //   curve: Curves.easeOut,
-          //   duration: 100.milliseconds,
-          //   builder: (context, child, value) =>
-          //       Opacity(opacity: value, child: child),
-          //   child: ,
-          // ),
         ),
       ),
     );

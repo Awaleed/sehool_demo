@@ -33,7 +33,7 @@ class ProductsCarouselItemWidget extends StatelessWidget {
           Card(
             elevation: 10,
             clipBehavior: Clip.hardEdge,
-            margin: const EdgeInsets.only(bottom: 30),
+            margin: const EdgeInsets.only(bottom: 30, top: 30),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(25),
             ),
@@ -52,8 +52,8 @@ class ProductsCarouselItemWidget extends StatelessWidget {
             ),
           ),
           Container(
-            padding: const EdgeInsets.only(bottom: 50, top: 20),
-            margin: const EdgeInsets.only(bottom: 30),
+            padding: const EdgeInsets.only(bottom: 50, top: 30),
+            margin: const EdgeInsets.only(bottom: 30, top: 30),
             decoration: BoxDecoration(
               color: Colors.black,
               borderRadius: BorderRadius.circular(25),
@@ -139,7 +139,7 @@ class ProductsCarouselItemWidget extends StatelessWidget {
             ),
           ),
           Positioned(
-            top: -30,
+            top: 0,
             height: 60,
             left: 30,
             right: 30,

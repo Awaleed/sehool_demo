@@ -20,7 +20,7 @@ class VideosCarouselWidget extends StatefulWidget {
 
 class _VideosCarouselWidgetState extends State<VideosCarouselWidget> {
   LazyListCubit cubit;
-
+  int currentItem = 0;
   @override
   void initState() {
     super.initState();
@@ -67,15 +67,22 @@ class _VideosCarouselWidgetState extends State<VideosCarouselWidget> {
           return const VideosCarouselLoadingItemWidget();
         } else {
           return VideosCarouselItemWidget(
+            play: currentItem == index,
             video: videosList.elementAt(index),
           );
         }
       },
       options: CarouselOptions(
+        enableInfiniteScroll: false,
         enlargeCenterPage: true,
         scrollDirection: Axis.vertical,
         aspectRatio: 1,
         viewportFraction: .6,
+        onPageChanged: (index, reason) {
+          setState(() {
+            currentItem = index;
+          });
+        },
       ),
     );
   }

@@ -61,10 +61,12 @@ class CityModel {
   const CityModel({
     this.id,
     this.name,
+    this.sections,
   });
 
   final int id;
   final String name;
+  final List<CitySectionModel> sections;
 
   @override
   String toString() => name;
@@ -76,10 +78,8 @@ class CityModel {
   @override
   bool operator ==(Object o) {
     if (identical(this, o)) return true;
-  
-    return o is CityModel &&
-      o.id == id &&
-      o.name == name;
+
+    return o is CityModel && o.id == id && o.name == name;
   }
 
   @override
@@ -91,12 +91,10 @@ class CityModel {
 class CitySectionModel {
   const CitySectionModel({
     this.id,
-    this.city,
     this.name,
   });
 
   final int id;
-  final CityModel city;
   final String name;
 
   @override
@@ -109,13 +107,10 @@ class CitySectionModel {
   @override
   bool operator ==(Object o) {
     if (identical(this, o)) return true;
-  
-    return o is CitySectionModel &&
-      o.id == id &&
-      o.city == city &&
-      o.name == name;
+
+    return o is CitySectionModel && o.id == id && o.name == name;
   }
 
   @override
-  int get hashCode => id.hashCode ^ city.hashCode ^ name.hashCode;
+  int get hashCode => id.hashCode ^ name.hashCode;
 }

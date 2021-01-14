@@ -1,7 +1,7 @@
 import 'package:faker/faker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
-import 'package:sehool/src/helpers/fake_data_generator.dart';
+import '../helpers/fake_data_generator.dart';
 
 import '../core/api_caller.dart';
 import '../models/lazy_list_model.dart';
@@ -31,6 +31,8 @@ class LazyListRemoteDataSource extends ILazyListRemoteDataSource
                 return '/products';
               case LazyListType.videos:
                 return '/videos';
+              case LazyListType.banners:
+                return '/carousel';
               case LazyListType.reviews:
               case LazyListType.orders:
               default:
@@ -68,8 +70,12 @@ class FakeLazyListRemoteDataSource extends ILazyListRemoteDataSource {
           10,
           (_) => FakeDataGenerator.bannerModel.toJson(),
         );
-      case LazyListType.reviews:
       case LazyListType.orders:
+        return List.generate(
+          10,
+          (_) => FakeDataGenerator.orderModel,
+        );
+      case LazyListType.reviews:
       default:
         throw UnsupportedError(
           'Unsupported LazyListType with pram $type',

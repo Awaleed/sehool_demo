@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:sehool/src/models/banner_model.dart';
+import 'package:sehool/src/models/order_model.dart';
 
 import '../core/api_caller.dart';
 import '../data/lazy_list_datasource.dart';
@@ -43,9 +44,12 @@ class LazyListRepositoryImpl implements ILazyListRepository {
           case LazyListType.videos:
             return VideoModel.fromJson(data);
           case LazyListType.banners:
+            data['image'] = data['path'];
             return BannerModel.fromJson(data);
           case LazyListType.reviews:
           case LazyListType.orders:
+            return data;
+          // return OrderModel.fromJson(data);
           default:
             throw UnsupportedError('Unsupported LazyListType with pram $type');
         }

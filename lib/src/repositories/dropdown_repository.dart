@@ -31,6 +31,8 @@ class DropdownRepositoryImpl implements IDropdownRepository {
         case DropdownValueType.cites:
           return CityModel.fromJson(data);
         case DropdownValueType.citySections:
+          final city = CityModel.fromJson(data);
+          return city.sections.first;
           return CitySectionModel.fromJson(data);
         case DropdownValueType.slicingMethods:
           return SlicingMethodModel.fromJson(data);

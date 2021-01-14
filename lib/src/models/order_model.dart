@@ -1,7 +1,10 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:sehool/generated/l10n.dart';
 
-part 'order_model.g.dart';
+import 'address_model.dart';
+import 'cart_model.dart';
+
+// part 'order_model.g.dart';
 
 enum OrderType { secluded, unsecluded }
 enum PaymentMethodType { cash, visa, wallet }
@@ -15,7 +18,7 @@ String mapPaymentMethodTypeToLabel(PaymentMethodType type) {
     case PaymentMethodType.wallet:
       return S.current.balance;
   }
-  throw UnsupportedError('message');
+  return '';
 }
 
 String mapOrderTypeToLabel(OrderType type) {
@@ -25,7 +28,7 @@ String mapOrderTypeToLabel(OrderType type) {
     case OrderType.unsecluded:
       return S.current.unsecluded;
   }
-  throw UnsupportedError('message');
+  return '';
 }
 
 String mapPickupMethodToLabel(PickupMethod type) {
@@ -35,17 +38,39 @@ String mapPickupMethodToLabel(PickupMethod type) {
     case PickupMethod.delivery:
       return S.current.delivery;
   }
-  throw UnsupportedError('message');
+  return '';
 }
 
-@JsonSerializable(
-    fieldRename: FieldRename.snake, explicitToJson: true, nullable: true)
+// @JsonSerializable(
+//     fieldRename: FieldRename.snake, explicitToJson: true, nullable: true)
 class OrderModel {
-  const OrderModel();
+  const OrderModel({
+    this.cartItems,
+    this.orderDate,
+    this.address,
+    this.pickupMethod,
+    this.type,
+    this.paymentMethod,
+    this.notes,
+  });
 
-  factory OrderModel.fromJson(Map<String, dynamic> json) =>
-      _$OrderModelFromJson(json);
-  Map<String, dynamic> toJson() => _$OrderModelToJson(this);
+  final List<CartItemModel> cartItems;
+  final AddressModel address;
+  final PickupMethod pickupMethod;
+  final DateTime orderDate;
+  final OrderType type;
+  final PaymentMethodType paymentMethod;
+  final String notes;
+  double get total {
+    double value = 0;
+    for (var item in cartItems) {
+      value += item.total;
+    }
+    return value;
+  }
+  // factory OrderModel.fromJson(Map<String, dynamic> json) =>
+  //     _$OrderModelFromJson(json);
+  // Map<String, dynamic> toJson() => _$OrderModelToJson(this);
 }
 
 // @JsonSerializable(

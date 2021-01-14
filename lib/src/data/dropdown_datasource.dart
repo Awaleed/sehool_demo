@@ -23,6 +23,7 @@ class DropdownRemoteDataSource extends IDropdownRemoteDataSource
           return '/slicerTypes';
         case DropdownValueType.cites:
         case DropdownValueType.citySections:
+          return '/cities';
         case DropdownValueType.paymentMethods:
           return '/paymentMethod';
         case DropdownValueType.addresses:

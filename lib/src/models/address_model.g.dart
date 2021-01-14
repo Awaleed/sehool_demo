@@ -38,20 +38,23 @@ CityModel _$CityModelFromJson(Map<String, dynamic> json) {
   return CityModel(
     id: json['id'] as int,
     name: json['name'] as String,
+    sections: (json['sections'] as List)
+        ?.map((e) => e == null
+            ? null
+            : CitySectionModel.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
   );
 }
 
 Map<String, dynamic> _$CityModelToJson(CityModel instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
+      'sections': instance.sections?.map((e) => e?.toJson())?.toList(),
     };
 
 CitySectionModel _$CitySectionModelFromJson(Map<String, dynamic> json) {
   return CitySectionModel(
     id: json['id'] as int,
-    city: json['city'] == null
-        ? null
-        : CityModel.fromJson(json['city'] as Map<String, dynamic>),
     name: json['name'] as String,
   );
 }
@@ -59,6 +62,5 @@ CitySectionModel _$CitySectionModelFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$CitySectionModelToJson(CitySectionModel instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'city': instance.city?.toJson(),
       'name': instance.name,
     };

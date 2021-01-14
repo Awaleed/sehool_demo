@@ -15,7 +15,7 @@ import '../../../helpers/helper.dart';
 import '../../../models/dropdown_value_model.dart';
 import '../../../models/form_data_model.dart';
 
-class NewAddressDialog extends StatelessWidget {
+class NewAddressDialog extends StatefulWidget {
   static const routeName = '/addresses/new';
 
   NewAddressDialog({
@@ -23,19 +23,26 @@ class NewAddressDialog extends StatelessWidget {
     this.cubit,
   }) : super(key: key);
 
-  final formKey = GlobalKey<FormState>();
-  final data = <FormFieldType, FormFieldModel>{};
   final AddressCubit cubit;
+
+  @override
+  _NewAddressDialogState createState() => _NewAddressDialogState();
+}
+
+class _NewAddressDialogState extends State<NewAddressDialog> {
+  final formKey = GlobalKey<FormState>();
+
+  final data = <FormFieldType, FormFieldModel>{};
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AddressCubit, AddressState>(
-      cubit: cubit,
+      cubit: widget.cubit,
       builder: (context, state) {
         return state.when(
-          initial: () => _buildUi(context, cubit),
-          loading: () => _buildUi(context, cubit, isLoading: true),
-          success: (value) => _buildUi(context, cubit),
+          initial: () => _buildUi(context, widget.cubit),
+          loading: () => _buildUi(context, widget.cubit, isLoading: true),
+          success: (value) => _buildUi(context, widget.cubit),
           // TODO: Handel ERROR STATE
           failure: (message) => throw UnimplementedError(),
         );
@@ -70,6 +77,7 @@ class NewAddressDialog extends StatelessWidget {
                   Helpers.dismissFauces(context);
                   if (formKey.currentState.validate()) {
                     formKey.currentState.save();
+                    cubit.addAddress(data);
                   }
                 },
               ),
@@ -104,12 +112,17 @@ class NewAddressDialog extends StatelessWidget {
                       type: FormFieldType.cityId,
                       dropType: DropdownValueType.cites,
                     ),
-                    const SizedBox(height: 8),
                     _buildDropdownInput(
                       map: data,
                       type: FormFieldType.citySectionId,
                       dropType: DropdownValueType.citySections,
                     ),
+                    // const SizedBox(height: 8),
+                    // _buildDropdownInput(
+                    //   map: data,
+                    //   type: FormFieldType.citySectionId,
+                    //   dropType: DropdownValueType.citySections,
+                    // ),
                     const SizedBox(height: 8),
                     // _buildAddressPickerCard(
                     //   context,
@@ -126,45 +139,6 @@ class NewAddressDialog extends StatelessWidget {
       ),
     );
   }
-
-  // AddressPickerCard _buildAddressPickerCard(
-  //   BuildContext context, {
-  //   Map<FormFieldType, FormFieldModel> map,
-  //   FormFieldType type,
-  //   bool enabled,
-  // }) {
-  //   return AddressPickerCard(
-  //     label: S.current.show_on_map,
-  //     onSaved: (newValue) {
-  //       // setState(() {
-  //       //   location = newValue;
-  //       // });
-  //     },
-  //     validator: (value) => value == null ? ' ' : null,
-  //     // initialValue: location,
-  //     openMapScreen: (onSaved, state) {
-  //       Helpers.dismissFauces(context);
-  //       Navigator.push(
-  //         context,
-  //         MaterialPageRoute(
-  //           builder: (context) => PlacePicker(
-  //             initialPosition: const LatLng(
-  //               15.591851764538097,
-  //               32.520090490579605,
-  //             ),
-  //             onSave: (newValue) {
-  //               if (newValue != null) {
-  //                 onSaved(newValue);
-  //                 state.didChange(newValue);
-  //               }
-  //               Navigator.of(context).pop();
-  //             },
-  //           ),
-  //         ),
-  //       );
-  //     },
-  //   );
-  // }
 
   Widget _buildTextInput(
     BuildContext context, {
@@ -215,6 +189,7 @@ class NewAddressDialog extends StatelessWidget {
     @required Map<FormFieldType, FormFieldModel> map,
     @required FormFieldType type,
     @required DropdownValueType dropType,
+    bool enabled = true,
   }) {
     final cubit = getIt<DropdownCubit>();
     final _model = FormFieldModel.mapType(type, map);
@@ -231,6 +206,7 @@ class NewAddressDialog extends StatelessWidget {
                 dropdownSearchDecoration:
                     const InputDecoration(border: InputBorder.none),
                 autoValidateMode: AutovalidateMode.onUserInteraction,
+                enabled: enabled,
                 // validator: (value) => _model.validator(value?.id?.toString()),
                 // onSaved: (value) => _model.onSave(value?.id?.toString()),
               );

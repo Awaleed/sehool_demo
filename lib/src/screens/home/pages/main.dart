@@ -1,8 +1,11 @@
+import 'dart:math';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sehool/src/cubits/lazy_list_cubit/lazy_list_cubit.dart';
+import 'package:sehool/src/helpers/fake_data_generator.dart';
 import 'package:sehool/src/models/banner_model.dart';
 import 'package:sehool/src/models/lazy_list_model.dart';
 
@@ -34,6 +37,7 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         BlocBuilder<LazyListCubit, LazyListState>(
           cubit: cubit,
@@ -70,12 +74,17 @@ class _MainPageState extends State<MainPage> {
         child: values.isEmpty && isLoading
             ? const Center(child: CircularProgressIndicator())
             : CachedNetworkImage(
-                imageUrl: // TODO: Fix me
-                    'https://i.pinimg.com/originals/29/6a/4d/296a4d4d6bd75d9154721df9055c72a2.gif' ??
-                        values?.first?.image,
+                imageUrl: 
+                FakeDataGenerator.images.random,
+                // TODO: Fix me
+                    // 'https://i.pinimg.com/originals/29/6a/4d/296a4d4d6bd75d9154721df9055c72a2.gif' ??
+                        // values?.first?.image,
                 fit: BoxFit.cover,
               ),
       ),
     );
   }
+}
+extension on List {
+  get random => this[Random().nextInt(this.length)];
 }

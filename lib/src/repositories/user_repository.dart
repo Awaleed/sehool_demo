@@ -11,7 +11,8 @@ abstract class IUserRepository {
   UserModel getUser();
 
   Future<List<AddressModel>> getAddresses();
-  Future<List<AddressModel>> addAddress(AddressModel model);
+  Future<List<AddressModel>> addAddress(
+      Map<FormFieldType, FormFieldModel> data);
   Future<List<AddressModel>> updateAddress(AddressModel model);
   Future<List<AddressModel>> deleteAddress(int id);
 
@@ -35,19 +36,24 @@ class UserRepositoryImpl implements IUserRepository {
     final res = await _remoteSource.getAddresses();
     final list = ApiCaller.listParser(
       res,
-      (data) => AddressModel.fromJson(data),
+      (data) {
+        data['lang'] = double.tryParse(data['lang'] ?? '0') ?? 0;
+        data['lat'] = double.tryParse(data['lat'] ?? '0') ?? 0;
+        data['note'] = data['description'];
+        data['address'] = data['description'];
+        return AddressModel.fromJson(data);
+      },
     );
     return list;
   }
 
   @override
-  Future<List<AddressModel>> addAddress(AddressModel model) async {
-    final res = await _remoteSource.getAddresses();
-    final list = ApiCaller.listParser(
-      res,
-      (data) => AddressModel.fromJson(data),
+  Future<List<AddressModel>> addAddress(
+      Map<FormFieldType, FormFieldModel> data) async {
+    await _remoteSource.addAddress(
+      FormFieldModel.generateJson(data),
     );
-    return list;
+    return getAddresses();
   }
 
   @override
@@ -57,12 +63,8 @@ class UserRepositoryImpl implements IUserRepository {
 
   @override
   Future<List<AddressModel>> deleteAddress(int id) async {
-    final res = await _remoteSource.getAddresses();
-    final list = ApiCaller.listParser(
-      res,
-      (data) => AddressModel.fromJson(data),
-    );
-    return list;
+    await _remoteSource.deleteAddress(id);
+    return _remoteSource.getAddresses();
   }
 
   @override

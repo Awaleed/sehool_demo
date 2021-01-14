@@ -10,6 +10,7 @@ import '../screens/checkout/checkout.dart';
 import '../screens/debug/playground.dart';
 import '../screens/home/home.dart';
 import '../screens/onboarding.dart';
+import '../screens/orders/orders.dart';
 import '../screens/product/product.dart';
 import '../screens/profile/dialogs/new_address_dialog.dart';
 import '../screens/profile/pages/addresses.dart';
@@ -112,6 +113,10 @@ abstract class AppRouter {
         SailorRoute(
           name: AddressesScreen.routeName,
           builder: (context, args, paramMap) => const AddressesScreen(),
+        ),
+        SailorRoute(
+          name: OrdersScreen.routeName,
+          builder: (context, args, paramMap) => const OrdersScreen(),
         ),
         SailorRoute(
           name: NewAddressDialog.routeName,

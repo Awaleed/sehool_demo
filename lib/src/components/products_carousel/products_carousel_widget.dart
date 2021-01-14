@@ -74,6 +74,7 @@ class _ProductsCarouselWidgetState extends State<ProductsCarouselWidget> {
       options: CarouselOptions(
         // aspectRatio: 9 / 12,
         // viewportFraction: .5,
+        enableInfiniteScroll: false,
         height: 400,
         enlargeCenterPage: true,
       ),

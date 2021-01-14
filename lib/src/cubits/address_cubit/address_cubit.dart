@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:sehool/src/models/form_data_model.dart';
 
 import '../../models/address_model.dart';
 import '../../repositories/user_repository.dart';
@@ -26,10 +27,10 @@ class AddressCubit extends Cubit<AddressState> {
     }
   }
 
-  Future<void> addAddress(AddressModel model) async {
+  Future<void> addAddress(Map<FormFieldType, FormFieldModel> data) async {
     emit(const AddressState.loading());
     try {
-      final value = await _userRepository.addAddress(model);
+      final value = await _userRepository.addAddress(data);
       emit(AddressState.success(value));
         } catch (e) {
       addError(e);

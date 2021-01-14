@@ -1,17 +1,23 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
+import 'package:simple_animations/simple_animations.dart';
+import 'package:video_player/video_player.dart';
 
 import '../../models/video_model.dart';
 import '../../routes/config_routes.dart';
 import '../../screens/video/video.dart';
+import 'package:supercharged/supercharged.dart';
 
 class VideosCarouselItemWidget extends StatelessWidget {
   const VideosCarouselItemWidget({
     Key key,
     @required this.video,
+    @required this.play,
   }) : super(key: key);
 
   final VideoModel video;
+  final bool play;
 
   @override
   Widget build(BuildContext context) {
@@ -38,9 +44,34 @@ class VideosCarouselItemWidget extends StatelessWidget {
                   RectTween(begin: begin, end: end),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(25),
-                child: CachedNetworkImage(
-                  imageUrl: video.preview,
-                  fit: BoxFit.cover,
+                child: CustomAnimation<double>(
+                  control: play
+                      ? CustomAnimationControl.PLAY
+                      : CustomAnimationControl.PLAY_REVERSE,
+                  tween: 0.0.tweenTo(1.0),
+                  duration: 500.milliseconds,
+                  curve: Curves.easeOut,
+                  builder: (context, child, value) => Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      Opacity(
+                        opacity: value,
+                        child: play
+                            ? VideoApp(url: video.video)
+                            : CachedNetworkImage(
+                                imageUrl: video.preview,
+                                fit: BoxFit.cover,
+                              ),
+                      ),
+                      Opacity(
+                        opacity: 1 - value,
+                        child: CachedNetworkImage(
+                          imageUrl: video.preview,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -113,6 +144,62 @@ class VideosCarouselItemWidget extends StatelessWidget {
           //   ),
           // ),
         ],
+      ),
+    );
+  }
+}
+
+class VideoApp extends StatefulWidget {
+  final String url;
+
+  const VideoApp({Key key, this.url}) : super(key: key);
+  @override
+  _VideoAppState createState() => _VideoAppState();
+}
+
+class _VideoAppState extends State<VideoApp> {
+  VideoPlayerController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = VideoPlayerController.network(widget.url)
+      ..initialize().then((_) {
+        _controller.play();
+        setState(() {});
+      });
+  }
+
+  @override
+  void dispose() {
+    _controller.pause();
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: Center(
+        child: _controller.value.initialized
+            ? AspectRatio(
+                aspectRatio: _controller.value.aspectRatio,
+                child: VideoPlayer(_controller),
+              )
+            : Container(),
+      ),
+      floatingActionButton: IconButton(
+        onPressed: () {
+          setState(() {
+            _controller.value.isPlaying
+                ? _controller.pause()
+                : _controller.play();
+          });
+        },
+        icon: Icon(
+          _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
+        ),
       ),
     );
   }

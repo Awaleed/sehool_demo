@@ -11,6 +11,7 @@ import '../../../components/my_loading_overlay.dart';
 import '../../../cubits/auth_cubit/auth_cubit.dart';
 import '../../../data/user_datasource.dart';
 import '../../../routes/config_routes.dart';
+import '../../orders/orders.dart';
 import '../../profile/pages/addresses.dart';
 import '../../profile/pages/language.dart';
 import '../../profile/profile_settings.dart';
@@ -113,8 +114,10 @@ class _ProfilePageState extends State<ProfilePage> {
                     ListTile(
                       leading: const Icon(FluentIcons.history_24_regular),
                       title: Text(S.current.my_orders),
+                      // onTap: () =>
+                      //     AppRouter.sailor.navigate(OrdersHistory.routeName),
                       onTap: () =>
-                          AppRouter.sailor.navigate(OrdersHistory.routeName),
+                          AppRouter.sailor.navigate(OrdersScreen.routeName),
                     ),
                     ListTile(
                       leading: const Icon(FluentIcons.chat_help_24_regular),

@@ -57,7 +57,7 @@ class _AddressesScreenState extends State<AddressesScreen> {
               icon: const Icon(FluentIcons.add_28_regular),
               onPressed: () => AppRouter.sailor.navigate(
                 NewAddressDialog.routeName,
-                params: {'Address_cubit': cubit},
+                params: {'address_cubit': cubit},
               ),
             ),
           ],
