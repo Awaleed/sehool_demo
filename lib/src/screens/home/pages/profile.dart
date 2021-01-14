@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:division/division.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:validators/validators.dart';
@@ -68,6 +69,12 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                       ),
                     ),
+                    Column(
+                      children: [
+                        Txt(kUser.vatNumber ?? ''),
+                        Txt(kUser.storeName ?? '')
+                      ],
+                    )
                   ],
                 ),
               ),
