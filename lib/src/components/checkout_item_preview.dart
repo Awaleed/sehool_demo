@@ -48,7 +48,7 @@ class CheckoutItemPreview extends StatelessWidget {
                     ),
                     ListTile(
                       title: Text(S.current.slicing_method),
-                      subtitle: Text(cartItem.slicingMethod.name),
+                      subtitle: Text(cartItem?.slicingMethod?.name ?? ''),
                     ),
                     ListTile(
                       title: Text(S.current.notes),
