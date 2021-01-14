@@ -1,3 +1,4 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 
 import '../../generated/l10n.dart';
@@ -28,7 +29,7 @@ class EmptyAddressesWidget extends StatelessWidget {
                       Theme.of(context).focusColor.withOpacity(0.05),
                     ])),
             child: Icon(
-              Icons.location_on,
+              FluentIcons.location_off_24_regular,
               color: Theme.of(context).scaffoldBackgroundColor,
               size: 70,
             ),
@@ -39,10 +40,9 @@ class EmptyAddressesWidget extends StatelessWidget {
             child: Text(
               S.of(context).dont_have_any_address,
               textAlign: TextAlign.center,
-              style: Theme.of(context)
-                  .textTheme
-                  .headline4
-                  .merge(const TextStyle(fontWeight: FontWeight.w300)),
+              style: Theme.of(context).textTheme.headline4.merge(
+                  const TextStyle(
+                      fontWeight: FontWeight.w300, color: Colors.white)),
             ),
           ),
         ],

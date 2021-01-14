@@ -1,4 +1,5 @@
-
+import 'package:division/division.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -20,7 +21,6 @@ class _LanguageScreenState extends State<LanguageScreen> {
   SettingsCubit cubit;
   @override
   void initState() {
-    
     super.initState();
     cubit = getIt<SettingsCubit>();
   }
@@ -33,43 +33,62 @@ class _LanguageScreenState extends State<LanguageScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(S.of(context).languages),
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(vertical: 10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: ListTile(
-                contentPadding: const EdgeInsets.symmetric(),
-                leading: Icon(
-                  Icons.translate,
-                  color: Theme.of(context).hintColor,
+    return Parent(
+      style: ParentStyle()
+        ..background.image(path: 'assets/images/bg.jpg', fit: BoxFit.cover),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: Colors.black54,
+          title: Txt(
+            S.of(context).languages,
+            style: TxtStyle()..textColor(Colors.white60),
+          ),
+        ),
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: ListTile(
+                  contentPadding: const EdgeInsets.symmetric(),
+                  leading: const Icon(
+                    FluentIcons.translate_24_regular,
+                    color: Colors.white,
+                  ),
+                  title: Text(
+                    S.of(context).app_language,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline4
+                        .copyWith(color: Colors.white),
+                  ),
+                  subtitle: Text(
+                    S.of(context).select_your_preferred_languages,
+                    style: Theme.of(context)
+                        .textTheme
+                        .subtitle1
+                        .copyWith(color: Colors.white60),
+                  ),
                 ),
-                title: Text(
-                  S.of(context).app_language,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.headline4,
-                ),
-                subtitle: Text(S.of(context).select_your_preferred_languages),
               ),
-            ),
-            const SizedBox(height: 10),
-            BlocBuilder<SettingsCubit, SettingsState>(
-              cubit: cubit,
-              builder: (context, state) {
-                return state.maybeWhen(
-                  loaded: (value) => _buildList(value.languageCode),
-                  orElse: () => _buildList(),
-                );
-              },
-            ),
-          ],
+              const SizedBox(height: 10),
+              BlocBuilder<SettingsCubit, SettingsState>(
+                cubit: cubit,
+                builder: (context, state) {
+                  return state.maybeWhen(
+                    loaded: (value) => _buildList(value.languageCode),
+                    orElse: () => _buildList(),
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -143,13 +162,19 @@ class _LanguageScreenState extends State<LanguageScreen> {
                         _language.localName,
                         overflow: TextOverflow.ellipsis,
                         maxLines: 2,
-                        style: Theme.of(context).textTheme.subtitle1,
+                        style: Theme.of(context)
+                            .textTheme
+                            .subtitle1
+                            .copyWith(color: Colors.white),
                       ),
                       Text(
                         _language.englishName,
                         overflow: TextOverflow.ellipsis,
                         maxLines: 2,
-                        style: Theme.of(context).textTheme.caption,
+                        style: Theme.of(context)
+                            .textTheme
+                            .caption
+                            .copyWith(color: Colors.white60),
                       ),
                     ],
                   ),

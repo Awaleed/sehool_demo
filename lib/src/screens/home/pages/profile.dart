@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:validators/validators.dart';
 
@@ -52,7 +53,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           children: [
                             Row(
                               children: [
-                                const Icon(Icons.email),
+                                const Icon(FluentIcons.mail_28_regular),
                                 Flexible(
                                   child: Text(
                                     kUser.email,
@@ -78,7 +79,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: Column(
                   children: [
                     ListTile(
-                      leading: const Icon(Icons.settings),
+                      leading: const Icon(FluentIcons.settings_28_regular),
                       title: Text(S.of(context).settings),
                       onTap: () async {
                         await AppRouter.sailor.navigate(
@@ -88,24 +89,26 @@ class _ProfilePageState extends State<ProfilePage> {
                       },
                     ),
                     ListTile(
-                      leading: const Icon(Icons.edit_location),
+                      leading:
+                          const Icon(FluentIcons.globe_location_24_regular),
                       title: Text(S.of(context).addresses),
                       onTap: () =>
                           AppRouter.sailor.navigate(AddressesScreen.routeName),
                     ),
                     ListTile(
-                      leading: const Icon(Icons.language),
+                      leading:
+                          const Icon(FluentIcons.local_language_28_regular),
                       title: Text(S.of(context).languages),
                       onTap: () =>
                           AppRouter.sailor.navigate(LanguageScreen.routeName),
                     ),
                     ListTile(
-                      leading: const Icon(Icons.help),
+                      leading: const Icon(FluentIcons.chat_help_24_regular),
                       title: Text(S.of(context).help_support),
                       onTap: () {},
                     ),
                     ListTile(
-                      leading: const Icon(Icons.account_balance_wallet),
+                      leading: const Icon(FluentIcons.money_24_regular),
                       title:
                           Localizations.localeOf(context).languageCode == 'ar'
                               ? Text(
@@ -120,9 +123,16 @@ class _ProfilePageState extends State<ProfilePage> {
                                 ),
                       onTap: () {},
                     ),
+                    const Divider(),
                     ListTile(
-                      leading: const Icon(Icons.exit_to_app),
-                      title: Text(S.of(context).log_out),
+                      leading: const Icon(
+                        FluentIcons.sign_out_24_regular,
+                        color: Colors.red,
+                      ),
+                      title: Text(
+                        S.of(context).log_out,
+                        style: const TextStyle(color: Colors.red),
+                      ),
                       onTap: () => getIt<AuthCubit>().unauthenticateUser(),
                     ),
                   ],

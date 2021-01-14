@@ -1,3 +1,5 @@
+import 'package:division/division.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -35,30 +37,43 @@ class _AddressesScreenState extends State<AddressesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(S.of(context).addresses),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: () => AppRouter.sailor.navigate(
-              NewAddressDialog.routeName,
-              params: {'AddressCubit': cubit},
-            ),
+    return Parent(
+      style: ParentStyle()
+        ..background.image(path: 'assets/images/bg.jpg', fit: BoxFit.cover),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: Colors.black54,
+          title: Text(
+            S.of(context).addresses,
+            style: Theme.of(context)
+                .textTheme
+                .headline6
+                .copyWith(color: Colors.white),
           ),
-        ],
-      ),
-      body: BlocBuilder<AddressCubit, AddressState>(
-        cubit: cubit,
-        builder: (context, state) {
-          return state.when(
-            initial: _buildUi,
-            loading: () => _buildUi(isLoading: true),
-            success: (value) => _buildUi(addresses: value),
-            // TODO: Handel ERROR STATE
-            failure: (message) => throw UnimplementedError(),
-          );
-        },
+          actions: [
+            IconButton(
+              icon: const Icon(FluentIcons.add_28_regular),
+              onPressed: () => AppRouter.sailor.navigate(
+                NewAddressDialog.routeName,
+                params: {'AddressCubit': cubit},
+              ),
+            ),
+          ],
+        ),
+        body: BlocBuilder<AddressCubit, AddressState>(
+          cubit: cubit,
+          builder: (context, state) {
+            return state.when(
+              initial: _buildUi,
+              loading: () => _buildUi(isLoading: true),
+              success: (value) => _buildUi(addresses: value),
+              // TODO: Handel ERROR STATE
+              failure: (message) => throw UnimplementedError(),
+            );
+          },
+        ),
       ),
     );
   }

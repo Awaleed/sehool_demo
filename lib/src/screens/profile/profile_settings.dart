@@ -1,3 +1,4 @@
+import 'package:division/division.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -39,19 +40,24 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text(S.of(context).profile_settings)),
-      body: BlocBuilder<ProfileCubit, ProfileState>(
-        cubit: cubit,
-        builder: (context, state) {
-          return state.when(
-            initial: _buildUi,
-            loading: () => _buildUi(isLoading: true),
-            success: (value) => _buildUi(),
-            // TODO: Handel ERROR STATE
-            failure: (message) => throw UnimplementedError(),
-          );
-        },
+    return Parent(
+      style: ParentStyle()
+        ..background.image(path: 'assets/images/bg.jpg', fit: BoxFit.cover),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(title: Text(S.of(context).profile_settings)),
+        body: BlocBuilder<ProfileCubit, ProfileState>(
+          cubit: cubit,
+          builder: (context, state) {
+            return state.when(
+              initial: _buildUi,
+              loading: () => _buildUi(isLoading: true),
+              success: (value) => _buildUi(),
+              // TODO: Handel ERROR STATE
+              failure: (message) => throw UnimplementedError(),
+            );
+          },
+        ),
       ),
     );
   }

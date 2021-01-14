@@ -131,7 +131,7 @@ class _CartStepperState extends State<CartStepper> {
                       },
                 child: Row(
                   children: const [
-                    Icon(FluentIcons.arrow_clockwise_24_regular),
+                    Icon(FluentIcons.arrow_left_24_regular),
                     SizedBox(width: 10),
                     Text('السابق'),
                   ],

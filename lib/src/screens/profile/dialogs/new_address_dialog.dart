@@ -1,5 +1,6 @@
 import 'package:division/division.dart';
 import 'package:dropdown_search/dropdown_search.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 // import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -30,7 +31,7 @@ class NewAddressDialog extends StatelessWidget {
       builder: (context, state) {
         return state.when(
           initial: () => _buildUi(context, cubit),
-          loading: () => _buildUi(context, cubit, isLoading: true),
+          loading: () => _buildUi(context, cubit, isLoading: false),
           success: (value) => _buildUi(context, cubit),
           // TODO: Handel ERROR STATE
           failure: (message) => throw UnimplementedError(),
@@ -44,63 +45,78 @@ class NewAddressDialog extends StatelessWidget {
     return MyLoadingOverLay(
       isLoading: isLoading,
       showSpinner: true,
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(S.of(context).address),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.save),
-              onPressed: () async {
-                Helpers.dismissFauces(context);
-                if (formKey.currentState.validate()) {
-                  formKey.currentState.save();
-                }
-              },
+      child: Parent(
+        style: ParentStyle()
+          ..background.image(path: 'assets/images/bg.jpg', fit: BoxFit.cover),
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: AppBar(
+            elevation: 0,
+            backgroundColor: Colors.black54,
+            title: Text(
+              S.of(context).address,
+              style: Theme.of(context)
+                  .textTheme
+                  .headline6
+                  .copyWith(color: Colors.white),
             ),
-          ],
-        ),
-        body: SingleChildScrollView(
-          padding: const EdgeInsets.all(8),
-          child: Form(
-            key: formKey,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                const SizedBox(height: 8),
-                _buildTextInput(
-                  context,
-                  map: data,
-                  type: FormFieldType.address,
-                  enabled: !isLoading,
+            actions: [
+              IconButton(
+                icon: const Icon(FluentIcons.save_24_regular),
+                onPressed: () async {
+                  Helpers.dismissFauces(context);
+                  if (formKey.currentState.validate()) {
+                    formKey.currentState.save();
+                  }
+                },
+              ),
+            ],
+          ),
+          body: SingleChildScrollView(
+            padding: const EdgeInsets.all(8),
+            child: Card(
+              child: Form(
+                key: formKey,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    const SizedBox(height: 8),
+                    _buildTextInput(
+                      context,
+                      map: data,
+                      type: FormFieldType.address,
+                      enabled: !isLoading,
+                    ),
+                    const SizedBox(height: 8),
+                    _buildTextInput(
+                      context,
+                      map: data,
+                      type: FormFieldType.notes,
+                      enabled: !isLoading,
+                    ),
+                    const SizedBox(height: 8),
+                    _buildDropdownInput(
+                      map: data,
+                      type: FormFieldType.cityId,
+                      dropType: DropdownValueType.cites,
+                    ),
+                    const SizedBox(height: 8),
+                    _buildDropdownInput(
+                      map: data,
+                      type: FormFieldType.citySectionId,
+                      dropType: DropdownValueType.citySections,
+                    ),
+                    const SizedBox(height: 8),
+                    // _buildAddressPickerCard(
+                    //   context,
+                    //   map: data,
+                    //   type: FormFieldType.email,
+                    //   enabled: !isLoading,
+                    // )
+                  ],
                 ),
-                const SizedBox(height: 8),
-                _buildTextInput(
-                  context,
-                  map: data,
-                  type: FormFieldType.notes,
-                  enabled: !isLoading,
-                ),
-                const SizedBox(height: 8),
-                _buildDropdownInput(
-                  map: data,
-                  type: FormFieldType.cityId,
-                  dropType: DropdownValueType.cites,
-                ),
-                const SizedBox(height: 8),
-                _buildDropdownInput(
-                  map: data,
-                  type: FormFieldType.citySectionId,
-                  dropType: DropdownValueType.citySections,
-                ),
-                const SizedBox(height: 8),
-                // _buildAddressPickerCard(
-                //   context,
-                //   map: data,
-                //   type: FormFieldType.email,
-                //   enabled: !isLoading,
-                // )
-              ],
+              ),
             ),
           ),
         ),

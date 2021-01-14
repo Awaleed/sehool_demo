@@ -68,20 +68,20 @@ class FormFieldModel {
             );
           },
         );
-      // case FormFieldType.address:
-      //   return FormFieldModel(
-      //     hintText: S.current.address,
-      //     labelText: S.current.address ,
-      //     iconData: FontAwesomeIcons.user,
-      //     keyboardType: TextInputType.text,
-      //     validator: _Validators.notEmptyStringValidator,
-      //     onSave: (value) {
-      //       map[FormFieldType.address] = FormFieldModel(
-      //         name: 'username',
-      //         value: _toString(value),
-      //       );
-      //     },
-      //   );
+      case FormFieldType.address:
+        return FormFieldModel(
+          hintText: S.current.address,
+          labelText: S.current.address,
+          iconData: FluentIcons.location_28_regular,
+          keyboardType: TextInputType.text,
+          validator: _Validators.notEmptyStringValidator,
+          onSave: (value) {
+            map[FormFieldType.address] = FormFieldModel(
+              name: 'username',
+              value: _toString(value),
+            );
+          },
+        );
       case FormFieldType.password:
         return FormFieldModel(
           hintText: '************',

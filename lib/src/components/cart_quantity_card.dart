@@ -31,11 +31,10 @@ class _CartQuantityCardState extends State<CartQuantityCard> {
               .copyWith(color: Colors.white),
         ),
         _buildButton(
-          onTap: widget.cartItem.quantity <= 1
-              ? null
-              : widget.cartItem.decrementCart,
-          icon: FluentIcons.remove_24_regular,
-        ),
+            onTap: widget.cartItem.quantity <= 1
+                ? null
+                : widget.cartItem.decrementCart,
+            icon: Icons.remove_rounded),
       ],
     );
   }
