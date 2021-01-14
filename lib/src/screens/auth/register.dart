@@ -48,30 +48,35 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(8.0),
-          child: BlocConsumer<RegistrationCubit, RegistrationState>(
-            cubit: cubit,
-            listener: (context, state) {
-              state.maybeWhen(
-                failure: (message) => Helpers.showErrorOverlay(
-                  context,
-                  error: message,
-                ),
-                orElse: () {},
-              );
-            },
-            builder: (context, state) {
-              return state.when(
-                initial: () => _buildColumn(context),
-                loading: () => _buildColumn(context, isLoading: true),
-                success: () => _buildColumn(context),
-                // TODO: Handel ERROR STATE
-                failure: (_) => _buildColumn(context),
-              );
-            },
+    return Parent(
+      style: ParentStyle()
+        ..background.image(path: 'assets/images/bg.jpg', fit: BoxFit.cover),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(8.0),
+            child: BlocConsumer<RegistrationCubit, RegistrationState>(
+              cubit: cubit,
+              listener: (context, state) {
+                state.maybeWhen(
+                  failure: (message) => Helpers.showErrorOverlay(
+                    context,
+                    error: message,
+                  ),
+                  orElse: () {},
+                );
+              },
+              builder: (context, state) {
+                return state.when(
+                  initial: () => _buildColumn(context),
+                  loading: () => _buildColumn(context, isLoading: true),
+                  success: () => _buildColumn(context),
+                  // TODO: Handel ERROR STATE
+                  failure: (_) => _buildColumn(context),
+                );
+              },
+            ),
           ),
         ),
       ),
@@ -87,7 +92,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       children: [
         SizedBox(
           height: 300,
-          child: Image.asset('assets/images/logo.png'),
+          child: Image.asset(
+            'assets/images/logo.png',
+            color: Colors.white,
+          ),
         ),
         Form(
           key: formKey,

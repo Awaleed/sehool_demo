@@ -54,6 +54,7 @@ class SplashScreen extends StatelessWidget {
         );
       },
       child: Scaffold(
+        backgroundColor: const Color(0xffDCA11B),
         body: Center(
           child: CustomAnimation<double>(
             control: CustomAnimationControl.MIRROR,
@@ -64,7 +65,7 @@ class SplashScreen extends StatelessWidget {
               scale: sin(value).abs(),
               child: child,
             ),
-            child: const FlutterLogo(size: 200),
+            child: Image.asset('assets/images/black.png'),
           ),
         ),
       ),
