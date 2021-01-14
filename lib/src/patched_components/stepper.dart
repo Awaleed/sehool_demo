@@ -1,8 +1,5 @@
-<<<<<<< HEAD
-=======
 import 'package:division/division.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
->>>>>>> 6865e0ab63ffa753291c7e9c2d46dffcdec720cd
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:simple_animations/simple_animations.dart';
