@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:division/division.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:sehool/src/screens/profile/pages/orders_history.dart';
 import 'package:validators/validators.dart';
 
 import '../../../../generated/l10n.dart';
@@ -108,6 +109,12 @@ class _ProfilePageState extends State<ProfilePage> {
                       title: Text(S.current.languages),
                       onTap: () =>
                           AppRouter.sailor.navigate(LanguageScreen.routeName),
+                    ),
+                    ListTile(
+                      leading: const Icon(FluentIcons.history_24_regular),
+                      title: Text(S.current.my_orders),
+                      onTap: () =>
+                          AppRouter.sailor.navigate(OrdersHistory.routeName),
                     ),
                     ListTile(
                       leading: const Icon(FluentIcons.chat_help_24_regular),

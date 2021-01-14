@@ -1,4 +1,5 @@
 import 'package:sailor/sailor.dart';
+import 'package:sehool/src/screens/profile/pages/orders_history.dart';
 import 'package:supercharged/supercharged.dart';
 
 import '../screens/auth/forgot_password.dart';
@@ -118,6 +119,11 @@ abstract class AppRouter {
             cubit: paramMap.param('address_cubit'),
           ),
           params: [SailorParam(name: 'address_cubit')],
+        ),
+
+        SailorRoute(
+          name: OrdersHistory.routeName,
+          builder: (context, args, paramMap) => const OrdersHistory(),
         ),
 
         /// Debug Screens
