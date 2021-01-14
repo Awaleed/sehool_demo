@@ -65,6 +65,7 @@ class _CartDropdownState<T> extends State<CartDropdown<T>> {
   }
 
   DropdownButton _buildDropdown(List values, {bool isLoading = false}) {
+    print('selectedValue: ${selectedValue}');
     print('Values: ${values}');
 
     return DropdownButton<T>(

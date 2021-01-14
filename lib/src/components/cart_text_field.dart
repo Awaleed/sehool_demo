@@ -6,17 +6,22 @@ import '../models/cart_model.dart';
 class CartTextField extends StatelessWidget {
   const CartTextField({
     Key key,
-    @required this.cartItem,
+    this.cartItem,
+    this.cart,
   }) : super(key: key);
   final CartItemModel cartItem;
+  final CartModel cart;
 
   @override
   Widget build(BuildContext context) {
     return TextField(
       controller: TextEditingController.fromValue(
-        TextEditingValue(text: cartItem.notes ?? ''),
+        TextEditingValue(text: cart?.notes ?? cartItem?.notes ?? ''),
       ),
-      onChanged: (value) => cartItem.notes = value,
+      onChanged: (value) {
+        cartItem?.notes = value;
+        cart?.notes = value;
+      },
       decoration: InputDecoration(
         hintText: S.of(context).notes,
         filled: true,

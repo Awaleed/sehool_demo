@@ -8,7 +8,8 @@ class CartModel {
   List<CartItemModel> cartItems = [];
   AddressModel address;
   PickupMethodModel pickupMethod;
-  DateTime orderDate;
+  DateTime orderDate = DateTime.now();
+  OrderType type;
   PaymentMethodModel paymentMethod;
   String notes;
 
@@ -21,6 +22,7 @@ class CartModel {
         o.address == address &&
         o.pickupMethod == pickupMethod &&
         o.orderDate == orderDate &&
+        o.type == type &&
         o.paymentMethod == paymentMethod &&
         o.notes == notes;
   }
@@ -31,6 +33,7 @@ class CartModel {
         address.hashCode ^
         pickupMethod.hashCode ^
         orderDate.hashCode ^
+        type.hashCode ^
         paymentMethod.hashCode ^
         notes.hashCode;
   }

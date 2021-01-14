@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:sehool/src/components/cart_dropdown.dart';
+import 'package:sehool/src/models/cart_model.dart';
+import 'package:sehool/src/models/dropdown_value_model.dart';
+import 'package:sehool/src/models/order_model.dart';
 
 import '../../../routes/config_routes.dart';
 import '../../profile/dialogs/new_address_dialog.dart';
 
-class PickupPage extends StatefulWidget {
-  const PickupPage({Key key}) : super(key: key);
-
-  @override
-  _PickupPageState createState() => _PickupPageState();
-}
-
-class _PickupPageState extends State<PickupPage> {
-  String selectedValue;
-
+class PickupPage extends StatelessWidget {
+  const PickupPage({
+    Key key,
+    @required this.cart,
+  }) : super(key: key);
+  final CartModel cart;
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -23,47 +23,12 @@ class _PickupPageState extends State<PickupPage> {
           Center(
             child: Padding(
               padding: const EdgeInsets.all(20.0),
-              child: InputDecorator(
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: Colors.white70,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(25),
-                  ),
-                ),
-                child: DropdownButtonHideUnderline(
-                  child: DropdownButton(
-                    value: selectedValue,
-                    dropdownColor: Colors.amber.withOpacity(.8),
-                    onChanged: (value) {
-                      setState(() {
-                        selectedValue = value;
-                      });
-                    },
-                    icon: const SizedBox.shrink(),
-                    isExpanded: true,
-                    items: ['normal', 'light', 'full', 'none', ' + اضافة جديد']
-                        .map(
-                          (e) => DropdownMenuItem(
-                            value: e,
-                            onTap: e != ' + اضافة جديد'
-                                ? null
-                                : () => AppRouter.sailor
-                                    .navigate(NewAddressDialog.routeName),
-                            child: Center(
-                              child: Text(
-                                e,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headline5
-                                    .copyWith(color: Colors.black),
-                              ),
-                            ),
-                          ),
-                        )
-                        .toList(),
-                  ),
-                ),
+              child: CartDropdown<PickupMethodModel>(
+                dropdownType: DropdownValueType.pickupMethod,
+                initialValue: cart.pickupMethod,
+                onValueChanged: (value) {
+                  cart.pickupMethod = value;
+                },
               ),
             ),
           ),

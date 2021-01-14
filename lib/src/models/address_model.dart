@@ -72,6 +72,18 @@ class CityModel {
   factory CityModel.fromJson(Map<String, dynamic> json) =>
       _$CityModelFromJson(json);
   Map<String, dynamic> toJson() => _$CityModelToJson(this);
+
+  @override
+  bool operator ==(Object o) {
+    if (identical(this, o)) return true;
+  
+    return o is CityModel &&
+      o.id == id &&
+      o.name == name;
+  }
+
+  @override
+  int get hashCode => id.hashCode ^ name.hashCode;
 }
 
 @JsonSerializable(
@@ -93,4 +105,17 @@ class CitySectionModel {
   factory CitySectionModel.fromJson(Map<String, dynamic> json) =>
       _$CitySectionModelFromJson(json);
   Map<String, dynamic> toJson() => _$CitySectionModelToJson(this);
+
+  @override
+  bool operator ==(Object o) {
+    if (identical(this, o)) return true;
+  
+    return o is CitySectionModel &&
+      o.id == id &&
+      o.city == city &&
+      o.name == name;
+  }
+
+  @override
+  int get hashCode => id.hashCode ^ city.hashCode ^ name.hashCode;
 }

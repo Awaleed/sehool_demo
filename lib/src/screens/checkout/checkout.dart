@@ -8,6 +8,8 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:sehool/init_injectable.dart';
 import 'package:sehool/src/cubits/cart_cubit/cart_cubit.dart';
 import 'package:sehool/src/models/cart_model.dart';
+import 'package:sehool/src/models/order_model.dart';
+import 'package:sehool/src/screens/checkout/pages/pickup.dart';
 
 import '../../patched_components/stepper.dart';
 import 'pages/address_review.dart';
@@ -84,27 +86,33 @@ class _CheckoutStepperState extends State<CheckoutStepper> {
         PatchedStep(
           isActive: 1 == currentStep,
           title:
-              const Text('عنوان الشحن', style: TextStyle(color: Colors.white)),
-          content: AddressReviewPage(cart: widget.cart),
+              const Text('نوع التوصيل', style: TextStyle(color: Colors.white)),
+          content: PickupPage(cart: widget.cart),
         ),
         PatchedStep(
           isActive: 2 == currentStep,
           title:
-              const Text('موعد الشحن', style: TextStyle(color: Colors.white)),
-          content: const ShippingDatePage(),
+              const Text('عنوان الشحن', style: TextStyle(color: Colors.white)),
+          content: AddressReviewPage(cart: widget.cart),
         ),
         PatchedStep(
           isActive: 3 == currentStep,
-          title: const Text('ملاحظاف', style: TextStyle(color: Colors.white)),
-          content: const CheckoutNotesPage(),
+          title:
+              const Text('موعد الشحن', style: TextStyle(color: Colors.white)),
+          content: ShippingDatePage(cart: widget.cart),
         ),
         PatchedStep(
           isActive: 4 == currentStep,
+          title: const Text('ملاحظاف', style: TextStyle(color: Colors.white)),
+          content: CheckoutNotesPage(cart: widget.cart),
+        ),
+        PatchedStep(
+          isActive: 5 == currentStep,
           title: const Text('الدفع', style: TextStyle(color: Colors.white)),
           content: const PaymentMethodReviewPage(),
         ),
         PatchedStep(
-          isActive: 5 == currentStep,
+          isActive: 6 == currentStep,
           title: const Text('انهاء', style: TextStyle(color: Colors.white)),
           content: const CheckoutPage(),
         ),
