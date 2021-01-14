@@ -78,18 +78,29 @@ class _CheckoutStepperState extends State<CheckoutStepper> {
   ValueChanged get onChange => (_) => setState(() {});
   List<_StepItem> get steps => [
         _StepItem(
-          label: S.current.cart_contents,
-          child: CartReviewPage(
-            cartItems: widget.cart.cartItems,
-            onChanged: onChange,
-          ),
-        ),
+            label: S.current.cart_contents,
+            child: CartReviewPage(
+              cartItems: widget.cart.cartItems,
+              onChanged: onChange,
+            ),
+            icon: const Icon(
+              FluentIcons.cart_24_regular,
+              size: 50,
+              color: Colors.amber,
+            ),
+            header: FluentIcons.cart_24_regular),
         _StepItem(
           label: S.current.pickup_method,
           child: PickupPage(
             cart: widget.cart,
             onChanged: onChange,
           ),
+          icon: const Icon(
+            Icons.delivery_dining,
+            size: 50,
+            color: Colors.amber,
+          ),
+          header: Icons.delivery_dining,
         ),
         _StepItem(
           label: S.current.shipping_address,
@@ -97,53 +108,80 @@ class _CheckoutStepperState extends State<CheckoutStepper> {
             cart: widget.cart,
             onChanged: onChange,
           ),
+          icon: const Icon(
+            FluentIcons.location_48_regular,
+            size: 50,
+            color: Colors.amber,
+          ),
+          header: FluentIcons.location_48_regular,
           state: widget.cart?.pickupMethod == PickupMethod.delivery
               ? PatchedStepState.indexed
               : PatchedStepState.disabled,
         ),
         _StepItem(
           label: S.current.delivery_date,
+          header: FluentIcons.calendar_28_regular,
           child: ShippingDatePage(
             cart: widget.cart,
             onChanged: onChange,
+          ),
+          icon: const Icon(
+            FluentIcons.calendar_28_regular,
+            size: 50,
+            color: Colors.amber,
           ),
           state: widget.cart?.pickupMethod == PickupMethod.delivery
               ? PatchedStepState.indexed
               : PatchedStepState.disabled,
         ),
         _StepItem(
-          label: S.current.notes,
-          child: CheckoutNotesPage(
-            cart: widget.cart,
-            onChanged: onChange,
-          ),
-        ),
+            label: S.current.notes,
+            icon: const Icon(
+              FluentIcons.note_24_regular,
+              size: 50,
+              color: Colors.amber,
+            ),
+            child: CheckoutNotesPage(
+              cart: widget.cart,
+              onChanged: onChange,
+            ),
+            header: FluentIcons.note_24_regular),
         _StepItem(
-          label: S.current.payment_mode,
-          child: PaymentMethodReviewPage(
-            cart: widget.cart,
-            onChanged: onChange,
-          ),
-        ),
+            label: S.current.payment_mode,
+            child: PaymentMethodReviewPage(
+              cart: widget.cart,
+              onChanged: onChange,
+            ),
+            icon: const Icon(
+              FluentIcons.payment_28_regular,
+              size: 50,
+              color: Colors.amber,
+            ),
+            header: FluentIcons.payment_28_regular),
         _StepItem(
-          label: S.current.finish,
-          child: CheckoutPage(
-            cart: widget.cart,
-            onChanged: onChange,
-          ),
-        ),
+            label: S.current.finish,
+            child: CheckoutPage(
+              cart: widget.cart,
+              onChanged: onChange,
+            ),
+            icon: const Icon(
+              FluentIcons.checkmark_48_regular,
+              size: 50,
+              color: Colors.amber,
+            ),
+            header: FluentIcons.checkmark_48_regular),
       ];
 
   List<PatchedStep> get stepsWidget {
     return <PatchedStep>[
       for (var i = 0; i < steps.length; i++)
         PatchedStep(
-          isActive: currentStep == i,
-          state: steps[i].state,
-          title: steps[i].label,
-          subtitle: steps[i].icon,
-          content: steps[i].child,
-        ),
+            isActive: currentStep == i,
+            state: steps[i].state,
+            title: steps[i].label,
+            subtitle: steps[i].icon,
+            content: steps[i].child,
+            header: steps[i].header),
     ];
   }
 
@@ -244,10 +282,12 @@ class _StepItem {
   final String label;
   final Widget child;
   final Widget icon;
+  final IconData header;
   final PatchedStepState state;
   _StepItem({
     this.label,
     this.child,
+    this.header,
     this.icon = const Icon(
       Icons.track_changes,
       color: Colors.amber,

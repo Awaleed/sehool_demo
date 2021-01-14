@@ -256,9 +256,11 @@ class _PatchedStepperState extends State<PatchedStepper>
         Container(
           margin: const EdgeInsets.symmetric(horizontal: 8.0),
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          color: widget.patchedSteps[i].state != PatchedStepState.disabled
-              ? Colors.transparent
-              : Colors.grey.withOpacity(.8),
+          decoration: BoxDecoration(
+              color: widget.patchedSteps[i].state != PatchedStepState.disabled
+                  ? Colors.transparent
+                  : Colors.grey.withOpacity(.8),
+              borderRadius: const BorderRadius.all(Radius.circular(10))),
           child: InkResponse(
             onTap: widget.patchedSteps[i].state != PatchedStepState.disabled
                 ? () {
