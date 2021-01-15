@@ -13,7 +13,19 @@ import 'package:supercharged/supercharged.dart';
 
 abstract class FakeDataGenerator {
   static const List videos = [
-    'https://r4---sn-5hnekn7z.googlevideo.com/videoplayback?expire=1610679012&ei=hK4AYNKqMs6z-gb22Co&ip=212.102.39.72&id=o-AH0EHpTNKxUOdu38e55NBWNVBlkvCwatqG_sk6HOlNYa&itag=18&source=youtube&requiressl=yes&vprv=1&mime=video%2Fmp4&ns=lGvIvqI88TqhuF1UzA1IrGgF&gir=yes&clen=20443066&ratebypass=yes&dur=238.956&lmt=1584020831932064&fvip=4&c=WEB&txp=6216222&n=-kISEdhqJPdfNK&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cvprv%2Cmime%2Cns%2Cgir%2Cclen%2Cratebypass%2Cdur%2Clmt&sig=AOq0QJ8wRQIgfDu5WN_R1qYUyrihoUav2ss9H2_yEE6i4-NNdMyTD9YCIQCoxEB8pXyTpVLSWs8u4bvKKubZ0rb0BKK9lxqVpwJwkg%3D%3D&rm=sn-n02xgoxufvg3-2gbz7k&req_id=f097a2cdc10aa3ee&redirect_counter=2&cm2rm=sn-2gbe67z&cms_redirect=yes&mh=dG&mip=89.38.97.132&mm=34&mn=sn-5hnekn7z&ms=ltu&mt=1610657078&mv=m&mvi=4&pl=24&lsparams=mh,mip,mm,mn,ms,mv,mvi,pl&lsig=AG3C_xAwRgIhAJmoC6vjkpQEUIuebVV0zU6bUIFRluAbK2bTz_4ugQNNAiEAsEbAgDBPZsTh5ZP7pnjq8DGCq-sECqUNSiuMK27w5Zg%3D',
+    'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+    'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
+    'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
+    'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4',
+    'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4',
+    'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4',
+    'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4',
+    'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4',
+    'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4',
+    'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4',
+    'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/VolkswagenGTIReview.mp4',
+    'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
+    'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WhatCarCanYouGetForAGrand.mp4',
   ];
   static const List images = [
     'https://images.unsplash.com/photo-1544025162-d76694265947?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=749&q=80',

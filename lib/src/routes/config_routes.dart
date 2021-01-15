@@ -77,6 +77,7 @@ abstract class AppRouter {
           name: VideoScreen.routeName,
           builder: (context, args, paramMap) => VideoScreen(
             video: paramMap.param('video'),
+            cubit: paramMap.param('cubit'),
           ),
           params: [
             SailorParam(name: 'video', isRequired: true),
@@ -124,11 +125,6 @@ abstract class AppRouter {
             cubit: paramMap.param('address_cubit'),
           ),
           params: [SailorParam(name: 'address_cubit')],
-        ),
-
-        SailorRoute(
-          name: OrdersHistory.routeName,
-          builder: (context, args, paramMap) => const OrdersHistory(),
         ),
 
         /// Debug Screens

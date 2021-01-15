@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:video_player/video_player.dart';
 
 import '../../../init_injectable.dart';
 import '../../cubits/lazy_list_cubit/lazy_list_cubit.dart';
@@ -21,15 +22,23 @@ class VideosCarouselWidget extends StatefulWidget {
 class _VideosCarouselWidgetState extends State<VideosCarouselWidget> {
   LazyListCubit cubit;
   int currentItem = 0;
+
+  Map<String, VideoPlayerController> _controllers;
+
   @override
   void initState() {
     super.initState();
     cubit = getIt<LazyListCubit>()..getContent(LazyListType.videos);
+    _controllers = {};
   }
 
   @override
   void dispose() {
     cubit.close();
+    for (final _controller in _controllers.values) {
+      _controller.pause();
+      _controller.dispose();
+    }
     super.dispose();
   }
 
@@ -66,9 +75,29 @@ class _VideosCarouselWidgetState extends State<VideosCarouselWidget> {
         if (index >= videosList.length) {
           return const VideosCarouselLoadingItemWidget();
         } else {
+          final video = videosList.elementAt(index);
+          VideoPlayerController _controller = _controllers[video.video];
+          if (_controller == null) {
+            _controller = VideoPlayerController.network(video.video)
+              ..initialize().then((_) {
+                setState(() {});
+              });
+
+            _controllers[video.video] = _controller;
+          }
+
+          final play = currentItem == index;
+          if (play) {
+            _controller.play();
+          } else {
+            _controller.pause();
+          }
+          print('play: $play');
+          print(video);
           return VideosCarouselItemWidget(
-            play: currentItem == index,
-            video: videosList.elementAt(index),
+            play: play,
+            controller: _controller,
+            video: video,
           );
         }
       },

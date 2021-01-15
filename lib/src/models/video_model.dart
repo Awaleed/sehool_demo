@@ -22,4 +22,9 @@ class VideoModel {
   factory VideoModel.fromJson(Map<String, dynamic> json) =>
       _$VideoModelFromJson(json);
   Map<String, dynamic> toJson() => _$VideoModelToJson(this);
+
+  @override
+  String toString() {
+    return 'VideoModel(id: $id, title: $title, description: $description, video: $video, preview: $preview)';
+  }
 }

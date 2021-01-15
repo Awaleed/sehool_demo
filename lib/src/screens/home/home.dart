@@ -85,12 +85,14 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 70),
-            child: PageView(
-              physics: const NeverScrollableScrollPhysics(),
-              controller: pageController,
-              children: [...pages.map((e) => e.page)],
+          SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 70),
+              child: PageView(
+                physics: const NeverScrollableScrollPhysics(),
+                controller: pageController,
+                children: [...pages.map((e) => e.page)],
+              ),
             ),
           ),
           Column(
@@ -122,7 +124,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
               ),
               Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.black45,
                   gradient: LinearGradient(
                     begin: Alignment.bottomCenter,

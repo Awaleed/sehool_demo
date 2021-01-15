@@ -1,26 +1,15 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:simple_animations/simple_animations.dart';
-import 'package:supercharged/supercharged.dart';
-
-import 'package:sehool/src/components/orders_list/orders_list_sliver.dart';
-import 'package:sehool/src/cubits/lazy_list_cubit/lazy_list_cubit.dart';
-import 'package:sehool/src/cubits/order_cubit/order_cubit.dart';
-import 'package:sehool/src/cubits/reveiw_cubit/review_cubit.dart';
-import 'package:sehool/src/models/cart_model.dart';
-import 'package:sehool/src/models/lazy_list_model.dart';
 
 import '../../../generated/l10n.dart';
 import '../../../init_injectable.dart';
-import '../../components/comments_list/comments_list_sliver.dart';
-import '../../components/new_review_field.dart';
+import '../../components/orders_list/orders_list_sliver.dart';
+import '../../cubits/lazy_list_cubit/lazy_list_cubit.dart';
+import '../../models/lazy_list_model.dart';
 import '../../models/product_model.dart';
-import '../../routes/config_routes.dart';
-import '../cart/add_to_cart.dart';
 
 class OrdersScreen extends StatefulWidget {
   static const routeName = '/orders';
