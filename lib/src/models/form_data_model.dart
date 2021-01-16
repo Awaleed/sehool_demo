@@ -169,8 +169,8 @@ class FormFieldModel {
       case FormFieldType.level:
         return FormFieldModel(
           //TODO: Add localization
-          hintText: 'S.current.level',
-          labelText: 'S.current.level',
+          hintText: S.current.level,
+          labelText: S.current.level,
           iconData: FluentIcons.person_accounts_24_regular,
           validator: _Validators.notNullValidator,
           onSave: (value) {
@@ -183,9 +183,9 @@ class FormFieldModel {
       case FormFieldType.storeName:
         //TODO: Add localization
         return FormFieldModel(
-          hintText: 'S.current.store',
-          labelText: 'S.current.store',
-          iconData: FluentIcons.store_24_regular,
+          hintText: S.current.store,
+          labelText: S.current.store,
+          iconData: Icons.store,
           keyboardType: TextInputType.text,
           validator: _Validators.shortStringValidator,
           onSave: (value) {
@@ -198,7 +198,7 @@ class FormFieldModel {
       case FormFieldType.vatNumber:
         return FormFieldModel(
           hintText: '123456789123456',
-          labelText: 'S.current.vat_number',
+          labelText: S.current.vat_number,
           iconData: FluentIcons.money_24_regular,
           keyboardType: TextInputType.number,
           validator: _Validators.notEmptyStringValidator,

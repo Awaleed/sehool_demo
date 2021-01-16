@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -75,6 +77,14 @@ class _VideosCarouselWidgetState extends State<VideosCarouselWidget> {
         if (index >= videosList.length) {
           return const VideosCarouselLoadingItemWidget();
         } else {
+          if (Platform.isWindows) {
+            return Center(
+                child: Text(
+              'Video play back is not supported',
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.headline2,
+            ));
+          }
           final video = videosList.elementAt(index);
           VideoPlayerController _controller = _controllers[video.video];
           if (_controller == null) {

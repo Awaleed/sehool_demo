@@ -1,7 +1,7 @@
 # This is a generated file; do not edit or check into version control.
 file_selector_windows=C:\\Users\\awale\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dartlang.org\\file_selector_windows-0.0.1\\
 import_js_library=C:\\Users\\awale\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dartlang.org\\import_js_library-1.0.2\\
-integration_test=C:\\Users\\awale\\fvm\\versions\\master\\packages\\integration_test\\
+integration_test=C:\\Users\\awale\\fvm\\default\\packages\\integration_test\\
 path_provider=C:\\Users\\awale\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dartlang.org\\path_provider-1.6.27\\
 path_provider_linux=C:\\Users\\awale\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dartlang.org\\path_provider_linux-0.0.1+2\\
 path_provider_macos=C:\\Users\\awale\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dartlang.org\\path_provider_macos-0.0.4+8\\

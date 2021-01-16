@@ -55,47 +55,64 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         backgroundColor: Colors.transparent,
         body: Center(
           child: SingleChildScrollView(
-            child: Form(
-              key: formKey,
-              child: BlocConsumer<ForgotPasswordCubit, ForgotPasswordState>(
-                cubit: cubit,
-                listener: (context, state) {
-                  state.maybeWhen(
-                    success: () => AppRouter.sailor.navigate(
-                      LoginScreen.routeName,
-                      navigationType: NavigationType.pushAndRemoveUntil,
-                      removeUntilPredicate: (_) => false,
-                    ),
-                    enterNewPassword: (email, timeout) {
-                      credentials.clear();
-                      formKey.currentState.reset();
-                      timerValue = timeout;
-                      resendTimer = Timer.periodic(1.seconds, (timer) {
-                        if (timerValue == 0) timer.cancel();
-                        setState(() {
-                          timerValue--;
-                        });
-                      });
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Form(
+                  key: formKey,
+                  child: BlocConsumer<ForgotPasswordCubit, ForgotPasswordState>(
+                    cubit: cubit,
+                    listener: (context, state) {
+                      state.maybeWhen(
+                        success: () => AppRouter.sailor.navigate(
+                          LoginScreen.routeName,
+                          navigationType: NavigationType.pushAndRemoveUntil,
+                          removeUntilPredicate: (_) => false,
+                        ),
+                        enterNewPassword: (email, timeout) {
+                          credentials.clear();
+                          formKey.currentState.reset();
+                          timerValue = timeout;
+                          resendTimer = Timer.periodic(1.seconds, (timer) {
+                            if (timerValue == 0) timer.cancel();
+                            setState(() {
+                              timerValue--;
+                            });
+                          });
+                        },
+                        orElse: () {},
+                      );
                     },
-                    orElse: () {},
-                  );
-                },
-                builder: (context, state) {
-                  return state.when(
-                    enterYourEmail: (email) => _buildEnterEmail(email),
-                    enterYourEmailLoading: (email) =>
-                        _buildEnterEmail(email, true),
-                    enterNewPassword: (email, timeout) =>
-                        _buildEnterPassword(email, timeout),
-                    enterNewPasswordLoading: (email) =>
-                        _buildEnterPassword(email, null, true),
-                    success: () => _buildEnterEmail(),
-                    failureOnEnterYourEmail: (_) => _buildEnterEmail(),
-                    failureOnNewPassword: (message, email, timeout) =>
-                        _buildEnterPassword(email, timeout),
-                  );
-                },
-              ),
+                    builder: (context, state) {
+                      return state.when(
+                        enterYourEmail: (email) => _buildEnterEmail(email),
+                        enterYourEmailLoading: (email) =>
+                            _buildEnterEmail(email, true),
+                        enterNewPassword: (email, timeout) =>
+                            _buildEnterPassword(email, timeout),
+                        enterNewPasswordLoading: (email) =>
+                            _buildEnterPassword(email, null, true),
+                        success: () => _buildEnterEmail(),
+                        failureOnEnterYourEmail: (_) => _buildEnterEmail(),
+                        failureOnNewPassword: (message, email, timeout) =>
+                            _buildEnterPassword(email, timeout),
+                      );
+                    },
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Txt(S.current.i_have_account_back_to_login),
+                    TextButton(
+                      onPressed: () =>
+                          AppRouter.sailor.navigate(LoginScreen.routeName),
+                      child: Txt(S.current.login),
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
         ),

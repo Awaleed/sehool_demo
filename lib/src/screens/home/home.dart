@@ -32,6 +32,10 @@ class _HomeScreenState extends State<HomeScreen> {
           page: const MainPage(),
         ),
         _TabBarItem(
+          icon: FluentIcons.cart_24_filled,
+          label: S.current.cart,
+        ),
+        _TabBarItem(
           icon: FluentIcons.video_24_regular,
           label: S.current.watch,
           page: const VideosPage(),
@@ -99,30 +103,6 @@ class _HomeScreenState extends State<HomeScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              BlocBuilder<CartCubit, CartState>(
-                cubit: getIt<CartCubit>(),
-                builder: (context, state) {
-                  if (state.cart.cartItems.isEmpty) {
-                    return const SizedBox.shrink();
-                  }
-                  return Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        FloatingActionButton.extended(
-                          onPressed: () => AppRouter.sailor
-                              .navigate(CheckoutScreen.routeName),
-                          label: Text(
-                            '${state.cart.cartItems.length} ${S.current.products_in_cart}',
-                          ),
-                          icon: const Icon(FluentIcons.cart_24_filled),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
               Container(
                 decoration: const BoxDecoration(
                   color: Colors.black45,
@@ -147,6 +127,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         for (var i = 0; i < pages.length; i++) {
                           final isSelected = selectedIndex == i;
                           final item = pages[i];
+
+                          if (item.page == null) {
+                            list.add(_buildCartButton());
+                            continue;
+                          }
                           final tab = Parent(
                             gesture: Gestures()
                               ..onTap(() {
@@ -186,7 +171,6 @@ class _HomeScreenState extends State<HomeScreen> {
                               ],
                             ),
                           );
-
                           list.add(tab);
                         }
                         return list;
@@ -201,6 +185,95 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+
+  Widget _buildCartButton() => BlocBuilder<CartCubit, CartState>(
+        cubit: getIt<CartCubit>(),
+        builder: (context, state) {
+          Parent(
+            gesture: Gestures()
+              ..onTap(() {
+                AppRouter.sailor.navigate(CheckoutScreen.routeName);
+              }),
+            style: ParentStyle()
+              ..animate(600, Curves.easeOut)
+              ..width(70)
+              ..background.color(Colors.transparent)
+              ..padding(
+                horizontal: 20,
+                vertical: 10,
+              )
+              ..borderRadius(all: 50)
+              ..alignmentContent.center(),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  FluentIcons.cart_24_filled,
+                  color: Colors.white,
+                ),
+                // if (isSelected)
+                //   Flexible(
+                //     child: FittedBox(
+                //       child: Text(
+                //         '  ${item.label}',
+                //         style: const TextStyle(
+                //           color: Colors.amber,
+                //         ),
+                //       ),
+                //     ),
+                //   ),
+              ],
+            ),
+          );
+          return Padding(
+            padding: const EdgeInsets.all(10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                FloatingActionButton(
+                  onPressed: () {
+                    if (state.cart.cartItems.isNotEmpty) {
+                      AppRouter.sailor.navigate(CheckoutScreen.routeName);
+                    }
+                  },
+                  child: Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      const Icon(FluentIcons.cart_24_filled),
+                      if (state.cart.cartItems.isNotEmpty)
+                        Positioned(
+                          top: -20,
+                          left: -20,
+                          right: -20,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              SizedBox.fromSize(
+                                size: const Size.fromRadius(14),
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    color: Colors.black,
+                                    borderRadius: BorderRadius.circular(2),
+                                  ),
+                                  child: Text(
+                                    '${state.cart.cartItems.length}',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(color: Colors.amber),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      );
 }
 
 class _TabBarItem {

@@ -35,6 +35,36 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
+  /// `Level`
+  String get level {
+    return Intl.message(
+      'Level',
+      name: 'level',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Store`
+  String get store {
+    return Intl.message(
+      'Store',
+      name: 'store',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Vat number`
+  String get vat_number {
+    return Intl.message(
+      'Vat number',
+      name: 'vat_number',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Balance`
   String get balance {
     return Intl.message(

@@ -53,17 +53,11 @@ class FakeDropdownRemoteDataSource extends IDropdownRemoteDataSource {
           (_) => FakeDataGenerator.citySectionModel.toJson(),
         );
       case DropdownValueType.slicingMethods:
-        return List.generate(
-          10,
-          (_) => FakeDataGenerator.slicingMethodsModel.toJson(),
-        );
+        return FakeDataGenerator.slicingMethods.map((e) => e.toJson()).toList();
       case DropdownValueType.paymentMethods:
         return PaymentMethodType.values;
       case DropdownValueType.addresses:
-        return List.generate(
-          10,
-          (_) => FakeDataGenerator.addressModel.toJson(),
-        );
+        return FakeDataGenerator.addresses.map((e) => e.toJson()).toList();
       default:
         throw UnsupportedError('message');
     }

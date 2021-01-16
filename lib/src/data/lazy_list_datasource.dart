@@ -56,10 +56,7 @@ class FakeLazyListRemoteDataSource extends ILazyListRemoteDataSource {
     await Future.delayed(random.integer(1000).milliseconds);
     switch (type) {
       case LazyListType.products:
-        return List.generate(
-          10,
-          (_) => FakeDataGenerator.productModel.toJson(),
-        );
+        return FakeDataGenerator.products.map((e) => e.toJson()).toList();
       case LazyListType.videos:
         return List.generate(
           10,

@@ -177,10 +177,7 @@ class FakeUserRemoteDataSource extends IUserRemoteDataSource {
   @override
   Future<List> getAddresses() async {
     await Future.delayed(random.integer(1000).milliseconds);
-    return List.generate(
-      10,
-      (_) => FakeDataGenerator.addressModel.toJson(),
-    );
+    return FakeDataGenerator.addresses.map((e) => e.toJson()).toList();
   }
 
   @override

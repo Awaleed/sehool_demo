@@ -37,6 +37,7 @@ class _AddressReviewPageState extends State<AddressReviewPage> {
             child: Padding(
               padding: const EdgeInsets.all(20.0),
               child: CartDropdown(
+                isRadio: true,
                 dropdownType: DropdownValueType.addresses,
                 initialValue: widget.cart.address,
                 onValueChanged: (value) {

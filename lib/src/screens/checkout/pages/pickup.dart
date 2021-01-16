@@ -27,6 +27,7 @@ class PickupPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: CartDropdown(
+                isRadio: true,
                 dropdownType: DropdownValueType.pickupMethod,
                 itemAsString: (value) => mapPickupMethodToLabel(value),
                 initialValue: cart.pickupMethod,

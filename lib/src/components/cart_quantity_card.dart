@@ -19,7 +19,7 @@ class _CartQuantityCardState extends State<CartQuantityCard> {
       children: [
         _buildButton(
             onTap: widget.cartItem.quantity <= 1
-                ? null
+                ? () {}
                 : widget.cartItem.decrementCart,
             icon: Icons.remove_rounded),
         Text(
@@ -31,7 +31,7 @@ class _CartQuantityCardState extends State<CartQuantityCard> {
         ),
         _buildButton(
           onTap: widget.cartItem.quantity >= 100
-              ? null
+              ? () {}
               : widget.cartItem.incrementCart,
           icon: FluentIcons.add_24_regular,
         ),
@@ -54,7 +54,7 @@ class _CartQuantityCardState extends State<CartQuantityCard> {
             ),
           ),
         ),
-        onPressed: onTap == null ? null : () => setState(onTap),
+        onPressed: () => setState(onTap),
         child: Icon(icon),
       );
 }

@@ -37,10 +37,10 @@ class UserRepositoryImpl implements IUserRepository {
     final list = ApiCaller.listParser(
       res,
       (data) {
-        data['lang'] = double.tryParse(data['lang'] ?? '0') ?? 0;
-        data['lat'] = double.tryParse(data['lat'] ?? '0') ?? 0;
-        data['note'] = data['description'];
-        data['address'] = data['description'];
+        // data['lang'] = double.tryParse(data['lang'] ?? '0') ?? 0;
+        // data['lat'] = double.tryParse(data['lat'] ?? '0') ?? 0;
+        // data['note'] = data['description'];
+        // data['address'] = data['description'];
         return AddressModel.fromJson(data);
       },
     );

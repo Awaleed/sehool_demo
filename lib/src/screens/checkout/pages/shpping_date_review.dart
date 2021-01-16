@@ -35,22 +35,24 @@ class _ShippingDatePageState extends State<ShippingDatePage> {
           mainAxisSize: MainAxisSize.min,
           children: [
             const SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: ShippingDateCard(
-                enabeld: widget.cart.type == OrderType.secluded,
-                cart: widget.cart,
-                onChanged: (value) {
-                  setState(() {
-                    widget.cart.orderDate = value;
-                  });
-                },
+            if (widget.cart.type == OrderType.secluded)
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: ShippingDateCard(
+                  enabeld: widget.cart.type == OrderType.secluded,
+                  cart: widget.cart,
+                  onChanged: (value) {
+                    setState(() {
+                      widget.cart.orderDate = value;
+                    });
+                  },
+                ),
               ),
-            ),
             Center(
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: CartDropdown(
+                  isRadio: true,
                   dropdownType: DropdownValueType.orderType,
                   itemAsString: (value) => mapOrderTypeToLabel(value),
                   initialValue: widget.cart.type,

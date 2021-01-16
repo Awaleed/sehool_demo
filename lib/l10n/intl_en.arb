@@ -1,5 +1,11 @@
 {
   "@@locale": "en",
+  "level": "Level",
+  "@level": {},
+  "store": "Store",
+  "@store": {},
+  "vat_number": "Vat number",
+  "@vat_number": {},
   "balance": "Balance",
   "@balance": {},
   "rial": "Rial",

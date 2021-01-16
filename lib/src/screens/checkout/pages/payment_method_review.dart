@@ -38,6 +38,7 @@ class _PaymentMethodReviewPageState extends State<PaymentMethodReviewPage> {
             child: Padding(
               padding: const EdgeInsets.all(20.0),
               child: CartDropdown(
+                isRadio: true,
                 dropdownType: DropdownValueType.paymentMethods,
                 initialValue: widget.cart.paymentMethod,
                 itemAsString: (value) => mapPaymentMethodTypeToLabel(value),

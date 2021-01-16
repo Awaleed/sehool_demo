@@ -30,54 +30,54 @@ class FinishPage extends StatelessWidget {
             padding: const EdgeInsets.all(20.0),
             child: CartItemPreview(cartItem: cartItem),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              _buildButton(
-                label: S.current.add_to_cart,
-                onTap: () {
-                  getIt<CartCubit>().addItem(cartItem);
-                  AppRouter.sailor.pop();
-                },
-              ),
-              _buildButton(
-                label: S.current.checkout,
-                onTap: () {
-                  getIt<CartCubit>().addItem(cartItem);
-                  AppRouter.sailor.navigate(
-                    CheckoutScreen.routeName,
-                    navigationType: NavigationType.pushReplace,
-                  );
-                },
-              ),
-            ],
-          ),
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          //   children: [
+          //     _buildButton(
+          //       label: S.current.add_to_cart,
+          //       onTap: () {
+          //         getIt<CartCubit>().addItem(cartItem);
+          //         AppRouter.sailor.pop();
+          //       },
+          //     ),
+          //     _buildButton(
+          //       label: S.current.checkout,
+          //       onTap: () {
+          //         getIt<CartCubit>().addItem(cartItem);
+          //         AppRouter.sailor.navigate(
+          //           CheckoutScreen.routeName,
+          //           navigationType: NavigationType.pushReplace,
+          //         );
+          //       },
+          //     ),
+          //   ],
+          // ),
         ],
       ),
     );
   }
 
-  Widget _buildButton({
-    VoidCallback onTap,
-    String label,
-  }) =>
-      Expanded(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: ElevatedButton(
-            style: ButtonStyle(
-              minimumSize: MaterialStateProperty.all(
-                const Size.fromRadius(50),
-              ),
-              shape: MaterialStateProperty.all(
-                RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(25),
-                ),
-              ),
-            ),
-            onPressed: onTap,
-            child: Text(label),
-          ),
-        ),
-      );
+  // Widget _buildButton({
+  //   VoidCallback onTap,
+  //   String label,
+  // }) =>
+  //     Expanded(
+  //       child: Padding(
+  //         padding: const EdgeInsets.all(20.0),
+  //         child: ElevatedButton(
+  //           style: ButtonStyle(
+  //             minimumSize: MaterialStateProperty.all(
+  //               const Size.fromRadius(50),
+  //             ),
+  //             shape: MaterialStateProperty.all(
+  //               RoundedRectangleBorder(
+  //                 borderRadius: BorderRadius.circular(25),
+  //               ),
+  //             ),
+  //           ),
+  //           onPressed: onTap,
+  //           child: Text(label),
+  //         ),
+  //       ),
+  //     );
 }

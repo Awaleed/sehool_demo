@@ -2,7 +2,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:sehool/generated/l10n.dart';
+import 'package:sailor/sailor.dart';
+import '../../routes/config_routes.dart';
+import '../checkout/checkout.dart';
+import '../../../generated/l10n.dart';
 
 import '../../models/cart_model.dart';
 import '../../models/product_model.dart';
@@ -11,6 +14,9 @@ import 'pages/finish.dart';
 import 'pages/notes.dart';
 import 'pages/quantity.dart';
 import 'pages/slicing_method.dart';
+import '../../../init_injectable.dart';
+
+import '../../cubits/cart_cubit/cart_cubit.dart';
 
 class AddToCartScreen extends StatelessWidget {
   static const routeName = '/add_to_cart';
@@ -141,6 +147,7 @@ class _CartStepperState extends State<CartStepper> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               _buildButton(
                 label: Row(
@@ -150,7 +157,7 @@ class _CartStepperState extends State<CartStepper> {
                     Text(S.current.previous),
                   ],
                 ),
-                enabled: currentStep == 0,
+                enabled: currentStep != 0,
                 onTap: () {
                   for (var i = currentStep - 1; i >= 0; i--) {
                     final _StepItem step = steps[i];
@@ -163,28 +170,46 @@ class _CartStepperState extends State<CartStepper> {
                   }
                 },
               ),
-              const Spacer(),
-              _buildButton(
-                label: Row(
-                  children: [
-                    Text(S.current.next),
-                    const SizedBox(width: 10),
-                    const Icon(FluentIcons.arrow_right_24_regular),
-                  ],
+              if (currentStep == steps.length - 1) ...[
+                _buildButton(
+                  label: Text(S.current.checkout),
+                  onTap: () {
+                    getIt<CartCubit>().addItem(widget.cartItem);
+                    AppRouter.sailor.navigate(
+                      CheckoutScreen.routeName,
+                      navigationType: NavigationType.pushReplace,
+                    );
+                  },
                 ),
-                enabled: currentStep == steps.length - 1,
-                onTap: () {
-                  for (var i = currentStep + 1; i < steps.length; i++) {
-                    final _StepItem step = steps[i];
-                    if (step.state == PatchedStepState.disabled) {
-                      continue;
-                    } else {
-                      setState(() => currentStep = i);
-                      break;
+                _buildButton(
+                  label: Text(S.current.add_to_cart),
+                  onTap: () {
+                    getIt<CartCubit>().addItem(widget.cartItem);
+                    AppRouter.sailor.pop();
+                  },
+                ),
+              ] else
+                _buildButton(
+                  label: Row(
+                    children: [
+                      Text(S.current.next),
+                      const SizedBox(width: 10),
+                      const Icon(FluentIcons.arrow_right_24_regular),
+                    ],
+                  ),
+                  enabled: currentStep != steps.length - 1,
+                  onTap: () {
+                    for (var i = currentStep + 1; i < steps.length; i++) {
+                      final _StepItem step = steps[i];
+                      if (step.state == PatchedStepState.disabled) {
+                        continue;
+                      } else {
+                        setState(() => currentStep = i);
+                        break;
+                      }
                     }
-                  }
-                },
-              ),
+                  },
+                ),
             ],
           ),
         )
@@ -211,7 +236,7 @@ class _CartStepperState extends State<CartStepper> {
           ),
         ),
       ),
-      onPressed: enabled ? null : onTap,
+      onPressed: enabled ? onTap : null,
       child: label,
     );
   }
