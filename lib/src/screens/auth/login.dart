@@ -1,7 +1,12 @@
 import 'package:division/division.dart';
+import 'package:enum_to_string/enum_to_string.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sehool/src/components/background_images_generate.dart';
+import 'package:sehool/src/components/login_card/flutter_login.dart';
+import 'package:sehool/src/components/login_card/src/providers/login_theme.dart';
+import 'package:sehool/src/models/user_model.dart';
 import '../../components/custom_form_fileds.dart';
 import 'forgot_password.dart';
 
@@ -28,7 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final credentials = <FormFieldType, FormFieldModel>{};
   final formKey = GlobalKey<FormState>();
   LoginCubit cubit;
-
+  UserLevel userLevel;
   bool passwordVisible = false;
   @override
   void initState() {
@@ -45,35 +50,133 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Parent(
-      style: ParentStyle()
-        ..background.image(path: 'assets/images/bg.jpg', fit: BoxFit.cover),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: Center(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(8.0),
-            child: BlocConsumer<LoginCubit, LoginState>(
-              cubit: cubit,
-              listener: (context, state) {
-                state.maybeWhen(
-                  failure: (message) => Helpers.showErrorOverlay(
-                    context,
-                    error: message,
-                  ),
-                  orElse: () {},
-                );
-              },
-              builder: (context, state) {
-                return state.when(
-                  initial: () => _buildColumn(context),
-                  loading: () => _buildColumn(context, isLoading: true),
-                  success: () => _buildColumn(context),
-                  // TODO: Handel ERROR STATE
-                  failure: (_) => _buildColumn(context),
-                );
-              },
-            ),
+      style: ParentStyle()..background.color(Colors.white),
+      child: Stack(
+        children: [
+          BackgroundGeneratorGroup(
+            number: 60,
+            colors: Colors.accents,
+            direction: Direction.up,
+            speed: DotSpeed.medium,
+            opacity: .9,
+            trajectory: Trajectory.random,
+            image: const [
+              'assets/images/meat.png',
+              'assets/images/meat2.png',
+              'assets/images/meat3.png',
+              'assets/images/ribs.png',
+              'assets/images/ribs2.png',
+              'assets/images/knife.png',
+              'assets/images/delivery-truck.png',
+            ],
           ),
+          FlutterLogin(
+            title: '',
+            theme: LoginTheme(
+              pageColorLight: Colors.transparent,
+            ),
+            logo: 'assets/images/logo.png',
+            onLogin: (val) {},
+            onSignup: (val) {},
+            signupFields: [
+              const SizedBox(height: 15),
+              CustomTextFromField(
+                type: FormFieldType.name,
+                map: credentials,
+              ),
+              const SizedBox(height: 15),
+              CustomTextFromField(
+                type: FormFieldType.phone,
+                map: credentials,
+              ),
+              const SizedBox(height: 15),
+              _buildLevelDropdownInput(
+                type: FormFieldType.level,
+                map: credentials,
+              ),
+              if (userLevel == UserLevel.merchant) ...[
+                const SizedBox(height: 15),
+                CustomTextFromField(
+                  type: FormFieldType.storeName,
+                  map: credentials,
+                ),
+                const SizedBox(height: 15),
+                CustomTextFromField(
+                  type: FormFieldType.vatNumber,
+                  map: credentials,
+                ),
+              ],
+              const Divider(height: 30),
+            ],
+            onSubmitAnimationCompleted: () {
+              // Navigator.of(context).pushReplacement(MaterialPageRoute(
+              //   builder: (context) => DashboardScreen(),
+              // ));
+            },
+            onRecoverPassword: (pass) {},
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _buildLevelDropdownInput({
+    @required Map<FormFieldType, FormFieldModel> map,
+    @required FormFieldType type,
+    bool enabled = true,
+  }) {
+    final _model = FormFieldModel.mapType(type, map);
+    return CustomDropdownFromField<UserLevel>(
+      type: type,
+      map: map,
+      itemAsString: (item) {
+        switch (item) {
+          case UserLevel.customer:
+            return S.current.customers;
+          case UserLevel.merchant:
+            return S.current.merchants;
+          default:
+            return '';
+        }
+      },
+      items: UserLevel.values,
+      enabled: enabled,
+      onChanged: (value) => setState(() {
+        userLevel = value;
+      }),
+      validator: (value) => _model.validator(
+        EnumToString.convertToString(value),
+      ),
+      onSave: (value) => _model.onSave(
+        EnumToString.convertToString(value),
+      ),
+    );
+  }
+
+  Widget oldLogin() {
+    return Center(
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.all(8.0),
+        child: BlocConsumer<LoginCubit, LoginState>(
+          cubit: cubit,
+          listener: (context, state) {
+            state.maybeWhen(
+              failure: (message) => Helpers.showErrorOverlay(
+                context,
+                error: message,
+              ),
+              orElse: () {},
+            );
+          },
+          builder: (context, state) {
+            return state.when(
+              initial: () => _buildColumn(context),
+              loading: () => _buildColumn(context, isLoading: true),
+              success: () => _buildColumn(context),
+              // TODO: Handel ERROR STATE
+              failure: (_) => _buildColumn(context),
+            );
+          },
         ),
       ),
     );
@@ -89,8 +192,7 @@ class _LoginScreenState extends State<LoginScreen> {
         SizedBox(
           height: 300,
           child: Image.asset(
-            'assets/images/black.png',
-            color: Colors.white,
+            'assets/images/logo.png',
           ),
         ),
         Form(

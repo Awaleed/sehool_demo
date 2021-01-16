@@ -11,6 +11,11 @@ abstract class Helpers {
     FocusScope.of(context).unfocus();
   }
 
+  static Size getWidgetSize(GlobalKey key) {
+    final RenderBox renderBox = key.currentContext?.findRenderObject();
+    return renderBox?.size;
+  }
+
   static bool isArabic(BuildContext context) =>
       Localizations.localeOf(context).languageCode == 'ar';
 

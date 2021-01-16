@@ -1,0 +1,467 @@
+library flutter_login;
+
+import 'dart:math';
+
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:provider/provider.dart';
+
+import 'src/color_helper.dart';
+import 'src/constants.dart';
+import 'src/dart_helper.dart';
+import 'src/providers/auth.dart';
+import 'src/providers/login_messages.dart';
+import 'src/providers/login_theme.dart';
+import 'src/regex.dart';
+import 'src/widgets/auth_card.dart';
+import 'src/widgets/fade_in.dart';
+import 'src/widgets/gradient_box.dart';
+import 'src/widgets/hero_text.dart';
+import 'src/widgets/null_widget.dart';
+import 'theme.dart';
+
+class _Header extends StatefulWidget {
+  const _Header({
+    this.logoPath,
+    this.logoTag,
+    this.title,
+    this.titleTag,
+    this.height = 250.0,
+    this.logoController,
+    this.titleController,
+    @required this.loginTheme,
+  });
+
+  final String logoPath;
+  final String logoTag;
+  final String title;
+  final String titleTag;
+  final double height;
+  final LoginTheme loginTheme;
+  final AnimationController logoController;
+  final AnimationController titleController;
+
+  @override
+  __HeaderState createState() => __HeaderState();
+}
+
+class __HeaderState extends State<_Header> {
+  double _titleHeight = 0.0;
+
+  double getEstimatedTitleHeight() {
+    if (DartHelper.isNullOrEmpty(widget.title)) {
+      return 0.0;
+    }
+
+    final theme = Theme.of(context);
+    final renderParagraph = RenderParagraph(
+      TextSpan(
+        text: widget.title,
+        style: theme.textTheme.headline3.copyWith(
+          fontSize: widget.loginTheme.beforeHeroFontSize,
+        ),
+      ),
+      textDirection: TextDirection.ltr,
+      maxLines: 1,
+    );
+
+    renderParagraph.layout(const BoxConstraints());
+
+    return renderParagraph
+        .getMinIntrinsicHeight(widget.loginTheme.beforeHeroFontSize)
+        .ceilToDouble();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _titleHeight = getEstimatedTitleHeight();
+  }
+
+  @override
+  void didUpdateWidget(_Header oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (widget.title != oldWidget.title) {
+      _titleHeight = getEstimatedTitleHeight();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    const gap = 5.0;
+    final logoHeight = min(widget.height - _titleHeight - gap, kMaxLogoHeight);
+    final displayLogo = widget.logoPath != null && logoHeight >= kMinLogoHeight;
+
+    Widget logo = displayLogo
+        ? Image.asset(
+            widget.logoPath,
+            filterQuality: FilterQuality.high,
+            height: logoHeight,
+          )
+        : NullWidget();
+
+    if (widget.logoTag != null) {
+      logo = Hero(
+        tag: widget.logoTag,
+        child: logo,
+      );
+    }
+
+    Widget title;
+    if (widget.titleTag != null && !DartHelper.isNullOrEmpty(widget.title)) {
+      title = HeroText(
+        widget.title,
+        key: kTitleKey,
+        tag: widget.titleTag,
+        largeFontSize: widget.loginTheme.beforeHeroFontSize,
+        smallFontSize: widget.loginTheme.afterHeroFontSize,
+        style: theme.textTheme.headline3,
+        viewState: ViewState.enlarged,
+      );
+    } else if (!DartHelper.isNullOrEmpty(widget.title)) {
+      title = Text(
+        widget.title,
+        key: kTitleKey,
+        style: theme.textTheme.headline3,
+      );
+    } else {
+      title = null;
+    }
+
+    return SizedBox(
+      height: widget.height,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: <Widget>[
+          if (displayLogo)
+            FadeIn(
+              controller: widget.logoController,
+              offset: .25,
+              fadeDirection: FadeDirection.topToBottom,
+              child: logo,
+            ),
+          const SizedBox(height: gap),
+          FadeIn(
+            controller: widget.titleController,
+            offset: .5,
+            fadeDirection: FadeDirection.topToBottom,
+            child: title,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class FlutterLogin extends StatefulWidget {
+  const FlutterLogin({
+    Key key,
+    @required this.onSignup,
+    @required this.onLogin,
+    @required this.onRecoverPassword,
+    this.title = 'LOGIN',
+    this.logo,
+    this.messages,
+    this.signupFields,
+    this.theme,
+    this.emailValidator,
+    this.passwordValidator,
+    this.onSubmitAnimationCompleted,
+    this.logoTag,
+    this.titleTag,
+  }) : super(key: key);
+
+  final AuthCallback onSignup;
+
+  final List<Widget> signupFields;
+
+  final AuthCallback onLogin;
+
+  final RecoverCallback onRecoverPassword;
+
+  final String title;
+
+  final String logo;
+
+  final LoginMessages messages;
+
+  final LoginTheme theme;
+
+  final FormFieldValidator<String> emailValidator;
+
+  final FormFieldValidator<String> passwordValidator;
+
+  final Function onSubmitAnimationCompleted;
+
+  final String logoTag;
+
+  final String titleTag;
+
+  static final FormFieldValidator<String> defaultEmailValidator = (value) {
+    if (value.isEmpty || !Regex.email.hasMatch(value)) {
+      return 'Invalid email!';
+    }
+    return null;
+  };
+
+  static final FormFieldValidator<String> defaultPasswordValidator = (value) {
+    if (value.isEmpty || value.length <= 2) {
+      return 'Password is too short!';
+    }
+    return null;
+  };
+
+  @override
+  _FlutterLoginState createState() => _FlutterLoginState();
+}
+
+class _FlutterLoginState extends State<FlutterLogin>
+    with TickerProviderStateMixin {
+  final GlobalKey<AuthCardState> authCardKey = GlobalKey();
+  static const loadingDuration = Duration(milliseconds: 400);
+  AnimationController _loadingController;
+  AnimationController _logoController;
+  AnimationController _titleController;
+  double _selectTimeDilation = 1.0;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _loadingController = AnimationController(
+      vsync: this,
+      duration: loadingDuration,
+    )..addStatusListener((status) {
+        if (status == AnimationStatus.forward) {
+          _logoController.forward();
+          _titleController.forward();
+        }
+        if (status == AnimationStatus.reverse) {
+          _logoController.reverse();
+          _titleController.reverse();
+        }
+      });
+    _logoController = AnimationController(
+      vsync: this,
+      duration: loadingDuration,
+    );
+    _titleController = AnimationController(
+      vsync: this,
+      duration: loadingDuration,
+    );
+
+    Future.delayed(const Duration(seconds: 1), () {
+      _loadingController.forward();
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _loadingController.dispose();
+    _logoController.dispose();
+    _titleController.dispose();
+  }
+
+  void _reverseHeaderAnimation() {
+    if (widget.logoTag == null) {
+      _logoController.reverse();
+    }
+    if (widget.titleTag == null) {
+      _titleController.reverse();
+    }
+  }
+
+  Widget _buildHeader(double height, LoginTheme loginTheme) {
+    return _Header(
+      logoController: _logoController,
+      titleController: _titleController,
+      height: height,
+      logoPath: widget.logo,
+      logoTag: widget.logoTag,
+      title: widget.title,
+      titleTag: widget.titleTag,
+      loginTheme: loginTheme,
+    );
+  }
+
+  ThemeData _mergeTheme({ThemeData theme, LoginTheme loginTheme}) {
+    final originalPrimaryColor = loginTheme.primaryColor ?? theme.primaryColor;
+    final primaryDarkShades = getDarkShades(originalPrimaryColor);
+    final primaryColor = primaryDarkShades.length == 1
+        ? lighten(primaryDarkShades.first)
+        : primaryDarkShades.first;
+    final primaryColorDark = primaryDarkShades.length >= 3
+        ? primaryDarkShades[2]
+        : primaryDarkShades.last;
+    final accentColor = loginTheme.accentColor ?? theme.accentColor;
+    final errorColor = loginTheme.errorColor ?? theme.errorColor;
+
+    final isDefaultBlackText = theme.textTheme.headline3.color ==
+        Typography.blackMountainView.headline3.color;
+    final titleStyle = theme.textTheme.headline3
+        .copyWith(
+          color: loginTheme.accentColor ??
+              (isDefaultBlackText
+                  ? Colors.white
+                  : theme.textTheme.headline3.color),
+          fontSize: loginTheme.beforeHeroFontSize,
+          fontWeight: FontWeight.w300,
+        )
+        .merge(loginTheme.titleStyle);
+    final textStyle = theme.textTheme.bodyText2
+        .copyWith(color: Colors.black54)
+        .merge(loginTheme.bodyStyle);
+    final textFieldStyle = theme.textTheme.subtitle2
+        .copyWith(color: Colors.black.withOpacity(.65), fontSize: 14)
+        .merge(loginTheme.textFieldStyle);
+    final buttonStyle = theme.textTheme.button
+        .copyWith(color: Colors.white)
+        .merge(loginTheme.buttonStyle);
+    final cardTheme = loginTheme.cardTheme;
+    final inputTheme = loginTheme.inputTheme;
+    final buttonTheme = loginTheme.buttonTheme;
+    final roundBorderRadius = BorderRadius.circular(100);
+
+    LoginThemeHelper.loginTextStyle = titleStyle;
+
+    return theme.copyWith(
+      primaryColor: primaryColor,
+      primaryColorDark: primaryColorDark,
+      accentColor: accentColor,
+      errorColor: errorColor,
+      cardTheme: theme.cardTheme.copyWith(
+        clipBehavior: cardTheme.clipBehavior,
+        color: cardTheme.color ?? theme.cardColor,
+        elevation: cardTheme.elevation ?? 12.0,
+        margin: cardTheme.margin ?? const EdgeInsets.all(4.0),
+        shape: cardTheme.shape ??
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+      ),
+      inputDecorationTheme: theme.inputDecorationTheme.copyWith(
+        filled: inputTheme.filled,
+        fillColor: inputTheme.fillColor ??
+            Color.alphaBlend(
+              primaryColor.withOpacity(.07),
+              Colors.grey.withOpacity(.04),
+            ),
+        contentPadding: inputTheme.contentPadding ??
+            const EdgeInsets.symmetric(vertical: 4.0),
+        errorStyle: inputTheme.errorStyle ?? TextStyle(color: errorColor),
+        labelStyle: inputTheme.labelStyle,
+        enabledBorder: inputTheme.enabledBorder ??
+            inputTheme.border ??
+            OutlineInputBorder(
+              borderSide: const BorderSide(color: Colors.transparent),
+              borderRadius: roundBorderRadius,
+            ),
+        focusedBorder: inputTheme.focusedBorder ??
+            inputTheme.border ??
+            OutlineInputBorder(
+              borderSide: BorderSide(color: primaryColor, width: 1.5),
+              borderRadius: roundBorderRadius,
+            ),
+        errorBorder: inputTheme.errorBorder ??
+            inputTheme.border ??
+            OutlineInputBorder(
+              borderSide: BorderSide(color: errorColor),
+              borderRadius: roundBorderRadius,
+            ),
+        focusedErrorBorder: inputTheme.focusedErrorBorder ??
+            inputTheme.border ??
+            OutlineInputBorder(
+              borderSide: BorderSide(color: errorColor, width: 1.5),
+              borderRadius: roundBorderRadius,
+            ),
+        disabledBorder: inputTheme.disabledBorder ?? inputTheme.border,
+      ),
+      floatingActionButtonTheme: theme.floatingActionButtonTheme.copyWith(
+        backgroundColor: buttonTheme?.backgroundColor ?? primaryColor,
+        splashColor: buttonTheme.splashColor ?? theme.accentColor,
+        elevation: buttonTheme.elevation ?? 4.0,
+        highlightElevation: buttonTheme.highlightElevation ?? 2.0,
+        shape: buttonTheme.shape ?? const StadiumBorder(),
+      ),
+      highlightColor:
+          loginTheme.buttonTheme.highlightColor ?? theme.highlightColor,
+      textTheme: theme.textTheme.copyWith(
+        headline3: titleStyle,
+        bodyText2: textStyle,
+        subtitle2: textFieldStyle,
+        button: buttonStyle,
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final loginTheme = widget.theme ?? LoginTheme();
+    final theme = _mergeTheme(theme: Theme.of(context), loginTheme: loginTheme);
+    final deviceSize = MediaQuery.of(context).size;
+    const headerMargin = 15;
+    const cardInitialHeight = 300;
+    final cardTopPosition = deviceSize.height / 2 - cardInitialHeight / 2;
+    final headerHeight = cardTopPosition - headerMargin;
+    final emailValidator =
+        widget.emailValidator ?? FlutterLogin.defaultEmailValidator;
+    final passwordValidator =
+        widget.passwordValidator ?? FlutterLogin.defaultPasswordValidator;
+
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider.value(
+          value: widget.messages ?? LoginMessages(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => Auth(
+            onLogin: widget.onLogin,
+            onSignup: widget.onSignup,
+            onRecoverPassword: widget.onRecoverPassword,
+          ),
+        ),
+      ],
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Stack(
+          children: <Widget>[
+            GradientBox(
+              colors: [
+                loginTheme.pageColorLight ?? theme.primaryColor,
+                loginTheme.pageColorDark ?? theme.primaryColorDark,
+              ],
+            ),
+            SingleChildScrollView(
+              child: Theme(
+                data: theme,
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: <Widget>[
+                    Positioned(
+                      child: AuthCard(
+                        key: authCardKey,
+                        signupFields: widget.signupFields,
+                        padding: EdgeInsets.only(top: cardTopPosition),
+                        loadingController: _loadingController,
+                        emailValidator: emailValidator,
+                        passwordValidator: passwordValidator,
+                        onSubmit: _reverseHeaderAnimation,
+                        onSubmitCompleted: widget.onSubmitAnimationCompleted,
+                      ),
+                    ),
+                    Positioned(
+                      top: cardTopPosition - headerHeight - headerMargin,
+                      child: _buildHeader(headerHeight, loginTheme),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
