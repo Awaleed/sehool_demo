@@ -398,7 +398,7 @@ class _Animated extends StatelessWidget {
           children: [
             Parent(
               style: ParentStyle()
-                ..animate(100, Curves.easeInOut)
+                // ..animate(100, Curves.easeInOut)
                 ..scale(value)
                 ..opacity(value),
               child: step.content,
