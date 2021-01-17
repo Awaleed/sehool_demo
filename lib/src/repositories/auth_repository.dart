@@ -26,25 +26,25 @@ class AuthRepositoryImpl implements IAuthRepository {
     final res = await _remoteSource.login(
       FormFieldModel.generateJson(credentials),
     );
-    // final token = AccessTokenModel(
-    //   expiresIn: res['expires_in'],
-    //   token: res['access_token']['token'],
-    //   tokenType: res['token_type'],
-    // );
+     final token = AccessTokenModel(
+       expiresIn: res['expires_in'],
+       token: res['access_token']['token'],
+       tokenType: res['token_type'],
+     );
 
-    // final user = UserModel.fromJson(
-    //   res['access_token']['user']['original'],
-    // );
-    // await _localSource.saveUser(UserWithTokenModel(
-    //   user: user,
-    //   accessToken: token,
-    // ));
+     final user = UserModel.fromJson(
+       res['access_token']['user']['original'],
+     );
+     await _localSource.saveUser(UserWithTokenModel(
+       user: user,
+       accessToken: token,
+     ));
 
-    final user = UserWithTokenModel.fromJson(res);
+   // final user = UserWithTokenModel.fromJson(res);
 
-    await _localSource.saveUser(user);
+   // await _localSource.saveUser(user);
 
-    return user.user;
+    return user;
   }
 
   @override
