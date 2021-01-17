@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sehool/generated/l10n.dart';
 import 'package:sehool/src/components/cart_dropdown.dart';
 import 'package:sehool/src/data/user_datasource.dart';
+import 'package:sehool/src/helpers/helper.dart';
 import 'package:sehool/src/models/cart_model.dart';
 import 'package:sehool/src/models/dropdown_value_model.dart';
 import 'package:sehool/src/models/order_model.dart';
@@ -39,10 +40,22 @@ class _PaymentMethodReviewPageState extends State<PaymentMethodReviewPage> {
               padding: const EdgeInsets.all(20.0),
               child: CartDropdown(
                 isRadio: true,
+                value: 0,
                 dropdownType: DropdownValueType.paymentMethods,
                 initialValue: widget.cart.paymentMethod,
                 itemAsString: (value) => mapPaymentMethodTypeToLabel(value),
                 onValueChanged: (value) {
+                  if ((value as PaymentMethodType) ==
+                      PaymentMethodType.wallet) {
+                    if (kUser.wallet <= widget.cart.total) {
+                      Helpers.showErrorOverlay(context, error: 'nooo');
+                    } else {
+                      print(
+                          'wallet : ${kUser.wallet} , cart : ${widget.cart.total}');
+                      Helpers.showSuccessOverlay(context,
+                          message: '${kUser.wallet - widget.cart.total}');
+                    }
+                  }
                   setState(() {
                     widget.cart.paymentMethod = value;
                   });

@@ -6,9 +6,15 @@ import 'cart_model.dart';
 
 // part 'order_model.g.dart';
 
-enum OrderType { secluded, unsecluded }
-enum PaymentMethodType { cash, visa, wallet }
-enum PickupMethod { pickup, delivery }
+enum OrderType {
+  unsecluded,
+  secluded,
+}
+enum PaymentMethodType { visa, cash, wallet }
+enum PickupMethod {
+  delivery,
+  pickup,
+}
 String mapPaymentMethodTypeToLabel(PaymentMethodType type) {
   switch (type) {
     case PaymentMethodType.cash:

@@ -24,12 +24,19 @@ class SlicingMethodPage extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.all(20.0),
-            child: CartDropdown(
-              dropdownType: DropdownValueType.slicingMethods,
-              initialValue: cartItem.slicingMethod,
-              isRadio: true,
-              onValueChanged: (value) {
-                cartItem.slicingMethod = value;
+            child: StatefulBuilder(
+              builder: (context, setState) {
+                return CartDropdown(
+                  dropdownType: DropdownValueType.slicingMethods,
+                  initialValue: cartItem.slicingMethod,
+                  isRadio: true,
+                  value: 0,
+                  onValueChanged: (value) {
+                    setState(() {
+                      cartItem.slicingMethod = value;
+                    });
+                  },
+                );
               },
             ),
           ),

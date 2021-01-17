@@ -33,6 +33,7 @@ class SplashScreen extends StatelessWidget {
         // return;
         // await Future.delayed(5.seconds);
         String routeName;
+        print(state);
         switch (state) {
           case SplashState.initial:
             break;

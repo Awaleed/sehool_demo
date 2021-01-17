@@ -714,9 +714,13 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
               vertical: 10,
             ),
             onExpandCompleted: () => _postSwitchAuthController.forward(),
-            child: Column(
-              children: widget.signupFields,
-            ),
+            child: isLogin
+                ? const SizedBox(
+                    height: cardPadding,
+                  )
+                : Column(
+                    children: widget.signupFields,
+                  ),
           ),
           Container(
             padding: Paddings.fromRBL(cardPadding),

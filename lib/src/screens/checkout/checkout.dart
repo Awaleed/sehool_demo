@@ -228,13 +228,20 @@ class _CheckoutStepperState extends State<CheckoutStepper> {
               _buildButton(
                 label: Row(
                   children: [
-                    Text(S.current.next),
+                    Text(currentStep == steps.length - 1
+                        ? S.current.finish
+                        : S.current.next),
                     const SizedBox(width: 10),
-                    const Icon(FluentIcons.arrow_right_24_regular),
+                    Icon(currentStep == steps.length - 1
+                        ? FluentIcons.checkmark_28_regular
+                        : FluentIcons.arrow_right_24_regular),
                   ],
                 ),
-                enabled: currentStep == steps.length - 1,
+                enabled: currentStep == steps.length,
                 onTap: () {
+                  if (currentStep == steps.length - 1) {
+                    //TODO:add ending
+                  }
                   for (var i = currentStep + 1; i < steps.length; i++) {
                     final _StepItem step = steps[i];
                     if (step.state == PatchedStepState.disabled) {

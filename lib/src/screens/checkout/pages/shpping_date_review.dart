@@ -53,6 +53,7 @@ class _ShippingDatePageState extends State<ShippingDatePage> {
                 padding: const EdgeInsets.all(20.0),
                 child: CartDropdown(
                   isRadio: true,
+                  value: 0,
                   dropdownType: DropdownValueType.orderType,
                   itemAsString: (value) => mapOrderTypeToLabel(value),
                   initialValue: widget.cart.type,
@@ -119,6 +120,7 @@ class ShippingDateCard extends StatelessWidget {
                           context: context,
                           initialDate: cart.orderDate,
                           firstDate: DateTime.now(),
+                          currentDate: DateTime.now(),
                           lastDate: DateTime(2030),
                         );
                         if (_date != null) {

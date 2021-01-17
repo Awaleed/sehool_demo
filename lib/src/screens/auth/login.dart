@@ -54,82 +54,24 @@ class _LoginScreenState extends State<LoginScreen> {
       style: ParentStyle()..background.color(Colors.white),
       child: Stack(
         children: [
-          BackgroundGeneratorGroup(
-            number: 60,
-            colors: Colors.accents,
-            direction: Direction.up,
-            speed: DotSpeed.medium,
-            opacity: .9,
-            trajectory: Trajectory.random,
-            image: const [
-              'assets/images/meat.png',
-              'assets/images/meat2.png',
-              'assets/images/meat3.png',
-              'assets/images/ribs.png',
-              'assets/images/ribs2.png',
-              'assets/images/knife.png',
-              'assets/images/delivery-truck.png',
-            ],
-          ),
-          FlutterLogin(
-            title: '',
-            messages: LoginMessages(
-                passwordHint: S.current.password,
-                usernameHint: S.current.email,
-                forgotPasswordButton: S.current.i_forgot_password,
-                signupButton: S.current.register,
-                loginButton: S.current.login,
-                recoverPasswordButton: S.current.send,
-                goBackButton: S.current.i_have_account_back_to_login,
-                recoverPasswordIntro: S.current.i_forgot_password,
-                recoverPasswordDescription: ''),
-            theme: LoginTheme(
-              pageColorLight: Colors.transparent,
-            ),
-            logo: 'assets/images/logo.png',
-            onLogin: (val) {
-              return Future.value('');
-            },
-            onSignup: (val) {
-              return Future.value('');
-            },
-            signupFields: [
-              const SizedBox(height: 15),
-              CustomTextFromField(
-                type: FormFieldType.name,
-                map: credentials,
-              ),
-              const SizedBox(height: 15),
-              CustomTextFromField(
-                type: FormFieldType.phone,
-                map: credentials,
-              ),
-              const SizedBox(height: 15),
-              _buildLevelDropdownInput(
-                type: FormFieldType.level,
-                map: credentials,
-              ),
-              if (userLevel == UserLevel.merchant) ...[
-                const SizedBox(height: 15),
-                CustomTextFromField(
-                  type: FormFieldType.storeName,
-                  map: credentials,
-                ),
-                const SizedBox(height: 15),
-                CustomTextFromField(
-                  type: FormFieldType.vatNumber,
-                  map: credentials,
-                ),
-              ],
-              const Divider(height: 30),
-            ],
-            onSubmitAnimationCompleted: () {
-              // Navigator.of(context).pushReplacement(MaterialPageRoute(
-              //   builder: (context) => DashboardScreen(),
-              // ));
-            },
-            onRecoverPassword: (pass) {},
-          )
+          // BackgroundGeneratorGroup(
+          //   number: 60,
+          //   colors: Colors.accents,
+          //   direction: Direction.up,
+          //   speed: DotSpeed.medium,
+          //   opacity: .9,
+          //   trajectory: Trajectory.random,
+          //   image: const [
+          //     'assets/images/meat.png',
+          //     'assets/images/meat2.png',
+          //     'assets/images/meat3.png',
+          //     'assets/images/ribs.png',
+          //     'assets/images/ribs2.png',
+          //     'assets/images/knife.png',
+          //     'assets/images/delivery-truck.png',
+          //   ],
+          // ),
+          oldLogin()
         ],
       ),
     );
@@ -170,30 +112,99 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  Widget _loginCard() {
+    return FlutterLogin(
+      title: '',
+      messages: LoginMessages(
+          passwordHint: S.current.password,
+          usernameHint: S.current.email,
+          forgotPasswordButton: S.current.i_forgot_password,
+          signupButton: S.current.register,
+          loginButton: S.current.login,
+          recoverPasswordButton: S.current.send,
+          goBackButton: S.current.i_have_account_back_to_login,
+          recoverPasswordIntro: S.current.i_forgot_password,
+          recoverPasswordDescription: ''),
+      theme: LoginTheme(
+        pageColorLight: Colors.transparent,
+      ),
+      logo: 'assets/images/logo.png',
+      onLogin: (val) {
+        cubit.login(credentials);
+        return Future.value('');
+      },
+      onSignup: (val) {
+        return Future.value('');
+      },
+      signupFields: [
+        const SizedBox(height: 15),
+        CustomTextFromField(
+          type: FormFieldType.name,
+          map: credentials,
+        ),
+        const SizedBox(height: 15),
+        CustomTextFromField(
+          type: FormFieldType.phone,
+          map: credentials,
+        ),
+        const SizedBox(height: 15),
+        _buildLevelDropdownInput(
+          type: FormFieldType.level,
+          map: credentials,
+        ),
+        if (userLevel == UserLevel.merchant) ...[
+          const SizedBox(height: 15),
+          CustomTextFromField(
+            type: FormFieldType.storeName,
+            map: credentials,
+          ),
+          const SizedBox(height: 15),
+          CustomTextFromField(
+            type: FormFieldType.vatNumber,
+            map: credentials,
+          ),
+        ],
+        const Divider(height: 30),
+      ],
+      onSubmitAnimationCompleted: () {
+        // Navigator.of(context).pushReplacement(MaterialPageRoute(
+        //   builder: (context) => DashboardScreen(),
+        // ));
+      },
+      onRecoverPassword: (pass) {},
+    );
+  }
+
   Widget oldLogin() {
-    return Center(
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.all(8.0),
-        child: BlocConsumer<LoginCubit, LoginState>(
-          cubit: cubit,
-          listener: (context, state) {
-            state.maybeWhen(
-              failure: (message) => Helpers.showErrorOverlay(
-                context,
-                error: message,
-              ),
-              orElse: () {},
-            );
-          },
-          builder: (context, state) {
-            return state.when(
-              initial: () => _buildColumn(context),
-              loading: () => _buildColumn(context, isLoading: true),
-              success: () => _buildColumn(context),
-              // TODO: Handel ERROR STATE
-              failure: (_) => _buildColumn(context),
-            );
-          },
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: Center(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(8.0),
+          child: BlocConsumer<LoginCubit, LoginState>(
+            cubit: cubit,
+            listener: (context, state) {
+              state.maybeWhen(
+                failure: (message) => Helpers.showErrorOverlay(
+                  context,
+                  error: message,
+                ),
+                orElse: () {},
+              );
+            },
+            builder: (context, state) {
+              return state.when(
+                initial: () => _buildColumn(context),
+                loading: () => _buildColumn(context, isLoading: true),
+                success: () => _buildColumn(context),
+                // TODO: Handel ERROR STATE
+                failure: (e) {
+                  print(e);
+                  return _buildColumn(context);
+                },
+              );
+            },
+          ),
         ),
       ),
     );

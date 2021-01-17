@@ -1,3 +1,4 @@
+import 'package:enum_to_string/enum_to_string.dart';
 import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -128,9 +129,9 @@ class _SummeryCard extends StatelessWidget {
                   const Divider(),
                   ...cart.cartItems.map(
                     (e) => ListTile(
-                      title: Text(e.product.name),
+                      title: Text(e?.product?.name ?? ''),
                       subtitle: Text(
-                        '${e.quantity} ${S.current.piece}, ${e.slicingMethod.name}',
+                        '${e.quantity} ${S.current.piece}, ${e?.slicingMethod?.name ?? ''}',
                       ),
                       trailing: Text('${cart.total} ${S.current.rial}'),
                     ),
@@ -167,7 +168,9 @@ class _SummeryCard extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(25),
                     ),
-                    child: ListTile(title: Text('${cart.paymentMethod}')),
+                    child: ListTile(
+                        title: Text(
+                            EnumToString.convertToString(cart.paymentMethod))),
                   ),
                 ],
               ),

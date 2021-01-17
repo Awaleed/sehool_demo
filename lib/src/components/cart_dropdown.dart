@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sehool/generated/l10n.dart';
 import 'package:sehool/src/cubits/address_cubit/address_cubit.dart';
@@ -19,6 +20,7 @@ class CartDropdown extends StatefulWidget {
     @required this.initialValue,
     @required this.onValueChanged,
     this.isRadio = false,
+    this.value,
     this.itemAsString,
   }) : super(key: key);
   final DropdownValueType dropdownType;
@@ -26,6 +28,7 @@ class CartDropdown extends StatefulWidget {
   final String Function(dynamic value) itemAsString;
   final dynamic initialValue;
   final bool isRadio;
+  final int value;
 
   @override
   _CartDropdownState createState() => _CartDropdownState();
@@ -55,20 +58,24 @@ class _CartDropdownState extends State<CartDropdown> {
       cubit: cubit,
       builder: (context, state) {
         return state.when(
-          initial: () => _buildUI([], isLoading: true),
-          loading: () => _buildUI([], isLoading: true),
-          success: (values) => _buildUI(values),
+          initial: () => _buildUI([], isLoading: true, value: widget.value),
+          loading: () => _buildUI([], isLoading: true, value: widget.value),
+          success: (values) => _buildUI(values, value: widget.value),
           failure: (_) => throw UnimplementedError(),
         );
       },
     );
   }
 
-  Widget _buildUI(List values, {bool isLoading = false}) => widget.isRadio
-      ? _buildRadio(values, isLoading: isLoading)
-      : _buildDropdown(values, isLoading: isLoading);
+  Widget _buildUI(List values, {bool isLoading = false, int value}) =>
+      widget.isRadio
+          ? _buildRadio(values, isLoading: isLoading, selected: value)
+          : _buildDropdown(
+              values,
+              isLoading: isLoading,
+            );
 
-  Widget _buildRadio(List values, {bool isLoading = false}) {
+  Widget _buildRadio(List values, {bool isLoading = false, int selected = 1}) {
     if (isLoading) {
       return Container(
         margin: const EdgeInsets.only(left: 40.0, right: 40.0),
@@ -82,26 +89,14 @@ class _CartDropdownState extends State<CartDropdown> {
         ),
       );
     }
+
     return Column(
       children: [
         ...values.map(
-          (e) => Card(
-            color: Colors.white70,
-            shape: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(25),
-            ),
-            child: RadioListTile(
-              value: e,
-              groupValue: selectedValue,
-              title: Text(
-                widget.itemAsString?.call(e) ?? '$e',
-                style: Theme.of(context)
-                    .textTheme
-                    .headline5
-                    .copyWith(color: Colors.black),
-              ),
-              onChanged: (value) async {
-                if (value == 'add_a_new_address') {
+          (e) {
+            if (values[selected] == e ?? false) {
+              () async {
+                if (e == 'add_a_new_address') {
                   final _cubit = getIt<AddressCubit>();
                   await AppRouter.sailor.navigate(
                     NewAddressDialog.routeName,
@@ -115,11 +110,48 @@ class _CartDropdownState extends State<CartDropdown> {
                   _cubit.close();
                   return;
                 }
-                widget.onValueChanged?.call(value);
-                setState(() => selectedValue = value);
-              },
-            ),
-          ),
+                widget.onValueChanged?.call(e);
+                SchedulerBinding.instance.addPostFrameCallback((_) {
+                  setState(() => selectedValue = e);
+                });
+              }();
+            }
+            return Card(
+              color: Colors.white70,
+              shape: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(25),
+              ),
+              child: RadioListTile(
+                value: e,
+                groupValue: selectedValue,
+                title: Text(
+                  widget.itemAsString?.call(e) ?? '$e',
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline5
+                      .copyWith(color: Colors.black),
+                ),
+                onChanged: (value) async {
+                  if (value == 'add_a_new_address') {
+                    final _cubit = getIt<AddressCubit>();
+                    await AppRouter.sailor.navigate(
+                      NewAddressDialog.routeName,
+                      params: {'address_cubit': _cubit},
+                    );
+                    final values = cubit.state.maybeWhen(
+                      success: (value) => value,
+                      orElse: () => null,
+                    );
+                    if (values != null) cubit.setDropdownValues(values);
+                    _cubit.close();
+                    return;
+                  }
+                  widget.onValueChanged?.call(value);
+                  setState(() => selectedValue = value);
+                },
+              ),
+            );
+          },
         ),
         if (widget.dropdownType == DropdownValueType.addresses)
           Card(
