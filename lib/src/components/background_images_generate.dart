@@ -38,7 +38,7 @@ class BackgroundGeneratorGroupState extends State<BackgroundGeneratorGroup> {
   int time;
 
   List<Widget> buildDots() {
-    List<Widget> dots = [];
+    final dots = <Widget>[];
 
     for (int i = 0; i < widget.number; i++) {
       if (widget.size == DotSize.small) {
@@ -59,7 +59,7 @@ class BackgroundGeneratorGroupState extends State<BackgroundGeneratorGroup> {
       } else if (widget.speed == DotSpeed.mixed) {
         time = widget.random.nextInt(45) + 7;
       }
-      dots.add(Container(
+      dots.add(SizedBox(
         width: double.infinity,
         height: double.infinity,
         child: BackgroundGenerator(
@@ -78,7 +78,7 @@ class BackgroundGeneratorGroupState extends State<BackgroundGeneratorGroup> {
 
   @override
   Widget build(BuildContext buildContext) {
-    return Container(
+    return SizedBox(
       width: double.infinity,
       height: double.infinity,
       child: Stack(
@@ -145,12 +145,11 @@ class BackgroundGeneratorState extends State<BackgroundGenerator>
     controller = AnimationController(
         duration: Duration(seconds: widget.time), vsync: this);
 
-    controller
-      ..addListener(() {
-        setState(() {
-          _fraction = controller.value;
-        });
+    controller.addListener(() {
+      setState(() {
+        _fraction = controller.value;
       });
+    });
 
     controller.repeat();
     init();

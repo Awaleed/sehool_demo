@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:sehool/src/models/order_model.dart';
 
-import '../../../init_injectable.dart';
-import '../../models/product_model.dart';
+import 'empty_orders_list.dart';
 import 'orders_list_item_widget.dart';
 import 'orders_list_loading_item_widget.dart';
-import 'empty_orders_list.dart';
 
 class OrdersListSliver extends StatelessWidget {
   const OrdersListSliver({

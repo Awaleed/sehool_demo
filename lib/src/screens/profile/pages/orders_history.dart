@@ -1,9 +1,9 @@
 import 'package:division/division.dart';
 import 'package:flutter/material.dart';
-import 'package:sehool/generated/l10n.dart';
-import 'package:sehool/src/components/empty_orders_widget.dart';
-import 'package:sehool/src/components/products_carousel/products_carousel_item_widget.dart';
-import 'package:sehool/src/models/product_model.dart';
+import '../../../../generated/l10n.dart';
+import '../../../components/empty_orders_widget.dart';
+import '../../../components/products_carousel/products_carousel_item_widget.dart';
+import '../../../models/product_model.dart';
 
 class OrdersHistory extends StatefulWidget {
   static const routeName = '/myOrdersHistory';

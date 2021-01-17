@@ -86,7 +86,10 @@ class _CartStepperState extends State<CartStepper> {
         ),
         _StepItem(
             label: S.current.slicing_method,
-            child: SlicingMethodPage(cartItem: widget.cartItem),
+            child: SlicingMethodPage(
+              cartItem: widget.cartItem,
+              onChanged: (_) => setState(() {}),
+            ),
             icon: const Icon(
               FluentIcons.cut_24_regular,
               size: 50,
@@ -106,6 +109,9 @@ class _CartStepperState extends State<CartStepper> {
         _StepItem(
             label: S.current.finish,
             child: FinishPage(cartItem: widget.cartItem),
+            state: widget.cartItem.validate
+                ? PatchedStepState.indexed
+                : PatchedStepState.disabled,
             icon: const Icon(
               FluentIcons.checkmark_48_regular,
               size: 50,
@@ -131,6 +137,7 @@ class _CartStepperState extends State<CartStepper> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Expanded(
           child: PatchedStepper(
@@ -146,11 +153,14 @@ class _CartStepperState extends State<CartStepper> {
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: Wrap(
+            crossAxisAlignment: WrapCrossAlignment.center,
+            alignment: WrapAlignment.spaceBetween,
+            runAlignment: WrapAlignment.center,
             children: <Widget>[
               _buildButton(
                 label: Row(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     const Icon(FluentIcons.arrow_left_24_regular),
                     const SizedBox(width: 10),
@@ -170,6 +180,7 @@ class _CartStepperState extends State<CartStepper> {
                   }
                 },
               ),
+              // Spacer(),
               if (currentStep == steps.length - 1) ...[
                 _buildButton(
                   label: Text(S.current.checkout),
@@ -191,6 +202,7 @@ class _CartStepperState extends State<CartStepper> {
               ] else
                 _buildButton(
                   label: Row(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(S.current.next),
                       const SizedBox(width: 10),

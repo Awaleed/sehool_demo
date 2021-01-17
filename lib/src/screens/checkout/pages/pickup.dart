@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../components/checkout_address.dart';
 import '../../../components/cart_dropdown.dart';
 import '../../../models/cart_model.dart';
 import '../../../models/dropdown_value_model.dart';
@@ -24,6 +25,12 @@ class PickupPage extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            const SizedBox(height: 20),
+            if (cart.pickupMethod == PickupMethod.pickup)
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: CheckoutAddressCard(cart: cart),
+              ),
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: CartDropdown(

@@ -1,6 +1,6 @@
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:injectable/injectable.dart';
-import 'package:sehool/src/helpers/fake_data_generator.dart';
+import '../helpers/fake_data_generator.dart';
 
 import '../core/api_caller.dart';
 import '../data/dropdown_datasource.dart';

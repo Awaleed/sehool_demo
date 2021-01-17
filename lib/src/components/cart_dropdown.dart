@@ -2,16 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sehool/generated/l10n.dart';
-import 'package:sehool/src/cubits/address_cubit/address_cubit.dart';
-import 'package:sehool/src/routes/config_routes.dart';
-import 'package:sehool/src/screens/product/product.dart';
-import 'package:sehool/src/screens/profile/dialogs/new_address_dialog.dart';
-import 'package:sehool/src/screens/profile/profile_settings.dart';
 
+import '../../generated/l10n.dart';
 import '../../init_injectable.dart';
+import '../cubits/address_cubit/address_cubit.dart';
 import '../cubits/dropdown_cubit/dropdown_cubit.dart';
 import '../models/dropdown_value_model.dart';
+import '../routes/config_routes.dart';
+import '../screens/profile/dialogs/new_address_dialog.dart';
 
 class CartDropdown extends StatefulWidget {
   const CartDropdown({
@@ -54,8 +52,21 @@ class _CartDropdownState extends State<CartDropdown> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<DropdownCubit, DropdownState>(
+    return BlocConsumer<DropdownCubit, DropdownState>(
       cubit: cubit,
+      listener: (context, state) {
+        if (selectedValue == null) {
+          setState(() {
+            final value = state.maybeWhen(
+                  success: (values) => values.first,
+                  orElse: () => null,
+                ) ??
+                selectedValue;
+            selectedValue = value;
+            widget.onValueChanged?.call(value);
+          });
+        }
+      },
       builder: (context, state) {
         return state.when(
           initial: () => _buildUI([], isLoading: true, value: widget.value),

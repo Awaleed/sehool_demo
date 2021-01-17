@@ -19,7 +19,7 @@ class CartReviewPage extends StatelessWidget {
           ...cartItems.map(
             (e) => Center(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.all( 20),
                 child: CheckoutItemPreview(cartItem: e),
               ),
             ),

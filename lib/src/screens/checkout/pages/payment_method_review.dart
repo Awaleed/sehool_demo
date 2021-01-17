@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:sehool/generated/l10n.dart';
-import 'package:sehool/src/components/cart_dropdown.dart';
-import 'package:sehool/src/data/user_datasource.dart';
-import 'package:sehool/src/helpers/helper.dart';
-import 'package:sehool/src/models/cart_model.dart';
-import 'package:sehool/src/models/dropdown_value_model.dart';
-import 'package:sehool/src/models/order_model.dart';
+import '../../../../generated/l10n.dart';
+import '../../../components/cart_dropdown.dart';
+import '../../../data/user_datasource.dart';
+import '../../../models/cart_model.dart';
+import '../../../models/dropdown_value_model.dart';
+import '../../../models/order_model.dart';
 
 import '../../../routes/config_routes.dart';
 import '../../profile/dialogs/new_address_dialog.dart';
@@ -45,20 +44,8 @@ class _PaymentMethodReviewPageState extends State<PaymentMethodReviewPage> {
                 initialValue: widget.cart.paymentMethod,
                 itemAsString: (value) => mapPaymentMethodTypeToLabel(value),
                 onValueChanged: (value) {
-                  if ((value as PaymentMethodType) ==
-                      PaymentMethodType.wallet) {
-                    if (kUser.wallet <= widget.cart.total) {
-                      Helpers.showErrorOverlay(context, error: 'nooo');
-                    } else {
-                      print(
-                          'wallet : ${kUser.wallet} , cart : ${widget.cart.total}');
-                      Helpers.showSuccessOverlay(context,
-                          message: '${kUser.wallet - widget.cart.total}');
-                    }
-                  }
-                  setState(() {
-                    widget.cart.paymentMethod = value;
-                  });
+                  widget.cart.paymentMethod = value;
+                  widget.onChanged?.call(value);
                 },
               ),
             ),

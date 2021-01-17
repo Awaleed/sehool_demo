@@ -13,7 +13,7 @@ enum ColorShade {
   darkest,
 }
 
-const shades = const {
+const shades = {
   ColorShade.lightest: 50,
   ColorShade.secondLightest: 100,
   ColorShade.thirdLightest: 200,

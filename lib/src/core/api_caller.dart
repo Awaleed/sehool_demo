@@ -92,7 +92,7 @@ mixin ApiCaller {
     _dio = Dio(
       BaseOptions(
         baseUrl: _baseUrl,
-        // headers: _getHeaders(),
+        headers: _getHeaders(),
       ),
     )..interceptors.add(_logger);
   }

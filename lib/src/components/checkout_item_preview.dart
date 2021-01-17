@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:sehool/src/routes/config_routes.dart';
-import 'package:sehool/src/screens/cart/add_to_cart.dart';
 
 import '../../generated/l10n.dart';
 import '../models/cart_model.dart';
+import '../routes/config_routes.dart';
+import '../screens/cart/add_to_cart.dart';
 import 'cart_product_preview.dart';
 
 class CheckoutItemPreview extends StatelessWidget {

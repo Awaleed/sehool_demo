@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:sehool/src/cubits/lazy_list_cubit/lazy_list_cubit.dart';
+import '../../cubits/lazy_list_cubit/lazy_list_cubit.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../models/video_model.dart';

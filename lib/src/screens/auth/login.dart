@@ -3,20 +3,19 @@ import 'package:enum_to_string/enum_to_string.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sehool/src/components/background_images_generate.dart';
 import 'package:sehool/src/components/login_card/flutter_login.dart';
 import 'package:sehool/src/components/login_card/src/providers/login_messages.dart';
 import 'package:sehool/src/components/login_card/src/providers/login_theme.dart';
 import 'package:sehool/src/models/user_model.dart';
-import '../../components/custom_form_fileds.dart';
-import 'forgot_password.dart';
 
 import '../../../generated/l10n.dart';
 import '../../../init_injectable.dart';
+import '../../components/custom_form_fileds.dart';
 import '../../cubits/login_cubit/login_cubit.dart';
 import '../../helpers/helper.dart';
 import '../../models/form_data_model.dart';
 import '../../routes/config_routes.dart';
+import 'forgot_password.dart';
 import 'register.dart';
 
 class LoginScreen extends StatefulWidget {

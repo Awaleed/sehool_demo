@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
-import 'package:sehool/src/models/banner_model.dart';
-import 'package:sehool/src/models/order_model.dart';
+import '../models/banner_model.dart';
+import '../models/order_model.dart';
 
 import '../core/api_caller.dart';
 import '../data/lazy_list_datasource.dart';

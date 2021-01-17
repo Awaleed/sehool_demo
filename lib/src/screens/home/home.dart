@@ -90,96 +90,98 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 70),
-              child: PageView(
-                physics: const NeverScrollableScrollPhysics(),
-                controller: pageController,
-                children: [...pages.map((e) => e.page)],
-              ),
-            ),
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Container(
-                decoration: const BoxDecoration(
-                  color: Colors.black45,
-                  gradient: LinearGradient(
-                    begin: Alignment.bottomCenter,
-                    end: Alignment.topCenter,
-                    colors: [
-                      Colors.black,
-                      Colors.transparent,
-                    ],
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Expanded(
+                  child: PageView(
+                    physics: const NeverScrollableScrollPhysics(),
+                    controller: pageController,
+                    children: [...pages.map((e) => e.page)],
                   ),
                 ),
-                height: 75,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 5),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      ...() {
-                        final list = <Widget>[];
-                        for (var i = 0; i < pages.length; i++) {
-                          final isSelected = selectedIndex == i;
-                          final item = pages[i];
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: const BoxDecoration(
+                    color: Colors.black45,
+                    gradient: LinearGradient(
+                      begin: Alignment.bottomCenter,
+                      end: Alignment.topCenter,
+                      colors: [
+                        Colors.black,
+                        Colors.transparent,
+                      ],
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 5),
+                    child: Wrap(
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      // mainAxisSize: MainAxisSize.min,
+                      // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      alignment: WrapAlignment.spaceBetween,
+                      children: [
+                        ...() {
+                          final list = <Widget>[];
+                          for (var i = 0; i < pages.length; i++) {
+                            final isSelected = selectedIndex == i;
+                            final item = pages[i];
 
-                          if (item.page == null) {
-                            list.add(_buildCartButton());
-                            continue;
-                          }
-                          final tab = Parent(
-                            gesture: Gestures()
-                              ..onTap(() {
-                                if (!isSelected) onPageChanged(i);
-                              }),
-                            style: ParentStyle()
-                              ..animate(600, Curves.easeOut)
-                              ..width(isSelected ? 150 : 70)
-                              ..background.color(isSelected
-                                  ? Colors.black87
-                                  : Colors.transparent)
-                              ..padding(
-                                horizontal: 20,
-                                vertical: 10,
-                              )
-                              ..borderRadius(all: 50)
-                              ..alignmentContent.center(),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Icon(
-                                  item.icon,
-                                  color:
-                                      isSelected ? Colors.amber : Colors.white,
-                                ),
-                                if (isSelected)
-                                  Flexible(
-                                    child: FittedBox(
-                                      child: Text(
-                                        '  ${item.label}',
-                                        style: const TextStyle(
-                                          color: Colors.amber,
+                            if (item.page == null) {
+                              list.add(_buildCartButton());
+                              continue;
+                            }
+                            final tab = Parent(
+                              gesture: Gestures()
+                                ..onTap(() {
+                                  if (!isSelected) onPageChanged(i);
+                                }),
+                              style: ParentStyle()
+                                ..animate(600, Curves.easeOut)
+                                ..width(isSelected ? 150 : 70)
+                                ..background.color(isSelected
+                                    ? Colors.black87
+                                    : Colors.transparent)
+                                ..padding(
+                                  horizontal: 20,
+                                  vertical: 10,
+                                )
+                                ..borderRadius(all: 50)
+                                ..alignmentContent.center(),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(
+                                    item.icon,
+                                    color: isSelected
+                                        ? Colors.amber
+                                        : Colors.white,
+                                  ),
+                                  if (isSelected)
+                                    Flexible(
+                                      child: FittedBox(
+                                        child: Text(
+                                          '  ${item.label}',
+                                          style: const TextStyle(
+                                            color: Colors.amber,
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                              ],
-                            ),
-                          );
-                          list.add(tab);
-                        }
-                        return list;
-                      }()
-                    ],
+                                ],
+                              ),
+                            );
+                            list.add(tab);
+                          }
+                          return list;
+                        }()
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ],
       ),
@@ -188,91 +190,45 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildCartButton() => BlocBuilder<CartCubit, CartState>(
         cubit: getIt<CartCubit>(),
-        builder: (context, state) {
-          Parent(
-            gesture: Gestures()
-              ..onTap(() {
-                AppRouter.sailor.navigate(CheckoutScreen.routeName);
-              }),
-            style: ParentStyle()
-              ..animate(600, Curves.easeOut)
-              ..width(70)
-              ..background.color(Colors.transparent)
-              ..padding(
-                horizontal: 20,
-                vertical: 10,
-              )
-              ..borderRadius(all: 50)
-              ..alignmentContent.center(),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(
-                  FluentIcons.cart_24_filled,
-                  color: Colors.white,
-                ),
-                // if (isSelected)
-                //   Flexible(
-                //     child: FittedBox(
-                //       child: Text(
-                //         '  ${item.label}',
-                //         style: const TextStyle(
-                //           color: Colors.amber,
-                //         ),
-                //       ),
-                //     ),
-                //   ),
-              ],
-            ),
-          );
-          return Padding(
-            padding: const EdgeInsets.all(10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                FloatingActionButton(
-                  onPressed: () {
-                    if (state.cart.cartItems.isNotEmpty) {
-                      AppRouter.sailor.navigate(CheckoutScreen.routeName);
-                    }
-                  },
-                  child: Stack(
-                    clipBehavior: Clip.none,
+        builder: (context, state) => FloatingActionButton(
+          onPressed: () {
+            if (state.cart.cartItems.isNotEmpty) {
+              AppRouter.sailor.navigate(CheckoutScreen.routeName);
+            }
+          },
+          child: Stack(
+            clipBehavior: Clip.none,
+            children: [
+              const Icon(FluentIcons.cart_24_filled),
+              if (state.cart.cartItems.isNotEmpty)
+                Positioned(
+                  top: -20,
+                  left: -20,
+                  right: -20,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      const Icon(FluentIcons.cart_24_filled),
-                      if (state.cart.cartItems.isNotEmpty)
-                        Positioned(
-                          top: -20,
-                          left: -20,
-                          right: -20,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              SizedBox.fromSize(
-                                size: const Size.fromRadius(14),
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                    color: Colors.black,
-                                    borderRadius: BorderRadius.circular(2),
-                                  ),
-                                  child: Text(
-                                    '${state.cart.cartItems.length}',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(color: Colors.amber),
-                                  ),
-                                ),
-                              ),
-                            ],
+                      SizedBox.fromSize(
+                        size: const Size.fromRadius(14),
+                        child: Container(
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: Colors.black,
+                            borderRadius: BorderRadius.circular(2),
+                          ),
+                          child: Text(
+                            '${state.cart.cartItems.length}',
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(color: Colors.amber),
                           ),
                         ),
+                      ),
                     ],
                   ),
                 ),
-              ],
-            ),
-          );
-        },
+            ],
+          ),
+        ),
       );
 }
 

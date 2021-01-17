@@ -1,8 +1,11 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:validators/validators.dart';
 
+import '../../generated/l10n.dart';
 import '../models/cart_model.dart';
+import '../routes/config_routes.dart';
 
 class CartQuantityCard extends StatefulWidget {
   const CartQuantityCard({Key key, @required this.cartItem}) : super(key: key);
@@ -22,19 +25,137 @@ class _CartQuantityCardState extends State<CartQuantityCard> {
             onTap: widget.cartItem.quantity <= 1
                 ? () {}
                 : widget.cartItem.decrementCart,
-            icon: Icons.remove_rounded),
-        Text(
-          '${widget.cartItem.quantity}',
-          style: Theme.of(context)
-              .textTheme
-              .headline1
-              .copyWith(color: Colors.white),
+            child: const Icon(Icons.remove_rounded)),
+        TextButton(
+          style: ButtonStyle(
+            minimumSize: MaterialStateProperty.all(
+              const Size.fromRadius(50),
+            ),
+            shape: MaterialStateProperty.all(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(25),
+              ),
+            ),
+          ),
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (context) {
+                final key = GlobalKey<FormState>();
+                return SimpleDialog(
+                  backgroundColor: Colors.white70,
+                  title: Text(S.current.quantity),
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Form(
+                        key: key,
+                        child: TextFormField(
+                          initialValue: '${widget.cartItem.quantity}',
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          keyboardType: TextInputType.number,
+                          onSaved: (value) =>
+                              widget.cartItem.quantity = int.tryParse(value),
+                          validator: (value) {
+                            if (!isNumeric(value) || int.tryParse(value) <= 0) {
+                              return S.current
+                                  .verify_your_quantity_and_click_checkout;
+                            }
+                            return null;
+                          },
+                          style: const TextStyle(fontSize: 14),
+                          decoration: InputDecoration(
+                            labelText: S.current.quantity,
+                            labelStyle:
+                                TextStyle(color: Theme.of(context).accentColor),
+                            contentPadding: const EdgeInsets.all(12),
+                            hintText: S.current.quantity,
+                            hintStyle: TextStyle(
+                                color: Theme.of(context)
+                                    .focusColor
+                                    .withOpacity(0.7)),
+                            prefixIcon: Icon(
+                                FluentIcons.number_symbol_24_regular,
+                                color: Theme.of(context).accentColor),
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(50),
+                                borderSide: BorderSide(
+                                    color: Theme.of(context)
+                                        .focusColor
+                                        .withOpacity(0.2))),
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(50),
+                                borderSide: BorderSide(
+                                    color: Theme.of(context)
+                                        .focusColor
+                                        .withOpacity(0.5))),
+                            enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(50),
+                                borderSide: BorderSide(
+                                    color: Theme.of(context)
+                                        .focusColor
+                                        .withOpacity(0.2))),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        TextButton(
+                          style: ButtonStyle(
+                            minimumSize: MaterialStateProperty.all(
+                              const Size.fromRadius(30),
+                            ),
+                            shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(25),
+                              ),
+                            ),
+                          ),
+                          onPressed: () => AppRouter.sailor.pop(),
+                          child: Text(S.current.cancel),
+                        ),
+                        ElevatedButton(
+                          style: ButtonStyle(
+                            minimumSize: MaterialStateProperty.all(
+                              const Size.fromRadius(30),
+                            ),
+                            shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(25),
+                              ),
+                            ),
+                          ),
+                          onPressed: () {
+                            if (key.currentState.validate()) {
+                              key.currentState.save();
+                              AppRouter.sailor.pop();
+                              setState(() {});
+                            }
+                          },
+                          child: Text(S.current.save),
+                        ),
+                      ],
+                    ),
+                  ],
+                );
+              },
+            );
+          },
+          child: Text(
+            '${widget.cartItem.quantity}',
+            style: Theme.of(context)
+                .textTheme
+                .headline1
+                .copyWith(color: Colors.white),
+          ),
         ),
         _buildButton(
           onTap: widget.cartItem.quantity >= 100
               ? () {}
               : widget.cartItem.incrementCart,
-          icon: FluentIcons.add_24_regular,
+          child: const Icon(FluentIcons.add_24_regular),
         ),
       ],
     );
@@ -42,7 +163,7 @@ class _CartQuantityCardState extends State<CartQuantityCard> {
 
   Widget _buildButton({
     VoidCallback onTap,
-    IconData icon,
+    Widget child,
   }) =>
       ElevatedButton(
         style: ButtonStyle(
@@ -56,6 +177,6 @@ class _CartQuantityCardState extends State<CartQuantityCard> {
           ),
         ),
         onPressed: () => setState(onTap),
-        child: Icon(icon),
+        child: child,
       );
 }

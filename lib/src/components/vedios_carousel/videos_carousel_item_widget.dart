@@ -5,8 +5,6 @@ import 'package:supercharged/supercharged.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../models/video_model.dart';
-import '../../routes/config_routes.dart';
-import '../../screens/video/video.dart';
 
 class VideosCarouselItemWidget extends StatelessWidget {
   const VideosCarouselItemWidget({

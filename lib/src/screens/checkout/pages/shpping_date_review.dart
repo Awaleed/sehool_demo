@@ -1,7 +1,7 @@
 import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:sehool/generated/l10n.dart';
+import '../../../../generated/l10n.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import '../../../components/cart_dropdown.dart';
@@ -44,6 +44,7 @@ class _ShippingDatePageState extends State<ShippingDatePage> {
                   onChanged: (value) {
                     setState(() {
                       widget.cart.orderDate = value;
+                      widget.onChanged?.call(value);
                     });
                   },
                 ),

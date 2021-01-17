@@ -1,11 +1,11 @@
 import 'package:faker/faker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
-import '../helpers/fake_data_generator.dart';
+import 'package:supercharged/supercharged.dart';
 
 import '../core/api_caller.dart';
+import '../helpers/fake_data_generator.dart';
 import '../models/lazy_list_model.dart';
-import 'package:supercharged/supercharged.dart';
 
 abstract class ILazyListRemoteDataSource {
   Future<List> getLazyListValues(

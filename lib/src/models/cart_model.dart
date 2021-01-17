@@ -21,6 +21,11 @@ class CartModel {
     return value;
   }
 
+  bool get validate => validateAddress && type != null && paymentMethod != null;
+  bool get validateAddress =>
+      pickupMethod == PickupMethod.pickup ||
+      (pickupMethod == PickupMethod.delivery && address != null);
+
   @override
   bool operator ==(Object o) {
     if (identical(this, o)) return true;
@@ -48,17 +53,16 @@ class CartModel {
 }
 
 class CartItemModel {
-  int get quantity => _quantity;
-  int _quantity = 1;
+  int quantity = 1;
 
   ProductModel product;
   SlicingMethodModel slicingMethod;
   String notes;
 
-  double get total => product.price * _quantity;
+  double get total => product.price * quantity;
 
-  void incrementCart() => _quantity < 100 ? _quantity++ : _quantity;
-  void decrementCart() => _quantity > 1 ? _quantity-- : _quantity;
+  void incrementCart() => quantity++;
+  void decrementCart() => quantity > 1 ? quantity-- : quantity;
 
   bool get validate => product != null && slicingMethod != null && quantity > 0;
 

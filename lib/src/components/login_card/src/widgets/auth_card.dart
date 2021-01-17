@@ -443,7 +443,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
     final auth = Provider.of<Auth>(context, listen: false);
     final newAuthMode = auth.switchAuth();
 
-    if (newAuthMode == AuthMode.Signup) {
+    if (newAuthMode == AuthMode.signup) {
       _switchAuthController.forward();
     } else {
       _switchAuthController.reverse();

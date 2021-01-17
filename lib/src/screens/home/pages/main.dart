@@ -4,10 +4,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sehool/src/cubits/lazy_list_cubit/lazy_list_cubit.dart';
-import 'package:sehool/src/helpers/fake_data_generator.dart';
-import 'package:sehool/src/models/banner_model.dart';
-import 'package:sehool/src/models/lazy_list_model.dart';
+import '../../../cubits/lazy_list_cubit/lazy_list_cubit.dart';
+import '../../../helpers/fake_data_generator.dart';
+import '../../../models/banner_model.dart';
+import '../../../models/lazy_list_model.dart';
 
 import '../../../../init_injectable.dart';
 import '../../../components/products_carousel/products_carousel_widget.dart';

@@ -9,17 +9,14 @@ import '../../../init_injectable.dart';
 import '../../components/orders_list/orders_list_sliver.dart';
 import '../../cubits/lazy_list_cubit/lazy_list_cubit.dart';
 import '../../models/lazy_list_model.dart';
-import '../../models/product_model.dart';
 
 class OrdersScreen extends StatefulWidget {
   static const routeName = '/orders';
 
   const OrdersScreen({
     Key key,
-    @required this.product,
   }) : super(key: key);
 
-  final ProductModel product;
 
   @override
   _OrdersScreenState createState() => _OrdersScreenState();

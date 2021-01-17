@@ -3,7 +3,7 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sehool/generated/l10n.dart';
+import '../../../generated/l10n.dart';
 
 import '../../../init_injectable.dart';
 import '../../cubits/cart_cubit/cart_cubit.dart';
@@ -130,9 +130,9 @@ class _CheckoutStepperState extends State<CheckoutStepper> {
             size: 50,
             color: Colors.amber,
           ),
-          state: widget.cart?.pickupMethod == PickupMethod.delivery
-              ? PatchedStepState.indexed
-              : PatchedStepState.disabled,
+          // state: widget.cart?.pickupMethod == PickupMethod.delivery
+          //     ? PatchedStepState.indexed
+          //     : PatchedStepState.disabled,
         ),
         _StepItem(
             label: S.current.notes,
@@ -164,6 +164,9 @@ class _CheckoutStepperState extends State<CheckoutStepper> {
               cart: widget.cart,
               onChanged: onChange,
             ),
+            state: widget.cart.validate
+                ? PatchedStepState.indexed
+                : PatchedStepState.disabled,
             icon: const Icon(
               FluentIcons.checkmark_48_regular,
               size: 50,
@@ -188,6 +191,7 @@ class _CheckoutStepperState extends State<CheckoutStepper> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Expanded(
           child: PatchedStepper(
@@ -201,17 +205,21 @@ class _CheckoutStepperState extends State<CheckoutStepper> {
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-          child: Row(
+          child: Wrap(
+            crossAxisAlignment: WrapCrossAlignment.center,
+            alignment: WrapAlignment.spaceBetween,
+            runAlignment: WrapAlignment.center,
             children: <Widget>[
               _buildButton(
                 label: Row(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     const Icon(FluentIcons.arrow_left_24_regular),
                     const SizedBox(width: 10),
                     Text(S.current.previous),
                   ],
                 ),
-                enabled: currentStep == 0,
+                enabled: currentStep != 0,
                 onTap: () {
                   for (var i = currentStep - 1; i >= 0; i--) {
                     final _StepItem step = steps[i];
@@ -224,35 +232,35 @@ class _CheckoutStepperState extends State<CheckoutStepper> {
                   }
                 },
               ),
-              const Spacer(),
-              _buildButton(
-                label: Row(
-                  children: [
-                    Text(currentStep == steps.length - 1
-                        ? S.current.finish
-                        : S.current.next),
-                    const SizedBox(width: 10),
-                    Icon(currentStep == steps.length - 1
-                        ? FluentIcons.checkmark_28_regular
-                        : FluentIcons.arrow_right_24_regular),
-                  ],
-                ),
-                enabled: currentStep == steps.length,
-                onTap: () {
-                  if (currentStep == steps.length - 1) {
-                    //TODO:add ending
-                  }
-                  for (var i = currentStep + 1; i < steps.length; i++) {
-                    final _StepItem step = steps[i];
-                    if (step.state == PatchedStepState.disabled) {
-                      continue;
-                    } else {
-                      setState(() => currentStep = i);
-                      break;
+              // Spacer(),
+              if (currentStep == steps.length - 1)
+                _buildButton(
+                  label: Text(S.current.checkout),
+                  onTap: () {},
+                )
+              else
+                _buildButton(
+                  label: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(S.current.next),
+                      const SizedBox(width: 10),
+                      const Icon(FluentIcons.arrow_right_24_regular),
+                    ],
+                  ),
+                  enabled: currentStep != steps.length - 1,
+                  onTap: () {
+                    for (var i = currentStep + 1; i < steps.length; i++) {
+                      final _StepItem step = steps[i];
+                      if (step.state == PatchedStepState.disabled) {
+                        continue;
+                      } else {
+                        setState(() => currentStep = i);
+                        break;
+                      }
                     }
-                  }
-                },
-              ),
+                  },
+                ),
             ],
           ),
         )
@@ -279,7 +287,7 @@ class _CheckoutStepperState extends State<CheckoutStepper> {
           ),
         ),
       ),
-      onPressed: enabled ? null : onTap,
+      onPressed: enabled ? onTap : null,
       child: label,
     );
   }

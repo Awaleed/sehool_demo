@@ -1,5 +1,4 @@
 import 'package:sailor/sailor.dart';
-import 'package:sehool/src/screens/profile/pages/orders_history.dart';
 import 'package:supercharged/supercharged.dart';
 
 import '../screens/auth/forgot_password.dart';

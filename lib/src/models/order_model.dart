@@ -1,20 +1,14 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:sehool/generated/l10n.dart';
+import '../../generated/l10n.dart';
 
 import 'address_model.dart';
 import 'cart_model.dart';
 
 // part 'order_model.g.dart';
 
-enum OrderType {
-  unsecluded,
-  secluded,
-}
-enum PaymentMethodType { visa, cash, wallet }
-enum PickupMethod {
-  delivery,
-  pickup,
-}
+enum OrderType { unsecluded, secluded }
+enum PaymentMethodType { cash, visa, wallet }
+enum PickupMethod { pickup, delivery }
 String mapPaymentMethodTypeToLabel(PaymentMethodType type) {
   switch (type) {
     case PaymentMethodType.cash:

@@ -1,8 +1,6 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../init_injectable.dart';
 import '../cubits/reveiw_cubit/review_cubit.dart';
 import '../helpers/helper.dart';
 

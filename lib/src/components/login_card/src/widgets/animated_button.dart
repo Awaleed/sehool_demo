@@ -5,7 +5,7 @@ import 'animated_text.dart';
 import 'ring.dart';
 
 class AnimatedButton extends StatefulWidget {
-  AnimatedButton({
+  const AnimatedButton({
     Key key,
     @required this.text,
     @required this.onPressed,
@@ -50,7 +50,7 @@ class _AnimatedButtonState extends State<AnimatedButton>
     _textOpacityAnimation = Tween<double>(begin: 1.0, end: 0.0).animate(
       CurvedAnimation(
         parent: widget.controller,
-        curve: Interval(0.0, .25),
+        curve: const Interval(0.0, .25),
       ),
     );
 
@@ -60,19 +60,19 @@ class _AnimatedButtonState extends State<AnimatedButton>
     _buttonOpacityAnimation =
         Tween<double>(begin: 1.0, end: 0.0).animate(CurvedAnimation(
       parent: widget.controller,
-      curve: Threshold(.65),
+      curve: const Threshold(.65),
     ));
 
     _ringThicknessAnimation =
         Tween<double>(begin: _loadingCircleRadius, end: _loadingCircleThickness)
             .animate(CurvedAnimation(
       parent: widget.controller,
-      curve: Interval(.65, .85),
+      curve: const Interval(.65, .85),
     ));
     _ringOpacityAnimation =
         Tween<double>(begin: 1.0, end: 0.0).animate(CurvedAnimation(
       parent: widget.controller,
-      curve: Interval(.85, 1.0),
+      curve: const Interval(.85, 1.0),
     ));
 
     widget.controller.addStatusListener(handleStatusChanged);
@@ -123,7 +123,7 @@ class _AnimatedButtonState extends State<AnimatedButton>
     widget.controller.removeStatusListener(handleStatusChanged);
   }
 
-  void handleStatusChanged(status) {
+  void handleStatusChanged(AnimationStatus status) {
     if (status == AnimationStatus.forward) {
       setState(() => _isLoading = true);
     }
@@ -158,7 +158,9 @@ class _AnimatedButtonState extends State<AnimatedButton>
     // button width is min 120.0 and max 240.0
     _width = textWidth > 120.0 && textWidth < 240.0
         ? textWidth
-        : textWidth >= 240.0 ? 240.0 : 120.0;
+        : textWidth >= 240.0
+            ? 240.0
+            : 120.0;
 
     _sizeAnimation = Tween<double>(begin: 1.0, end: _height / _width)
         .animate(CurvedAnimation(

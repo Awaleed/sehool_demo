@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../init_injectable.dart';
-import '../../cubits/reveiw_cubit/review_cubit.dart';
 import '../../models/product_model.dart';
 import 'comments_list_item_widget.dart';
 import 'comments_list_loading_item_widget.dart';
