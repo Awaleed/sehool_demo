@@ -129,12 +129,12 @@ class _ProfilePageState extends State<ProfilePage> {
                       title:
                           Localizations.localeOf(context).languageCode == 'ar'
                               ? Text(
-                                  '${kUser.wallet} ${S.current.rial}',
+                                  '${kUser.wallet} ﷼',
                                   textDirection: TextDirection.rtl,
                                   // textAlign: TextAlign.end,
                                 )
                               : Text(
-                                  '${kUser.wallet} ${S.current.rial}',
+                                  '${kUser.wallet} ﷼',
                                   textDirection: TextDirection.ltr,
                                   // textAlign: TextAlign.start,
                                 ),

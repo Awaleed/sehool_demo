@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chewie/chewie.dart';
+import 'package:division/division.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../cubits/lazy_list_cubit/lazy_list_cubit.dart';
@@ -114,38 +115,33 @@ class _VideoScreenState extends State<VideoScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          const DecoratedBox(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: CachedNetworkImageProvider(
-                  'https://i.pinimg.com/originals/77/59/a2/7759a2ff203398743fd020a4bedbff14.jpg',
+    return Parent(
+      style: ParentStyle()
+        ..background.image(path: 'assets/images/bg.jpg', fit: BoxFit.cover),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Stack(
+          fit: StackFit.expand,
+          children: [
+            DecoratedBox(
+              decoration: BoxDecoration(
+                color: Colors.black,
+                gradient: RadialGradient(
+                  colors: [
+                    Colors.black.withOpacity(.93),
+                    Colors.black.withOpacity(.95),
+                  ],
                 ),
-                fit: BoxFit.cover,
               ),
             ),
-          ),
-          DecoratedBox(
-            decoration: BoxDecoration(
-              color: Colors.black,
-              gradient: RadialGradient(
-                colors: [
-                  Colors.black.withOpacity(.93),
-                  Colors.black.withOpacity(.95),
-                ],
+            PageView.builder(
+              scrollDirection: Axis.vertical,
+              itemBuilder: (context, index) => Chewie(
+                controller: _chewieController,
               ),
             ),
-          ),
-          PageView.builder(
-            scrollDirection: Axis.vertical,
-            itemBuilder: (context, index) => Chewie(
-              controller: _chewieController,
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

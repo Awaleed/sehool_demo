@@ -61,48 +61,53 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          const DecoratedBox(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: CachedNetworkImageProvider(
-                  'https://i.pinimg.com/originals/77/59/a2/7759a2ff203398743fd020a4bedbff14.jpg',
+    return Parent(
+      style: ParentStyle()
+        ..background.image(path: 'assets/images/bg.jpg', fit: BoxFit.cover),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Stack(
+          fit: StackFit.expand,
+          children: [
+            // const DecoratedBox(
+            //   decoration: BoxDecoration(
+            //     image: DecorationImage(
+            //       image: CachedNetworkImageProvider(
+            //         'https://i.pinimg.com/originals/77/59/a2/7759a2ff203398743fd020a4bedbff14.jpg',
+            //       ),
+            //       fit: BoxFit.cover,
+            //     ),
+            //   ),
+            // ),
+            const DecoratedBox(
+              decoration: BoxDecoration(
+                color: Colors.black45,
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Colors.black,
+                    Colors.amber,
+                    Colors.black,
+                  ],
                 ),
-                fit: BoxFit.cover,
               ),
             ),
-          ),
-          const DecoratedBox(
-            decoration: BoxDecoration(
-              color: Colors.black45,
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Colors.black,
-                  Colors.amber,
-                  Colors.black,
-                ],
+            SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 70),
+                child: PageView(
+                  physics: const NeverScrollableScrollPhysics(),
+                  controller: pageController,
+                  children: [...pages.map((e) => e.page)],
+                ),
               ),
             ),
-          ),
-          SafeArea(
-            child: Column(
+            Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Expanded(
-                  child: PageView(
-                    physics: const NeverScrollableScrollPhysics(),
-                    controller: pageController,
-                    children: [...pages.map((e) => e.page)],
-                  ),
-                ),
                 Container(
-                  padding: const EdgeInsets.all(8),
                   decoration: const BoxDecoration(
                     color: Colors.black45,
                     gradient: LinearGradient(
@@ -114,13 +119,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                   ),
+                  height: 75,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 5),
-                    child: Wrap(
-                      crossAxisAlignment: WrapCrossAlignment.center,
-                      // mainAxisSize: MainAxisSize.min,
-                      // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      alignment: WrapAlignment.spaceBetween,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         ...() {
                           final list = <Widget>[];
@@ -182,8 +186,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

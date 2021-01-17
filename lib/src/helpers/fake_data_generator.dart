@@ -72,7 +72,7 @@ abstract class FakeDataGenerator {
         level: 'user',
         phone: '${random.integer(4294967296)}',
         image: images.random,
-        wallet: (random.decimal(scale: 100000) * 100).toInt() / 100,
+        wallet: '${(random.decimal(scale: 100000) * 100).toInt() / 100}',
       );
 
   static AddressModel get addressModel => AddressModel(

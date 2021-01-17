@@ -53,7 +53,7 @@ class UserModel {
   final String settings;
   final String password;
   final String image;
-  final double wallet;
+  final String wallet;
   final String level;
   final String email;
 

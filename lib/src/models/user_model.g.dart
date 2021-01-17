@@ -35,7 +35,7 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) {
     phone: json['phone'] as String,
     password: json['password'] as String,
     image: json['image'] as String,
-    wallet: (json['wallet'] as num)?.toDouble(),
+    wallet: json['wallet'] as String,
     id: json['id'] as int,
   );
 }

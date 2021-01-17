@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:division/division.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -60,60 +61,53 @@ class _OrdersScreenState extends State<OrdersScreen> {
   }
 
   Widget _buildUI(List values, {isLoading = false}) {
-    return Stack(
-      fit: StackFit.expand,
-      children: [
-        const DecoratedBox(
-          decoration: BoxDecoration(
-            color: Colors.amber,
-            image: DecorationImage(
-              image: CachedNetworkImageProvider(
-                'https://i.pinimg.com/originals/77/59/a2/7759a2ff203398743fd020a4bedbff14.jpg',
-              ),
-              fit: BoxFit.cover,
-            ),
-          ),
-        ),
-        CustomScrollView(
-          slivers: [
-            SliverAppBar(
-              pinned: true,
-              elevation: 0,
-              title: Text(
-                S.current.my_orders,
-                style: Theme.of(context)
-                    .textTheme
-                    .headline6
-                    .copyWith(color: Colors.white),
-              ),
-              backgroundColor: Colors.black54,
-            ),
-            const SliverToBoxAdapter(child: SizedBox(height: 20)),
-            SliverToBoxAdapter(
-              child: Card(
-                elevation: 10,
-                clipBehavior: Clip.hardEdge,
-                color: Colors.white70,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(25),
+    return Parent(
+      style: ParentStyle()
+        ..background.image(path: 'assets/images/bg.jpg', fit: BoxFit.cover),
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          CustomScrollView(
+            slivers: [
+              SliverAppBar(
+                pinned: true,
+                elevation: 0,
+                title: Text(
+                  S.current.my_orders,
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline6
+                      .copyWith(color: Colors.white),
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ListTile(
-                    title: Center(
-                      child: Text(
-                        DateFormat.yMMMEd().format(DateTime.now()),
+                backgroundColor: Colors.black54,
+              ),
+              const SliverToBoxAdapter(child: SizedBox(height: 20)),
+              SliverToBoxAdapter(
+                child: Card(
+                  elevation: 10,
+                  clipBehavior: Clip.hardEdge,
+                  color: Colors.white70,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ListTile(
+                      title: Center(
+                        child: Text(
+                          DateFormat.yMMMEd().format(DateTime.now()),
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
-            ),
-            OrdersListSliver(isLoading: isLoading, orders: values),
-            const SliverToBoxAdapter(child: SizedBox(height: 100)),
-          ],
-        ),
-      ],
+              OrdersListSliver(isLoading: isLoading, orders: values),
+              const SliverToBoxAdapter(child: SizedBox(height: 100)),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
