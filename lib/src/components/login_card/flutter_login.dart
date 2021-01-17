@@ -411,57 +411,56 @@ class _FlutterLoginState extends State<FlutterLogin>
         widget.passwordValidator ?? FlutterLogin.defaultPasswordValidator;
 
     return MultiProvider(
-      providers: [
-        ChangeNotifierProvider.value(
-          value: widget.messages ?? LoginMessages(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => Auth(
-            onLogin: widget.onLogin,
-            onSignup: widget.onSignup,
-            onRecoverPassword: widget.onRecoverPassword,
+        providers: [
+          ChangeNotifierProvider.value(
+            value: widget.messages ?? LoginMessages(),
           ),
-        ),
-      ],
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: Stack(
-          children: <Widget>[
-            GradientBox(
-              colors: [
-                loginTheme.pageColorLight ?? theme.primaryColor,
-                loginTheme.pageColorDark ?? theme.primaryColorDark,
-              ],
+          ChangeNotifierProvider(
+            create: (context) => Auth(
+              onLogin: widget.onLogin,
+              onSignup: widget.onSignup,
+              onRecoverPassword: widget.onRecoverPassword,
             ),
-            SingleChildScrollView(
-              child: Theme(
-                data: theme,
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: <Widget>[
-                    Positioned(
-                      child: AuthCard(
-                        key: authCardKey,
-                        signupFields: widget.signupFields,
-                        padding: EdgeInsets.only(top: cardTopPosition),
-                        loadingController: _loadingController,
-                        emailValidator: emailValidator,
-                        passwordValidator: passwordValidator,
-                        onSubmit: _reverseHeaderAnimation,
-                        onSubmitCompleted: widget.onSubmitAnimationCompleted,
+          ),
+        ],
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          body: Stack(
+            children: <Widget>[
+              GradientBox(
+                colors: [
+                  loginTheme.pageColorLight ?? theme.primaryColor,
+                  loginTheme.pageColorDark ?? theme.primaryColorDark,
+                ],
+              ),
+              SingleChildScrollView(
+                child: Theme(
+                  data: theme,
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: <Widget>[
+                      Positioned(
+                        child: AuthCard(
+                          key: authCardKey,
+                          signupFields: widget.signupFields,
+                          padding: EdgeInsets.only(top: cardTopPosition),
+                          loadingController: _loadingController,
+                          emailValidator: emailValidator,
+                          passwordValidator: passwordValidator,
+                          onSubmit: _reverseHeaderAnimation,
+                          onSubmitCompleted: widget.onSubmitAnimationCompleted,
+                        ),
                       ),
-                    ),
-                    Positioned(
-                      top: cardTopPosition - headerHeight - headerMargin,
-                      child: _buildHeader(headerHeight, loginTheme),
-                    ),
-                  ],
+                      Positioned(
+                        top: cardTopPosition - headerHeight - headerMargin,
+                        child: _buildHeader(headerHeight, loginTheme),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
-        ),
-      ),
-    );
+            ],
+          ),
+        ));
   }
 }

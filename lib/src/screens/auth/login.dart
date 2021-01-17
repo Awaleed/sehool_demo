@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sehool/src/components/background_images_generate.dart';
 import 'package:sehool/src/components/login_card/flutter_login.dart';
+import 'package:sehool/src/components/login_card/src/providers/login_messages.dart';
 import 'package:sehool/src/components/login_card/src/providers/login_theme.dart';
 import 'package:sehool/src/models/user_model.dart';
 import '../../components/custom_form_fileds.dart';
@@ -72,12 +73,26 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           FlutterLogin(
             title: '',
+            messages: LoginMessages(
+                passwordHint: S.current.password,
+                usernameHint: S.current.email,
+                forgotPasswordButton: S.current.i_forgot_password,
+                signupButton: S.current.register,
+                loginButton: S.current.login,
+                recoverPasswordButton: S.current.send,
+                goBackButton: S.current.i_have_account_back_to_login,
+                recoverPasswordIntro: S.current.i_forgot_password,
+                recoverPasswordDescription: ''),
             theme: LoginTheme(
               pageColorLight: Colors.transparent,
             ),
             logo: 'assets/images/logo.png',
-            onLogin: (val) {},
-            onSignup: (val) {},
+            onLogin: (val) {
+              return Future.value('');
+            },
+            onSignup: (val) {
+              return Future.value('');
+            },
             signupFields: [
               const SizedBox(height: 15),
               CustomTextFromField(
@@ -126,29 +141,31 @@ class _LoginScreenState extends State<LoginScreen> {
     bool enabled = true,
   }) {
     final _model = FormFieldModel.mapType(type, map);
-    return CustomDropdownFromField<UserLevel>(
-      type: type,
-      map: map,
-      itemAsString: (item) {
-        switch (item) {
-          case UserLevel.customer:
-            return S.current.customers;
-          case UserLevel.merchant:
-            return S.current.merchants;
-          default:
-            return '';
-        }
-      },
-      items: UserLevel.values,
-      enabled: enabled,
-      onChanged: (value) => setState(() {
-        userLevel = value;
-      }),
-      validator: (value) => _model.validator(
-        EnumToString.convertToString(value),
-      ),
-      onSave: (value) => _model.onSave(
-        EnumToString.convertToString(value),
+    return Center(
+      child: CustomDropdownFromField<UserLevel>(
+        type: type,
+        map: map,
+        itemAsString: (item) {
+          switch (item) {
+            case UserLevel.customer:
+              return S.current.customers;
+            case UserLevel.merchant:
+              return S.current.merchants;
+            default:
+              return '';
+          }
+        },
+        items: UserLevel.values,
+        enabled: enabled,
+        onChanged: (value) => setState(() {
+          userLevel = value;
+        }),
+        validator: (value) => _model.validator(
+          EnumToString.convertToString(value),
+        ),
+        onSave: (value) => _model.onSave(
+          EnumToString.convertToString(value),
+        ),
       ),
     );
   }

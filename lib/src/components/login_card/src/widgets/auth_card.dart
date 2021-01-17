@@ -680,6 +680,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
     final authForm = Form(
       key: _formKey,
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Container(
             padding: const EdgeInsets.only(
@@ -689,7 +690,8 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
             ),
             width: cardWidth,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              // crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 _buildNameField(textFieldWidth, messages, auth),
                 const SizedBox(height: 20),
@@ -731,11 +733,12 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
       ),
     );
 
-    return FittedBox(
-      child: Card(
-        elevation: _showShadow ? theme.cardTheme.elevation : 0,
-        child: authForm,
-      ),
+    return Card(
+      clipBehavior: Clip.hardEdge,
+      margin: EdgeInsets.all(deviceSize.width / 6),
+      elevation: _showShadow ? theme.cardTheme.elevation : 0,
+      child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(), child: authForm),
     );
   }
 }
@@ -836,7 +839,6 @@ class _RecoverCardState extends State<_RecoverCard>
 
   Widget _buildBackButton(ThemeData theme, LoginMessages messages) {
     return FlatButton(
-      child: Text(messages.goBackButton),
       onPressed: !_isSubmitting
           ? () {
               _formRecoverKey.currentState.save();
@@ -846,6 +848,7 @@ class _RecoverCardState extends State<_RecoverCard>
       padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 4),
       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
       textColor: theme.primaryColor,
+      child: Text(messages.goBackButton),
     );
   }
 
@@ -860,43 +863,42 @@ class _RecoverCardState extends State<_RecoverCard>
     final textFieldWidth = cardWidth - cardPadding * 2;
 
     return FittedBox(
-      child: Card(
-        child: Container(
-          padding: const EdgeInsets.only(
-            left: cardPadding,
-            top: cardPadding + 10.0,
-            right: cardPadding,
-            bottom: cardPadding,
-          ),
-          width: cardWidth,
-          alignment: Alignment.center,
-          child: Form(
-            key: _formRecoverKey,
-            child: Column(
-              children: [
-                Text(
-                  messages.recoverPasswordIntro,
-                  key: kRecoverPasswordIntroKey,
-                  textAlign: TextAlign.center,
-                  style: theme.textTheme.bodyText2,
-                ),
-                const SizedBox(height: 20),
-                _buildRecoverNameField(textFieldWidth, messages, auth),
-                const SizedBox(height: 20),
-                Text(
-                  messages.recoverPasswordDescription,
-                  key: kRecoverPasswordDescriptionKey,
-                  textAlign: TextAlign.center,
-                  style: theme.textTheme.bodyText2,
-                ),
-                const SizedBox(height: 26),
-                _buildRecoverButton(theme, messages),
-                _buildBackButton(theme, messages),
-              ],
-            ),
+        child: Card(
+      child: Container(
+        padding: const EdgeInsets.only(
+          left: cardPadding,
+          top: cardPadding + 10.0,
+          right: cardPadding,
+          bottom: cardPadding,
+        ),
+        width: cardWidth,
+        alignment: Alignment.center,
+        child: Form(
+          key: _formRecoverKey,
+          child: Column(
+            children: [
+              Text(
+                messages.recoverPasswordIntro,
+                key: kRecoverPasswordIntroKey,
+                textAlign: TextAlign.center,
+                style: theme.textTheme.bodyText2,
+              ),
+              const SizedBox(height: 20),
+              _buildRecoverNameField(textFieldWidth, messages, auth),
+              const SizedBox(height: 20),
+              Text(
+                messages.recoverPasswordDescription,
+                key: kRecoverPasswordDescriptionKey,
+                textAlign: TextAlign.center,
+                style: theme.textTheme.bodyText2,
+              ),
+              const SizedBox(height: 26),
+              _buildRecoverButton(theme, messages),
+              _buildBackButton(theme, messages),
+            ],
           ),
         ),
       ),
-    );
+    ));
   }
 }

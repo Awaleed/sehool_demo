@@ -18,9 +18,9 @@ class Auth with ChangeNotifier {
     String email = '',
     String password = '',
     String confirmPassword = '',
-  })  : this._email = email,
-        this._password = password,
-        this._confirmPassword = confirmPassword;
+  })  : _email = email,
+        _password = password,
+        _confirmPassword = confirmPassword;
 
   final AuthCallback onLogin;
   final AuthCallback onSignup;

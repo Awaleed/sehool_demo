@@ -1,8 +1,11 @@
+import 'dart:math';
+
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 
 import '../helpers/helper.dart';
 import '../models/form_data_model.dart';
+import 'login_card/src/widgets/animated_text_form_field.dart';
 
 class CustomTextFromField extends StatelessWidget {
   const CustomTextFromField({
@@ -24,26 +27,33 @@ class CustomTextFromField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cardWidth = min(MediaQuery.of(context).size.width * 0.75, 360.0);
+    const cardPadding = 16.0;
     final _model = FormFieldModel.mapType(type, map);
-    return TextFormField(
-      decoration: InputDecoration(
-        filled: true,
-        suffixIcon: suffixIcon ?? Icon(_model.iconData),
-        fillColor: Colors.white54,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 25, vertical: 3),
-        hintText: _model.hintText,
-        labelText: _model.labelText,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(25),
-        ),
-      ),
-      initialValue: initialValue,
-      autovalidateMode: AutovalidateMode.onUserInteraction,
+    return AnimatedTextFormField(
+      // decoration: InputDecoration(
+      //   filled: true,
+      //   suffixIcon: suffixIcon ?? Icon(_model.iconData),
+      //   fillColor: Colors.white54,
+      //   contentPadding: const EdgeInsets.symmetric(horizontal: 25, vertical: 3),
+      //   hintText: _model.hintText,
+      //   labelText: _model.labelText,
+      //   border: OutlineInputBorder(
+      //     borderRadius: BorderRadius.circular(25),
+      //   ),
+      // ),
+      // initialValue: initialValue,
+      // autovalidateMode: AutovalidateMode.onUserInteraction,
+
+      prefixIcon: suffixIcon ?? Icon(_model.iconData),
+      labelText: _model.labelText,
+
       enabled: enabled,
       keyboardType: _model.keyboardType,
       onSaved: _model.onSave,
       validator: _model.validator,
       obscureText: obscureText,
+      width: cardWidth - cardPadding * 2,
     );
   }
 }
@@ -87,10 +97,11 @@ class CustomDropdownFromField<T> extends StatelessWidget {
         // ),
         // autoValidateMode: AutovalidateMode.onUserInteraction,
         // enabled: enabled,
+
         decoration: InputDecoration(
           filled: true,
-          suffixIcon: suffixIcon ?? Icon(_model.iconData),
-          fillColor: Colors.white54,
+          prefixIcon: suffixIcon ?? Icon(_model.iconData),
+          fillColor: Theme.of(context).primaryColor.withOpacity(.1),
           contentPadding:
               const EdgeInsets.symmetric(horizontal: 25, vertical: 3),
           hintText: _model.hintText,
