@@ -25,8 +25,8 @@ class EmptyAddressesWidget extends StatelessWidget {
                     begin: Alignment.bottomLeft,
                     end: Alignment.topRight,
                     colors: [
-                      Theme.of(context).focusColor.withOpacity(0.7),
-                      Theme.of(context).focusColor.withOpacity(0.05),
+                      Colors.amber.withOpacity(0.3),
+                      Colors.amber.withOpacity(0.2),
                     ])),
             child: Icon(
               FluentIcons.location_off_24_regular,

@@ -41,7 +41,7 @@ class _NewAddressDialogState extends State<NewAddressDialog> {
       builder: (context, state) {
         return state.when(
           initial: () => _buildUi(context, widget.cubit),
-          loading: () => _buildUi(context, widget.cubit, isLoading: true),
+          loading: () => _buildUi(context, widget.cubit, isLoading: false),
           success: (value) => _buildUi(context, widget.cubit),
           // TODO: Handel ERROR STATE
           failure: (message) => throw UnimplementedError(),
@@ -62,7 +62,7 @@ class _NewAddressDialogState extends State<NewAddressDialog> {
           backgroundColor: Colors.transparent,
           appBar: AppBar(
             elevation: 0,
-            backgroundColor: Colors.black54,
+            backgroundColor: Colors.transparent,
             title: Text(
               S.of(context).address,
               style: Theme.of(context)

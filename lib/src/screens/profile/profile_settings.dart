@@ -1,6 +1,7 @@
 import 'package:division/division.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sehool/src/components/background_images_generate.dart';
 
 import '../../../generated/l10n.dart';
 import '../../../init_injectable.dart';
@@ -40,19 +41,43 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text(S.current.profile_settings)),
-      body: BlocBuilder<ProfileCubit, ProfileState>(
-        cubit: cubit,
-        builder: (context, state) {
-          return state.when(
-            initial: _buildUi,
-            loading: () => _buildUi(isLoading: true),
-            success: (value) => _buildUi(),
-            // TODO: Handel ERROR STATE
-            failure: (message) => throw UnimplementedError(),
-          );
-        },
+    return Parent(
+      style: ParentStyle()..background.color(Colors.white),
+      child: Stack(
+        children: [
+          BackgroundGeneratorGroup(
+            number: 60,
+            colors: Colors.accents,
+            direction: Direction.up,
+            speed: DotSpeed.medium,
+            opacity: .9,
+            image: const [
+              'assets/images/meat.png',
+              'assets/images/meat2.png',
+              'assets/images/meat3.png',
+              'assets/images/ribs.png',
+              'assets/images/ribs2.png',
+              'assets/images/knife.png',
+              'assets/images/delivery-truck.png',
+            ],
+          ),
+          Scaffold(
+            backgroundColor: Colors.transparent,
+            appBar: AppBar(title: Text(S.current.profile_settings)),
+            body: BlocBuilder<ProfileCubit, ProfileState>(
+              cubit: cubit,
+              builder: (context, state) {
+                return state.when(
+                  initial: _buildUi,
+                  loading: () => _buildUi(isLoading: true),
+                  success: (value) => _buildUi(),
+                  // TODO: Handel ERROR STATE
+                  failure: (message) => throw UnimplementedError(),
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }

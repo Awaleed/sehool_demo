@@ -3,6 +3,7 @@ import 'package:division/division.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sehool/src/screens/home/pages/userpage.dart';
 
 import '../../../generated/l10n.dart';
 import '../../../init_injectable.dart';
@@ -43,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
         _TabBarItem(
           icon: FluentIcons.person_24_regular,
           label: S.current.profile,
-          page: const ProfilePage(),
+          page: UserPage(),
         ),
       ];
 

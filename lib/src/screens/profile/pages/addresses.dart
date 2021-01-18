@@ -2,6 +2,7 @@ import 'package:division/division.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sehool/src/components/ripple_animation.dart';
 
 import '../../../../generated/l10n.dart';
 import '../../../../init_injectable.dart';
@@ -44,23 +45,26 @@ class _AddressesScreenState extends State<AddressesScreen> {
         backgroundColor: Colors.transparent,
         appBar: AppBar(
           elevation: 0,
-          backgroundColor: Colors.black54,
-          title: Text(
-            S.current.addresses,
-            style: Theme.of(context)
-                .textTheme
-                .headline6
-                .copyWith(color: Colors.white),
-          ),
-          actions: [
-            IconButton(
-              icon: const Icon(FluentIcons.add_28_regular),
-              onPressed: () => AppRouter.sailor.navigate(
-                NewAddressDialog.routeName,
-                params: {'address_cubit': cubit},
+          backgroundColor: Colors.transparent,
+          title: Row(
+            children: [
+              Parent(
+                style: ParentStyle()
+                  ..background.color(Colors.white.withOpacity(.1))
+                  ..padding(all: 12)
+                  ..borderRadius(all: 30),
+                child: const Icon(FluentIcons.location_28_regular,
+                    color: Colors.white, size: 20),
               ),
-            ),
-          ],
+              Text(
+                S.current.addresses,
+                style: Theme.of(context)
+                    .textTheme
+                    .headline6
+                    .copyWith(color: Colors.white, fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
         ),
         body: BlocBuilder<AddressCubit, AddressState>(
           cubit: cubit,
@@ -83,7 +87,24 @@ class _AddressesScreenState extends State<AddressesScreen> {
     bool isLoading = false,
   }) =>
       addresses.isEmpty
-          ? const EmptyAddressesWidget()
+          ? Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const EmptyAddressesWidget(),
+                RipplesAnimation(
+                  onPressed: () => AppRouter.sailor.navigate(
+                    NewAddressDialog.routeName,
+                    params: {'address_cubit': cubit},
+                  ),
+                  color: Colors.amberAccent,
+                  size: 30,
+                  child: const Icon(
+                    FluentIcons.add_28_filled,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            )
           : ListView.separated(
               itemCount: addresses.length,
               separatorBuilder: (context, index) => const Divider(),

@@ -15,11 +15,15 @@ class BackgroundGeneratorGroup extends StatefulWidget {
   final double opacity;
   final DotSpeed speed;
   final List<String> image;
+  final List<String> span;
   final random = Random();
+  final bool isText;
 
   BackgroundGeneratorGroup({
     Key key,
     this.image,
+    this.span,
+    this.isText = false,
     this.number = 25,
     this.direction = Direction.random,
     this.trajectory = Trajectory.random,
@@ -64,8 +68,16 @@ class BackgroundGeneratorGroupState extends State<BackgroundGeneratorGroup> {
         height: double.infinity,
         child: BackgroundGenerator(
           direction: widget.direction,
+          span: TextSpan(
+              text: widget.span[widget.random.nextInt(widget.span.length)],
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyText2
+                  .copyWith(color: Colors.amber)),
           trajectory: widget.trajectory,
-          image: widget.image[widget.random.nextInt(widget.image.length)],
+          image: widget.image == null
+              ? ''
+              : widget.image[widget.random.nextInt(widget.image.length)],
           radius: radius,
           color: widget.colors[widget.random.nextInt(widget.colors.length)]
               .withOpacity(widget.opacity),
@@ -95,6 +107,7 @@ class BackgroundGenerator extends StatefulWidget {
   final int time;
   final Color color;
   final String image;
+  final TextSpan span;
 
   const BackgroundGenerator({
     Key key,
@@ -103,7 +116,8 @@ class BackgroundGenerator extends StatefulWidget {
     @required this.trajectory,
     @required this.radius,
     @required this.color,
-    @required this.time,
+    this.span,
+    this.time,
   }) : super(key: key);
 
   @override
@@ -122,7 +136,15 @@ class BackgroundGeneratorState extends State<BackgroundGenerator>
   AnimationController controller;
 
   ui.Image image;
+
   bool isImageloaded = false;
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
   @override
   void initState() {
     super.initState();
@@ -152,7 +174,13 @@ class BackgroundGeneratorState extends State<BackgroundGenerator>
     });
 
     controller.repeat();
-    init();
+    if (widget.span == null) {
+      init();
+    } else {
+      setState(() {
+        isImageloaded = true;
+      });
+    }
   }
 
   @override
@@ -193,6 +221,7 @@ class BackgroundGeneratorState extends State<BackgroundGenerator>
       });
       return completer.complete(img);
     });
+
     return completer.future;
   }
 
@@ -202,7 +231,8 @@ class BackgroundGeneratorState extends State<BackgroundGenerator>
         painter: DotPainter(
           vertical: _vertical,
           inverseDir: _inverseDir,
-          image: image,
+          dot: image,
+          span: widget.span,
           initialPosition: _initialPosition,
           destination: _destination,
           radius: widget.radius,
@@ -261,13 +291,17 @@ class DotPainter extends CustomPainter {
   double distance;
   double fraction;
   Color color;
+  bool isText;
   final Paint _paint;
+  TextSpan span;
 
-  ui.Image image;
+  ui.Image dot;
   DotPainter({
-    this.image,
+    this.dot,
+    this.span,
     this.vertical,
     this.inverseDir,
+    this.isText,
     this.initialPosition,
     this.destination,
     this.radius,
@@ -308,7 +342,19 @@ class DotPainter extends CustomPainter {
     }
 
     // ByteData data = image.toByteData();
-    canvas.drawImage(image, offset, _paint);
+    if (span != null) {
+      final textPainter = TextPainter(
+        text: span,
+        textDirection: TextDirection.ltr,
+      );
+      textPainter.layout(
+        minWidth: 0,
+        maxWidth: size.width,
+      );
+      textPainter.paint(canvas, offset);
+    } else {
+      canvas.drawImage(dot, offset, _paint);
+    }
 
     // canvas.drawCircle(offset, radius, _paint);
     // canvas.drawImage(image, offset, _paint);
