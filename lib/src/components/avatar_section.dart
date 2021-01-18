@@ -84,7 +84,10 @@ class AvatarSection extends FormField<File> {
                                 left: 16,
                                 child: FloatingActionButton(
                                   onPressed: () {},
-                                  child: const Icon(Icons.camera),
+                                  child: const Icon(
+                                    Icons.camera,
+                                    color: Colors.white,
+                                  ),
                                 ),
                               ),
                             ],

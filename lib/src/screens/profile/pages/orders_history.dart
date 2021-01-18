@@ -2,8 +2,6 @@ import 'package:division/division.dart';
 import 'package:flutter/material.dart';
 import '../../../../generated/l10n.dart';
 import '../../../components/empty_orders_widget.dart';
-import '../../../components/products_carousel/products_carousel_item_widget.dart';
-import '../../../models/product_model.dart';
 
 class OrdersHistory extends StatefulWidget {
   static const routeName = '/myOrdersHistory';
@@ -23,7 +21,7 @@ class _OrdersHistoryState extends State<OrdersHistory> {
           backgroundColor: Colors.transparent,
           appBar: AppBar(
             elevation: 0,
-            backgroundColor: Colors.black54,
+            backgroundColor: Colors.transparent,
             title: Text(
               S.current.my_orders,
               style: Theme.of(context)
@@ -32,26 +30,26 @@ class _OrdersHistoryState extends State<OrdersHistory> {
                   .copyWith(color: Colors.white),
             ),
           ),
-          body: EmptyOrdersWidget()),
+          body: const EmptyOrdersWidget()),
     );
   }
 
-  Widget _buildList() {
-    return GridView.builder(
-      gridDelegate:
-          const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-      itemBuilder: (context, index) {
-        return const ProductsCarouselItemWidget(
-          product: ProductModel(
-              id: 0,
-              name: 'pro',
-              qyt: 2,
-              price: 200,
-              description: 'bla bla bla',
-              image:
-                  'https://cdn.britannica.com/96/197396-131-0096D43E/ribeye-steak-beef-cow-meat.jpg'),
-        );
-      },
-    );
-  }
+  // Widget _buildList() {
+  //   return GridView.builder(
+  //     gridDelegate:
+  //         const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+  //     itemBuilder: (context, index) {
+  //       return const ProductsCarouselItemWidget(
+  //         product: ProductModel(
+  //             id: 0,
+  //             name: 'pro',
+  //             qyt: 2,
+  //             price: 200,
+  //             description: 'bla bla bla',
+  //             image:
+  //                 'https://cdn.britannica.com/96/197396-131-0096D43E/ribeye-steak-beef-cow-meat.jpg'),
+  //       );
+  //     },
+  //   );
+  // }
 }

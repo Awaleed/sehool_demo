@@ -2,12 +2,16 @@ import 'package:animations/animations.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:division/division.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sehool/generated/l10n.dart';
 import 'package:sehool/src/data/user_datasource.dart';
 import 'package:sehool/src/routes/config_routes.dart';
+import 'package:sehool/src/screens/profile/pages/about.dart';
 import 'package:sehool/src/screens/profile/pages/addresses.dart';
+import 'package:sehool/src/screens/profile/pages/help.dart';
 import 'package:sehool/src/screens/profile/pages/language.dart';
+import 'package:sehool/src/screens/profile/pages/orders_history.dart';
 import 'package:sehool/src/screens/profile/profile_settings.dart';
 import 'package:validators/validators.dart';
 import 'package:supercharged/supercharged.dart';
@@ -195,22 +199,75 @@ class Settings extends StatelessWidget {
     return Column(
       children: <Widget>[
         SettingsItem(
-          icon: FluentIcons.sign_out_24_regular,
+          icon: FluentIcons.sign_out_20_regular,
           title: S.current.log_out,
           description: 'تغير الحساب',
           iswarrning: true,
-          target: const AddressesScreen(),
-          onTap: () {},
+          onTap: () {
+            final action = CupertinoActionSheet(
+              title: Text(
+                S.current.log_out,
+                style: Theme.of(context)
+                    .textTheme
+                    .headline3
+                    .copyWith(color: Colors.amber),
+              ),
+              message: Text(
+                'هل تريد تسجيل الخروج و تبديل الحساب؟',
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText2
+                    .copyWith(color: Colors.amberAccent),
+              ),
+              actions: <Widget>[
+                CupertinoActionSheetAction(
+                  isDestructiveAction: true,
+                  onPressed: () {
+                    Navigator.pop(context, true);
+                    // print("Action 1 is been clicked");
+                  },
+                  child: Text(
+                    'نعم',
+                    style: Theme.of(context)
+                        .textTheme
+                        .button
+                        .copyWith(color: Colors.red),
+                  ),
+                ),
+                CupertinoActionSheetAction(
+                  isDefaultAction: true,
+                  onPressed: () {
+                    Navigator.pop(context, false);
+                  },
+                  child: Text(
+                    'لا',
+                    style: Theme.of(context).textTheme.button,
+                  ),
+                )
+              ],
+              cancelButton: CupertinoActionSheetAction(
+                onPressed: () {
+                  Navigator.pop(context, false);
+                },
+                child: Text(
+                  'الغاء',
+                  style: Theme.of(context).textTheme.button,
+                ),
+              ),
+            );
+            showCupertinoModalPopup(
+                context: context, builder: (context) => action);
+          },
         ),
         SettingsItem(
-            icon: FluentIcons.location_28_regular,
+            icon: FluentIcons.location_12_regular,
             title: S.current.addresses,
             target: const AddressesScreen(),
             // iswarrning: true,
             // onTap: () => AppRouter.sailor.navigate(AddressesScreen.routeName),
             description: 'عناوينك التي تريدنا ان نوصل اليك'),
         SettingsItem(
-            icon: FluentIcons.local_language_28_regular,
+            icon: FluentIcons.local_language_16_regular,
             title: S.current.languages,
             target: const LanguageScreen(),
             description: 'نحن نتحدث اكثر من لغة'),
@@ -220,15 +277,25 @@ class Settings extends StatelessWidget {
             target: const ProfileSettingsScreen(),
             description: 'تطبيقك قواعدك'),
         SettingsItem(
+            icon: FluentIcons.history_20_filled,
+            title: S.current.my_orders,
+            target: const OrdersHistory(),
+            description: 'رحلتك معنا'),
+        SettingsItem(
             icon: FluentIcons.chat_help_24_regular,
             title: S.current.help_support,
-            target: const AddressesScreen(),
+            target: const HelpAndSupport(),
             description: 'نحن هنا لاجلك'),
+        // SettingsItem(
+        //     icon: FluentIcons.money_16_regular,
+        //     title: S.current.balance,
+        //     target: const AddressesScreen(),
+        //     description: 'محفظتك الخاصة'),
         SettingsItem(
-            icon: FluentIcons.money_24_regular,
-            title: S.current.balance,
-            target: const AddressesScreen(),
-            description: 'محفظتك الخاصة'),
+            icon: FluentIcons.info_16_regular,
+            title: S.current.about,
+            target: About(),
+            description: 'الأصدار 1.0.2'),
       ],
     );
   }
@@ -278,7 +345,7 @@ class _SettingsItemState extends State<SettingsItem> {
           ..isTap((isTapped) {
             setState(() => pressed = isTapped);
           })
-          ..onTap(action),
+          ..onTap(widget.target == null ? widget.onTap : action),
         child: Row(
           children: <Widget>[
             Parent(

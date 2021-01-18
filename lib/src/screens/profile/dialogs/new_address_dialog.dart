@@ -70,18 +70,18 @@ class _NewAddressDialogState extends State<NewAddressDialog> {
                   .headline6
                   .copyWith(color: Colors.white),
             ),
-            actions: [
-              IconButton(
-                icon: const Icon(FluentIcons.save_24_regular),
-                onPressed: () async {
-                  Helpers.dismissFauces(context);
-                  if (formKey.currentState.validate()) {
-                    formKey.currentState.save();
-                    cubit.addAddress(data);
-                  }
-                },
-              ),
-            ],
+            // actions: [
+            //   IconButton(
+            //     icon: const Icon(FluentIcons.save_24_regular),
+            //     onPressed: () async {
+            //       Helpers.dismissFauces(context);
+            //       if (formKey.currentState.validate()) {
+            //         formKey.currentState.save();
+            //         cubit.addAddress(data);
+            //       }
+            //     },
+            //   ),
+            // ],
           ),
           body: SingleChildScrollView(
             padding: const EdgeInsets.all(8),
@@ -134,6 +134,18 @@ class _NewAddressDialogState extends State<NewAddressDialog> {
                 ),
               ),
             ),
+          ),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerFloat,
+          floatingActionButton: FloatingActionButton(
+            onPressed: () async {
+              Helpers.dismissFauces(context);
+              if (formKey.currentState.validate()) {
+                formKey.currentState.save();
+                cubit.addAddress(data);
+              }
+            },
+            child: const Icon(FluentIcons.save_24_regular, color: Colors.white),
           ),
         ),
       ),
@@ -190,6 +202,7 @@ class _NewAddressDialogState extends State<NewAddressDialog> {
     @required FormFieldType type,
     @required DropdownValueType dropType,
     bool enabled = true,
+    Widget suffixIcon,
   }) {
     final cubit = getIt<DropdownCubit>();
     final _model = FormFieldModel.mapType(type, map);
@@ -203,8 +216,32 @@ class _NewAddressDialogState extends State<NewAddressDialog> {
               return DropdownSearch(
                 items: values,
                 label: _model.hintText,
-                dropdownSearchDecoration:
-                    const InputDecoration(border: InputBorder.none),
+
+                dropdownSearchDecoration: InputDecoration(
+                  labelText: _model.hintText,
+                  labelStyle: TextStyle(color: Theme.of(context).accentColor),
+                  contentPadding: const EdgeInsets.all(12),
+                  hintText: _model.hintText,
+                  hintStyle: TextStyle(
+                      color: Theme.of(context).focusColor.withOpacity(0.7)),
+                  prefixIcon: Icon(_model.iconData,
+                      color: Theme.of(context).accentColor),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(50),
+                      borderSide: BorderSide(
+                          color:
+                              Theme.of(context).focusColor.withOpacity(0.2))),
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(50),
+                      borderSide: BorderSide(
+                          color:
+                              Theme.of(context).focusColor.withOpacity(0.5))),
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(50),
+                      borderSide: BorderSide(
+                          color:
+                              Theme.of(context).focusColor.withOpacity(0.2))),
+                ),
                 autoValidateMode: AutovalidateMode.onUserInteraction,
                 enabled: enabled,
                 // validator: (value) => _model.validator(value?.id?.toString()),

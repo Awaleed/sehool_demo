@@ -35,10 +35,11 @@ class _LanguageScreenState extends State<LanguageScreen> {
   @override
   Widget build(BuildContext context) {
     return Parent(
-        style: ParentStyle()..background.color(Colors.white),
+        style: ParentStyle()
+          ..background.image(path: 'assets/images/bg.jpg', fit: BoxFit.cover),
         child: Stack(children: [
           BackgroundGeneratorGroup(
-            number: 60,
+            number: _Hello.hellos.length,
             colors: Colors.accents,
             trajectory: Trajectory.straight,
             speed: DotSpeed.medium,
@@ -49,7 +50,15 @@ class _LanguageScreenState extends State<LanguageScreen> {
           Scaffold(
             backgroundColor: Colors.transparent,
             appBar: AppBar(
-              title: Text(S.current.languages),
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              title: Text(
+                S.current.languages,
+                style: Theme.of(context)
+                    .textTheme
+                    .headline5
+                    .copyWith(color: Colors.white),
+              ),
             ),
             body: SingleChildScrollView(
               padding: const EdgeInsets.symmetric(vertical: 10),
@@ -60,17 +69,23 @@ class _LanguageScreenState extends State<LanguageScreen> {
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: ListTile(
                       contentPadding: const EdgeInsets.symmetric(),
-                      leading: Icon(
-                        Icons.translate,
-                        color: Theme.of(context).hintColor,
-                      ),
+                      leading: const Icon(Icons.translate, color: Colors.white),
                       title: Text(
                         S.current.app_language,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.headline4,
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline4
+                            .copyWith(color: Colors.white),
                       ),
-                      subtitle: Text(S.current.select_your_preferred_languages),
+                      subtitle: Text(
+                        S.current.select_your_preferred_languages,
+                        style: Theme.of(context)
+                            .textTheme
+                            .subtitle2
+                            .copyWith(color: Colors.white),
+                      ),
                     ),
                   ),
                   const SizedBox(height: 10),
@@ -102,80 +117,83 @@ class _LanguageScreenState extends State<LanguageScreen> {
 
         return InkWell(
           onTap: () => cubit.setLanguageCode(_language.code),
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  color: Theme.of(context).focusColor.withOpacity(0.1),
-                  blurRadius: 5,
-                  offset: const Offset(0, 2),
-                ),
-              ],
-            ),
-            child: Row(
-              children: <Widget>[
-                Stack(
-                  alignment: AlignmentDirectional.center,
-                  children: <Widget>[
-                    Container(
-                      height: 40,
-                      width: 40,
-                      decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(40),
-                        ),
-                        image: DecorationImage(
-                          image: AssetImage(_language.flag),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      height: _language.selected ? 40 : 0,
-                      width: _language.selected ? 40 : 0,
-                      decoration: BoxDecoration(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(40)),
-                        color: Theme.of(context)
-                            .accentColor
-                            .withOpacity(_language.selected ? 0.85 : 0),
-                      ),
-                      child: Icon(
-                        Icons.check,
-                        size: _language.selected ? 24 : 0,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(width: 15),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Theme.of(context).focusColor.withOpacity(0.1),
+                    blurRadius: 5,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: Row(
+                children: <Widget>[
+                  Stack(
+                    alignment: AlignmentDirectional.center,
                     children: <Widget>[
-                      Text(
-                        _language.localName,
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 2,
-                        style: Theme.of(context)
-                            .textTheme
-                            .subtitle1
-                            .copyWith(color: Colors.white),
+                      Container(
+                        height: 40,
+                        width: 40,
+                        decoration: BoxDecoration(
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(40),
+                          ),
+                          image: DecorationImage(
+                            image: AssetImage(_language.flag),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
                       ),
-                      Text(
-                        _language.englishName,
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 2,
-                        style: Theme.of(context)
-                            .textTheme
-                            .caption
-                            .copyWith(color: Colors.white60),
+                      Container(
+                        height: _language.selected ? 40 : 0,
+                        width: _language.selected ? 40 : 0,
+                        decoration: BoxDecoration(
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(40)),
+                          color: Colors.amber
+                              .withOpacity(_language.selected ? 0.85 : 0),
+                        ),
+                        child: Icon(
+                          Icons.check,
+                          size: _language.selected ? 24 : 0,
+                          color: Colors.amber,
+                        ),
                       ),
                     ],
                   ),
-                )
-              ],
+                  const SizedBox(width: 15),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          _language.localName,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
+                          style: Theme.of(context)
+                              .textTheme
+                              .subtitle1
+                              .copyWith(color: Colors.amber),
+                        ),
+                        Text(
+                          _language.englishName,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
+                          style: Theme.of(context)
+                              .textTheme
+                              .caption
+                              .copyWith(color: Colors.amber.withOpacity(.6)),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         );

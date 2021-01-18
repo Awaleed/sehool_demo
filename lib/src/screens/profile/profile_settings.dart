@@ -42,7 +42,8 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Parent(
-      style: ParentStyle()..background.color(Colors.white),
+      style: ParentStyle()
+        ..background.image(path: 'assets/images/bg.jpg', fit: BoxFit.cover),
       child: Stack(
         children: [
           BackgroundGeneratorGroup(
@@ -63,7 +64,17 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
           ),
           Scaffold(
             backgroundColor: Colors.transparent,
-            appBar: AppBar(title: Text(S.current.profile_settings)),
+            appBar: AppBar(
+              title: Text(
+                S.current.profile_settings,
+                style: Theme.of(context)
+                    .textTheme
+                    .headline5
+                    .copyWith(color: Colors.white),
+              ),
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+            ),
             body: BlocBuilder<ProfileCubit, ProfileState>(
               cubit: cubit,
               builder: (context, state) {
@@ -102,26 +113,38 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                     remoteImageUrl: kUser.image,
                   ),
                   const SizedBox(height: 8),
-                  _buildTextInput(
-                    map: data,
-                    type: FormFieldType.name,
-                    initialValue: kUser.name,
-                    enabled: !isLoading,
+                  Parent(
+                    style: ParentStyle()
+                      ..background.color(Colors.white)
+                      ..borderRadius(all: 10)
+                      ..padding(all: 16, vertical: 40)
+                      ..elevation(5),
+                    child: Column(
+                      children: [
+                        _buildTextInput(
+                          map: data,
+                          type: FormFieldType.name,
+                          initialValue: kUser.name,
+                          enabled: !isLoading,
+                        ),
+                        const SizedBox(height: 8),
+                        _buildTextInput(
+                          map: data,
+                          type: FormFieldType.email,
+                          initialValue: kUser.email,
+                          enabled: !isLoading,
+                        ),
+                        const SizedBox(height: 8),
+                        _buildTextInput(
+                          map: data,
+                          type: FormFieldType.phone,
+                          initialValue: kUser.phone,
+                          enabled: !isLoading,
+                        ),
+                      ],
+                    ),
                   ),
-                  const SizedBox(height: 8),
-                  _buildTextInput(
-                    map: data,
-                    type: FormFieldType.email,
-                    initialValue: kUser.email,
-                    enabled: !isLoading,
-                  ),
-                  const SizedBox(height: 8),
-                  _buildTextInput(
-                    map: data,
-                    type: FormFieldType.phone,
-                    initialValue: kUser.phone,
-                    enabled: !isLoading,
-                  ),
+
                   // const SizedBox(height: 8),
                   // _buildTextInput(
                   //   map: data,
@@ -140,7 +163,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                   //         : Icons.visibility_off),
                   //   ),
                   // ),
-                  const Divider(),
+                  // const Divider(),
                   ElevatedButton(
                     onPressed: () {
                       Helpers.dismissFauces(context);
@@ -181,6 +204,8 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
       enabled: enabled,
       obscureText: obscureText,
       decoration: InputDecoration(
+        fillColor: Colors.amber.withOpacity(.2),
+        filled: true,
         labelText: _model.hintText,
         labelStyle: TextStyle(color: Theme.of(context).accentColor),
         contentPadding: const EdgeInsets.all(12),
@@ -192,15 +217,15 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
         border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(50),
             borderSide: BorderSide(
-                color: Theme.of(context).focusColor.withOpacity(0.2))),
+                color: Theme.of(context).focusColor.withOpacity(0.0))),
         focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(50),
             borderSide: BorderSide(
-                color: Theme.of(context).focusColor.withOpacity(0.5))),
+                color: Theme.of(context).focusColor.withOpacity(0.0))),
         enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(50),
             borderSide: BorderSide(
-                color: Theme.of(context).focusColor.withOpacity(0.2))),
+                color: Theme.of(context).focusColor.withOpacity(0.0))),
       ),
     );
   }

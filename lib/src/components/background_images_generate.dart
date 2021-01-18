@@ -68,12 +68,14 @@ class BackgroundGeneratorGroupState extends State<BackgroundGeneratorGroup> {
         height: double.infinity,
         child: BackgroundGenerator(
           direction: widget.direction,
-          span: TextSpan(
-              text: widget.span[widget.random.nextInt(widget.span.length)],
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyText2
-                  .copyWith(color: Colors.amber)),
+          span: widget.span == null
+              ? null
+              : TextSpan(
+                  text: widget.span[widget.random.nextInt(widget.span.length)],
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText2
+                      .copyWith(color: Colors.white.withOpacity(.5))),
           trajectory: widget.trajectory,
           image: widget.image == null
               ? ''
