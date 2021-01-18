@@ -78,6 +78,19 @@ class _AddressesScreenState extends State<AddressesScreen> {
             );
           },
         ),
+        floatingActionButton: RipplesAnimation(
+          onPressed: () => AppRouter.sailor.navigate(
+            NewAddressDialog.routeName,
+            params: {'address_cubit': cubit},
+          ),
+          color: Colors.amberAccent,
+          size: 30,
+          child: const Icon(
+            FluentIcons.add_28_filled,
+            color: Colors.white,
+          ),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       ),
     );
   }
@@ -87,24 +100,7 @@ class _AddressesScreenState extends State<AddressesScreen> {
     bool isLoading = false,
   }) =>
       addresses.isEmpty
-          ? Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const EmptyAddressesWidget(),
-                RipplesAnimation(
-                  onPressed: () => AppRouter.sailor.navigate(
-                    NewAddressDialog.routeName,
-                    params: {'address_cubit': cubit},
-                  ),
-                  color: Colors.amberAccent,
-                  size: 30,
-                  child: const Icon(
-                    FluentIcons.add_28_filled,
-                    color: Colors.white,
-                  ),
-                ),
-              ],
-            )
+          ? const EmptyAddressesWidget()
           : ListView.separated(
               itemCount: addresses.length,
               separatorBuilder: (context, index) => const Divider(),
