@@ -37,10 +37,8 @@ class UserRepositoryImpl implements IUserRepository {
     final list = ApiCaller.listParser(
       res,
       (data) {
-        // data['lang'] = double.tryParse(data['lang'] ?? '0') ?? 0;
-        // data['lat'] = double.tryParse(data['lat'] ?? '0') ?? 0;
-        // data['note'] = data['description'];
-        // data['address'] = data['description'];
+        data['lang'] = double.tryParse('${data['lang']}' ?? '');
+        data['lat'] = double.tryParse('${data['lat']}' ?? '');
         return AddressModel.fromJson(data);
       },
     );
@@ -50,9 +48,7 @@ class UserRepositoryImpl implements IUserRepository {
   @override
   Future<List<AddressModel>> addAddress(
       Map<FormFieldType, FormFieldModel> data) async {
-    await _remoteSource.addAddress(
-      FormFieldModel.generateJson(data),
-    );
+    await _remoteSource.addAddress(FormFieldModel.generateJson(data));
     return getAddresses();
   }
 
@@ -64,7 +60,7 @@ class UserRepositoryImpl implements IUserRepository {
   @override
   Future<List<AddressModel>> deleteAddress(int id) async {
     await _remoteSource.deleteAddress(id);
-    return _remoteSource.getAddresses();
+    return getAddresses();
   }
 
   @override
@@ -82,6 +78,9 @@ class UserRepositoryImpl implements IUserRepository {
       Map<FormFieldType, FormFieldModel> data) async {
     final res =
         await _remoteSource.updateProfile(FormFieldModel.generateJson(data));
+    res['wallet'] = double.tryParse('${res['wallet']}');
+    res['vat_number'] = '${res['vat_number']}';
+
     final user = UserModel.fromJson(res);
     await _localSource.updateUser(user);
     return user;

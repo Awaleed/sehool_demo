@@ -7,14 +7,12 @@ part 'video_model.g.dart';
 class VideoModel {
   const VideoModel({
     this.id,
-    this.title,
     this.description,
     this.video,
     this.preview,
   });
 
   final int id;
-  final String title;
   final String description;
   final String video;
   final String preview;
@@ -25,6 +23,25 @@ class VideoModel {
 
   @override
   String toString() {
-    return 'VideoModel(id: $id, title: $title, description: $description, video: $video, preview: $preview)';
+    return 'VideoModel(id: $id, description: $description, video: $video, preview: $preview)';
+  }
+
+  @override
+  bool operator ==(Object o) {
+    if (identical(this, o)) return true;
+
+    return o is VideoModel &&
+        o.id == id &&
+        o.description == description &&
+        o.video == video &&
+        o.preview == preview;
+  }
+
+  @override
+  int get hashCode {
+    return id.hashCode ^
+        description.hashCode ^
+        video.hashCode ^
+        preview.hashCode;
   }
 }

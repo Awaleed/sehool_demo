@@ -20,7 +20,7 @@ class AddressCubit extends Cubit<AddressState> {
     try {
       final value = await _userRepository.getAddresses();
       emit(AddressState.success(value));
-        } catch (e) {
+    } catch (e) {
       addError(e);
       // TODO: Handel error messages
       emit(AddressState.failure(message: '$e'));
@@ -31,8 +31,9 @@ class AddressCubit extends Cubit<AddressState> {
     emit(const AddressState.loading());
     try {
       final value = await _userRepository.addAddress(data);
+      emit(const AddressState.created());
       emit(AddressState.success(value));
-        } catch (e) {
+    } catch (e) {
       addError(e);
       // TODO: Handel error messages
       emit(AddressState.failure(message: '$e'));
@@ -44,7 +45,7 @@ class AddressCubit extends Cubit<AddressState> {
     try {
       final value = await _userRepository.deleteAddress(id);
       emit(AddressState.success(value));
-        } catch (e) {
+    } catch (e) {
       addError(e);
       // TODO: Handel error messages
       emit(AddressState.failure(message: '$e'));
@@ -56,7 +57,7 @@ class AddressCubit extends Cubit<AddressState> {
     try {
       final value = await _userRepository.updateAddress(model);
       emit(AddressState.success(value));
-        } catch (e) {
+    } catch (e) {
       addError(e);
       // TODO: Handel error messages
       emit(AddressState.failure(message: '$e'));

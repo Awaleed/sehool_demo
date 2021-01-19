@@ -28,6 +28,7 @@ class DropdownCubit extends Cubit<DropdownState> {
   }
 
   Future<void> setDropdownValues(List values) async {
+    emit(const DropdownState.loading());
     emit(DropdownState.success(values));
   }
 }

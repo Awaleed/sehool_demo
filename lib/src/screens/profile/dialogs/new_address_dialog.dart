@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 // import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sailor/sailor.dart';
+import 'package:sehool/src/components/custom_form_fileds.dart';
+import 'package:sehool/src/models/address_model.dart';
+import 'package:sehool/src/routes/config_routes.dart';
 
 import '../../../../generated/l10n.dart';
 import '../../../../init_injectable.dart';
@@ -31,17 +34,42 @@ class NewAddressDialog extends StatefulWidget {
 
 class _NewAddressDialogState extends State<NewAddressDialog> {
   final formKey = GlobalKey<FormState>();
-
   final data = <FormFieldType, FormFieldModel>{};
+
+  CityModel selectedCity;
+  CitySectionModel selectedSection;
+  DropdownCubit cityCubit;
+
+  @override
+  void initState() {
+    super.initState();
+    cityCubit = getIt<DropdownCubit>();
+    cityCubit.getDropdownValues(DropdownValueType.cites);
+  }
+
+  @override
+  void dispose() {
+    cityCubit.close();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AddressCubit, AddressState>(
+    return BlocConsumer<AddressCubit, AddressState>(
       cubit: widget.cubit,
+      listener: (context, state) {
+        state.maybeWhen(
+          created: () {
+            AppRouter.sailor.pop();
+          },
+          orElse: () {},
+        );
+      },
       builder: (context, state) {
         return state.when(
           initial: () => _buildUi(context, widget.cubit),
-          loading: () => _buildUi(context, widget.cubit, isLoading: false),
+          created: () => _buildUi(context, widget.cubit),
+          loading: () => _buildUi(context, widget.cubit, isLoading: true),
           success: (value) => _buildUi(context, widget.cubit),
           // TODO: Handel ERROR STATE
           failure: (message) => throw UnimplementedError(),
@@ -50,8 +78,11 @@ class _NewAddressDialogState extends State<NewAddressDialog> {
     );
   }
 
-  Widget _buildUi(BuildContext context, AddressCubit cubit,
-      {bool isLoading = false}) {
+  Widget _buildUi(
+    BuildContext context,
+    AddressCubit cubit, {
+    bool isLoading = false,
+  }) {
     return MyLoadingOverLay(
       isLoading: isLoading,
       showSpinner: true,
@@ -70,67 +101,47 @@ class _NewAddressDialogState extends State<NewAddressDialog> {
                   .headline6
                   .copyWith(color: Colors.white),
             ),
-            // actions: [
-            //   IconButton(
-            //     icon: const Icon(FluentIcons.save_24_regular),
-            //     onPressed: () async {
-            //       Helpers.dismissFauces(context);
-            //       if (formKey.currentState.validate()) {
-            //         formKey.currentState.save();
-            //         cubit.addAddress(data);
-            //       }
-            //     },
-            //   ),
-            // ],
           ),
-          body: SingleChildScrollView(
-            padding: const EdgeInsets.all(8),
-            child: Card(
-              child: Form(
-                key: formKey,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    const SizedBox(height: 8),
-                    _buildTextInput(
-                      context,
-                      map: data,
-                      type: FormFieldType.address,
-                      enabled: !isLoading,
+          body: Center(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(8),
+              child: Card(
+                elevation: 10,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(25),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Form(
+                    key: formKey,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: <Widget>[
+                        const SizedBox(height: 8),
+                        _buildTextInput(
+                          context,
+                          map: data,
+                          type: FormFieldType.address,
+                          enabled: !isLoading,
+                        ),
+                        const SizedBox(height: 8),
+                        BlocBuilder<DropdownCubit, DropdownState>(
+                          cubit: cityCubit,
+                          builder: (context, state) {
+                            return state.when(
+                              initial: () =>
+                                  _buildCityDropdownUI([], isLoading: true),
+                              loading: () =>
+                                  _buildCityDropdownUI([], isLoading: true),
+                              success: (values) => _buildCityDropdownUI(values),
+                              failure: (_) => throw UnimplementedError(),
+                            );
+                          },
+                        )
+                      ],
                     ),
-                    const SizedBox(height: 8),
-                    _buildTextInput(
-                      context,
-                      map: data,
-                      type: FormFieldType.notes,
-                      enabled: !isLoading,
-                    ),
-                    const SizedBox(height: 8),
-                    _buildDropdownInput(
-                      map: data,
-                      type: FormFieldType.cityId,
-                      dropType: DropdownValueType.cites,
-                    ),
-                    _buildDropdownInput(
-                      map: data,
-                      type: FormFieldType.citySectionId,
-                      dropType: DropdownValueType.citySections,
-                    ),
-                    // const SizedBox(height: 8),
-                    // _buildDropdownInput(
-                    //   map: data,
-                    //   type: FormFieldType.citySectionId,
-                    //   dropType: DropdownValueType.citySections,
-                    // ),
-                    const SizedBox(height: 8),
-                    // _buildAddressPickerCard(
-                    //   context,
-                    //   map: data,
-                    //   type: FormFieldType.email,
-                    //   enabled: !isLoading,
-                    // )
-                  ],
+                  ),
                 ),
               ),
             ),
@@ -197,91 +208,89 @@ class _NewAddressDialogState extends State<NewAddressDialog> {
     );
   }
 
-  Widget _buildDropdownInput({
-    @required Map<FormFieldType, FormFieldModel> map,
-    @required FormFieldType type,
-    @required DropdownValueType dropType,
-    bool enabled = true,
-    Widget suffixIcon,
-  }) {
-    final cubit = getIt<DropdownCubit>();
-    final _model = FormFieldModel.mapType(type, map);
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: BlocBuilder<DropdownCubit, DropdownState>(
-        cubit: cubit..getDropdownValues(dropType),
-        builder: (BuildContext context, DropdownState state) {
-          return state.when(
-            success: (values) {
-              return DropdownSearch(
-                items: values,
-                label: _model.hintText,
+  Widget _buildCityDropdownUI(List values, {bool isLoading = false}) {
+    return Column(
+      children: [
+        _buildDropdownInput(
+          values: values,
+          value: selectedCity,
+          type: FormFieldType.cityId,
+          enabled: !isLoading,
+          onChanged: (value) => setState(() {
+            selectedCity = value;
+          }),
+        ),
+        const SizedBox(height: 10),
+        _buildDropdownInput(
+          values: selectedCity?.sections ?? [],
+          value: selectedSection,
+          type: FormFieldType.citySectionId,
+          enabled: !isLoading,
+          onChanged: (value) => setState(() {
+            selectedSection = value;
+          }),
+        ),
+      ],
+    );
+  }
 
-                dropdownSearchDecoration: InputDecoration(
-                  labelText: _model.hintText,
-                  labelStyle: TextStyle(color: Theme.of(context).accentColor),
-                  contentPadding: const EdgeInsets.all(12),
-                  hintText: _model.hintText,
-                  hintStyle: TextStyle(
-                      color: Theme.of(context).focusColor.withOpacity(0.7)),
-                  prefixIcon: Icon(_model.iconData,
-                      color: Theme.of(context).accentColor),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(50),
-                      borderSide: BorderSide(
-                          color:
-                              Theme.of(context).focusColor.withOpacity(0.2))),
-                  focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(50),
-                      borderSide: BorderSide(
-                          color:
-                              Theme.of(context).focusColor.withOpacity(0.5))),
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(50),
-                      borderSide: BorderSide(
-                          color:
-                              Theme.of(context).focusColor.withOpacity(0.2))),
-                ),
-                autoValidateMode: AutovalidateMode.onUserInteraction,
-                enabled: enabled,
-                // validator: (value) => _model.validator(value?.id?.toString()),
-                // onSaved: (value) => _model.onSave(value?.id?.toString()),
-              );
-            },
-            failure: (String message) {
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Txt(
-                    message,
-                    style: TxtStyle()
-                      ..textColor(Colors.red)
-                      ..bold()
-                      ..fontSize(18),
-                  ),
-                  ElevatedButton.icon(
-                    icon: const Icon(Icons.refresh_rounded),
-                    label: const Txt('اعادة تحميل'),
-                    onPressed: () {
-                      cubit.getDropdownValues(dropType);
-                    },
-                  ),
-                ],
-              );
-            },
-            initial: () {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            },
-            loading: () {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            },
-          );
-        },
+  Widget _buildDropdownInput({
+    @required FormFieldType type,
+    List values,
+    dynamic value,
+    bool enabled = true,
+    ValueChanged onChanged,
+  }) {
+    final _model = FormFieldModel.mapType(type, data);
+    return DropdownButtonHideUnderline(
+      child: DropdownButtonFormField(
+        decoration: InputDecoration(
+          prefixIcon:
+              Icon(_model.iconData, color: Theme.of(context).accentColor),
+          labelStyle: TextStyle(color: Theme.of(context).accentColor),
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 25, vertical: 3),
+          hintText: _model.hintText,
+          labelText: _model.labelText,
+          hintStyle: TextStyle(color: Theme.of(context).accentColor),
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(50),
+              borderSide: BorderSide(
+                  color: Theme.of(context).focusColor.withOpacity(0.2))),
+          focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(50),
+              borderSide: BorderSide(
+                  color: Theme.of(context).focusColor.withOpacity(0.5))),
+          enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(50),
+              borderSide: BorderSide(
+                  color: Theme.of(context).focusColor.withOpacity(0.2))),
+        ),
+        value: value,
+        style: Theme.of(context)
+            .textTheme
+            .bodyText2
+            .copyWith(color: Theme.of(context).accentColor),
+        items: [
+          ...values.map(
+            (e) => DropdownMenuItem(
+              value: e,
+              child: Text(
+                e.name,
+                overflow: TextOverflow.visible,
+                // style: Theme.of(context)
+                //     .textTheme
+                //     .bodyText2
+                //     .copyWith(color: Theme.of(context).accentColor),
+              ),
+            ),
+          )
+        ],
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        onChanged: onChanged,
+        validator: _model.validator,
+        onSaved: (newValue) => _model.onSave('${newValue.id}'),
+        onTap: () => Helpers.dismissFauces(context),
       ),
     );
   }

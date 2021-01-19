@@ -10,16 +10,18 @@ part 'order_state.dart';
 
 @injectable
 class OrderCubit extends Cubit<OrderState> {
-  OrderCubit(this._productRepository) : super(const OrderState.initial());
+  OrderCubit(this._productRepository) : super(const OrderState.loading()) {
+    getOrders();
+  }
 
   final IOrderRepository _productRepository;
 
-  Future<void> getOrder(int id) async {
+  Future<void> getOrders() async {
     emit(const OrderState.loading());
     try {
-      final value = await _productRepository.getOrder(id);
+      final value = await _productRepository.getOrders();
       emit(OrderState.success(value));
-        } catch (e) {
+    } catch (e) {
       addError(e);
       // TODO: Handel error messages
       emit(OrderState.failure(message: '$e'));
@@ -32,12 +34,12 @@ class OrderCubit extends Cubit<OrderState> {
   ) async {
     emit(const OrderState.loading());
     try {
-      final value = await _productRepository.cancelOrder(
+      await _productRepository.cancelOrder(
         orderId: orderId,
         reason: reason,
       );
-      emit(OrderState.success(value));
-        } catch (e) {
+      emit(const OrderState.canceled());
+    } catch (e) {
       addError(e);
       // TODO: Handel error messages
       emit(OrderState.failure(message: '$e'));

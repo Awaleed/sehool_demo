@@ -1,11 +1,12 @@
 import 'package:injectable/injectable.dart';
+import 'package:sehool/src/core/api_caller.dart';
 
 import '../data/order_datasource.dart';
 import '../models/checkout_model.dart';
 import '../models/order_model.dart';
 
 abstract class IOrderRepository {
-  Future<OrderModel> getOrder(int id);
+  Future<List<OrderModel>> getOrders();
   Future<OrderModel> cancelOrder({
     int orderId,
     String reason,
@@ -26,8 +27,26 @@ class OrderRepositoryImpl implements IOrderRepository {
   }
 
   @override
-  Future<OrderModel> getOrder(int id) {
-    throw UnsupportedError('message');
+  Future<List<OrderModel>> getOrders() async {
+    final res = await _orderRemoteDataSource.getOrders();
+    return ApiCaller.listParser(
+      res,
+      (data) {
+        data['total'] = double.tryParse('${data['total']}' ?? '');
+        // data['lat'] = double.tryParse('${data['lat']}' ?? '');
+        data['items'] = data['products'];
+        // data['address'] = data['description'];
+        if (data['address'] != null) {
+          data['address']['lang'] =
+              double.tryParse('${data['address']['lang']}' ?? '');
+          data['address']['lat'] =
+              double.tryParse('${data['address']['lat']}' ?? '');
+          data['address']['note'] = data['address']['description'];
+          data['address']['address'] = data['address']['description'];
+        }
+        return OrderModel.fromJson(data);
+      },
+    );
   }
 
   @override

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:sehool/src/components/address_card.dart';
 import '../../../components/cart_dropdown.dart';
 
-import '../../../components/checkout_address.dart';
 import '../../../models/address_model.dart';
 import '../../../models/cart_model.dart';
 import '../../../models/dropdown_value_model.dart';
@@ -30,25 +30,27 @@ class _AddressReviewPageState extends State<AddressReviewPage> {
         children: [
           const SizedBox(height: 20),
           Padding(
-            padding: const EdgeInsets.all(10),
-            child: CheckoutAddressCard(cart: widget.cart),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: AddressCard(address: widget.cart.address),
           ),
           Center(
             child: Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: CartDropdown(
                 isRadio: true,
-                value: 0,
                 dropdownType: DropdownValueType.addresses,
                 initialValue: widget.cart.address,
+                itemAsString: (value) => (value as AddressModel).address,
                 onValueChanged: (value) {
                   setState(() {
                     widget.cart.address = value;
                   });
+                  widget.onChanged(value);
                 },
               ),
             ),
           ),
+          const SizedBox(height: 20),
         ],
       ),
     );

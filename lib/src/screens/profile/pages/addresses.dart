@@ -2,6 +2,7 @@ import 'package:division/division.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sehool/src/components/address_card.dart';
 import 'package:sehool/src/components/ripple_animation.dart';
 
 import '../../../../generated/l10n.dart';
@@ -71,6 +72,7 @@ class _AddressesScreenState extends State<AddressesScreen> {
           builder: (context, state) {
             return state.when(
               initial: _buildUi,
+              created: _buildUi,
               loading: () => _buildUi(isLoading: true),
               success: (value) => _buildUi(addresses: value),
               // TODO: Handel ERROR STATE
@@ -98,63 +100,113 @@ class _AddressesScreenState extends State<AddressesScreen> {
   Widget _buildUi({
     List<AddressModel> addresses = const [],
     bool isLoading = false,
-  }) =>
-      addresses.isEmpty
-          ? const EmptyAddressesWidget()
-          : ListView.separated(
-              itemCount: addresses.length,
-              separatorBuilder: (context, index) => const Divider(),
-              itemBuilder: (context, index) {
-                final AddressModel address = addresses[index];
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Card(
-                    child: Stack(
-                      children: [
-                        InputDecorator(
-                          decoration: InputDecoration(
-                            isDense: true,
-                            border: const OutlineInputBorder(),
-                            labelText: S.current.shipping_address +
-                                (index == 0
-                                    ? ' - ${S.current.default_address}'
-                                    : ''),
-                            filled: false,
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                Text(
-                                  '${S.current.address}: ${address.address}',
-                                ),
-                                Text(
-                                  '${S.current.notes}: ${address.note ?? ''}',
-                                ),
-                                TextButton(
-                                  onPressed: () {},
-                                  child: Text(S.current.show_on_map),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            TextButton(
-                              onPressed: () => cubit.deleteAddress(address.id),
-                              child: Text(S.current.delete),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+  }) {
+    if (addresses.isEmpty && !isLoading) {
+      return const EmptyAddressesWidget();
+    }
+    return ListView.separated(
+      itemCount: isLoading ? addresses.length + 5 : addresses.length,
+      separatorBuilder: (context, index) => const Divider(),
+      itemBuilder: (context, index) {
+        if (index >= addresses.length) {
+          return const AddressLoadingCard();
+        } else {
+          return Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Stack(
+              children: [
+                AddressCard(address: addresses[index]),
+                Positioned(
+                  bottom: 20,
+                  left: 20,
+                  right: 20,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      ElevatedButton.icon(
+                        onPressed: () =>
+                            cubit.deleteAddress(addresses[index].id),
+                        icon: const Icon(Icons.delete),
+                        label: Text(S.current.delete),
+                      ),
+                    ],
                   ),
-                );
-              },
-            );
+                ),
+              ],
+            ),
+          );
+        }
+      },
+    );
+  }
+}
+
+class AddressLoadingCard extends StatelessWidget {
+  const AddressLoadingCard({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 80),
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          Card(
+            elevation: 2,
+            clipBehavior: Clip.hardEdge,
+            margin: EdgeInsets.zero,
+            color: Colors.white70,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(25),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    ' ',
+                    style: Theme.of(context).textTheme.headline5,
+                  ),
+                  const Divider(),
+                  const Center(child: CircularProgressIndicator()),
+                ],
+              ),
+            ),
+          ),
+          const Positioned(
+            top: -80,
+            left: 15,
+            right: 15,
+            height: 150,
+            child: _HomeCard(),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _HomeCard extends StatelessWidget {
+  const _HomeCard({Key key, this.id}) : super(key: key);
+  final int id;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      clipBehavior: Clip.none,
+      fit: StackFit.expand,
+      children: [
+        Card(
+          elevation: 2,
+          clipBehavior: Clip.hardEdge,
+          margin: EdgeInsets.zero,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(25),
+          ),
+          child: const Center(child: CircularProgressIndicator()),
+        ),
+      ],
+    );
+  }
 }

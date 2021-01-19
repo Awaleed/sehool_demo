@@ -33,37 +33,42 @@ class _PaymentMethodReviewPageState extends State<PaymentMethodReviewPage> {
         children: [
           const SizedBox(height: 20),
           Padding(
-              padding: const EdgeInsets.all(10),
-              child: _TotalCard(cart: widget.cart)),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: _TotalCard(cart: widget.cart),
+          ),
           Center(
             child: Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: CartDropdown(
                 isRadio: true,
-                value: 0,
                 dropdownType: DropdownValueType.paymentMethods,
                 initialValue: widget.cart.paymentMethod,
-                itemAsString: (value) => mapPaymentMethodTypeToLabel(value),
+                itemAsString: (value) => value.name,
                 onValueChanged: (value) {
-                  if ((value as PaymentMethodType) ==
-                      PaymentMethodType.wallet) {
-                    if (double.parse(kUser.wallet) <= widget.cart.total) {
+                  if ((value as PaymentMethodModel).type == 'wallet') {
+                    if (kUser.wallet <= widget.cart.total) {
                       Helpers.showErrorOverlay(context, error: 'nooo');
                     } else {
-                      print(
-                          'wallet : ${kUser.wallet} , cart : ${widget.cart.total}');
-                      Helpers.showSuccessOverlay(context,
-                          message:
-                              '${double.parse(kUser.wallet) - widget.cart.total}');
+                      // print(
+                      //     'wallet : ${kUser.wallet} , cart : ${widget.cart.total}');
+                      // Helpers.showSuccessOverlay(context,
+                      //     message: '${kUser.wallet - widget.cart.total}');
+                      setState(() {
+                        widget.cart.paymentMethod = value;
+                      });
+                      widget.onChanged(value);
                     }
+                  } else {
+                    setState(() {
+                      widget.cart.paymentMethod = value;
+                    });
+                    widget.onChanged(value);
                   }
-                  setState(() {
-                    widget.cart.paymentMethod = value;
-                  });
                 },
               ),
             ),
           ),
+          const SizedBox(height: 20),
         ],
       ),
     );
@@ -109,7 +114,22 @@ class _TotalCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(25),
                   ),
                   child: ListTile(
-                    title: Text('${cart.total} ﷼'),
+                    title: Row(
+                      children: [
+                        Text('${cart.total} ﷼'),
+                        if (cart.coupon != null) ...[
+                          const SizedBox(width: 20),
+                          Text(
+                            '${cart.totalBeforeCoupon} ﷼',
+                            style: TextStyle(
+                              decoration: cart.coupon != null
+                                  ? TextDecoration.lineThrough
+                                  : TextDecoration.none,
+                            ),
+                          ),
+                        ]
+                      ],
+                    ),
                   ),
                 ),
                 const Divider(),

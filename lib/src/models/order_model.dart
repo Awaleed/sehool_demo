@@ -1,92 +1,114 @@
 import 'package:json_annotation/json_annotation.dart';
-import '../../generated/l10n.dart';
 
 import 'address_model.dart';
-import 'cart_model.dart';
 
-// part 'order_model.g.dart';
+part 'order_model.g.dart';
 
-enum OrderType { unsecluded, secluded }
-enum PaymentMethodType { cash, visa, wallet }
-enum PickupMethod { pickup, delivery }
-String mapPaymentMethodTypeToLabel(PaymentMethodType type) {
-  switch (type) {
-    case PaymentMethodType.cash:
-      return S.current.cash_on_delivery;
-    case PaymentMethodType.visa:
-      return 'VISA';
-    case PaymentMethodType.wallet:
-      return S.current.balance;
-  }
-  return '';
-}
-
-String mapOrderTypeToLabel(OrderType type) {
-  switch (type) {
-    case OrderType.secluded:
-      return S.current.secluded;
-    case OrderType.unsecluded:
-      return S.current.unsecluded;
-  }
-  return '';
-}
-
-String mapPickupMethodToLabel(PickupMethod type) {
-  switch (type) {
-    case PickupMethod.pickup:
-      return S.current.pickup;
-    case PickupMethod.delivery:
-      return S.current.delivery;
-  }
-  return '';
-}
-
-// @JsonSerializable(
-//     fieldRename: FieldRename.snake, explicitToJson: true, nullable: true)
+@JsonSerializable(
+    fieldRename: FieldRename.snake, explicitToJson: true, nullable: true)
 class OrderModel {
   const OrderModel({
-    this.cartItems,
-    this.orderDate,
+    this.payment,
+    this.status,
+    this.id,
+    this.note,
+    this.total,
     this.address,
-    this.pickupMethod,
-    this.type,
-    this.paymentMethod,
-    this.notes,
+    this.products,
   });
-
-  final List<CartItemModel> cartItems;
+  final int id;
+  final String note;
+  final String payment;
+  final double total;
   final AddressModel address;
-  final PickupMethod pickupMethod;
-  final DateTime orderDate;
-  final OrderType type;
-  final PaymentMethodType paymentMethod;
-  final String notes;
-  double get total {
-    double value = 0;
-    for (var item in cartItems) {
-      value += item.total;
-    }
-    return value;
-  }
-  // factory OrderModel.fromJson(Map<String, dynamic> json) =>
-  //     _$OrderModelFromJson(json);
-  // Map<String, dynamic> toJson() => _$OrderModelToJson(this);
+  final StatusModel status;
+  final List<OrderItemModel> products;
+
+  factory OrderModel.fromJson(Map<String, dynamic> json) =>
+      _$OrderModelFromJson(json);
+  Map<String, dynamic> toJson() => _$OrderModelToJson(this);
 }
 
-// @JsonSerializable(
-//     fieldRename: FieldRename.snake, explicitToJson: true, nullable: true)
-// class PaymentMethodModel {
-//   const PaymentMethodModel({
-//     this.id,
-//     this.name,
-//   });
-//   final int id;
-//   final String name;
+@JsonSerializable(
+    fieldRename: FieldRename.snake, explicitToJson: true, nullable: true)
+class OrderItemModel {
+  const OrderItemModel({
+    this.image,
+    this.note,
+    this.description,
+    this.subtotal,
+    this.id,
+    this.slicerType,
+    this.name,
+    this.qyt,
+  });
 
-//   @override
-//   String toString() => name;
+  final int id;
+  final String name;
+  final String image;
+  final String description;
+  final String note;
+  final String slicerType;
+  final double subtotal;
+  final int qyt;
 
-//   factory PaymentMethodModel.fromJson(Map<String, dynamic> json) =>
-//       _$PaymentMethodModelFromJson(json);
-//   Map<String, dynamic> toJson() => _$PaymentMethodModelToJson(this);
-// }
+  @override
+  String toString() => name;
+
+  factory OrderItemModel.fromJson(Map<String, dynamic> json) =>
+      _$OrderItemModelFromJson(json);
+  Map<String, dynamic> toJson() => _$OrderItemModelToJson(this);
+}
+
+@JsonSerializable(
+    fieldRename: FieldRename.snake, explicitToJson: true, nullable: true)
+class PaymentMethodModel {
+  const PaymentMethodModel({
+    this.id,
+    this.name,
+    this.type,
+  });
+
+  final int id;
+  final String name;
+  final String type;
+
+  @override
+  String toString() => name;
+
+  factory PaymentMethodModel.fromJson(Map<String, dynamic> json) =>
+      _$PaymentMethodModelFromJson(json);
+  Map<String, dynamic> toJson() => _$PaymentMethodModelToJson(this);
+
+  @override
+  bool operator ==(Object o) {
+    if (identical(this, o)) return true;
+
+    return o is PaymentMethodModel &&
+        o.id == id &&
+        o.name == name &&
+        o.type == type;
+  }
+
+  @override
+  int get hashCode => id.hashCode ^ name.hashCode ^ type.hashCode;
+}
+
+@JsonSerializable(
+    fieldRename: FieldRename.snake, explicitToJson: true, nullable: true)
+class StatusModel {
+  const StatusModel({
+    this.id,
+    this.name,
+  });
+
+  final int id;
+  final String name;
+
+  @override
+  String toString() => name;
+
+  factory StatusModel.fromJson(Map<String, dynamic> json) =>
+      _$StatusModelFromJson(json);
+  Map<String, dynamic> toJson() => _$StatusModelToJson(this);
+}

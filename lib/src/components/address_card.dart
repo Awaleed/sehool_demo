@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:sehool/src/models/address_model.dart';
 import '../../generated/l10n.dart';
 
 import '../models/cart_model.dart';
 
-class CheckoutAddressCard extends StatelessWidget {
-  const CheckoutAddressCard({Key key, @required this.cart}) : super(key: key);
-  final CartModel cart;
+class AddressCard extends StatelessWidget {
+  const AddressCard({Key key, @required this.address}) : super(key: key);
+  final AddressModel address;
 
   @override
   Widget build(BuildContext context) {
@@ -34,20 +35,15 @@ class CheckoutAddressCard extends StatelessWidget {
                   const Divider(),
                   ListTile(
                     title: Text(S.current.cites),
-                    subtitle: Text(cart.address?.city?.name ?? S.current.none),
+                    subtitle: Text(address?.city?.name ?? S.current.none),
                   ),
                   ListTile(
                     title: Text(S.current.city_section),
-                    subtitle:
-                        Text(cart.address?.citySection?.name ?? S.current.none),
+                    subtitle: Text(address?.section?.name ?? S.current.none),
                   ),
                   ListTile(
                     title: Text(S.current.address),
-                    subtitle: Text(cart.address?.address ?? S.current.none),
-                  ),
-                  ListTile(
-                    title: Text(S.current.notes),
-                    subtitle: Text(cart.address?.note ?? S.current.none),
+                    subtitle: Text(address?.address ?? S.current.none),
                   ),
                 ],
               ),

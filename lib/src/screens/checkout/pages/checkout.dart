@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:sehool/src/components/address_card.dart';
 
 import '../../../../generated/l10n.dart';
-import '../../../components/checkout_address.dart';
 import '../../../models/cart_model.dart';
 import '../../../models/order_model.dart';
 import 'shpping_date_review.dart';
@@ -25,35 +25,33 @@ class CheckoutPage extends StatelessWidget {
           Center(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: _SummeryCard(cart: cart),
+              child: SummeryCard(cart: cart),
             ),
           ),
           const SizedBox(height: 20),
-          if (cart.pickupMethod == PickupMethod.delivery) ...[
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: CheckoutAddressCard(cart: cart),
-              ),
-            ),
-            const SizedBox(height: 20),
-          ],
           Center(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: ShippingDateCard(
-                cart: cart,
-                enabeld: false,
-                onChanged: null,
-              ),
+              child: AddressCard(address: cart.address),
             ),
           ),
+          // const SizedBox(height: 20),
+          // Center(
+          //   child: Padding(
+          //     padding: const EdgeInsets.symmetric(horizontal: 20),
+          //     child: ShippingDateCard(
+          //       cart: cart,
+          //       enabeld: false,
+          //       onChanged: null,
+          //     ),
+          //   ),
+          // ),
           const SizedBox(height: 20),
           Center(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: TextFormField(
-                initialValue: cart.notes,
+                initialValue: cart.note,
                 readOnly: true,
                 decoration: InputDecoration(
                   filled: true,
@@ -75,8 +73,8 @@ class CheckoutPage extends StatelessWidget {
   }
 }
 
-class _SummeryCard extends StatelessWidget {
-  const _SummeryCard({Key key, @required this.cart}) : super(key: key);
+class SummeryCard extends StatelessWidget {
+  const SummeryCard({Key key, @required this.cart}) : super(key: key);
   final CartModel cart;
 
   @override
@@ -113,42 +111,40 @@ class _SummeryCard extends StatelessWidget {
                       trailing: Text('${cart.total} ${S.current.rial}'),
                     ),
                   ),
-                  const Divider(),
-                  Text(
-                    S.current.total,
-                    style: Theme.of(context).textTheme.headline5,
-                  ),
-                  const Divider(),
-                  Card(
-                    elevation: 2,
-                    clipBehavior: Clip.hardEdge,
-                    margin: EdgeInsets.zero,
-                    color: Colors.white70,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25),
-                    ),
-                    child: ListTile(
-                      title: Text('${cart.total} ${S.current.rial}'),
-                    ),
-                  ),
-                  const Divider(),
-                  Text(
-                    S.current.payment_mode,
-                    style: Theme.of(context).textTheme.headline5,
-                  ),
-                  const Divider(),
-                  Card(
-                    elevation: 2,
-                    clipBehavior: Clip.hardEdge,
-                    margin: EdgeInsets.zero,
-                    color: Colors.white70,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25),
-                    ),
-                    child: ListTile(
-                        title: Text(
-                            mapPaymentMethodTypeToLabel(cart.paymentMethod))),
-                  ),
+                  // const Divider(),
+                  // Text(
+                  //   S.current.total,
+                  //   style: Theme.of(context).textTheme.headline5,
+                  // ),
+                  // const Divider(),
+                  // Card(
+                  //   elevation: 2,
+                  //   clipBehavior: Clip.hardEdge,
+                  //   margin: EdgeInsets.zero,
+                  //   color: Colors.white70,
+                  //   shape: RoundedRectangleBorder(
+                  //     borderRadius: BorderRadius.circular(25),
+                  //   ),
+                  //   child: ListTile(
+                  //     title: Text('${cart.total} ${S.current.rial}'),
+                  //   ),
+                  // ),
+                  // const Divider(),
+                  // Text(
+                  //   S.current.payment_mode,
+                  //   style: Theme.of(context).textTheme.headline5,
+                  // ),
+                  // const Divider(),
+                  // Card(
+                  //   elevation: 2,
+                  //   clipBehavior: Clip.hardEdge,
+                  //   margin: EdgeInsets.zero,
+                  //   color: Colors.white70,
+                  //   shape: RoundedRectangleBorder(
+                  //     borderRadius: BorderRadius.circular(25),
+                  //   ),
+                  //   child: ListTile(title: Text(cart.paymentMethod.name)),
+                  // ),
                 ],
               ),
             ),

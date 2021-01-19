@@ -33,39 +33,38 @@ class _ShippingDatePageState extends State<ShippingDatePage> {
       child: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          children: [
-            const SizedBox(height: 20),
-            if (widget.cart.type == OrderType.secluded)
-              Padding(
-                padding: const EdgeInsets.all(10),
-                child: ShippingDateCard(
-                  enabeld: widget.cart.type == OrderType.secluded,
-                  cart: widget.cart,
-                  onChanged: (value) {
-                    setState(() {
-                      widget.cart.orderDate = value;
-                      widget.onChanged?.call(value);
-                    });
-                  },
-                ),
-              ),
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: CartDropdown(
-                  isRadio: true,
-                  value: 0,
-                  dropdownType: DropdownValueType.orderType,
-                  itemAsString: (value) => mapOrderTypeToLabel(value),
-                  initialValue: widget.cart.type,
-                  onValueChanged: (value) {
-                    setState(() {
-                      widget.cart.type = value;
-                    });
-                  },
-                ),
-              ),
-            ),
+          children: const [
+            SizedBox(height: 20),
+            // if (widget.cart.type == OrderType.secluded)
+            //   Padding(
+            //     padding: const EdgeInsets.all(10),
+            //     child: ShippingDateCard(
+            //       enabeld: widget.cart.type == OrderType.secluded,
+            //       cart: widget.cart,
+            //       onChanged: (value) {
+            //         setState(() {
+            //           widget.cart.orderDate = value;
+            //           widget.onChanged?.call(value);
+            //         });
+            //       },
+            //     ),
+            //   ),
+            // Center(
+            //   child: Padding(
+            //     padding: const EdgeInsets.all(20.0),
+            //     child: CartDropdown(
+            //       isRadio: true,
+            //       dropdownType: DropdownValueType.orderType,
+            //       itemAsString: (value) => mapOrderTypeToLabel(value),
+            //       initialValue: widget.cart.type,
+            //       onValueChanged: (value) {
+            //         setState(() {
+            //           widget.cart.type = value;
+            //         });
+            //       },
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),
@@ -117,26 +116,26 @@ class ShippingDateCard extends StatelessWidget {
                 onTap: onChanged == null
                     ? null
                     : () async {
-                        final _date = await showDatePicker(
-                          context: context,
-                          initialDate: cart.orderDate,
-                          firstDate: DateTime.now(),
-                          currentDate: DateTime.now(),
-                          lastDate: DateTime(2030),
-                        );
-                        if (_date != null) {
-                          onChanged(cart.orderDate.setDate(_date));
-                        }
+                        // final _date = await showDatePicker(
+                        //   context: context,
+                        //   initialDate: cart.orderDate,
+                        //   firstDate: DateTime.now(),
+                        //   currentDate: DateTime.now(),
+                        //   lastDate: DateTime(2030),
+                        // );
+                        // if (_date != null) {
+                        //   onChanged(cart.orderDate.setDate(_date));
+                        // }
                       },
-                title: cart == null
-                    ? null
-                    : Center(
-                        child: Text(
-                          cart.type == OrderType.unsecluded
-                              ? S.current.unsecluded
-                              : DateFormat.MEd().format(cart.orderDate),
-                        ),
-                      ),
+                // title: cart == null
+                //     ? null
+                //     : Center(
+                //         child: Text(
+                //           cart.type == OrderType.unsecluded
+                //               ? S.current.unsecluded
+                //               : DateFormat.MEd().format(cart.orderDate),
+                //         ),
+                //       ),
                 // subtitle: date == null ? null : Text('بعد 3 ايام'),
               ),
             ),

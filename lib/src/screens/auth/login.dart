@@ -3,9 +3,12 @@ import 'package:enum_to_string/enum_to_string.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sehool/src/components/background_images_generate.dart';
 import 'package:sehool/src/components/login_card/flutter_login.dart';
 import 'package:sehool/src/components/login_card/src/providers/login_messages.dart';
 import 'package:sehool/src/components/login_card/src/providers/login_theme.dart';
+import 'package:sehool/src/components/login_card/src/widgets/auth_card.dart';
+import 'package:sehool/src/components/my_loading_overlay.dart';
 import 'package:sehool/src/models/user_model.dart';
 
 import '../../../generated/l10n.dart';
@@ -51,30 +54,51 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Parent(
       style: ParentStyle()..background.color(Colors.white),
-      child: Stack(
-        children: [
-          // BackgroundGeneratorGroup(
-          //   number: 60,
-          //   colors: Colors.accents,
-          //   direction: Direction.up,
-          //   speed: DotSpeed.medium,
-          //   opacity: .9,
-          //   trajectory: Trajectory.random,
-          //   image: const [
-          //     'assets/images/meat.png',
-          //     'assets/images/meat2.png',
-          //     'assets/images/meat3.png',
-          //     'assets/images/ribs.png',
-          //     'assets/images/ribs2.png',
-          //     'assets/images/knife.png',
-          //     'assets/images/delivery-truck.png',
-          //   ],
-          // ),
-          oldLogin()
-        ],
+      child: BlocConsumer<LoginCubit, LoginState>(
+        cubit: cubit,
+        listener: (context, state) {
+          // TODO: implement listener
+        },
+        builder: (context, state) {
+          return state.when(
+            initial: () => _buildUI(),
+            loading: () => _buildUI(isLoading: true),
+            success: () => _buildUI(),
+            // TODO: Handel ERROR STATE
+            failure: (e) {
+              return _buildUI();
+            },
+          );
+        },
       ),
     );
   }
+
+  Widget _buildUI({bool isLoading = false}) => MyLoadingOverLay(
+        isLoading: isLoading,
+        showSpinner: true,
+        child: Stack(
+          children: [
+            BackgroundGeneratorGroup(
+              number: 60,
+              colors: Colors.accents,
+              direction: Direction.up,
+              speed: DotSpeed.medium,
+              opacity: .9,
+              image: const [
+                'assets/images/meat.png',
+                'assets/images/meat2.png',
+                'assets/images/meat3.png',
+                'assets/images/ribs.png',
+                'assets/images/ribs2.png',
+                'assets/images/knife.png',
+                'assets/images/delivery-truck.png',
+              ],
+            ),
+            _loginCard()
+          ],
+        ),
+      );
 
   Widget _buildLevelDropdownInput({
     @required Map<FormFieldType, FormFieldModel> map,
@@ -129,11 +153,28 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
       logo: 'assets/images/logo.png',
       onLogin: (val) {
+        credentials[FormFieldType.email] = FormFieldModel(
+          name: 'email',
+          value: val.name,
+        );
+        credentials[FormFieldType.password] = FormFieldModel(
+          name: 'password',
+          value: val.password,
+        );
         cubit.login(credentials);
-        return Future.value('');
+        return Future.value();
       },
       onSignup: (val) {
-        return Future.value('');
+        credentials[FormFieldType.email] = FormFieldModel(
+          name: 'email',
+          value: val.name,
+        );
+        credentials[FormFieldType.password] = FormFieldModel(
+          name: 'password',
+          value: val.password,
+        );
+        cubit.registration(credentials);
+        return Future.value();
       },
       signupFields: [
         const SizedBox(height: 15),
@@ -174,133 +215,133 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget oldLogin() {
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      body: Center(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(8.0),
-          child: BlocConsumer<LoginCubit, LoginState>(
-            cubit: cubit,
-            listener: (context, state) {
-              state.maybeWhen(
-                failure: (message) => Helpers.showErrorOverlay(
-                  context,
-                  error: message,
-                ),
-                orElse: () {},
-              );
-            },
-            builder: (context, state) {
-              return state.when(
-                initial: () => _buildColumn(context),
-                loading: () => _buildColumn(context, isLoading: true),
-                success: () => _buildColumn(context),
-                // TODO: Handel ERROR STATE
-                failure: (e) {
-                  print(e);
-                  return _buildColumn(context);
-                },
-              );
-            },
-          ),
-        ),
-      ),
-    );
-  }
+  // Widget oldLogin() {
+  //   return Scaffold(
+  //     backgroundColor: Colors.transparent,
+  //     body: Center(
+  //       child: SingleChildScrollView(
+  //         padding: const EdgeInsets.all(8.0),
+  //         child: BlocConsumer<LoginCubit, LoginState>(
+  //           cubit: cubit,
+  //           listener: (context, state) {
+  //             state.maybeWhen(
+  //               failure: (message) => Helpers.showErrorOverlay(
+  //                 context,
+  //                 error: message,
+  //               ),
+  //               orElse: () {},
+  //             );
+  //           },
+  //           builder: (context, state) {
+  //             return state.when(
+  //               initial: () => _buildColumn(context),
+  //               loading: () => _buildColumn(context, isLoading: true),
+  //               success: () => _buildColumn(context),
+  //               // TODO: Handel ERROR STATE
+  //               failure: (e) {
+  //                 print(e);
+  //                 return _buildColumn(context);
+  //               },
+  //             );
+  //           },
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 
-  Column _buildColumn(
-    BuildContext context, {
-    bool isLoading = false,
-  }) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        SizedBox(
-          height: 300,
-          child: Image.asset(
-            'assets/images/logo.png',
-          ),
-        ),
-        Form(
-          key: formKey,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const SizedBox(height: 10),
-              CustomTextFromField(
-                type: FormFieldType.email,
-                map: credentials,
-                enabled: !isLoading,
-              ),
-              const SizedBox(height: 10),
-              CustomTextFromField(
-                type: FormFieldType.password,
-                map: credentials,
-                enabled: !isLoading,
-                suffixIcon: IconButton(
-                  onPressed: () =>
-                      setState(() => passwordVisible = !passwordVisible),
-                  icon: Icon(passwordVisible
-                      ? FluentIcons.eye_hide_24_regular
-                      : FluentIcons.eye_show_24_regular),
-                ),
-                obscureText: passwordVisible,
-              ),
-              const Divider(height: 30),
-            ],
-          ),
-        ),
-        ElevatedButton(
-          onPressed: isLoading
-              ? null
-              : () {
-                  Helpers.dismissFauces(context);
-                  if (formKey.currentState.validate()) {
-                    formKey.currentState.save();
-                    cubit.login(credentials);
-                  }
-                },
-          child: isLoading
-              ? const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Center(child: CircularProgressIndicator()),
-                )
-              : Txt(
-                  S.current.login,
-                  style: TxtStyle()..textColor(Colors.white),
-                ),
-        ),
-        const SizedBox(height: 10),
-        Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Txt(S.current.i_dont_have_an_account),
-            TextButton(
-              onPressed: isLoading
-                  ? null
-                  : () =>
-                      AppRouter.sailor.navigate(RegistrationScreen.routeName),
-              child: Txt(S.current.register),
-            ),
-          ],
-        ),
-        Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              S.current.i_forgot_password,
-            ),
-            TextButton(
-              onPressed: isLoading
-                  ? null
-                  : () =>
-                      AppRouter.sailor.navigate(ForgotPasswordScreen.routeName),
-              child: Text(S.current.restore),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
+  // Column _buildColumn(
+  //   BuildContext context, {
+  //   bool isLoading = false,
+  // }) {
+  //   return Column(
+  //     mainAxisSize: MainAxisSize.min,
+  //     children: [
+  //       SizedBox(
+  //         height: 300,
+  //         child: Image.asset(
+  //           'assets/images/logo.png',
+  //         ),
+  //       ),
+  //       Form(
+  //         key: formKey,
+  //         child: Column(
+  //           mainAxisSize: MainAxisSize.min,
+  //           children: [
+  //             const SizedBox(height: 10),
+  //             CustomTextFromField(
+  //               type: FormFieldType.email,
+  //               map: credentials,
+  //               enabled: !isLoading,
+  //             ),
+  //             const SizedBox(height: 10),
+  //             CustomTextFromField(
+  //               type: FormFieldType.password,
+  //               map: credentials,
+  //               enabled: !isLoading,
+  //               suffixIcon: IconButton(
+  //                 onPressed: () =>
+  //                     setState(() => passwordVisible = !passwordVisible),
+  //                 icon: Icon(passwordVisible
+  //                     ? FluentIcons.eye_hide_24_regular
+  //                     : FluentIcons.eye_show_24_regular),
+  //               ),
+  //               obscureText: passwordVisible,
+  //             ),
+  //             const Divider(height: 30),
+  //           ],
+  //         ),
+  //       ),
+  //       ElevatedButton(
+  //         onPressed: isLoading
+  //             ? null
+  //             : () {
+  //                 Helpers.dismissFauces(context);
+  //                 if (formKey.currentState.validate()) {
+  //                   formKey.currentState.save();
+  //                   cubit.login(credentials);
+  //                 }
+  //               },
+  //         child: isLoading
+  //             ? const Padding(
+  //                 padding: EdgeInsets.all(8.0),
+  //                 child: Center(child: CircularProgressIndicator()),
+  //               )
+  //             : Txt(
+  //                 S.current.login,
+  //                 style: TxtStyle()..textColor(Colors.white),
+  //               ),
+  //       ),
+  //       const SizedBox(height: 10),
+  //       Row(
+  //         mainAxisSize: MainAxisSize.min,
+  //         children: [
+  //           Txt(S.current.i_dont_have_an_account),
+  //           TextButton(
+  //             onPressed: isLoading
+  //                 ? null
+  //                 : () =>
+  //                     AppRouter.sailor.navigate(RegistrationScreen.routeName),
+  //             child: Txt(S.current.register),
+  //           ),
+  //         ],
+  //       ),
+  //       Row(
+  //         mainAxisSize: MainAxisSize.min,
+  //         children: [
+  //           Text(
+  //             S.current.i_forgot_password,
+  //           ),
+  //           TextButton(
+  //             onPressed: isLoading
+  //                 ? null
+  //                 : () =>
+  //                     AppRouter.sailor.navigate(ForgotPasswordScreen.routeName),
+  //             child: Text(S.current.restore),
+  //           ),
+  //         ],
+  //       ),
+  //     ],
+  //   );
+  // }
 }

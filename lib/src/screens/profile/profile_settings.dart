@@ -2,6 +2,7 @@ import 'package:division/division.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sehool/src/components/background_images_generate.dart';
+import 'package:sehool/src/models/user_model.dart';
 
 import '../../../generated/l10n.dart';
 import '../../../init_injectable.dart';
@@ -141,6 +142,28 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                           initialValue: kUser.phone,
                           enabled: !isLoading,
                         ),
+                        const SizedBox(height: 8),
+                        _buildTextInput(
+                          map: data,
+                          type: FormFieldType.password,
+                          enabled: !isLoading,
+                        ),
+                        if (kUser.level == UserLevel.merchant) ...[
+                          const SizedBox(height: 8),
+                          _buildTextInput(
+                            map: data,
+                            type: FormFieldType.storeName,
+                            initialValue: kUser.storeName,
+                            enabled: !isLoading,
+                          ),
+                          const SizedBox(height: 8),
+                          _buildTextInput(
+                            map: data,
+                            type: FormFieldType.vatNumber,
+                            initialValue: kUser.vatNumber,
+                            enabled: !isLoading,
+                          ),
+                        ]
                       ],
                     ),
                   ),

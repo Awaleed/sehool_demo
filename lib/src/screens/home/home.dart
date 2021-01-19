@@ -1,9 +1,10 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:division/division.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sehool/src/helpers/helper.dart';
 import 'package:sehool/src/screens/home/pages/userpage.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../generated/l10n.dart';
 import '../../../init_injectable.dart';
@@ -31,6 +32,10 @@ class _HomeScreenState extends State<HomeScreen> {
           icon: FluentIcons.home_24_regular,
           label: S.current.home,
           page: const MainPage(),
+        ),
+        _TabBarItem(
+          icon: FluentIcons.cart_24_filled,
+          label: S.current.about,
         ),
         _TabBarItem(
           icon: FluentIcons.cart_24_filled,
@@ -70,16 +75,6 @@ class _HomeScreenState extends State<HomeScreen> {
         body: Stack(
           fit: StackFit.expand,
           children: [
-            // const DecoratedBox(
-            //   decoration: BoxDecoration(
-            //     image: DecorationImage(
-            //       image: CachedNetworkImageProvider(
-            //         'https://i.pinimg.com/originals/77/59/a2/7759a2ff203398743fd020a4bedbff14.jpg',
-            //       ),
-            //       fit: BoxFit.cover,
-            //     ),
-            //   ),
-            // ),
             const DecoratedBox(
               decoration: BoxDecoration(
                 color: Colors.black45,
@@ -95,97 +90,100 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 70),
-                child: PageView(
-                  physics: const NeverScrollableScrollPhysics(),
-                  controller: pageController,
-                  children: [...pages.map((e) => e.page)],
-                ),
-              ),
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Container(
-                  decoration: const BoxDecoration(
-                    color: Colors.black45,
-                    gradient: LinearGradient(
-                      begin: Alignment.bottomCenter,
-                      end: Alignment.topCenter,
-                      colors: [
-                        Colors.black,
-                        Colors.transparent,
-                      ],
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Expanded(
+                    child: PageView(
+                      physics: const NeverScrollableScrollPhysics(),
+                      controller: pageController,
+                      children: [...pages.map((e) => e.page)],
                     ),
                   ),
-                  height: 75,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 5),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        ...() {
-                          final list = <Widget>[];
-                          for (var i = 0; i < pages.length; i++) {
-                            final isSelected = selectedIndex == i;
-                            final item = pages[i];
+                  Container(
+                    decoration: const BoxDecoration(
+                      color: Colors.black45,
+                      gradient: LinearGradient(
+                        begin: Alignment.bottomCenter,
+                        end: Alignment.topCenter,
+                        colors: [
+                          Colors.black,
+                          Colors.transparent,
+                        ],
+                      ),
+                    ),
+                    height: 75,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 0),
+                      child: FittedBox(
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            ...() {
+                              final list = <Widget>[];
+                              for (var i = 0; i < pages.length; i++) {
+                                final isSelected = selectedIndex == i;
+                                final item = pages[i];
 
-                            if (item.page == null) {
-                              list.add(_buildCartButton());
-                              continue;
-                            }
-                            final tab = Parent(
-                              gesture: Gestures()
-                                ..onTap(() {
-                                  if (!isSelected) onPageChanged(i);
-                                }),
-                              style: ParentStyle()
-                                ..animate(600, Curves.easeOut)
-                                ..width(isSelected ? 150 : 70)
-                                ..background.color(isSelected
-                                    ? Colors.black87
-                                    : Colors.transparent)
-                                ..padding(
-                                  horizontal: 20,
-                                  vertical: 10,
-                                )
-                                ..borderRadius(all: 50)
-                                ..alignmentContent.center(),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Icon(
-                                    item.icon,
-                                    color: isSelected
-                                        ? Colors.amber
-                                        : Colors.white,
-                                  ),
-                                  if (isSelected)
-                                    Flexible(
-                                      child: FittedBox(
-                                        child: Text(
-                                          '  ${item.label}',
-                                          style: const TextStyle(
-                                            color: Colors.amber,
+                                if (item.label == S.current.cart) {
+                                  list.add(_buildCartButton());
+                                  continue;
+                                } else if (item.label == S.current.about) {
+                                  list.add(_buildMessageButton());
+                                  continue;
+                                }
+                                final tab = Parent(
+                                  gesture: Gestures()
+                                    ..onTap(() {
+                                      if (!isSelected) onPageChanged(i);
+                                    }),
+                                  style: ParentStyle()
+                                    ..animate(600, Curves.easeOut)
+                                    ..width(isSelected ? 130 : 70)
+                                    ..background.color(isSelected
+                                        ? Colors.black87
+                                        : Colors.transparent)
+                                    ..padding(
+                                      horizontal: 20,
+                                      vertical: 10,
+                                    )
+                                    ..borderRadius(all: 50)
+                                    ..alignmentContent.center(),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Icon(
+                                        item.icon,
+                                        color: isSelected
+                                            ? Colors.amber
+                                            : Colors.white,
+                                      ),
+                                      if (isSelected)
+                                        Flexible(
+                                          child: FittedBox(
+                                            child: Text(
+                                              '  ${item.label}',
+                                              style: const TextStyle(
+                                                color: Colors.amber,
+                                              ),
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    ),
-                                ],
-                              ),
-                            );
-                            list.add(tab);
-                          }
-                          return list;
-                        }()
-                      ],
+                                    ],
+                                  ),
+                                );
+                                list.add(tab);
+                              }
+                              return list;
+                            }()
+                          ],
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ],
         ),
@@ -193,45 +191,75 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildCartButton() => BlocBuilder<CartCubit, CartState>(
-        cubit: getIt<CartCubit>(),
-        builder: (context, state) => FloatingActionButton(
-          onPressed: () {
-            if (state.cart.cartItems.isNotEmpty) {
-              AppRouter.sailor.navigate(CheckoutScreen.routeName);
+  Widget _buildMessageButton() => Parent(
+        gesture: Gestures()
+          ..onTap(() async {
+            const url =
+                "https://wa.me/249966787917?text=I'm redirected from sehool user app.";
+            if (await canLaunch(url)) {
+              await launch(url);
             }
-          },
-          child: Stack(
-            clipBehavior: Clip.none,
-            children: [
-              const Icon(FluentIcons.cart_24_filled),
-              if (state.cart.cartItems.isNotEmpty)
-                Positioned(
-                  top: -20,
-                  left: -20,
-                  right: -20,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      SizedBox.fromSize(
-                        size: const Size.fromRadius(14),
-                        child: Container(
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            color: Colors.black,
-                            borderRadius: BorderRadius.circular(2),
-                          ),
-                          child: Text(
-                            '${state.cart.cartItems.length}',
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(color: Colors.amber),
+          }),
+        style: ParentStyle()
+          ..animate(600, Curves.easeOut)
+          ..width(70)
+          ..background.color(Colors.transparent)
+          ..padding(
+            horizontal: 20,
+            vertical: 10,
+          )
+          ..borderRadius(all: 50)
+          ..alignmentContent.center(),
+        child: const Icon(Icons.message, color: Colors.white),
+      );
+
+  Widget _buildCartButton() => Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: BlocBuilder<CartCubit, CartState>(
+          cubit: getIt<CartCubit>(),
+          builder: (context, state) => FloatingActionButton(
+            onPressed: () {
+              if (state.cart.cartItems.isNotEmpty) {
+                AppRouter.sailor.navigate(CheckoutScreen.routeName);
+              } else {
+                Helpers.showMessageOverlay(
+                  context,
+                  message: S.current.dont_have_any_item_in_your_cart,
+                );
+              }
+            },
+            child: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                const Icon(FluentIcons.cart_24_filled),
+                if (state.cart.cartItems.isNotEmpty)
+                  Positioned(
+                    top: -20,
+                    left: -20,
+                    right: -20,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        SizedBox.fromSize(
+                          size: const Size.fromRadius(14),
+                          child: Container(
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              color: Colors.black,
+                              borderRadius: BorderRadius.circular(2),
+                            ),
+                            child: Text(
+                              '${state.cart.cartItems.length}',
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(color: Colors.amber),
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-            ],
+              ],
+            ),
           ),
         ),
       );

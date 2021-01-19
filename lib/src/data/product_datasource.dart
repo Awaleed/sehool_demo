@@ -6,33 +6,33 @@ import '../core/api_caller.dart';
 import '../helpers/fake_data_generator.dart';
 
 abstract class IProductRemoteDataSource {
-  Future<Map<String, dynamic>> getProduct(int id);
+  Future<List> getProducts();
   Future<Map<String, dynamic>> addReview(Map<String, dynamic> data);
-
   Future<List> getReviews(Map<String, int> data);
+
+  Future<List> getVideos();
+  Future<List> getBanners();
 }
 
 @prod
 @Singleton(as: IProductRemoteDataSource)
 class ProductRemoteDataSource extends IProductRemoteDataSource with ApiCaller {
   @override
-  Future<Map<String, dynamic>> getProduct(int id) {
-    return get(
-      path: '/products/$id',
-    );
-  }
+  Future<List> getProducts() => get(path: '/products');
 
   @override
-  Future<Map<String, dynamic>> addReview(Map<String, dynamic> data) {
-    return post(
-      path: '/reviews',
-      data: data,
-    );
-  }
+  Future<Map<String, dynamic>> addReview(Map<String, dynamic> data) =>
+      post(path: '/reviews', data: data);
 
   @override
   Future<List> getReviews(Map<String, dynamic> data) =>
       get(path: '/reviews', data: data);
+
+  @override
+  Future<List> getVideos() => get(path: '/videos');
+
+  @override
+  Future<List> getBanners() => get(path: '/carousel');
 }
 
 @test
@@ -52,4 +52,22 @@ class FakeProductRemoteDataSource extends IProductRemoteDataSource {
 
   @override
   Future<Map<String, dynamic>> getProduct(int id) => throw UnimplementedError();
+
+  @override
+  Future<List> getProducts() {
+    // TODO: implement getProducts
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List> getVideos() {
+    // TODO: implement getVideos
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List> getBanners() {
+    // TODO: implement getBanners
+    throw UnimplementedError();
+  }
 }

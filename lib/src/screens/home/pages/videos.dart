@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../components/vedios_carousel/videos_carousel_widget.dart';
+import '../../../components/videos_carousel/videos_carousel_widget.dart';
 
 class VideosPage extends StatelessWidget {
   const VideosPage({Key key}) : super(key: key);

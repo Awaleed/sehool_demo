@@ -46,6 +46,7 @@ class FormFieldModel {
   ) {
     final jsonMap = <String, dynamic>{};
     for (final item in map.entries) {
+      if (item.value?.value == null) continue;
       jsonMap[item.value.name] = item.value.value;
     }
     return jsonMap;
@@ -77,7 +78,7 @@ class FormFieldModel {
           validator: _Validators.notEmptyStringValidator,
           onSave: (value) {
             map[FormFieldType.address] = FormFieldModel(
-              name: 'username',
+              name: 'address',
               value: _toString(value),
             );
           },
@@ -145,11 +146,11 @@ class FormFieldModel {
           hintText: 'المدينة',
           iconData: FluentIcons.location_28_regular,
           keyboardType: TextInputType.number,
-          validator: _Validators.notEmptyStringValidator,
+          validator: _Validators.notNullValidator,
           onSave: (value) {
             map[FormFieldType.cityId] = FormFieldModel(
               name: 'city_id',
-              value: _toString(value),
+              value: _toInt(value),
             );
           },
         );
@@ -158,7 +159,7 @@ class FormFieldModel {
           hintText: 'قطاع المدينة',
           iconData: FluentIcons.location_28_regular,
           keyboardType: TextInputType.number,
-          validator: _Validators.notEmptyStringValidator,
+          validator: _Validators.notNullValidator,
           onSave: (value) {
             map[FormFieldType.citySectionId] = FormFieldModel(
               name: 'city_section_id',
@@ -176,7 +177,7 @@ class FormFieldModel {
           onSave: (value) {
             map[FormFieldType.level] = FormFieldModel(
               name: 'level',
-              value: _toInt(value),
+              value: _toString(value),
             );
           },
         );
@@ -217,7 +218,7 @@ class FormFieldModel {
   }
 
   // static double _toDouble(String value) => double.tryParse(value ?? '0') ?? 0;
-  static int _toInt(String value) => int.tryParse(value ?? '0') ?? 0;
+  static int _toInt(String value) => int.tryParse('$value' ?? '');
   static String _toString(String value) => value?.trim();
 }
 

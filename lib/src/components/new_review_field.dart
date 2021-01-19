@@ -1,7 +1,7 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 
-import '../cubits/reveiw_cubit/review_cubit.dart';
+import '../cubits/product_cubits/review_cubit/review_cubit.dart';
 import '../helpers/helper.dart';
 
 class NewReviewField extends StatelessWidget {

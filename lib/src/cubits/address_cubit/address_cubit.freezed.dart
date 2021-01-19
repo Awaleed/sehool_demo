@@ -24,6 +24,11 @@ class _$AddressStateTearOff {
   }
 
 // ignore: unused_element
+  _Created created() {
+    return const _Created();
+  }
+
+// ignore: unused_element
   _Success success(List<AddressModel> value) {
     return _Success(
       value,
@@ -48,6 +53,7 @@ mixin _$AddressState {
   TResult when<TResult extends Object>({
     @required TResult initial(),
     @required TResult loading(),
+    @required TResult created(),
     @required TResult success(List<AddressModel> value),
     @required TResult failure(String message),
   });
@@ -55,6 +61,7 @@ mixin _$AddressState {
   TResult maybeWhen<TResult extends Object>({
     TResult initial(),
     TResult loading(),
+    TResult created(),
     TResult success(List<AddressModel> value),
     TResult failure(String message),
     @required TResult orElse(),
@@ -63,6 +70,7 @@ mixin _$AddressState {
   TResult map<TResult extends Object>({
     @required TResult initial(_Initial value),
     @required TResult loading(_Loading value),
+    @required TResult created(_Created value),
     @required TResult success(_Success value),
     @required TResult failure(_Failure value),
   });
@@ -70,6 +78,7 @@ mixin _$AddressState {
   TResult maybeMap<TResult extends Object>({
     TResult initial(_Initial value),
     TResult loading(_Loading value),
+    TResult created(_Created value),
     TResult success(_Success value),
     TResult failure(_Failure value),
     @required TResult orElse(),
@@ -130,11 +139,13 @@ class _$_Initial implements _Initial {
   TResult when<TResult extends Object>({
     @required TResult initial(),
     @required TResult loading(),
+    @required TResult created(),
     @required TResult success(List<AddressModel> value),
     @required TResult failure(String message),
   }) {
     assert(initial != null);
     assert(loading != null);
+    assert(created != null);
     assert(success != null);
     assert(failure != null);
     return initial();
@@ -145,6 +156,7 @@ class _$_Initial implements _Initial {
   TResult maybeWhen<TResult extends Object>({
     TResult initial(),
     TResult loading(),
+    TResult created(),
     TResult success(List<AddressModel> value),
     TResult failure(String message),
     @required TResult orElse(),
@@ -161,11 +173,13 @@ class _$_Initial implements _Initial {
   TResult map<TResult extends Object>({
     @required TResult initial(_Initial value),
     @required TResult loading(_Loading value),
+    @required TResult created(_Created value),
     @required TResult success(_Success value),
     @required TResult failure(_Failure value),
   }) {
     assert(initial != null);
     assert(loading != null);
+    assert(created != null);
     assert(success != null);
     assert(failure != null);
     return initial(this);
@@ -176,6 +190,7 @@ class _$_Initial implements _Initial {
   TResult maybeMap<TResult extends Object>({
     TResult initial(_Initial value),
     TResult loading(_Loading value),
+    TResult created(_Created value),
     TResult success(_Success value),
     TResult failure(_Failure value),
     @required TResult orElse(),
@@ -230,11 +245,13 @@ class _$_Loading implements _Loading {
   TResult when<TResult extends Object>({
     @required TResult initial(),
     @required TResult loading(),
+    @required TResult created(),
     @required TResult success(List<AddressModel> value),
     @required TResult failure(String message),
   }) {
     assert(initial != null);
     assert(loading != null);
+    assert(created != null);
     assert(success != null);
     assert(failure != null);
     return loading();
@@ -245,6 +262,7 @@ class _$_Loading implements _Loading {
   TResult maybeWhen<TResult extends Object>({
     TResult initial(),
     TResult loading(),
+    TResult created(),
     TResult success(List<AddressModel> value),
     TResult failure(String message),
     @required TResult orElse(),
@@ -261,11 +279,13 @@ class _$_Loading implements _Loading {
   TResult map<TResult extends Object>({
     @required TResult initial(_Initial value),
     @required TResult loading(_Loading value),
+    @required TResult created(_Created value),
     @required TResult success(_Success value),
     @required TResult failure(_Failure value),
   }) {
     assert(initial != null);
     assert(loading != null);
+    assert(created != null);
     assert(success != null);
     assert(failure != null);
     return loading(this);
@@ -276,6 +296,7 @@ class _$_Loading implements _Loading {
   TResult maybeMap<TResult extends Object>({
     TResult initial(_Initial value),
     TResult loading(_Loading value),
+    TResult created(_Created value),
     TResult success(_Success value),
     TResult failure(_Failure value),
     @required TResult orElse(),
@@ -290,6 +311,112 @@ class _$_Loading implements _Loading {
 
 abstract class _Loading implements AddressState {
   const factory _Loading() = _$_Loading;
+}
+
+/// @nodoc
+abstract class _$CreatedCopyWith<$Res> {
+  factory _$CreatedCopyWith(_Created value, $Res Function(_Created) then) =
+      __$CreatedCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$CreatedCopyWithImpl<$Res> extends _$AddressStateCopyWithImpl<$Res>
+    implements _$CreatedCopyWith<$Res> {
+  __$CreatedCopyWithImpl(_Created _value, $Res Function(_Created) _then)
+      : super(_value, (v) => _then(v as _Created));
+
+  @override
+  _Created get _value => super._value as _Created;
+}
+
+/// @nodoc
+class _$_Created implements _Created {
+  const _$_Created();
+
+  @override
+  String toString() {
+    return 'AddressState.created()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) || (other is _Created);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object>({
+    @required TResult initial(),
+    @required TResult loading(),
+    @required TResult created(),
+    @required TResult success(List<AddressModel> value),
+    @required TResult failure(String message),
+  }) {
+    assert(initial != null);
+    assert(loading != null);
+    assert(created != null);
+    assert(success != null);
+    assert(failure != null);
+    return created();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object>({
+    TResult initial(),
+    TResult loading(),
+    TResult created(),
+    TResult success(List<AddressModel> value),
+    TResult failure(String message),
+    @required TResult orElse(),
+  }) {
+    assert(orElse != null);
+    if (created != null) {
+      return created();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object>({
+    @required TResult initial(_Initial value),
+    @required TResult loading(_Loading value),
+    @required TResult created(_Created value),
+    @required TResult success(_Success value),
+    @required TResult failure(_Failure value),
+  }) {
+    assert(initial != null);
+    assert(loading != null);
+    assert(created != null);
+    assert(success != null);
+    assert(failure != null);
+    return created(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object>({
+    TResult initial(_Initial value),
+    TResult loading(_Loading value),
+    TResult created(_Created value),
+    TResult success(_Success value),
+    TResult failure(_Failure value),
+    @required TResult orElse(),
+  }) {
+    assert(orElse != null);
+    if (created != null) {
+      return created(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _Created implements AddressState {
+  const factory _Created() = _$_Created;
 }
 
 /// @nodoc
@@ -351,11 +478,13 @@ class _$_Success implements _Success {
   TResult when<TResult extends Object>({
     @required TResult initial(),
     @required TResult loading(),
+    @required TResult created(),
     @required TResult success(List<AddressModel> value),
     @required TResult failure(String message),
   }) {
     assert(initial != null);
     assert(loading != null);
+    assert(created != null);
     assert(success != null);
     assert(failure != null);
     return success(value);
@@ -366,6 +495,7 @@ class _$_Success implements _Success {
   TResult maybeWhen<TResult extends Object>({
     TResult initial(),
     TResult loading(),
+    TResult created(),
     TResult success(List<AddressModel> value),
     TResult failure(String message),
     @required TResult orElse(),
@@ -382,11 +512,13 @@ class _$_Success implements _Success {
   TResult map<TResult extends Object>({
     @required TResult initial(_Initial value),
     @required TResult loading(_Loading value),
+    @required TResult created(_Created value),
     @required TResult success(_Success value),
     @required TResult failure(_Failure value),
   }) {
     assert(initial != null);
     assert(loading != null);
+    assert(created != null);
     assert(success != null);
     assert(failure != null);
     return success(this);
@@ -397,6 +529,7 @@ class _$_Success implements _Success {
   TResult maybeMap<TResult extends Object>({
     TResult initial(_Initial value),
     TResult loading(_Loading value),
+    TResult created(_Created value),
     TResult success(_Success value),
     TResult failure(_Failure value),
     @required TResult orElse(),
@@ -475,11 +608,13 @@ class _$_Failure implements _Failure {
   TResult when<TResult extends Object>({
     @required TResult initial(),
     @required TResult loading(),
+    @required TResult created(),
     @required TResult success(List<AddressModel> value),
     @required TResult failure(String message),
   }) {
     assert(initial != null);
     assert(loading != null);
+    assert(created != null);
     assert(success != null);
     assert(failure != null);
     return failure(message);
@@ -490,6 +625,7 @@ class _$_Failure implements _Failure {
   TResult maybeWhen<TResult extends Object>({
     TResult initial(),
     TResult loading(),
+    TResult created(),
     TResult success(List<AddressModel> value),
     TResult failure(String message),
     @required TResult orElse(),
@@ -506,11 +642,13 @@ class _$_Failure implements _Failure {
   TResult map<TResult extends Object>({
     @required TResult initial(_Initial value),
     @required TResult loading(_Loading value),
+    @required TResult created(_Created value),
     @required TResult success(_Success value),
     @required TResult failure(_Failure value),
   }) {
     assert(initial != null);
     assert(loading != null);
+    assert(created != null);
     assert(success != null);
     assert(failure != null);
     return failure(this);
@@ -521,6 +659,7 @@ class _$_Failure implements _Failure {
   TResult maybeMap<TResult extends Object>({
     TResult initial(_Initial value),
     TResult loading(_Loading value),
+    TResult created(_Created value),
     TResult success(_Success value),
     TResult failure(_Failure value),
     @required TResult orElse(),

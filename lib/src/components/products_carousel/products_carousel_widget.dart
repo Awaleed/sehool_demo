@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../init_injectable.dart';
-import '../../cubits/lazy_list_cubit/lazy_list_cubit.dart';
-import '../../models/lazy_list_model.dart';
+import '../../cubits/product_cubits/product_cubit/product_cubit.dart';
 import 'empty_products_carousel.dart';
 import 'products_carousel_item_widget.dart';
 import 'products_carousel_loading_item_widget.dart';
@@ -19,12 +18,12 @@ class ProductsCarouselWidget extends StatefulWidget {
 }
 
 class _ProductsCarouselWidgetState extends State<ProductsCarouselWidget> {
-  LazyListCubit cubit;
+  ProductCubit cubit;
 
   @override
   void initState() {
     super.initState();
-    cubit = getIt<LazyListCubit>()..getContent(LazyListType.products);
+    cubit = getIt<ProductCubit>();
   }
 
   @override
@@ -35,19 +34,15 @@ class _ProductsCarouselWidgetState extends State<ProductsCarouselWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<LazyListCubit, LazyListState>(
+    return BlocBuilder<ProductCubit, ProductState>(
       cubit: cubit,
       builder: (context, state) {
         return state.when(
-          initial: () => _buildUI([], isLoading: true),
           loading: () => _buildUI([], isLoading: true),
-          loadingMore: (values) => _buildUI(values, isLoading: true),
           success: (values) => _buildUI(values),
-          finished: (values) => _buildUI(values),
 
           //TODO: handel ERRORS
-          failure: (message, values) => throw UnimplementedError(),
-          failureOnLoadMore: (message, values) => throw UnimplementedError(),
+          failure: (message) => throw UnimplementedError(),
         );
       },
     );
@@ -72,8 +67,6 @@ class _ProductsCarouselWidgetState extends State<ProductsCarouselWidget> {
         }
       },
       options: CarouselOptions(
-        // aspectRatio: 9 / 12,
-        // viewportFraction: .5,
         enableInfiniteScroll: false,
         height: 400,
         enlargeCenterPage: true,

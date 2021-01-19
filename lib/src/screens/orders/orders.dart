@@ -4,11 +4,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:sehool/src/cubits/order_cubit/order_cubit.dart';
+import 'package:sehool/src/helpers/fake_data_generator.dart';
 
 import '../../../generated/l10n.dart';
 import '../../../init_injectable.dart';
 import '../../components/orders_list/orders_list_sliver.dart';
-import '../../cubits/lazy_list_cubit/lazy_list_cubit.dart';
 import '../../models/lazy_list_model.dart';
 
 class OrdersScreen extends StatefulWidget {
@@ -18,18 +19,17 @@ class OrdersScreen extends StatefulWidget {
     Key key,
   }) : super(key: key);
 
-
   @override
   _OrdersScreenState createState() => _OrdersScreenState();
 }
 
 class _OrdersScreenState extends State<OrdersScreen> {
-  LazyListCubit cubit;
+  OrderCubit cubit;
 
   @override
   void initState() {
     super.initState();
-    cubit = getIt<LazyListCubit>()..getContent(LazyListType.orders);
+    cubit = getIt<OrderCubit>();
   }
 
   @override
@@ -41,19 +41,16 @@ class _OrdersScreenState extends State<OrdersScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocBuilder<LazyListCubit, LazyListState>(
+      body: BlocBuilder<OrderCubit, OrderState>(
         cubit: cubit,
         builder: (context, state) {
           return state.when(
-            initial: () => _buildUI([], isLoading: true),
+            canceled: () => _buildUI([], isLoading: true),
             loading: () => _buildUI([], isLoading: true),
-            loadingMore: (values) => _buildUI(values, isLoading: true),
             success: (values) => _buildUI(values),
-            finished: (values) => _buildUI(values),
 
             //TODO: handel ERRORS
-            failure: (message, values) => throw UnimplementedError(),
-            failureOnLoadMore: (message, values) => throw UnimplementedError(),
+            failure: (message) => throw UnimplementedError(),
           );
         },
       ),
@@ -102,7 +99,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                   ),
                 ),
               ),
-              OrdersListSliver(isLoading: isLoading, orders: values),
+              OrdersListWidget(isLoading: isLoading, orders: values),
               const SliverToBoxAdapter(child: SizedBox(height: 100)),
             ],
           ),

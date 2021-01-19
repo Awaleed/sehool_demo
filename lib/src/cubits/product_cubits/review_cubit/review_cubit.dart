@@ -2,8 +2,8 @@ import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../models/product_model.dart';
-import '../../repositories/product_repository.dart';
+import '../../../models/product_model.dart';
+import '../../../repositories/product_repository.dart';
 
 part 'review_cubit.freezed.dart';
 part 'review_state.dart';
@@ -17,7 +17,7 @@ class ReviewCubit extends Cubit<ReviewState> {
   Future<void> getReviews(int productId) async {
     emit(const ReviewState.loading());
     try {
-      final values = await _productRepository.getReviews(productId: productId);
+      final values = await _productRepository.getReviews(productId);
       emit(ReviewState.success(values));
     } catch (e) {
       addError(e);

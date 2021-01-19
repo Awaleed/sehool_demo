@@ -49,7 +49,6 @@ abstract class FakeDataGenerator {
       );
   static VideoModel get videoModel => VideoModel(
         id: random.integer(1000),
-        title: faker.lorem.word(),
         description: faker.lorem.sentence(),
         preview: images.random,
         video: videos.random,
@@ -69,19 +68,18 @@ abstract class FakeDataGenerator {
         id: 0,
         name: faker.person.arabicName(),
         email: faker.internet.email(),
-        level: 'user',
+        level: UserLevel.values.random,
         phone: '${random.integer(4294967296)}',
         image: images.random,
-        wallet: '${(random.decimal(scale: 100000) * 100).toInt() / 100}',
+        wallet: (random.decimal(scale: 100000) * 100).toInt() / 100,
       );
 
   static AddressModel get addressModel => AddressModel(
         id: random.integer(1000),
         city: cityModel,
-        citySection: citySectionModel,
+        section: citySectionModel,
         lat: -90 + random.decimal(scale: 180),
         lang: -90 + random.decimal(scale: 180),
-        note: faker.lorem.sentence(),
         address: faker.address.streetAddress(),
       );
   static CityModel get cityModel => CityModel(
@@ -103,22 +101,22 @@ abstract class FakeDataGenerator {
       );
   static ReviewModel get reviewModel => ReviewModel(
         id: random.integer(1000),
-        rating: random.integer(5),
+        // rating: random.integer(5),
         comment: faker.lorem.sentence(),
         createdAt: DateTime.now().subtract(random.integer(1000).hours),
         user: userModel,
       );
-  static OrderModel get orderModel => OrderModel(
-        cartItems: List.generate(3, (_) => cartItemModel),
-        orderDate: DateTime.now().subtract(random.integer(1000).hours),
-        address: addressModel,
-        pickupMethod: PickupMethod.values.random,
-        type: OrderType.values.random,
-        paymentMethod: PaymentMethodType.values.random,
-        notes: faker.lorem.sentence(),
-      );
+  // static OrderModel get orderModel => OrderModel(
+  //       cartItems: List.generate(3, (_) => cartItemModel),
+  //       orderDate: DateTime.now().subtract(random.integer(1000).hours),
+  //       address: addressModel,
+  //       pickupMethod: PickupMethod.values.random,
+  //       type: OrderType.values.random,
+  //       paymentMethod: PaymentMethodType.values.random,
+  //       notes: faker.lorem.sentence(),
+  //     );
   static CartItemModel get cartItemModel => CartItemModel()
-    ..notes = faker.lorem.sentence()
+    ..note = faker.lorem.sentence()
     ..product = productModel
     ..slicingMethod = slicingMethodsModel;
 
@@ -144,7 +142,7 @@ abstract class FakeDataGenerator {
             id: 0,
             name: 'الرياض',
           ),
-          citySection: CitySectionModel(
+          section: CitySectionModel(
             id: 0,
             name: 'العريجاء الغربي',
           ),
@@ -158,7 +156,7 @@ abstract class FakeDataGenerator {
             id: 0,
             name: 'الرياض',
           ),
-          citySection: CitySectionModel(
+          section: CitySectionModel(
             id: 1,
             name: 'العلياء',
           ),
@@ -170,7 +168,7 @@ abstract class FakeDataGenerator {
         random.integer(50),
         (index) => ReviewModel(
           id: index,
-          rating: random.integer(5),
+          // rating: random.(5),
           comment: faker.lorem.arabic(),
           createdAt: DateTime.now().subtract(random.integer(1000).hours),
           user: userModel,

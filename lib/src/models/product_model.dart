@@ -39,7 +39,7 @@ class ReviewModel {
   });
 
   final int id;
-  final int rating;
+  final double rating;
   final String comment;
   final DateTime createdAt;
   final UserModel user;

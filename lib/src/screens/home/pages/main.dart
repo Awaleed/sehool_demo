@@ -1,16 +1,14 @@
-import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../cubits/lazy_list_cubit/lazy_list_cubit.dart';
-import '../../../helpers/fake_data_generator.dart';
-import '../../../models/banner_model.dart';
-import '../../../models/lazy_list_model.dart';
 
 import '../../../../init_injectable.dart';
 import '../../../components/products_carousel/products_carousel_widget.dart';
+import '../../../cubits/product_cubits/banner_cubit/banner_cubit.dart';
+import '../../../models/banner_model.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key key}) : super(key: key);
@@ -20,12 +18,12 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  LazyListCubit cubit;
+  BannerCubit cubit;
 
   @override
   void initState() {
     super.initState();
-    cubit = getIt<LazyListCubit>()..getContent(LazyListType.banners);
+    cubit = getIt<BannerCubit>();
   }
 
   @override
@@ -39,20 +37,15 @@ class _MainPageState extends State<MainPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        BlocBuilder<LazyListCubit, LazyListState>(
+        BlocBuilder<BannerCubit, BannerState>(
           cubit: cubit,
           builder: (context, state) {
             return state.when(
-              initial: () => _buildBanner([], isLoading: true),
               loading: () => _buildBanner([], isLoading: true),
-              loadingMore: (values) => _buildBanner(values, isLoading: true),
               success: (values) => _buildBanner(values),
-              finished: (values) => _buildBanner(values),
 
               //TODO: handel ERRORS
-              failure: (message, values) => throw UnimplementedError(),
-              failureOnLoadMore: (message, values) =>
-                  throw UnimplementedError(),
+              failure: (message) => throw UnimplementedError(),
             );
           },
         ),
@@ -61,30 +54,28 @@ class _MainPageState extends State<MainPage> {
     );
   }
 
-  Widget _buildBanner(List values, {bool isLoading = false}) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-        clipBehavior: Clip.hardEdge,
-        height: 250,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(25),
-        ),
-        child: values.isEmpty && isLoading
-            ? const Center(child: CircularProgressIndicator())
-            : CachedNetworkImage(
-                imageUrl: 
-                FakeDataGenerator.images.random,
-                // TODO: Fix me
-                    // 'https://i.pinimg.com/originals/29/6a/4d/296a4d4d6bd75d9154721df9055c72a2.gif' ??
-                        // values?.first?.image,
+  Widget _buildBanner(List<BannerModel> values, {bool isLoading = false}) {
+    return Container(
+      clipBehavior: Clip.hardEdge,
+      margin: const EdgeInsets.all(8.0),
+      height: 250,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(25),
+      ),
+      child: values.isEmpty && isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : CarouselSlider.builder(
+              itemCount: values.length,
+              itemBuilder: (_, index) => CachedNetworkImage(
+                imageUrl: values[index].image,
                 fit: BoxFit.cover,
               ),
-      ),
+              options: CarouselOptions(
+                viewportFraction: 1,
+                aspectRatio: MediaQuery.of(context).size.width / 250,
+                autoPlay: true,
+              ),
+            ),
     );
   }
-}
-extension on List {
-  get random => this[Random().nextInt(this.length)];
 }

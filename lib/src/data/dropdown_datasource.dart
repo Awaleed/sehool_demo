@@ -55,7 +55,6 @@ class FakeDropdownRemoteDataSource extends IDropdownRemoteDataSource {
       case DropdownValueType.slicingMethods:
         return FakeDataGenerator.slicingMethods.map((e) => e.toJson()).toList();
       case DropdownValueType.paymentMethods:
-        return PaymentMethodType.values;
       case DropdownValueType.addresses:
         return FakeDataGenerator.addresses.map((e) => e.toJson()).toList();
       default:

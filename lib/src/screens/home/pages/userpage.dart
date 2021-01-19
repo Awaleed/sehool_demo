@@ -4,15 +4,18 @@ import 'package:division/division.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sehool/generated/l10n.dart';
-import 'package:sehool/src/data/user_datasource.dart';
-import 'package:sehool/src/routes/config_routes.dart';
-import 'package:sehool/src/screens/profile/pages/about.dart';
-import 'package:sehool/src/screens/profile/pages/addresses.dart';
-import 'package:sehool/src/screens/profile/pages/help.dart';
-import 'package:sehool/src/screens/profile/pages/language.dart';
-import 'package:sehool/src/screens/profile/pages/orders_history.dart';
-import 'package:sehool/src/screens/profile/profile_settings.dart';
+import '../../../../generated/l10n.dart';
+import '../../../../init_injectable.dart';
+import '../../../cubits/auth_cubit/auth_cubit.dart';
+import '../../../data/user_datasource.dart';
+import '../../../models/user_model.dart';
+import '../../../routes/config_routes.dart';
+import '../../profile/pages/about.dart';
+import '../../profile/pages/addresses.dart';
+import '../../profile/pages/help.dart';
+import '../../profile/pages/language.dart';
+import '../../profile/pages/orders_history.dart';
+import '../../profile/profile_settings.dart';
 import 'package:validators/validators.dart';
 import 'package:supercharged/supercharged.dart';
 
@@ -26,14 +29,13 @@ class UserPage extends StatelessWidget {
     ..bold()
     ..fontSize(32)
     ..textColor(Colors.white)
-    ..margin(bottom: 20)
-    ..alignmentContent.centerLeft();
-
+    ..margin(bottom: 20);
   @override
   Widget build(BuildContext context) {
     return Parent(
       style: contentStyle(context),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Txt(S.current.profile, style: titleStyle),
           UserCard(),
@@ -66,8 +68,10 @@ class UserCard extends StatelessWidget {
           children: <Widget>[
             Txt(kUser.name, style: nameTextStyle),
             const SizedBox(height: 5),
-            Txt(kUser.level == '0' ? 'مستخدم' : 'تاجر',
-                style: nameDescriptionTextStyle)
+            Txt(
+              (kUser.level == UserLevel.merchant) ? 'تاجر' : 'مستخدم',
+              style: nameDescriptionTextStyle,
+            )
           ],
         )
       ],
@@ -84,8 +88,8 @@ class UserCard extends StatelessWidget {
               '${kUser.wallet} ﷼', FluentIcons.money_24_regular),
           _buildUserStatsItem(kUser.email, FluentIcons.mail_24_regular),
           _buildUserStatsItem(kUser.phone, FluentIcons.phone_24_regular),
-          _buildUserStatsItem(
-              '@user${kUser.id}', FluentIcons.person_accounts_24_regular)
+          // _buildUserStatsItem(
+          //     '@${kUser.id}', FluentIcons.person_accounts_24_regular)
         ],
       ),
     );
@@ -223,8 +227,7 @@ class Settings extends StatelessWidget {
                 CupertinoActionSheetAction(
                   isDestructiveAction: true,
                   onPressed: () {
-                    Navigator.pop(context, true);
-                    // print("Action 1 is been clicked");
+                    getIt<AuthCubit>().unauthenticateUser();
                   },
                   child: Text(
                     'نعم',

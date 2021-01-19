@@ -30,7 +30,7 @@ Map<String, dynamic> _$ProductModelToJson(ProductModel instance) =>
 ReviewModel _$ReviewModelFromJson(Map<String, dynamic> json) {
   return ReviewModel(
     id: json['id'] as int,
-    rating: json['rating'] as int,
+    rating: (json['rating'] as num)?.toDouble(),
     comment: json['comment'] as String,
     createdAt: json['created_at'] == null
         ? null

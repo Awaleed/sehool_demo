@@ -1,30 +1,65 @@
 import 'package:flutter/foundation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'address_model.dart';
 import 'order_model.dart';
 import 'product_model.dart';
 
+part 'cart_model.g.dart';
+
 class CartModel {
   List<CartItemModel> cartItems = [];
   AddressModel address;
-  PickupMethod pickupMethod;
-  DateTime orderDate = DateTime.now();
-  OrderType type;
-  PaymentMethodType paymentMethod;
-  String notes;
+  PaymentMethodModel paymentMethod;
+  String note;
+  CouponModel coupon;
 
   double get total {
     double value = 0;
-    for (var item in cartItems) {
+    for (final item in cartItems) {
+      value += item.total;
+    }
+    if (coupon != null) {
+      switch (coupon.type) {
+        case CouponType.fixed:
+          value -= coupon.amount;
+          break;
+        case CouponType.percentage:
+          value *= (100 - coupon.amount) / 100;
+          break;
+      }
+    }
+
+    return value >= 0 ? value : 0;
+  }
+
+  double get totalBeforeCoupon {
+    double value = 0;
+    for (final item in cartItems) {
       value += item.total;
     }
     return value;
   }
 
-  bool get validate => validateAddress && type != null && paymentMethod != null;
-  bool get validateAddress =>
-      pickupMethod == PickupMethod.pickup ||
-      (pickupMethod == PickupMethod.delivery && address != null);
+  bool get validate => paymentMethod != null && address != null;
+
+  Map<String, dynamic> toJson() {
+    return {
+      'note': note ?? '',
+      'address_id': address.id,
+      'payment_method_id': paymentMethod.id,
+      'products': cartItems
+          .map(
+            (e) => {
+              'product_id': e.product.id,
+              'qyt': e.quantity,
+              'note': e.note ?? '',
+              'slicer_type_id': e.slicingMethod.id
+            },
+          )
+          .toList(),
+    };
+  }
 
   @override
   bool operator ==(Object o) {
@@ -33,22 +68,16 @@ class CartModel {
     return o is CartModel &&
         listEquals(o.cartItems, cartItems) &&
         o.address == address &&
-        o.pickupMethod == pickupMethod &&
-        o.orderDate == orderDate &&
-        o.type == type &&
         o.paymentMethod == paymentMethod &&
-        o.notes == notes;
+        o.note == note;
   }
 
   @override
   int get hashCode {
     return cartItems.hashCode ^
         address.hashCode ^
-        pickupMethod.hashCode ^
-        orderDate.hashCode ^
-        type.hashCode ^
         paymentMethod.hashCode ^
-        notes.hashCode;
+        note.hashCode;
   }
 }
 
@@ -57,7 +86,7 @@ class CartItemModel {
 
   ProductModel product;
   SlicingMethodModel slicingMethod;
-  String notes;
+  String note;
 
   double get total => product.price * quantity;
 
@@ -73,10 +102,50 @@ class CartItemModel {
     return o is CartItemModel &&
         o.quantity == quantity &&
         o.slicingMethod == slicingMethod &&
-        o.notes == notes;
+        o.note == note;
   }
 
   @override
   int get hashCode =>
-      quantity.hashCode ^ slicingMethod.hashCode ^ notes.hashCode;
+      quantity.hashCode ^ slicingMethod.hashCode ^ note.hashCode;
+}
+
+enum CouponType { fixed, percentage }
+
+@JsonSerializable(
+    fieldRename: FieldRename.snake, explicitToJson: true, nullable: true)
+class CouponModel {
+  const CouponModel({
+    this.id,
+    this.name,
+    this.amount,
+    this.type,
+  });
+
+  final int id;
+  final String name;
+  final double amount;
+  final CouponType type;
+
+  @override
+  String toString() {
+    return 'CouponModel(id: $id, name: $name, amount: $amount, type: $type)';
+  }
+
+  factory CouponModel.fromJson(Map<String, dynamic> json) =>
+      _$CouponModelFromJson(json);
+  Map<String, dynamic> toJson() => _$CouponModelToJson(this);
+
+  @override
+  bool operator ==(Object o) {
+    if (identical(this, o)) return true;
+
+    return o is PaymentMethodModel &&
+        o.id == id &&
+        o.name == name &&
+        o.type == type;
+  }
+
+  @override
+  int get hashCode => id.hashCode ^ name.hashCode ^ type.hashCode;
 }

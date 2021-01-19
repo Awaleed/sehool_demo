@@ -74,9 +74,9 @@ abstract class IUserRemoteDataSource {
   Future<Map<String, dynamic>> resetPassword(Map<String, dynamic> credentials);
 
   Future<List> getAddresses();
-  Future<List> addAddress(Map<String, dynamic> data);
+  Future addAddress(Map<String, dynamic> data);
   Future deleteAddress(int id);
-  Future<List> updateAddress(Map<String, dynamic> data);
+  Future updateAddress(Map<String, dynamic> data);
 
   Future<Map<String, dynamic>> changePassword(Map<String, dynamic> data);
 
@@ -129,7 +129,7 @@ class UserRemoteDataSource extends IUserRemoteDataSource with ApiCaller {
   }
 
   @override
-  Future<List> addAddress(Map<String, dynamic> data) {
+  Future addAddress(Map<String, dynamic> data) {
     return post(path: '/addresses', data: data);
   }
 
@@ -147,7 +147,7 @@ class UserRemoteDataSource extends IUserRemoteDataSource with ApiCaller {
   }
 
   @override
-  Future<List> updateAddress(Map<String, dynamic> data) {
+  Future updateAddress(Map<String, dynamic> data) {
     return post(
       path: '/auth/login',
       data: data,

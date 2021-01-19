@@ -68,10 +68,10 @@ class FakeLazyListRemoteDataSource extends ILazyListRemoteDataSource {
           (_) => FakeDataGenerator.bannerModel.toJson(),
         );
       case LazyListType.orders:
-        return List.generate(
-          10,
-          (_) => FakeDataGenerator.orderModel,
-        );
+        // return List.generate(
+        //   10,
+        //   (_) => FakeDataGenerator.orderModel,
+        // );
       case LazyListType.reviews:
       default:
         throw UnsupportedError(

@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:sehool/src/data/user_datasource.dart';
 
 import '../../repositories/auth_repository.dart';
 import '../../repositories/settings_repository.dart';
@@ -39,13 +40,13 @@ class SplashCubit extends Cubit<SplashState> {
 
   Future<void> _checkIfAuthenticated() async {
     try {
-      if (_userRepo.getUser() != null) {
+      if (kUser != null) {
         await _authRepository.me();
         emit(SplashState.authenticated);
       } else {
         emit(SplashState.unauthenticated);
       }
-        } catch (e) {
+    } catch (e) {
       emit(SplashState.unauthenticated);
     }
   }

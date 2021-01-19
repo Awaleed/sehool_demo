@@ -4,6 +4,4 @@ enum DropdownValueType {
   slicingMethods,
   paymentMethods,
   addresses,
-  pickupMethod,
-  orderType,
 }

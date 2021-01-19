@@ -1,10 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
-import '../models/banner_model.dart';
-import '../models/order_model.dart';
 
 import '../core/api_caller.dart';
 import '../data/lazy_list_datasource.dart';
+import '../models/banner_model.dart';
 import '../models/lazy_list_model.dart';
 import '../models/product_model.dart';
 import '../models/video_model.dart';
@@ -27,19 +26,16 @@ class LazyListRepositoryImpl implements ILazyListRepository {
     LazyListType type,
     ValueNotifier<String> pageUrl,
   }) async {
-    // TODO: Map LazyListType to url
-    final res = await _lazyListRemoteDataSource.getLazyListValues(
-      type,
-      pageUrl,
-    );
+    final res =
+        await _lazyListRemoteDataSource.getLazyListValues(type, pageUrl);
 
     final list = ApiCaller.listParser(
       res,
       (data) {
         switch (type) {
           case LazyListType.products:
-            data['price'] = double.tryParse('${data['price']}' ?? '0') ?? 0;
-            data['qyt'] = int.tryParse('${data['qyt']}' ?? '0') ?? 0;
+            data['price'] = double.tryParse('${data['price']}' ?? '');
+            data['qyt'] = int.tryParse('${data['qyt']}' ?? '');
             return ProductModel.fromJson(data);
           case LazyListType.videos:
             return VideoModel.fromJson(data);

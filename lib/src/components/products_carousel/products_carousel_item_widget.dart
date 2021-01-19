@@ -85,13 +85,13 @@ class ProductsCarouselItemWidget extends StatelessWidget {
                         .copyWith(color: Colors.white),
                   ),
                 ),
-                Text(
-                  '${S.current.available_quantity} ${Helpers.isArabic(context) ? ArabicNumbers().convert(product.qyt) : product.qyt} ${S.current.piece}',
-                  style: Theme.of(context)
-                      .textTheme
-                      .subtitle2
-                      .copyWith(color: Colors.white),
-                )
+                // Text(
+                //   '${S.current.available_quantity} ${Helpers.isArabic(context) ? ArabicNumbers().convert(product.qyt) : product.qyt} ${S.current.piece}',
+                //   style: Theme.of(context)
+                //       .textTheme
+                //       .subtitle2
+                //       .copyWith(color: Colors.white),
+                // )
               ],
             ),
           ),

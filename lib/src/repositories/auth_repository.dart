@@ -26,23 +26,27 @@ class AuthRepositoryImpl implements IAuthRepository {
     final res = await _remoteSource.login(
       FormFieldModel.generateJson(credentials),
     );
-     final token = AccessTokenModel(
-       expiresIn: res['expires_in'],
-       token: res['access_token']['token'],
-       tokenType: res['token_type'],
-     );
+    final token = AccessTokenModel(
+      expiresIn: res['expires_in'],
+      token: res['access_token']['token'],
+      tokenType: res['token_type'],
+    );
 
-     final user = UserModel.fromJson(
-       res['access_token']['user']['original'],
-     );
-     await _localSource.saveUser(UserWithTokenModel(
-       user: user,
-       accessToken: token,
-     ));
+    //pars values from string to there respective values
+    res['access_token']['user']['original']['wallet'] =
+        double.tryParse('${res['access_token']['user']['original']['wallet']}');
 
-   // final user = UserWithTokenModel.fromJson(res);
+    final user = UserModel.fromJson(
+      res['access_token']['user']['original'],
+    );
+    await _localSource.saveUser(UserWithTokenModel(
+      user: user,
+      accessToken: token,
+    ));
 
-   // await _localSource.saveUser(user);
+    // final user = UserWithTokenModel.fromJson(res);
+
+    // await _localSource.saveUser(user);
 
     return user;
   }
@@ -59,6 +63,10 @@ class AuthRepositoryImpl implements IAuthRepository {
       tokenType: res['token_type'],
     );
 
+    //pars values from string to there respective values
+    res['access_token']['user']['original']['wallet'] =
+        double.tryParse('${res['access_token']['user']['original']['wallet']}');
+
     final user = UserModel.fromJson(
       res['access_token']['user']['original'],
     );
@@ -72,6 +80,8 @@ class AuthRepositoryImpl implements IAuthRepository {
   @override
   Future<UserModel> me() async {
     final res = await _remoteSource.me();
+    //pars values from string to there respective values
+    res['wallet'] = double.tryParse('${res['wallet']}');
     final user = UserModel.fromJson(res);
     await _localSource.updateUser(user);
     return user;

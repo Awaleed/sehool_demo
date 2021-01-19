@@ -1,7 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies
 
-part of 'product_cubit.dart';
+part of 'video_cubit.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -10,13 +10,8 @@ part of 'product_cubit.dart';
 T _$identity<T>(T value) => value;
 
 /// @nodoc
-class _$ProductStateTearOff {
-  const _$ProductStateTearOff();
-
-// ignore: unused_element
-  _Initial initial() {
-    return const _Initial();
-  }
+class _$VideoStateTearOff {
+  const _$VideoStateTearOff();
 
 // ignore: unused_element
   _Loading loading() {
@@ -24,7 +19,7 @@ class _$ProductStateTearOff {
   }
 
 // ignore: unused_element
-  _Success success(ProductModel values) {
+  _Success success(List<VideoModel> values) {
     return _Success(
       values,
     );
@@ -40,35 +35,31 @@ class _$ProductStateTearOff {
 
 /// @nodoc
 // ignore: unused_element
-const $ProductState = _$ProductStateTearOff();
+const $VideoState = _$VideoStateTearOff();
 
 /// @nodoc
-mixin _$ProductState {
+mixin _$VideoState {
   @optionalTypeArgs
   TResult when<TResult extends Object>({
-    @required TResult initial(),
     @required TResult loading(),
-    @required TResult success(ProductModel values),
+    @required TResult success(List<VideoModel> values),
     @required TResult failure(String message),
   });
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object>({
-    TResult initial(),
     TResult loading(),
-    TResult success(ProductModel values),
+    TResult success(List<VideoModel> values),
     TResult failure(String message),
     @required TResult orElse(),
   });
   @optionalTypeArgs
   TResult map<TResult extends Object>({
-    @required TResult initial(_Initial value),
     @required TResult loading(_Loading value),
     @required TResult success(_Success value),
     @required TResult failure(_Failure value),
   });
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object>({
-    TResult initial(_Initial value),
     TResult loading(_Loading value),
     TResult success(_Success value),
     TResult failure(_Failure value),
@@ -77,119 +68,19 @@ mixin _$ProductState {
 }
 
 /// @nodoc
-abstract class $ProductStateCopyWith<$Res> {
-  factory $ProductStateCopyWith(
-          ProductState value, $Res Function(ProductState) then) =
-      _$ProductStateCopyWithImpl<$Res>;
+abstract class $VideoStateCopyWith<$Res> {
+  factory $VideoStateCopyWith(
+          VideoState value, $Res Function(VideoState) then) =
+      _$VideoStateCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class _$ProductStateCopyWithImpl<$Res> implements $ProductStateCopyWith<$Res> {
-  _$ProductStateCopyWithImpl(this._value, this._then);
+class _$VideoStateCopyWithImpl<$Res> implements $VideoStateCopyWith<$Res> {
+  _$VideoStateCopyWithImpl(this._value, this._then);
 
-  final ProductState _value;
+  final VideoState _value;
   // ignore: unused_field
-  final $Res Function(ProductState) _then;
-}
-
-/// @nodoc
-abstract class _$InitialCopyWith<$Res> {
-  factory _$InitialCopyWith(_Initial value, $Res Function(_Initial) then) =
-      __$InitialCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$InitialCopyWithImpl<$Res> extends _$ProductStateCopyWithImpl<$Res>
-    implements _$InitialCopyWith<$Res> {
-  __$InitialCopyWithImpl(_Initial _value, $Res Function(_Initial) _then)
-      : super(_value, (v) => _then(v as _Initial));
-
-  @override
-  _Initial get _value => super._value as _Initial;
-}
-
-/// @nodoc
-class _$_Initial implements _Initial {
-  const _$_Initial();
-
-  @override
-  String toString() {
-    return 'ProductState.initial()';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) || (other is _Initial);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object>({
-    @required TResult initial(),
-    @required TResult loading(),
-    @required TResult success(ProductModel values),
-    @required TResult failure(String message),
-  }) {
-    assert(initial != null);
-    assert(loading != null);
-    assert(success != null);
-    assert(failure != null);
-    return initial();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object>({
-    TResult initial(),
-    TResult loading(),
-    TResult success(ProductModel values),
-    TResult failure(String message),
-    @required TResult orElse(),
-  }) {
-    assert(orElse != null);
-    if (initial != null) {
-      return initial();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object>({
-    @required TResult initial(_Initial value),
-    @required TResult loading(_Loading value),
-    @required TResult success(_Success value),
-    @required TResult failure(_Failure value),
-  }) {
-    assert(initial != null);
-    assert(loading != null);
-    assert(success != null);
-    assert(failure != null);
-    return initial(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object>({
-    TResult initial(_Initial value),
-    TResult loading(_Loading value),
-    TResult success(_Success value),
-    TResult failure(_Failure value),
-    @required TResult orElse(),
-  }) {
-    assert(orElse != null);
-    if (initial != null) {
-      return initial(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _Initial implements ProductState {
-  const factory _Initial() = _$_Initial;
+  final $Res Function(VideoState) _then;
 }
 
 /// @nodoc
@@ -199,7 +90,7 @@ abstract class _$LoadingCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$LoadingCopyWithImpl<$Res> extends _$ProductStateCopyWithImpl<$Res>
+class __$LoadingCopyWithImpl<$Res> extends _$VideoStateCopyWithImpl<$Res>
     implements _$LoadingCopyWith<$Res> {
   __$LoadingCopyWithImpl(_Loading _value, $Res Function(_Loading) _then)
       : super(_value, (v) => _then(v as _Loading));
@@ -214,7 +105,7 @@ class _$_Loading implements _Loading {
 
   @override
   String toString() {
-    return 'ProductState.loading()';
+    return 'VideoState.loading()';
   }
 
   @override
@@ -228,12 +119,10 @@ class _$_Loading implements _Loading {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object>({
-    @required TResult initial(),
     @required TResult loading(),
-    @required TResult success(ProductModel values),
+    @required TResult success(List<VideoModel> values),
     @required TResult failure(String message),
   }) {
-    assert(initial != null);
     assert(loading != null);
     assert(success != null);
     assert(failure != null);
@@ -243,9 +132,8 @@ class _$_Loading implements _Loading {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object>({
-    TResult initial(),
     TResult loading(),
-    TResult success(ProductModel values),
+    TResult success(List<VideoModel> values),
     TResult failure(String message),
     @required TResult orElse(),
   }) {
@@ -259,12 +147,10 @@ class _$_Loading implements _Loading {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object>({
-    @required TResult initial(_Initial value),
     @required TResult loading(_Loading value),
     @required TResult success(_Success value),
     @required TResult failure(_Failure value),
   }) {
-    assert(initial != null);
     assert(loading != null);
     assert(success != null);
     assert(failure != null);
@@ -274,7 +160,6 @@ class _$_Loading implements _Loading {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object>({
-    TResult initial(_Initial value),
     TResult loading(_Loading value),
     TResult success(_Success value),
     TResult failure(_Failure value),
@@ -288,7 +173,7 @@ class _$_Loading implements _Loading {
   }
 }
 
-abstract class _Loading implements ProductState {
+abstract class _Loading implements VideoState {
   const factory _Loading() = _$_Loading;
 }
 
@@ -296,11 +181,11 @@ abstract class _Loading implements ProductState {
 abstract class _$SuccessCopyWith<$Res> {
   factory _$SuccessCopyWith(_Success value, $Res Function(_Success) then) =
       __$SuccessCopyWithImpl<$Res>;
-  $Res call({ProductModel values});
+  $Res call({List<VideoModel> values});
 }
 
 /// @nodoc
-class __$SuccessCopyWithImpl<$Res> extends _$ProductStateCopyWithImpl<$Res>
+class __$SuccessCopyWithImpl<$Res> extends _$VideoStateCopyWithImpl<$Res>
     implements _$SuccessCopyWith<$Res> {
   __$SuccessCopyWithImpl(_Success _value, $Res Function(_Success) _then)
       : super(_value, (v) => _then(v as _Success));
@@ -313,7 +198,7 @@ class __$SuccessCopyWithImpl<$Res> extends _$ProductStateCopyWithImpl<$Res>
     Object values = freezed,
   }) {
     return _then(_Success(
-      values == freezed ? _value.values : values as ProductModel,
+      values == freezed ? _value.values : values as List<VideoModel>,
     ));
   }
 }
@@ -323,11 +208,11 @@ class _$_Success implements _Success {
   const _$_Success(this.values) : assert(values != null);
 
   @override
-  final ProductModel values;
+  final List<VideoModel> values;
 
   @override
   String toString() {
-    return 'ProductState.success(values: $values)';
+    return 'VideoState.success(values: $values)';
   }
 
   @override
@@ -349,12 +234,10 @@ class _$_Success implements _Success {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object>({
-    @required TResult initial(),
     @required TResult loading(),
-    @required TResult success(ProductModel values),
+    @required TResult success(List<VideoModel> values),
     @required TResult failure(String message),
   }) {
-    assert(initial != null);
     assert(loading != null);
     assert(success != null);
     assert(failure != null);
@@ -364,9 +247,8 @@ class _$_Success implements _Success {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object>({
-    TResult initial(),
     TResult loading(),
-    TResult success(ProductModel values),
+    TResult success(List<VideoModel> values),
     TResult failure(String message),
     @required TResult orElse(),
   }) {
@@ -380,12 +262,10 @@ class _$_Success implements _Success {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object>({
-    @required TResult initial(_Initial value),
     @required TResult loading(_Loading value),
     @required TResult success(_Success value),
     @required TResult failure(_Failure value),
   }) {
-    assert(initial != null);
     assert(loading != null);
     assert(success != null);
     assert(failure != null);
@@ -395,7 +275,6 @@ class _$_Success implements _Success {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object>({
-    TResult initial(_Initial value),
     TResult loading(_Loading value),
     TResult success(_Success value),
     TResult failure(_Failure value),
@@ -409,10 +288,10 @@ class _$_Success implements _Success {
   }
 }
 
-abstract class _Success implements ProductState {
-  const factory _Success(ProductModel values) = _$_Success;
+abstract class _Success implements VideoState {
+  const factory _Success(List<VideoModel> values) = _$_Success;
 
-  ProductModel get values;
+  List<VideoModel> get values;
   _$SuccessCopyWith<_Success> get copyWith;
 }
 
@@ -424,7 +303,7 @@ abstract class _$FailureCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$FailureCopyWithImpl<$Res> extends _$ProductStateCopyWithImpl<$Res>
+class __$FailureCopyWithImpl<$Res> extends _$VideoStateCopyWithImpl<$Res>
     implements _$FailureCopyWith<$Res> {
   __$FailureCopyWithImpl(_Failure _value, $Res Function(_Failure) _then)
       : super(_value, (v) => _then(v as _Failure));
@@ -451,7 +330,7 @@ class _$_Failure implements _Failure {
 
   @override
   String toString() {
-    return 'ProductState.failure(message: $message)';
+    return 'VideoState.failure(message: $message)';
   }
 
   @override
@@ -473,12 +352,10 @@ class _$_Failure implements _Failure {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object>({
-    @required TResult initial(),
     @required TResult loading(),
-    @required TResult success(ProductModel values),
+    @required TResult success(List<VideoModel> values),
     @required TResult failure(String message),
   }) {
-    assert(initial != null);
     assert(loading != null);
     assert(success != null);
     assert(failure != null);
@@ -488,9 +365,8 @@ class _$_Failure implements _Failure {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object>({
-    TResult initial(),
     TResult loading(),
-    TResult success(ProductModel values),
+    TResult success(List<VideoModel> values),
     TResult failure(String message),
     @required TResult orElse(),
   }) {
@@ -504,12 +380,10 @@ class _$_Failure implements _Failure {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object>({
-    @required TResult initial(_Initial value),
     @required TResult loading(_Loading value),
     @required TResult success(_Success value),
     @required TResult failure(_Failure value),
   }) {
-    assert(initial != null);
     assert(loading != null);
     assert(success != null);
     assert(failure != null);
@@ -519,7 +393,6 @@ class _$_Failure implements _Failure {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object>({
-    TResult initial(_Initial value),
     TResult loading(_Loading value),
     TResult success(_Success value),
     TResult failure(_Failure value),
@@ -533,7 +406,7 @@ class _$_Failure implements _Failure {
   }
 }
 
-abstract class _Failure implements ProductState {
+abstract class _Failure implements VideoState {
   const factory _Failure({String message}) = _$_Failure;
 
   String get message;

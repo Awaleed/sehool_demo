@@ -70,7 +70,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               builder: (context, state) {
                 return state.when(
                   initial: () => _buildColumn(context),
-                  loading: () => _buildColumn(context, isLoading: true),
+                  loading: () => _buildColumn(context),
                   success: () => _buildColumn(context),
                   // TODO: Handel ERROR STATE
                   failure: (_) => _buildColumn(context),

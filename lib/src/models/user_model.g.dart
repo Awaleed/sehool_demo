@@ -31,11 +31,11 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) {
     name: json['name'] as String,
     email: json['email'] as String,
     settings: json['settings'] as String,
-    level: json['level'] as String,
+    level: _$enumDecodeNullable(_$UserLevelEnumMap, json['level']),
     phone: json['phone'] as String,
     password: json['password'] as String,
     image: json['image'] as String,
-    wallet: json['wallet'] as String,
+    wallet: (json['wallet'] as num)?.toDouble(),
     id: json['id'] as int,
   );
 }
@@ -50,9 +50,47 @@ Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
       'password': instance.password,
       'image': instance.image,
       'wallet': instance.wallet,
-      'level': instance.level,
+      'level': _$UserLevelEnumMap[instance.level],
       'email': instance.email,
     };
+
+T _$enumDecode<T>(
+  Map<T, dynamic> enumValues,
+  dynamic source, {
+  T unknownValue,
+}) {
+  if (source == null) {
+    throw ArgumentError('A value must be provided. Supported values: '
+        '${enumValues.values.join(', ')}');
+  }
+
+  final value = enumValues.entries
+      .singleWhere((e) => e.value == source, orElse: () => null)
+      ?.key;
+
+  if (value == null && unknownValue == null) {
+    throw ArgumentError('`$source` is not one of the supported values: '
+        '${enumValues.values.join(', ')}');
+  }
+  return value ?? unknownValue;
+}
+
+T _$enumDecodeNullable<T>(
+  Map<T, dynamic> enumValues,
+  dynamic source, {
+  T unknownValue,
+}) {
+  if (source == null) {
+    return null;
+  }
+  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+}
+
+const _$UserLevelEnumMap = {
+  UserLevel.customer: 'customer',
+  UserLevel.merchant: 'merchant',
+  UserLevel.delivery: 'delivery',
+};
 
 AccessTokenModel _$AccessTokenModelFromJson(Map<String, dynamic> json) {
   return AccessTokenModel(

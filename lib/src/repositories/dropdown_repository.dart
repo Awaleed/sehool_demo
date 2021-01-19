@@ -21,13 +21,6 @@ class DropdownRepositoryImpl implements IDropdownRepository {
 
   @override
   Future<List> getDropdownValues(DropdownValueType type) async {
-    if (type == DropdownValueType.pickupMethod) {
-      return PickupMethod.values;
-    } else if (type == DropdownValueType.orderType) {
-      return OrderType.values;
-    } else if (type == DropdownValueType.paymentMethods) {
-      return PaymentMethodType.values;
-    }
     final res = await _dropdownRemoteDataSource.getDropdownValues(type);
     return ApiCaller.listParser(res, (data) {
       switch (type) {
@@ -39,16 +32,11 @@ class DropdownRepositoryImpl implements IDropdownRepository {
         case DropdownValueType.slicingMethods:
           return SlicingMethodModel.fromJson(data);
         case DropdownValueType.paymentMethods:
-          return EnumToString.fromString(PaymentMethodType.values, '$data');
+          return PaymentMethodModel.fromJson(data);
         case DropdownValueType.addresses:
-          // data['lang'] = double.tryParse('${data['lang']}' ?? '0') ?? 0;
-          // data['lat'] = double.tryParse('${data['lat']}' ?? '0') ?? 0;
-          // data['note'] = data['description'];
-          // data['address'] = data['description'];
-
+          data['lang'] = double.tryParse('${data['lang']}' ?? '');
+          data['lat'] = double.tryParse('${data['lat']}' ?? '');
           return AddressModel.fromJson(data);
-        case DropdownValueType.pickupMethod:
-        case DropdownValueType.orderType:
         default:
           throw UnsupportedError('message');
       }

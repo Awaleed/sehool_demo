@@ -3,7 +3,7 @@ import 'package:injectable/injectable.dart';
 import '../core/api_caller.dart';
 
 abstract class IOrderRemoteDataSource {
-  Future<Map<String, dynamic>> getOrder(int id);
+  Future<List> getOrders();
   Future<Map<String, dynamic>> cancelOrder(int id, Map<String, dynamic> data);
 
   Future<Map<String, dynamic>> placeOrder(Map<String, dynamic> json);
@@ -12,10 +12,8 @@ abstract class IOrderRemoteDataSource {
 @Singleton(as: IOrderRemoteDataSource)
 class OrderRemoteDataSource extends IOrderRemoteDataSource with ApiCaller {
   @override
-  Future<Map<String, dynamic>> getOrder(int id) {
-    return get(
-      path: '/orders/$id',
-    );
+  Future<List> getOrders() {
+    return get(path: '/shoppingCart');
   }
 
   @override

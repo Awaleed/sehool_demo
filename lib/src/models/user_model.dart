@@ -53,8 +53,8 @@ class UserModel {
   final String settings;
   final String password;
   final String image;
-  final String wallet;
-  final String level;
+  final double wallet;
+  final UserLevel level;
   final String email;
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>
@@ -67,10 +67,11 @@ class UserModel {
     String phone,
     String storeName,
     String vatNumber,
+    String settings,
     String password,
     String image,
-    String wallet,
-    UserLevel level,
+    double wallet,
+    String level,
     String email,
   }) {
     return UserModel(
@@ -79,6 +80,7 @@ class UserModel {
       phone: phone ?? this.phone,
       storeName: storeName ?? this.storeName,
       vatNumber: vatNumber ?? this.vatNumber,
+      settings: settings ?? this.settings,
       password: password ?? this.password,
       image: image ?? this.image,
       wallet: wallet ?? this.wallet,
@@ -86,9 +88,42 @@ class UserModel {
       email: email ?? this.email,
     );
   }
+
+  @override
+  bool operator ==(Object o) {
+    if (identical(this, o)) return true;
+
+    return o is UserModel &&
+        o.id == id &&
+        o.name == name &&
+        o.phone == phone &&
+        o.storeName == storeName &&
+        o.vatNumber == vatNumber &&
+        o.settings == settings &&
+        o.password == password &&
+        o.image == image &&
+        o.wallet == wallet &&
+        o.level == level &&
+        o.email == email;
+  }
+
+  @override
+  int get hashCode {
+    return id.hashCode ^
+        name.hashCode ^
+        phone.hashCode ^
+        storeName.hashCode ^
+        vatNumber.hashCode ^
+        settings.hashCode ^
+        password.hashCode ^
+        image.hashCode ^
+        wallet.hashCode ^
+        level.hashCode ^
+        email.hashCode;
+  }
 }
 
-enum UserLevel { customer, merchant }
+enum UserLevel { customer, merchant, delivery }
 
 @JsonSerializable(
     fieldRename: FieldRename.snake, explicitToJson: true, nullable: true)

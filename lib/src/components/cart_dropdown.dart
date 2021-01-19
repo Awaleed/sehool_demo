@@ -18,7 +18,6 @@ class CartDropdown extends StatefulWidget {
     @required this.initialValue,
     @required this.onValueChanged,
     this.isRadio = false,
-    this.value,
     this.itemAsString,
   }) : super(key: key);
   final DropdownValueType dropdownType;
@@ -26,7 +25,6 @@ class CartDropdown extends StatefulWidget {
   final String Function(dynamic value) itemAsString;
   final dynamic initialValue;
   final bool isRadio;
-  final int value;
 
   @override
   _CartDropdownState createState() => _CartDropdownState();
@@ -58,7 +56,8 @@ class _CartDropdownState extends State<CartDropdown> {
         if (selectedValue == null) {
           setState(() {
             final value = state.maybeWhen(
-                  success: (values) => values.first,
+                  success: (values) =>
+                      values?.isNotEmpty ?? false ? values.first : null,
                   orElse: () => null,
                 ) ??
                 selectedValue;
@@ -69,24 +68,23 @@ class _CartDropdownState extends State<CartDropdown> {
       },
       builder: (context, state) {
         return state.when(
-          initial: () => _buildUI([], isLoading: true, value: widget.value),
-          loading: () => _buildUI([], isLoading: true, value: widget.value),
-          success: (values) => _buildUI(values, value: widget.value),
+          initial: () => _buildUI([], isLoading: true),
+          loading: () => _buildUI([], isLoading: true),
+          success: (values) => _buildUI(values),
           failure: (_) => throw UnimplementedError(),
         );
       },
     );
   }
 
-  Widget _buildUI(List values, {bool isLoading = false, int value}) =>
-      widget.isRadio
-          ? _buildRadio(values, isLoading: isLoading, selected: value)
-          : _buildDropdown(
-              values,
-              isLoading: isLoading,
-            );
+  Widget _buildUI(List values, {bool isLoading = false}) => widget.isRadio
+      ? _buildRadio(values, isLoading: isLoading)
+      : _buildDropdown(
+          values,
+          isLoading: isLoading,
+        );
 
-  Widget _buildRadio(List values, {bool isLoading = false, int selected = 1}) {
+  Widget _buildRadio(List values, {bool isLoading = false}) {
     if (isLoading) {
       return Container(
         margin: const EdgeInsets.only(left: 40.0, right: 40.0),
@@ -104,65 +102,27 @@ class _CartDropdownState extends State<CartDropdown> {
     return Column(
       children: [
         ...values.map(
-          (e) {
-            if (values[selected] == e ?? false) {
-              () async {
-                if (e == 'add_a_new_address') {
-                  final _cubit = getIt<AddressCubit>();
-                  await AppRouter.sailor.navigate(
-                    NewAddressDialog.routeName,
-                    params: {'address_cubit': _cubit},
-                  );
-                  final values = cubit.state.maybeWhen(
-                    success: (value) => value,
-                    orElse: () => null,
-                  );
-                  if (values != null) cubit.setDropdownValues(values);
-                  _cubit.close();
-                  return;
-                }
-                widget.onValueChanged?.call(e);
-                SchedulerBinding.instance.addPostFrameCallback((_) {
-                  setState(() => selectedValue = e);
-                });
-              }();
-            }
-            return Card(
-              color: Colors.white70,
-              shape: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(25),
+          (e) => Card(
+            color: Colors.white70,
+            shape: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(25),
+            ),
+            child: RadioListTile(
+              value: e,
+              groupValue: selectedValue,
+              title: Text(
+                widget.itemAsString?.call(e) ?? '$e',
+                style: Theme.of(context)
+                    .textTheme
+                    .headline5
+                    .copyWith(color: Colors.black),
               ),
-              child: RadioListTile(
-                value: e,
-                groupValue: selectedValue,
-                title: Text(
-                  widget.itemAsString?.call(e) ?? '$e',
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline5
-                      .copyWith(color: Colors.black),
-                ),
-                onChanged: (value) async {
-                  if (value == 'add_a_new_address') {
-                    final _cubit = getIt<AddressCubit>();
-                    await AppRouter.sailor.navigate(
-                      NewAddressDialog.routeName,
-                      params: {'address_cubit': _cubit},
-                    );
-                    final values = cubit.state.maybeWhen(
-                      success: (value) => value,
-                      orElse: () => null,
-                    );
-                    if (values != null) cubit.setDropdownValues(values);
-                    _cubit.close();
-                    return;
-                  }
-                  widget.onValueChanged?.call(value);
-                  setState(() => selectedValue = value);
-                },
-              ),
-            );
-          },
+              onChanged: (value) async {
+                widget.onValueChanged?.call(value);
+                setState(() => selectedValue = value);
+              },
+            ),
+          ),
         ),
         if (widget.dropdownType == DropdownValueType.addresses)
           Card(
@@ -184,13 +144,8 @@ class _CartDropdownState extends State<CartDropdown> {
                   NewAddressDialog.routeName,
                   params: {'address_cubit': _cubit},
                 );
-                final values = cubit.state.maybeWhen(
-                  success: (value) => value,
-                  orElse: () => null,
-                );
-                if (values != null) cubit.setDropdownValues(values);
-                _cubit.close();
-                return;
+                await _cubit.close();
+                cubit.getDropdownValues(widget.dropdownType);
               },
             ),
           ),
@@ -227,9 +182,10 @@ class _CartDropdownState extends State<CartDropdown> {
                     if (values != null) cubit.setDropdownValues(values);
                     _cubit.close();
                     return;
+                  } else {
+                    widget.onValueChanged?.call(value);
+                    setState(() => selectedValue = value);
                   }
-                  widget.onValueChanged?.call(value);
-                  setState(() => selectedValue = value);
                 },
           icon: const SizedBox.shrink(),
           isExpanded: true,
@@ -248,10 +204,6 @@ class _CartDropdownState extends State<CartDropdown> {
                       return S.current.payment_options;
                     case DropdownValueType.addresses:
                       return S.current.address;
-                    case DropdownValueType.pickupMethod:
-                      return S.current.pickup_method;
-                    case DropdownValueType.orderType:
-                      return S.current.delivery_date;
                   }
                 }(),
                 style: Theme.of(context)

@@ -7,27 +7,31 @@ part 'address_model.g.dart';
 class AddressModel {
   const AddressModel({
     this.city,
-    this.citySection,
+    this.section,
     this.id,
     this.lang,
     this.lat,
-    this.note,
     this.address,
   });
 
   final int id;
-  final CityModel city;
-  final CitySectionModel citySection;
-  final double lang;
-  final double lat;
-  final String note;
   final String address;
+  final double lat;
+  final double lang;
+  final CityModel city;
+  final CitySectionModel section;
 
   @override
-  String toString() => address;
+  String toString() => address ?? '';
   factory AddressModel.fromJson(Map<String, dynamic> json) =>
       _$AddressModelFromJson(json);
-  Map<String, dynamic> toJson() => _$AddressModelToJson(this);
+  Map<String, dynamic> toJson() => {
+        'address': address,
+        'lat': lat,
+        'lang': lang,
+        'section_id': section.id,
+        'city_id': city.id,
+      };
 
   @override
   bool operator ==(Object o) {
@@ -36,10 +40,9 @@ class AddressModel {
     return o is AddressModel &&
         o.id == id &&
         o.city == city &&
-        o.citySection == citySection &&
+        o.section == section &&
         o.lang == lang &&
         o.lat == lat &&
-        o.note == note &&
         o.address == address;
   }
 
@@ -47,10 +50,9 @@ class AddressModel {
   int get hashCode {
     return id.hashCode ^
         city.hashCode ^
-        citySection.hashCode ^
+        section.hashCode ^
         lang.hashCode ^
         lat.hashCode ^
-        note.hashCode ^
         address.hashCode;
   }
 }

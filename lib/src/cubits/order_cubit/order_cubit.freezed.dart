@@ -14,17 +14,17 @@ class _$OrderStateTearOff {
   const _$OrderStateTearOff();
 
 // ignore: unused_element
-  _Initial initial() {
-    return const _Initial();
-  }
-
-// ignore: unused_element
   _Loading loading() {
     return const _Loading();
   }
 
 // ignore: unused_element
-  _Success success(OrderModel value) {
+  _Canceled canceled() {
+    return const _Canceled();
+  }
+
+// ignore: unused_element
+  _Success success(List<OrderModel> value) {
     return _Success(
       value,
     );
@@ -46,30 +46,30 @@ const $OrderState = _$OrderStateTearOff();
 mixin _$OrderState {
   @optionalTypeArgs
   TResult when<TResult extends Object>({
-    @required TResult initial(),
     @required TResult loading(),
-    @required TResult success(OrderModel value),
+    @required TResult canceled(),
+    @required TResult success(List<OrderModel> value),
     @required TResult failure(String message),
   });
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object>({
-    TResult initial(),
     TResult loading(),
-    TResult success(OrderModel value),
+    TResult canceled(),
+    TResult success(List<OrderModel> value),
     TResult failure(String message),
     @required TResult orElse(),
   });
   @optionalTypeArgs
   TResult map<TResult extends Object>({
-    @required TResult initial(_Initial value),
     @required TResult loading(_Loading value),
+    @required TResult canceled(_Canceled value),
     @required TResult success(_Success value),
     @required TResult failure(_Failure value),
   });
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object>({
-    TResult initial(_Initial value),
     TResult loading(_Loading value),
+    TResult canceled(_Canceled value),
     TResult success(_Success value),
     TResult failure(_Failure value),
     @required TResult orElse(),
@@ -90,106 +90,6 @@ class _$OrderStateCopyWithImpl<$Res> implements $OrderStateCopyWith<$Res> {
   final OrderState _value;
   // ignore: unused_field
   final $Res Function(OrderState) _then;
-}
-
-/// @nodoc
-abstract class _$InitialCopyWith<$Res> {
-  factory _$InitialCopyWith(_Initial value, $Res Function(_Initial) then) =
-      __$InitialCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$InitialCopyWithImpl<$Res> extends _$OrderStateCopyWithImpl<$Res>
-    implements _$InitialCopyWith<$Res> {
-  __$InitialCopyWithImpl(_Initial _value, $Res Function(_Initial) _then)
-      : super(_value, (v) => _then(v as _Initial));
-
-  @override
-  _Initial get _value => super._value as _Initial;
-}
-
-/// @nodoc
-class _$_Initial implements _Initial {
-  const _$_Initial();
-
-  @override
-  String toString() {
-    return 'OrderState.initial()';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) || (other is _Initial);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object>({
-    @required TResult initial(),
-    @required TResult loading(),
-    @required TResult success(OrderModel value),
-    @required TResult failure(String message),
-  }) {
-    assert(initial != null);
-    assert(loading != null);
-    assert(success != null);
-    assert(failure != null);
-    return initial();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object>({
-    TResult initial(),
-    TResult loading(),
-    TResult success(OrderModel value),
-    TResult failure(String message),
-    @required TResult orElse(),
-  }) {
-    assert(orElse != null);
-    if (initial != null) {
-      return initial();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object>({
-    @required TResult initial(_Initial value),
-    @required TResult loading(_Loading value),
-    @required TResult success(_Success value),
-    @required TResult failure(_Failure value),
-  }) {
-    assert(initial != null);
-    assert(loading != null);
-    assert(success != null);
-    assert(failure != null);
-    return initial(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object>({
-    TResult initial(_Initial value),
-    TResult loading(_Loading value),
-    TResult success(_Success value),
-    TResult failure(_Failure value),
-    @required TResult orElse(),
-  }) {
-    assert(orElse != null);
-    if (initial != null) {
-      return initial(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _Initial implements OrderState {
-  const factory _Initial() = _$_Initial;
 }
 
 /// @nodoc
@@ -228,13 +128,13 @@ class _$_Loading implements _Loading {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object>({
-    @required TResult initial(),
     @required TResult loading(),
-    @required TResult success(OrderModel value),
+    @required TResult canceled(),
+    @required TResult success(List<OrderModel> value),
     @required TResult failure(String message),
   }) {
-    assert(initial != null);
     assert(loading != null);
+    assert(canceled != null);
     assert(success != null);
     assert(failure != null);
     return loading();
@@ -243,9 +143,9 @@ class _$_Loading implements _Loading {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object>({
-    TResult initial(),
     TResult loading(),
-    TResult success(OrderModel value),
+    TResult canceled(),
+    TResult success(List<OrderModel> value),
     TResult failure(String message),
     @required TResult orElse(),
   }) {
@@ -259,13 +159,13 @@ class _$_Loading implements _Loading {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object>({
-    @required TResult initial(_Initial value),
     @required TResult loading(_Loading value),
+    @required TResult canceled(_Canceled value),
     @required TResult success(_Success value),
     @required TResult failure(_Failure value),
   }) {
-    assert(initial != null);
     assert(loading != null);
+    assert(canceled != null);
     assert(success != null);
     assert(failure != null);
     return loading(this);
@@ -274,8 +174,8 @@ class _$_Loading implements _Loading {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object>({
-    TResult initial(_Initial value),
     TResult loading(_Loading value),
+    TResult canceled(_Canceled value),
     TResult success(_Success value),
     TResult failure(_Failure value),
     @required TResult orElse(),
@@ -293,10 +193,110 @@ abstract class _Loading implements OrderState {
 }
 
 /// @nodoc
+abstract class _$CanceledCopyWith<$Res> {
+  factory _$CanceledCopyWith(_Canceled value, $Res Function(_Canceled) then) =
+      __$CanceledCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$CanceledCopyWithImpl<$Res> extends _$OrderStateCopyWithImpl<$Res>
+    implements _$CanceledCopyWith<$Res> {
+  __$CanceledCopyWithImpl(_Canceled _value, $Res Function(_Canceled) _then)
+      : super(_value, (v) => _then(v as _Canceled));
+
+  @override
+  _Canceled get _value => super._value as _Canceled;
+}
+
+/// @nodoc
+class _$_Canceled implements _Canceled {
+  const _$_Canceled();
+
+  @override
+  String toString() {
+    return 'OrderState.canceled()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) || (other is _Canceled);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object>({
+    @required TResult loading(),
+    @required TResult canceled(),
+    @required TResult success(List<OrderModel> value),
+    @required TResult failure(String message),
+  }) {
+    assert(loading != null);
+    assert(canceled != null);
+    assert(success != null);
+    assert(failure != null);
+    return canceled();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object>({
+    TResult loading(),
+    TResult canceled(),
+    TResult success(List<OrderModel> value),
+    TResult failure(String message),
+    @required TResult orElse(),
+  }) {
+    assert(orElse != null);
+    if (canceled != null) {
+      return canceled();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object>({
+    @required TResult loading(_Loading value),
+    @required TResult canceled(_Canceled value),
+    @required TResult success(_Success value),
+    @required TResult failure(_Failure value),
+  }) {
+    assert(loading != null);
+    assert(canceled != null);
+    assert(success != null);
+    assert(failure != null);
+    return canceled(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object>({
+    TResult loading(_Loading value),
+    TResult canceled(_Canceled value),
+    TResult success(_Success value),
+    TResult failure(_Failure value),
+    @required TResult orElse(),
+  }) {
+    assert(orElse != null);
+    if (canceled != null) {
+      return canceled(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _Canceled implements OrderState {
+  const factory _Canceled() = _$_Canceled;
+}
+
+/// @nodoc
 abstract class _$SuccessCopyWith<$Res> {
   factory _$SuccessCopyWith(_Success value, $Res Function(_Success) then) =
       __$SuccessCopyWithImpl<$Res>;
-  $Res call({OrderModel value});
+  $Res call({List<OrderModel> value});
 }
 
 /// @nodoc
@@ -313,7 +313,7 @@ class __$SuccessCopyWithImpl<$Res> extends _$OrderStateCopyWithImpl<$Res>
     Object value = freezed,
   }) {
     return _then(_Success(
-      value == freezed ? _value.value : value as OrderModel,
+      value == freezed ? _value.value : value as List<OrderModel>,
     ));
   }
 }
@@ -323,7 +323,7 @@ class _$_Success implements _Success {
   const _$_Success(this.value) : assert(value != null);
 
   @override
-  final OrderModel value;
+  final List<OrderModel> value;
 
   @override
   String toString() {
@@ -349,13 +349,13 @@ class _$_Success implements _Success {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object>({
-    @required TResult initial(),
     @required TResult loading(),
-    @required TResult success(OrderModel value),
+    @required TResult canceled(),
+    @required TResult success(List<OrderModel> value),
     @required TResult failure(String message),
   }) {
-    assert(initial != null);
     assert(loading != null);
+    assert(canceled != null);
     assert(success != null);
     assert(failure != null);
     return success(value);
@@ -364,9 +364,9 @@ class _$_Success implements _Success {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object>({
-    TResult initial(),
     TResult loading(),
-    TResult success(OrderModel value),
+    TResult canceled(),
+    TResult success(List<OrderModel> value),
     TResult failure(String message),
     @required TResult orElse(),
   }) {
@@ -380,13 +380,13 @@ class _$_Success implements _Success {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object>({
-    @required TResult initial(_Initial value),
     @required TResult loading(_Loading value),
+    @required TResult canceled(_Canceled value),
     @required TResult success(_Success value),
     @required TResult failure(_Failure value),
   }) {
-    assert(initial != null);
     assert(loading != null);
+    assert(canceled != null);
     assert(success != null);
     assert(failure != null);
     return success(this);
@@ -395,8 +395,8 @@ class _$_Success implements _Success {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object>({
-    TResult initial(_Initial value),
     TResult loading(_Loading value),
+    TResult canceled(_Canceled value),
     TResult success(_Success value),
     TResult failure(_Failure value),
     @required TResult orElse(),
@@ -410,9 +410,9 @@ class _$_Success implements _Success {
 }
 
 abstract class _Success implements OrderState {
-  const factory _Success(OrderModel value) = _$_Success;
+  const factory _Success(List<OrderModel> value) = _$_Success;
 
-  OrderModel get value;
+  List<OrderModel> get value;
   _$SuccessCopyWith<_Success> get copyWith;
 }
 
@@ -473,13 +473,13 @@ class _$_Failure implements _Failure {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object>({
-    @required TResult initial(),
     @required TResult loading(),
-    @required TResult success(OrderModel value),
+    @required TResult canceled(),
+    @required TResult success(List<OrderModel> value),
     @required TResult failure(String message),
   }) {
-    assert(initial != null);
     assert(loading != null);
+    assert(canceled != null);
     assert(success != null);
     assert(failure != null);
     return failure(message);
@@ -488,9 +488,9 @@ class _$_Failure implements _Failure {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object>({
-    TResult initial(),
     TResult loading(),
-    TResult success(OrderModel value),
+    TResult canceled(),
+    TResult success(List<OrderModel> value),
     TResult failure(String message),
     @required TResult orElse(),
   }) {
@@ -504,13 +504,13 @@ class _$_Failure implements _Failure {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object>({
-    @required TResult initial(_Initial value),
     @required TResult loading(_Loading value),
+    @required TResult canceled(_Canceled value),
     @required TResult success(_Success value),
     @required TResult failure(_Failure value),
   }) {
-    assert(initial != null);
     assert(loading != null);
+    assert(canceled != null);
     assert(success != null);
     assert(failure != null);
     return failure(this);
@@ -519,8 +519,8 @@ class _$_Failure implements _Failure {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object>({
-    TResult initial(_Initial value),
     TResult loading(_Loading value),
+    TResult canceled(_Canceled value),
     TResult success(_Success value),
     TResult failure(_Failure value),
     @required TResult orElse(),

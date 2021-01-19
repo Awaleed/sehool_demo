@@ -9,7 +9,6 @@ part of 'video_model.dart';
 VideoModel _$VideoModelFromJson(Map<String, dynamic> json) {
   return VideoModel(
     id: json['id'] as int,
-    title: json['title'] as String,
     description: json['description'] as String,
     video: json['video'] as String,
     preview: json['preview'] as String,
@@ -19,7 +18,6 @@ VideoModel _$VideoModelFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$VideoModelToJson(VideoModel instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'title': instance.title,
       'description': instance.description,
       'video': instance.video,
       'preview': instance.preview,

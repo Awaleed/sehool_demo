@@ -23,6 +23,18 @@ class LoginCubit extends Cubit<LoginState> {
       emit(const LoginState.success());
       getIt<AuthCubit>().authenticateUser();
     } catch (e) {
+      // TODO: Handel error messages
+      emit(LoginState.failure(message: '$e'));
+    }
+  }
+
+  Future<void> registration(
+      Map<FormFieldType, FormFieldModel> credentials) async {
+    emit(const LoginState.loading());
+    try {      await _authRepository.register(credentials);
+      emit(const LoginState.success());
+      getIt<AuthCubit>().authenticateUser();
+    } catch (e) {
       addError(e);
       // TODO: Handel error messages
       emit(LoginState.failure(message: '$e'));

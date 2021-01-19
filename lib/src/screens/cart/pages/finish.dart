@@ -1,14 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:sailor/sailor.dart';
 
-import '../../../../generated/l10n.dart';
-import '../../../../init_injectable.dart';
 import '../../../components/cart_item_preview.dart';
 import '../../../components/cart_product_preview.dart';
-import '../../../cubits/cart_cubit/cart_cubit.dart';
 import '../../../models/cart_model.dart';
-import '../../../routes/config_routes.dart';
-import '../../checkout/checkout.dart';
 
 class FinishPage extends StatelessWidget {
   const FinishPage({Key key, @required this.cartItem}) : super(key: key);
