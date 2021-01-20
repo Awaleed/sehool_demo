@@ -27,7 +27,7 @@ class ForgotPasswordScreen extends StatefulWidget {
 }
 
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
-  final credentials = <FormFieldType, FormFieldModel>{};
+  final credentials = <String, dynamic>{};
   final formKey = GlobalKey<FormState>();
   ForgotPasswordCubit cubit;
   Timer resendTimer;
@@ -155,7 +155,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   credentials.clear();
                   if (formKey.currentState.validate()) {
                     formKey.currentState.save();
-                    cubit.requestCode(credentials[FormFieldType.email].value);
+                    // cubit.requestCode(credentials[FormFieldType.email].value);
                   }
                 },
           child: isLoading
@@ -244,7 +244,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               onPressed: (timerValue > 0)
                   ? null
                   : () {
-                      cubit.resend();
+                // cubit.resend();
                     },
               style: (timerValue > 0)
                   ? ButtonStyle(

@@ -1,13 +1,13 @@
 import 'dart:async';
-import 'package:supercharged/supercharged.dart';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sehool/src/core/api_caller.dart';
-import 'package:sehool/src/helpers/helper.dart';
-import '../../generated/l10n.dart';
+import 'package:supercharged/supercharged.dart';
 
+import '../../generated/l10n.dart';
+import '../core/api_caller.dart';
+import '../helpers/helper.dart';
 import '../models/cart_model.dart';
 
 enum _CouponState { initial, loading, success, failure }
@@ -101,15 +101,6 @@ class _CartCouponFieldState extends State<CartCouponField> with ApiCaller {
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(25),
                   ),
-                  suffixIcon: isLoading
-                      ? const FittedBox(
-                          fit: BoxFit.fitHeight,
-                          child: Padding(
-                            padding: EdgeInsets.all(5.0),
-                            child: CircularProgressIndicator(),
-                          ),
-                        )
-                      : const SizedBox.shrink(),
                 ),
                 keyboardType: TextInputType.text,
                 textAlign: TextAlign.center,
@@ -126,9 +117,17 @@ class _CartCouponFieldState extends State<CartCouponField> with ApiCaller {
               ),
               const SizedBox(height: 10),
               _buildButton(
-                label: Text(S.current.add_coupon),
+                label: isLoading
+                    ? const FittedBox(
+                        fit: BoxFit.fitHeight,
+                        child: Padding(
+                          padding: EdgeInsets.all(5.0),
+                          child: CircularProgressIndicator(),
+                        ),
+                      )
+                    : Text(S.current.add_coupon),
                 onTap: isLoading
-                    ? () {}
+                    ? null
                     : () async {
                         Helpers.dismissFauces(context);
                         cubit.validateCoupon(couponController.text);

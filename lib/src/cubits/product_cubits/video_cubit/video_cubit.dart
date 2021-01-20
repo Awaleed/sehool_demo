@@ -1,11 +1,12 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
-import 'package:sehool/src/models/video_model.dart';
-import 'package:sehool/src/repositories/product_repository.dart';
 
-part 'video_state.dart';
+import '../../../models/video_model.dart';
+import '../../../repositories/product_repository.dart';
+
 part 'video_cubit.freezed.dart';
+part 'video_state.dart';
 
 @injectable
 class VideoCubit extends Cubit<VideoState> {

@@ -1,10 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:injectable/injectable.dart';
-import 'package:sehool/src/data/user_datasource.dart';
 
+import '../../data/user_datasource.dart';
 import '../../repositories/auth_repository.dart';
 import '../../repositories/settings_repository.dart';
-import '../../repositories/user_repository.dart';
 
 enum SplashState {
   initial,
@@ -15,13 +14,12 @@ enum SplashState {
 
 @injectable
 class SplashCubit extends Cubit<SplashState> {
-  SplashCubit(this._settingsRepository, this._authRepository, this._userRepo)
+  SplashCubit(this._settingsRepository, this._authRepository)
       : super(SplashState.initial) {
     _startLoading();
   }
 
   final ISettingsRepository _settingsRepository;
-  final IUserRepository _userRepo;
   final IAuthRepository _authRepository;
 
   Future<void> _startLoading() async {

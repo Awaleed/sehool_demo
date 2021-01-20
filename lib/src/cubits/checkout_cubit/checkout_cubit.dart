@@ -2,28 +2,38 @@ import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../models/checkout_model.dart';
-import '../../models/order_model.dart';
-import '../../repositories/order_repository.dart';
+import '../../core/api_caller.dart';
+import '../../models/cart_model.dart';
 
 part 'checkout_cubit.freezed.dart';
 part 'checkout_state.dart';
 
+enum PaymentStatus { success, failure }
+
 @injectable
-class CheckoutCubit extends Cubit<CheckoutState> {
-  CheckoutCubit(this._orderRepository) : super(const CheckoutState.initial());
+class CheckoutCubit extends Cubit<CheckoutState> with ApiCaller {
+  CheckoutCubit() : super(const CheckoutState.initial());
 
-  final IOrderRepository _orderRepository;
-
-  Future<void> placeOrder(CheckoutModel model) async {
+  Future<void> placeOrder(CartModel cart) async {
     emit(const CheckoutState.loading());
     try {
-      final value = await _orderRepository.placeOrder(model);
-      emit(CheckoutState.success(value));
-        } catch (e) {
+      final res = await post(path: '/shoppingCart', data: cart.toJson());
+      if (cart.paymentMethod.type == 'visa') {
+        emit(
+          // final url =res['url'];
+          const CheckoutState.visaPayment('http://sehoool.com/paymentGateWay'),
+        );
+      } else {
+        emit(const CheckoutState.success());
+      }
+    } catch (e) {
       addError(e);
-      // TODO: Handel error messages
       emit(CheckoutState.failure(message: '$e'));
     }
   }
+
+  void orderSuccess() => emit(const CheckoutState.success());
+
+  void orderFailure(String message) =>
+      emit(CheckoutState.failure(message: message));
 }

@@ -3,11 +3,12 @@ import 'dart:io';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sehool/src/models/video_model.dart';
-import 'package:video_player/video_player.dart';
 import 'package:supercharged/supercharged.dart';
+import 'package:video_player/video_player.dart';
+
 import '../../../init_injectable.dart';
 import '../../cubits/product_cubits/video_cubit/video_cubit.dart';
+import '../../models/video_model.dart';
 import 'empty_videos_carousel.dart';
 import 'videos_carousel_item_widget.dart';
 import 'videos_carousel_loading_item_widget.dart';

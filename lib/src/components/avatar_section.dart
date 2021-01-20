@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
-// import 'package:image_cropper/image_cropper.dart';
-// import 'package:image_picker/image_picker.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:validators/validators.dart';
 
 class AvatarSection extends FormField<File> {
@@ -34,11 +34,11 @@ class AvatarSection extends FormField<File> {
                         onChanged(File(value.path));
                       } else {
                         if (onTap != null) onTap();
-                        // final imageFile = await _imagePick();
-                        // if (imageFile == null) return;
-                        // final croppedImage = await _imageCrop(imageFile);
-                        // state.didChange(croppedImage);
-                        // onChanged(croppedImage);
+                        final imageFile = await _imagePick();
+                        if (imageFile == null) return;
+                        final croppedImage = await _imageCrop(imageFile);
+                        state.didChange(croppedImage);
+                        onChanged(croppedImage);
                       }
                     },
                     child: Transform.scale(
@@ -100,20 +100,20 @@ class AvatarSection extends FormField<File> {
               );
             });
 
-  // static Future<PickedFile> _imagePick() => ImagePicker().getImage(
-  //       source: ImageSource.gallery,
-  //     );
+  static Future<PickedFile> _imagePick() => ImagePicker().getImage(
+        source: ImageSource.gallery,
+      );
 
-  // static Future<File> _imageCrop(PickedFile imageFile) =>
-  //     ImageCropper.cropImage(
-  //       sourcePath: imageFile.path,
-  //       aspectRatioPresets: [CropAspectRatioPreset.square],
-  //       androidUiSettings: const AndroidUiSettings(
-  //         toolbarTitle: 'Cropper',
-  //         toolbarWidgetColor: Colors.white,
-  //         initAspectRatio: CropAspectRatioPreset.original,
-  //         lockAspectRatio: true,
-  //       ),
-  //       iosUiSettings: const IOSUiSettings(minimumAspectRatio: 1.0),
-  //     );
+  static Future<File> _imageCrop(PickedFile imageFile) =>
+      ImageCropper.cropImage(
+        sourcePath: imageFile.path,
+        aspectRatioPresets: [CropAspectRatioPreset.square],
+        androidUiSettings: const AndroidUiSettings(
+          toolbarTitle: 'Cropper',
+          toolbarWidgetColor: Colors.white,
+          initAspectRatio: CropAspectRatioPreset.original,
+          lockAspectRatio: true,
+        ),
+        iosUiSettings: const IOSUiSettings(minimumAspectRatio: 1.0),
+      );
 }

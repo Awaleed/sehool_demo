@@ -55,8 +55,9 @@ MaterialColor getMaterialColor(Color color) {
 Brightness estimateBrightnessForColor(Color color) {
   final double relativeLuminance = color.computeLuminance();
   const double kThreshold = 0.45;
-  if ((relativeLuminance + 0.05) * (relativeLuminance + 0.05) > kThreshold)
+  if ((relativeLuminance + 0.05) * (relativeLuminance + 0.05) > kThreshold) {
     return Brightness.light;
+  }
   return Brightness.dark;
 }
 
@@ -76,7 +77,7 @@ List<Color> getDarkShades(Color color,
     }
   }
 
-  return darkShades.length > 0
+  return darkShades.isNotEmpty
       ? darkShades
       : [materialColor[shades[ColorShade.darkest]]];
 }

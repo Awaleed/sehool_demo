@@ -50,6 +50,7 @@ GetIt $initGetIt(
   EnvironmentFilter environmentFilter,
 }) {
   final gh = GetItHelper(get, environment, environmentFilter);
+  gh.factory<CheckoutCubit>(() => CheckoutCubit());
   gh.factory<OrderCubit>(() => OrderCubit(get<IOrderRepository>()));
   gh.factory<ProductCubit>(() => ProductCubit(get<IProductRepository>()));
   gh.factory<ProfileCubit>(() => ProfileCubit(get<IUserRepository>()));
@@ -57,16 +58,12 @@ GetIt $initGetIt(
   gh.factory<VideoCubit>(() => VideoCubit(get<IProductRepository>()));
   gh.factory<AddressCubit>(() => AddressCubit(get<IUserRepository>()));
   gh.factory<BannerCubit>(() => BannerCubit(get<IProductRepository>()));
-  gh.factory<CheckoutCubit>(() => CheckoutCubit(get<IOrderRepository>()));
   gh.factory<DropdownCubit>(() => DropdownCubit(get<IDropdownRepository>()));
   gh.factory<LoginCubit>(() => LoginCubit(get<IAuthRepository>()));
   gh.factory<RegistrationCubit>(
       () => RegistrationCubit(get<IAuthRepository>()));
-  gh.factory<SplashCubit>(() => SplashCubit(
-        get<ISettingsRepository>(),
-        get<IAuthRepository>(),
-        get<IUserRepository>(),
-      ));
+  gh.factory<SplashCubit>(
+      () => SplashCubit(get<ISettingsRepository>(), get<IAuthRepository>()));
   gh.factory<ForgotPasswordCubit>(
       () => ForgotPasswordCubit(get<IAuthRepository>()));
 

@@ -1,25 +1,18 @@
 import 'package:division/division.dart';
 import 'package:enum_to_string/enum_to_string.dart';
-import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sehool/src/components/background_images_generate.dart';
-import 'package:sehool/src/components/login_card/flutter_login.dart';
-import 'package:sehool/src/components/login_card/src/providers/login_messages.dart';
-import 'package:sehool/src/components/login_card/src/providers/login_theme.dart';
-import 'package:sehool/src/components/login_card/src/widgets/auth_card.dart';
-import 'package:sehool/src/components/my_loading_overlay.dart';
-import 'package:sehool/src/models/user_model.dart';
 
 import '../../../generated/l10n.dart';
 import '../../../init_injectable.dart';
+import '../../components/background_images_generate.dart';
 import '../../components/custom_form_fileds.dart';
+import '../../components/login_card/flutter_login.dart';
+import '../../components/login_card/src/providers/login_messages.dart';
+import '../../components/login_card/src/providers/login_theme.dart';
+import '../../cubits/auth_cubit/auth_cubit.dart';
 import '../../cubits/login_cubit/login_cubit.dart';
-import '../../helpers/helper.dart';
 import '../../models/form_data_model.dart';
-import '../../routes/config_routes.dart';
-import 'forgot_password.dart';
-import 'register.dart';
+import '../../models/user_model.dart';
 
 class LoginScreen extends StatefulWidget {
   static const routeName = '/login';
@@ -33,11 +26,12 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final credentials = <FormFieldType, FormFieldModel>{};
+  final credentials = <String, dynamic>{};
   final formKey = GlobalKey<FormState>();
   LoginCubit cubit;
   UserLevel userLevel;
   bool passwordVisible = false;
+
   @override
   void initState() {
     super.initState();
@@ -54,54 +48,34 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Parent(
       style: ParentStyle()..background.color(Colors.white),
-      child: BlocConsumer<LoginCubit, LoginState>(
-        cubit: cubit,
-        listener: (context, state) {
-          // TODO: implement listener
-        },
-        builder: (context, state) {
-          return state.when(
-            initial: () => _buildUI(),
-            loading: () => _buildUI(isLoading: true),
-            success: () => _buildUI(),
-            // TODO: Handel ERROR STATE
-            failure: (e) {
-              return _buildUI();
-            },
-          );
-        },
-      ),
+      child: _buildUI(),
     );
   }
 
-  Widget _buildUI({bool isLoading = false}) => MyLoadingOverLay(
-        isLoading: isLoading,
-        showSpinner: true,
-        child: Stack(
-          children: [
-            BackgroundGeneratorGroup(
-              number: 60,
-              colors: Colors.accents,
-              direction: Direction.up,
-              speed: DotSpeed.medium,
-              opacity: .9,
-              image: const [
-                'assets/images/meat.png',
-                'assets/images/meat2.png',
-                'assets/images/meat3.png',
-                'assets/images/ribs.png',
-                'assets/images/ribs2.png',
-                'assets/images/knife.png',
-                'assets/images/delivery-truck.png',
-              ],
-            ),
-            _loginCard()
-          ],
-        ),
+  Widget _buildUI() => Stack(
+        children: [
+          BackgroundGeneratorGroup(
+            number: 60,
+            colors: Colors.accents,
+            direction: Direction.up,
+            speed: DotSpeed.medium,
+            opacity: .9,
+            image: const [
+              'assets/images/meat.png',
+              'assets/images/meat2.png',
+              'assets/images/meat3.png',
+              'assets/images/ribs.png',
+              'assets/images/ribs2.png',
+              'assets/images/knife.png',
+              'assets/images/delivery-truck.png',
+            ],
+          ),
+          _loginCard()
+        ],
       );
 
   Widget _buildLevelDropdownInput({
-    @required Map<FormFieldType, FormFieldModel> map,
+    @required Map<String, dynamic> map,
     @required FormFieldType type,
     bool enabled = true,
   }) {
@@ -139,42 +113,47 @@ class _LoginScreenState extends State<LoginScreen> {
     return FlutterLogin(
       title: '',
       messages: LoginMessages(
-          passwordHint: S.current.password,
-          usernameHint: S.current.email,
-          forgotPasswordButton: S.current.i_forgot_password,
-          signupButton: S.current.register,
-          loginButton: S.current.login,
-          recoverPasswordButton: S.current.send,
-          goBackButton: S.current.i_have_account_back_to_login,
-          recoverPasswordIntro: S.current.i_forgot_password,
-          recoverPasswordDescription: ''),
+        passwordHint: S.current.password,
+        usernameHint: S.current.email,
+        forgotPasswordButton: S.current.i_forgot_password,
+        signupButton: S.current.register,
+        loginButton: S.current.login,
+        recoverPasswordButton: S.current.send,
+        goBackButton: S.current.i_have_account_back_to_login,
+        recoverPasswordIntro: S.current.i_forgot_password,
+        recoverPasswordDescription: '',
+      ),
       theme: LoginTheme(
         pageColorLight: Colors.transparent,
       ),
       logo: 'assets/images/logo.png',
-      onLogin: (val) {
-        credentials[FormFieldType.email] = FormFieldModel(
-          name: 'email',
-          value: val.name,
+      onLogin: (val) async {
+        credentials['email'] = val.name.trim();
+        credentials['password'] = val.password.trim();
+        await cubit.login(credentials);
+        return cubit.state.maybeWhen(
+          failure: (message) => message,
+          orElse: () => null,
         );
-        credentials[FormFieldType.password] = FormFieldModel(
-          name: 'password',
-          value: val.password,
-        );
-        cubit.login(credentials);
-        return Future.value();
       },
-      onSignup: (val) {
-        credentials[FormFieldType.email] = FormFieldModel(
-          name: 'email',
-          value: val.name,
+      onSignup: (val) async {
+        credentials['email'] = val.name.trim();
+        credentials['password'] = val.password.trim();
+        await cubit.registration(credentials);
+        return cubit.state.maybeWhen(
+          failure: (message) => message,
+          orElse: () => null,
         );
-        credentials[FormFieldType.password] = FormFieldModel(
-          name: 'password',
-          value: val.password,
+      },
+      onRecoverPassword: (pass) async {
+        await cubit.requestCode(pass.trim());
+        return cubit.state.maybeWhen(
+          failure: (message) => message,
+          orElse: () => null,
         );
-        cubit.registration(credentials);
-        return Future.value();
+      },
+      onSubmitAnimationCompleted: () {
+        getIt<AuthCubit>().authenticateUser();
       },
       signupFields: [
         const SizedBox(height: 15),
@@ -206,12 +185,6 @@ class _LoginScreenState extends State<LoginScreen> {
         ],
         const Divider(height: 30),
       ],
-      onSubmitAnimationCompleted: () {
-        // Navigator.of(context).pushReplacement(MaterialPageRoute(
-        //   builder: (context) => DashboardScreen(),
-        // ));
-      },
-      onRecoverPassword: (pass) {},
     );
   }
 

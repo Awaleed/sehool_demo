@@ -201,18 +201,18 @@ class FlutterLogin extends StatefulWidget {
   final String titleTag;
 
   static FormFieldValidator<String> get defaultEmailValidator => (value) {
-    if (value.isEmpty || !Regex.email.hasMatch(value)) {
-      return 'Invalid email!';
-    }
-    return null;
-  };
+        if (value.isEmpty || !Regex.email.hasMatch(value)) {
+          return 'Invalid email!';
+        }
+        return null;
+      };
 
   static FormFieldValidator<String> get defaultPasswordValidator => (value) {
-    if (value.isEmpty || value.length <= 2) {
-      return 'Password is too short!';
-    }
-    return null;
-  };
+        if (value.isEmpty || value.length <= 2) {
+          return 'Password is too short!';
+        }
+        return null;
+      };
 
   @override
   _FlutterLoginState createState() => _FlutterLoginState();
@@ -225,7 +225,6 @@ class _FlutterLoginState extends State<FlutterLogin>
   AnimationController _loadingController;
   AnimationController _logoController;
   AnimationController _titleController;
-  double _selectTimeDilation = 1.0;
 
   @override
   void initState() {

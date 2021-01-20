@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../components/cart_dropdown.dart';
-import '../../../models/cart_model.dart';
-import '../../../models/dropdown_value_model.dart';
-import '../../../models/order_model.dart';
 
-import '../../../routes/config_routes.dart';
-import '../../profile/dialogs/new_address_dialog.dart';
+import '../../../models/cart_model.dart';
 
 class PickupPage extends StatelessWidget {
   const PickupPage({
@@ -46,40 +41,6 @@ class PickupPage extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-}
-
-class _HomeCard extends StatelessWidget {
-  const _HomeCard({Key key, this.id}) : super(key: key);
-  final int id;
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      clipBehavior: Clip.none,
-      fit: StackFit.expand,
-      children: [
-        Card(
-          elevation: 2,
-          clipBehavior: Clip.hardEdge,
-          margin: EdgeInsets.zero,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(25),
-          ),
-          child: Hero(
-            tag: 'image$id',
-            createRectTween: (begin, end) => RectTween(begin: begin, end: end),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(25),
-              child: Image.asset(
-                'assets/images/map.png',
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-        ),
-      ],
     );
   }
 }

@@ -4,7 +4,6 @@ import '../../../components/cart_dropdown.dart';
 import '../../../components/cart_product_preview.dart';
 import '../../../models/cart_model.dart';
 import '../../../models/dropdown_value_model.dart';
-import '../../../models/product_model.dart';
 
 class SlicingMethodPage extends StatelessWidget {
   const SlicingMethodPage({Key key, @required this.cartItem, this.onChanged})

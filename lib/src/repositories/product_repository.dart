@@ -1,8 +1,8 @@
 import 'package:injectable/injectable.dart';
-import 'package:sehool/src/models/banner_model.dart';
 
 import '../core/api_caller.dart';
 import '../data/product_datasource.dart';
+import '../models/banner_model.dart';
 import '../models/product_model.dart';
 import '../models/video_model.dart';
 

@@ -1,13 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../generated/l10n.dart';
 import '../../init_injectable.dart';
 import '../cubits/address_cubit/address_cubit.dart';
 import '../cubits/dropdown_cubit/dropdown_cubit.dart';
+import '../data/user_datasource.dart';
+import '../helpers/helper.dart';
+import '../models/cart_model.dart';
 import '../models/dropdown_value_model.dart';
+import '../models/order_model.dart';
 import '../routes/config_routes.dart';
 import '../screens/profile/dialogs/new_address_dialog.dart';
 
@@ -17,6 +20,7 @@ class CartDropdown extends StatefulWidget {
     @required this.dropdownType,
     @required this.initialValue,
     @required this.onValueChanged,
+    this.cart,
     this.isRadio = false,
     this.itemAsString,
   }) : super(key: key);
@@ -24,6 +28,7 @@ class CartDropdown extends StatefulWidget {
   final ValueChanged onValueChanged;
   final String Function(dynamic value) itemAsString;
   final dynamic initialValue;
+  final CartModel cart;
   final bool isRadio;
 
   @override
@@ -118,8 +123,18 @@ class _CartDropdownState extends State<CartDropdown> {
                     .copyWith(color: Colors.black),
               ),
               onChanged: (value) async {
-                widget.onValueChanged?.call(value);
-                setState(() => selectedValue = value);
+                if ((value as PaymentMethodModel).type == 'wallet') {
+                  if (kUser.wallet <= widget.cart.total) {
+                    Helpers.showErrorOverlay(context,
+                        error: 'عفرا رصيدك غير كافي');
+                  } else {
+                    widget.onValueChanged?.call(value);
+                    setState(() => selectedValue = value);
+                  }
+                } else {
+                  widget.onValueChanged?.call(value);
+                  setState(() => selectedValue = value);
+                }
               },
             ),
           ),

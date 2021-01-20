@@ -3,7 +3,6 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:sailor/sailor.dart';
-import 'package:sehool/src/helpers/helper.dart';
 
 import '../../../generated/l10n.dart';
 import '../../../init_injectable.dart';
@@ -12,6 +11,7 @@ import '../../components/cart_item_preview.dart';
 import '../../components/cart_quantity_card.dart';
 import '../../components/cart_text_field.dart';
 import '../../cubits/cart_cubit/cart_cubit.dart';
+import '../../helpers/helper.dart';
 import '../../models/cart_model.dart';
 import '../../models/dropdown_value_model.dart';
 import '../../models/product_model.dart';
@@ -30,10 +30,12 @@ class AddToCartScreen extends StatelessWidget {
     Key key,
     this.product,
     this.cartItem,
+    this.editing = false,
   }) : super(key: key);
 
   final ProductModel product;
   final CartItemModel cartItem;
+  final bool editing;
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +48,9 @@ class AddToCartScreen extends StatelessWidget {
         appBar: AppBar(elevation: 0, backgroundColor: Colors.black54),
         body: SafeArea(
           child: CartScroll(
-              cartItem: cartItem ?? (CartItemModel()..product = product)),
+            cartItem: cartItem ?? (CartItemModel()..product = product),
+            editing: editing,
+          ),
           // child: CartStepper(
           //   cartItem: cartItem ?? (CartItemModel()..product = product),
           // ),
@@ -269,10 +273,12 @@ class _StepItem {
 class CartScroll extends StatefulWidget {
   const CartScroll({
     Key key,
-    this.cartItem,
+    @required this.cartItem,
+    @required this.editing,
   }) : super(key: key);
 
   final CartItemModel cartItem;
+  final bool editing;
 
   @override
   _CartScrollState createState() => _CartScrollState();
@@ -375,38 +381,41 @@ class _CartScrollState extends State<CartScroll> {
             steps[i].child,
           ],
         ),
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-        child: Wrap(
-          crossAxisAlignment: WrapCrossAlignment.center,
-          alignment: WrapAlignment.spaceBetween,
-          runAlignment: WrapAlignment.center,
-          children: <Widget>[
-            _buildButton(
-              enabled: widget.cartItem.validate,
-              label: Text(S.current.checkout),
-              onTap: () {
-                Helpers.dismissFauces(context);
-                getIt<CartCubit>().addItem(widget.cartItem);
-                AppRouter.sailor.navigate(
-                  CheckoutScreen.routeName,
-                  navigationType: NavigationType.pushReplace,
-                );
-              },
-            ),
-            _buildButton(
-              enabled: widget.cartItem.validate,
-              label: Text(S.current.add_to_cart),
-              onTap: () {
-                Helpers.dismissFauces(context);
-
-                getIt<CartCubit>().addItem(widget.cartItem);
-                AppRouter.sailor.pop();
-              },
-            ),
-          ],
-        ),
-      )
+      if (widget.editing)
+        //TODO: add return button
+        const Placeholder()
+      else
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+          child: Wrap(
+            crossAxisAlignment: WrapCrossAlignment.center,
+            alignment: WrapAlignment.spaceBetween,
+            runAlignment: WrapAlignment.center,
+            children: <Widget>[
+              _buildButton(
+                enabled: widget.cartItem.validate,
+                label: Text(S.current.checkout),
+                onTap: () {
+                  Helpers.dismissFauces(context);
+                  getIt<CartCubit>().addItem(widget.cartItem);
+                  AppRouter.sailor.navigate(
+                    CheckoutScreen.routeName,
+                    navigationType: NavigationType.pushReplace,
+                  );
+                },
+              ),
+              _buildButton(
+                enabled: widget.cartItem.validate,
+                label: Text(S.current.add_to_cart),
+                onTap: () {
+                  Helpers.dismissFauces(context);
+                  getIt<CartCubit>().addItem(widget.cartItem);
+                  AppRouter.sailor.pop();
+                },
+              ),
+            ],
+          ),
+        )
     ];
   }
 

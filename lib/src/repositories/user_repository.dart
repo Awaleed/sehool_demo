@@ -4,19 +4,20 @@ import 'package:injectable/injectable.dart';
 import '../core/api_caller.dart';
 import '../data/user_datasource.dart';
 import '../models/address_model.dart';
-import '../models/form_data_model.dart';
 import '../models/user_model.dart';
 
 abstract class IUserRepository {
   UserModel getUser();
 
   Future<List<AddressModel>> getAddresses();
-  Future<List<AddressModel>> addAddress(
-      Map<FormFieldType, FormFieldModel> data);
+
+  Future<List<AddressModel>> addAddress(Map<String, dynamic> data);
+
   Future<List<AddressModel>> updateAddress(AddressModel model);
   Future<List<AddressModel>> deleteAddress(int id);
 
-  Future<UserModel> updateProfile(Map<FormFieldType, FormFieldModel> data);
+  Future<UserModel> updateProfile(Map<String, dynamic> data);
+
   Future<UserModel> changePassword(String password);
   Future<UserModel> updateProfileImage(String imagePath);
 }
@@ -46,9 +47,8 @@ class UserRepositoryImpl implements IUserRepository {
   }
 
   @override
-  Future<List<AddressModel>> addAddress(
-      Map<FormFieldType, FormFieldModel> data) async {
-    await _remoteSource.addAddress(FormFieldModel.generateJson(data));
+  Future<List<AddressModel>> addAddress(Map<String, dynamic> data) async {
+    await _remoteSource.addAddress(data);
     return getAddresses();
   }
 
@@ -74,10 +74,8 @@ class UserRepositoryImpl implements IUserRepository {
   }
 
   @override
-  Future<UserModel> updateProfile(
-      Map<FormFieldType, FormFieldModel> data) async {
-    final res =
-        await _remoteSource.updateProfile(FormFieldModel.generateJson(data));
+  Future<UserModel> updateProfile(Map<String, dynamic> data) async {
+    final res = await _remoteSource.updateProfile(data);
     res['wallet'] = double.tryParse('${res['wallet']}');
     res['vat_number'] = '${res['vat_number']}';
 

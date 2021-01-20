@@ -252,7 +252,8 @@ class _ProductScreenState extends State<ProductScreen> {
                   ),
                 ),
               ),
-              CommentsListSliver(isLoading: isLoading, reviews: values),
+              CommentsListSliver(
+                  isLoading: isLoading, reviews: values.reversed),
               const SliverToBoxAdapter(child: SizedBox(height: 100)),
             ],
           ),

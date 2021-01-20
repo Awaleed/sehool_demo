@@ -1,13 +1,13 @@
 import 'package:division/division.dart';
-import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sehool/src/components/background_images_generate.dart';
 
 import '../../../../generated/l10n.dart';
 import '../../../../init_injectable.dart';
+import '../../../components/background_images_generate.dart';
 import '../../../cubits/settings_cubit/settings_cubit.dart';
 import '../../../models/language_model.dart';
+import '../../home/home.dart';
 
 class LanguageScreen extends StatefulWidget {
   static const routeName = '/language_settings';
@@ -116,7 +116,10 @@ class _LanguageScreenState extends State<LanguageScreen> {
         _language.selected = _language.code == selectedLanguage;
 
         return InkWell(
-          onTap: () => cubit.setLanguageCode(_language.code),
+          onTap: () async {
+            await cubit.setLanguageCode(_language.code);
+            homeNotifier.value++;
+          },
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
@@ -321,9 +324,9 @@ class _Hello {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['language'] = this.language;
-    data['hello'] = this.hello;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['language'] = language;
+    data['hello'] = hello;
     return data;
   }
 }

@@ -24,10 +24,15 @@ class _$CheckoutStateTearOff {
   }
 
 // ignore: unused_element
-  _Success success(OrderModel value) {
-    return _Success(
-      value,
+  _VisaPayment visaPayment(String payUrl) {
+    return _VisaPayment(
+      payUrl,
     );
+  }
+
+// ignore: unused_element
+  _Success success() {
+    return const _Success();
   }
 
 // ignore: unused_element
@@ -48,14 +53,16 @@ mixin _$CheckoutState {
   TResult when<TResult extends Object>({
     @required TResult initial(),
     @required TResult loading(),
-    @required TResult success(OrderModel value),
+    @required TResult visaPayment(String payUrl),
+    @required TResult success(),
     @required TResult failure(String message),
   });
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object>({
     TResult initial(),
     TResult loading(),
-    TResult success(OrderModel value),
+    TResult visaPayment(String payUrl),
+    TResult success(),
     TResult failure(String message),
     @required TResult orElse(),
   });
@@ -63,6 +70,7 @@ mixin _$CheckoutState {
   TResult map<TResult extends Object>({
     @required TResult initial(_Initial value),
     @required TResult loading(_Loading value),
+    @required TResult visaPayment(_VisaPayment value),
     @required TResult success(_Success value),
     @required TResult failure(_Failure value),
   });
@@ -70,6 +78,7 @@ mixin _$CheckoutState {
   TResult maybeMap<TResult extends Object>({
     TResult initial(_Initial value),
     TResult loading(_Loading value),
+    TResult visaPayment(_VisaPayment value),
     TResult success(_Success value),
     TResult failure(_Failure value),
     @required TResult orElse(),
@@ -131,11 +140,13 @@ class _$_Initial implements _Initial {
   TResult when<TResult extends Object>({
     @required TResult initial(),
     @required TResult loading(),
-    @required TResult success(OrderModel value),
+    @required TResult visaPayment(String payUrl),
+    @required TResult success(),
     @required TResult failure(String message),
   }) {
     assert(initial != null);
     assert(loading != null);
+    assert(visaPayment != null);
     assert(success != null);
     assert(failure != null);
     return initial();
@@ -146,7 +157,8 @@ class _$_Initial implements _Initial {
   TResult maybeWhen<TResult extends Object>({
     TResult initial(),
     TResult loading(),
-    TResult success(OrderModel value),
+    TResult visaPayment(String payUrl),
+    TResult success(),
     TResult failure(String message),
     @required TResult orElse(),
   }) {
@@ -162,11 +174,13 @@ class _$_Initial implements _Initial {
   TResult map<TResult extends Object>({
     @required TResult initial(_Initial value),
     @required TResult loading(_Loading value),
+    @required TResult visaPayment(_VisaPayment value),
     @required TResult success(_Success value),
     @required TResult failure(_Failure value),
   }) {
     assert(initial != null);
     assert(loading != null);
+    assert(visaPayment != null);
     assert(success != null);
     assert(failure != null);
     return initial(this);
@@ -177,6 +191,7 @@ class _$_Initial implements _Initial {
   TResult maybeMap<TResult extends Object>({
     TResult initial(_Initial value),
     TResult loading(_Loading value),
+    TResult visaPayment(_VisaPayment value),
     TResult success(_Success value),
     TResult failure(_Failure value),
     @required TResult orElse(),
@@ -231,11 +246,13 @@ class _$_Loading implements _Loading {
   TResult when<TResult extends Object>({
     @required TResult initial(),
     @required TResult loading(),
-    @required TResult success(OrderModel value),
+    @required TResult visaPayment(String payUrl),
+    @required TResult success(),
     @required TResult failure(String message),
   }) {
     assert(initial != null);
     assert(loading != null);
+    assert(visaPayment != null);
     assert(success != null);
     assert(failure != null);
     return loading();
@@ -246,7 +263,8 @@ class _$_Loading implements _Loading {
   TResult maybeWhen<TResult extends Object>({
     TResult initial(),
     TResult loading(),
-    TResult success(OrderModel value),
+    TResult visaPayment(String payUrl),
+    TResult success(),
     TResult failure(String message),
     @required TResult orElse(),
   }) {
@@ -262,11 +280,13 @@ class _$_Loading implements _Loading {
   TResult map<TResult extends Object>({
     @required TResult initial(_Initial value),
     @required TResult loading(_Loading value),
+    @required TResult visaPayment(_VisaPayment value),
     @required TResult success(_Success value),
     @required TResult failure(_Failure value),
   }) {
     assert(initial != null);
     assert(loading != null);
+    assert(visaPayment != null);
     assert(success != null);
     assert(failure != null);
     return loading(this);
@@ -277,6 +297,7 @@ class _$_Loading implements _Loading {
   TResult maybeMap<TResult extends Object>({
     TResult initial(_Initial value),
     TResult loading(_Loading value),
+    TResult visaPayment(_VisaPayment value),
     TResult success(_Success value),
     TResult failure(_Failure value),
     @required TResult orElse(),
@@ -294,10 +315,141 @@ abstract class _Loading implements CheckoutState {
 }
 
 /// @nodoc
+abstract class _$VisaPaymentCopyWith<$Res> {
+  factory _$VisaPaymentCopyWith(
+          _VisaPayment value, $Res Function(_VisaPayment) then) =
+      __$VisaPaymentCopyWithImpl<$Res>;
+  $Res call({String payUrl});
+}
+
+/// @nodoc
+class __$VisaPaymentCopyWithImpl<$Res> extends _$CheckoutStateCopyWithImpl<$Res>
+    implements _$VisaPaymentCopyWith<$Res> {
+  __$VisaPaymentCopyWithImpl(
+      _VisaPayment _value, $Res Function(_VisaPayment) _then)
+      : super(_value, (v) => _then(v as _VisaPayment));
+
+  @override
+  _VisaPayment get _value => super._value as _VisaPayment;
+
+  @override
+  $Res call({
+    Object payUrl = freezed,
+  }) {
+    return _then(_VisaPayment(
+      payUrl == freezed ? _value.payUrl : payUrl as String,
+    ));
+  }
+}
+
+/// @nodoc
+class _$_VisaPayment implements _VisaPayment {
+  const _$_VisaPayment(this.payUrl) : assert(payUrl != null);
+
+  @override
+  final String payUrl;
+
+  @override
+  String toString() {
+    return 'CheckoutState.visaPayment(payUrl: $payUrl)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is _VisaPayment &&
+            (identical(other.payUrl, payUrl) ||
+                const DeepCollectionEquality().equals(other.payUrl, payUrl)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^ const DeepCollectionEquality().hash(payUrl);
+
+  @override
+  _$VisaPaymentCopyWith<_VisaPayment> get copyWith =>
+      __$VisaPaymentCopyWithImpl<_VisaPayment>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object>({
+    @required TResult initial(),
+    @required TResult loading(),
+    @required TResult visaPayment(String payUrl),
+    @required TResult success(),
+    @required TResult failure(String message),
+  }) {
+    assert(initial != null);
+    assert(loading != null);
+    assert(visaPayment != null);
+    assert(success != null);
+    assert(failure != null);
+    return visaPayment(payUrl);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object>({
+    TResult initial(),
+    TResult loading(),
+    TResult visaPayment(String payUrl),
+    TResult success(),
+    TResult failure(String message),
+    @required TResult orElse(),
+  }) {
+    assert(orElse != null);
+    if (visaPayment != null) {
+      return visaPayment(payUrl);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object>({
+    @required TResult initial(_Initial value),
+    @required TResult loading(_Loading value),
+    @required TResult visaPayment(_VisaPayment value),
+    @required TResult success(_Success value),
+    @required TResult failure(_Failure value),
+  }) {
+    assert(initial != null);
+    assert(loading != null);
+    assert(visaPayment != null);
+    assert(success != null);
+    assert(failure != null);
+    return visaPayment(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object>({
+    TResult initial(_Initial value),
+    TResult loading(_Loading value),
+    TResult visaPayment(_VisaPayment value),
+    TResult success(_Success value),
+    TResult failure(_Failure value),
+    @required TResult orElse(),
+  }) {
+    assert(orElse != null);
+    if (visaPayment != null) {
+      return visaPayment(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _VisaPayment implements CheckoutState {
+  const factory _VisaPayment(String payUrl) = _$_VisaPayment;
+
+  String get payUrl;
+  _$VisaPaymentCopyWith<_VisaPayment> get copyWith;
+}
+
+/// @nodoc
 abstract class _$SuccessCopyWith<$Res> {
   factory _$SuccessCopyWith(_Success value, $Res Function(_Success) then) =
       __$SuccessCopyWithImpl<$Res>;
-  $Res call({OrderModel value});
 }
 
 /// @nodoc
@@ -308,58 +460,40 @@ class __$SuccessCopyWithImpl<$Res> extends _$CheckoutStateCopyWithImpl<$Res>
 
   @override
   _Success get _value => super._value as _Success;
-
-  @override
-  $Res call({
-    Object value = freezed,
-  }) {
-    return _then(_Success(
-      value == freezed ? _value.value : value as OrderModel,
-    ));
-  }
 }
 
 /// @nodoc
 class _$_Success implements _Success {
-  const _$_Success(this.value) : assert(value != null);
-
-  @override
-  final OrderModel value;
+  const _$_Success();
 
   @override
   String toString() {
-    return 'CheckoutState.success(value: $value)';
+    return 'CheckoutState.success()';
   }
 
   @override
   bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other is _Success &&
-            (identical(other.value, value) ||
-                const DeepCollectionEquality().equals(other.value, value)));
+    return identical(this, other) || (other is _Success);
   }
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(value);
-
-  @override
-  _$SuccessCopyWith<_Success> get copyWith =>
-      __$SuccessCopyWithImpl<_Success>(this, _$identity);
+  int get hashCode => runtimeType.hashCode;
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object>({
     @required TResult initial(),
     @required TResult loading(),
-    @required TResult success(OrderModel value),
+    @required TResult visaPayment(String payUrl),
+    @required TResult success(),
     @required TResult failure(String message),
   }) {
     assert(initial != null);
     assert(loading != null);
+    assert(visaPayment != null);
     assert(success != null);
     assert(failure != null);
-    return success(value);
+    return success();
   }
 
   @override
@@ -367,13 +501,14 @@ class _$_Success implements _Success {
   TResult maybeWhen<TResult extends Object>({
     TResult initial(),
     TResult loading(),
-    TResult success(OrderModel value),
+    TResult visaPayment(String payUrl),
+    TResult success(),
     TResult failure(String message),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
     if (success != null) {
-      return success(value);
+      return success();
     }
     return orElse();
   }
@@ -383,11 +518,13 @@ class _$_Success implements _Success {
   TResult map<TResult extends Object>({
     @required TResult initial(_Initial value),
     @required TResult loading(_Loading value),
+    @required TResult visaPayment(_VisaPayment value),
     @required TResult success(_Success value),
     @required TResult failure(_Failure value),
   }) {
     assert(initial != null);
     assert(loading != null);
+    assert(visaPayment != null);
     assert(success != null);
     assert(failure != null);
     return success(this);
@@ -398,6 +535,7 @@ class _$_Success implements _Success {
   TResult maybeMap<TResult extends Object>({
     TResult initial(_Initial value),
     TResult loading(_Loading value),
+    TResult visaPayment(_VisaPayment value),
     TResult success(_Success value),
     TResult failure(_Failure value),
     @required TResult orElse(),
@@ -411,10 +549,7 @@ class _$_Success implements _Success {
 }
 
 abstract class _Success implements CheckoutState {
-  const factory _Success(OrderModel value) = _$_Success;
-
-  OrderModel get value;
-  _$SuccessCopyWith<_Success> get copyWith;
+  const factory _Success() = _$_Success;
 }
 
 /// @nodoc
@@ -476,11 +611,13 @@ class _$_Failure implements _Failure {
   TResult when<TResult extends Object>({
     @required TResult initial(),
     @required TResult loading(),
-    @required TResult success(OrderModel value),
+    @required TResult visaPayment(String payUrl),
+    @required TResult success(),
     @required TResult failure(String message),
   }) {
     assert(initial != null);
     assert(loading != null);
+    assert(visaPayment != null);
     assert(success != null);
     assert(failure != null);
     return failure(message);
@@ -491,7 +628,8 @@ class _$_Failure implements _Failure {
   TResult maybeWhen<TResult extends Object>({
     TResult initial(),
     TResult loading(),
-    TResult success(OrderModel value),
+    TResult visaPayment(String payUrl),
+    TResult success(),
     TResult failure(String message),
     @required TResult orElse(),
   }) {
@@ -507,11 +645,13 @@ class _$_Failure implements _Failure {
   TResult map<TResult extends Object>({
     @required TResult initial(_Initial value),
     @required TResult loading(_Loading value),
+    @required TResult visaPayment(_VisaPayment value),
     @required TResult success(_Success value),
     @required TResult failure(_Failure value),
   }) {
     assert(initial != null);
     assert(loading != null);
+    assert(visaPayment != null);
     assert(success != null);
     assert(failure != null);
     return failure(this);
@@ -522,6 +662,7 @@ class _$_Failure implements _Failure {
   TResult maybeMap<TResult extends Object>({
     TResult initial(_Initial value),
     TResult loading(_Loading value),
+    TResult visaPayment(_VisaPayment value),
     TResult success(_Success value),
     TResult failure(_Failure value),
     @required TResult orElse(),

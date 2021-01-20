@@ -1,16 +1,7 @@
-import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+
 import '../../../../generated/l10n.dart';
-import 'package:velocity_x/velocity_x.dart';
-
-import '../../../components/cart_dropdown.dart';
 import '../../../models/cart_model.dart';
-import '../../../models/dropdown_value_model.dart';
-import '../../../models/order_model.dart';
-
-import '../../../routes/config_routes.dart';
-import '../../profile/dialogs/new_address_dialog.dart';
 
 class ShippingDatePage extends StatefulWidget {
   const ShippingDatePage({
@@ -143,28 +134,6 @@ class ShippingDateCard extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-}
-
-extension on DateTime {
-  DateTime setDate(DateTime newValue) {
-    return DateTime(
-      newValue.year,
-      newValue.month,
-      newValue.day,
-      hour,
-      minute,
-    );
-  }
-
-  DateTime setTime(TimeOfDay newValue) {
-    return DateTime(
-      year,
-      month,
-      day,
-      newValue.hour,
-      newValue.minute,
     );
   }
 }

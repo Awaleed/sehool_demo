@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:sehool/src/models/address_model.dart';
-import '../../generated/l10n.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-import '../models/cart_model.dart';
+import '../../generated/l10n.dart';
+import '../models/address_model.dart';
 
 class AddressCard extends StatelessWidget {
   const AddressCard({Key key, @required this.address}) : super(key: key);
@@ -49,12 +49,12 @@ class AddressCard extends StatelessWidget {
               ),
             ),
           ),
-          const Positioned(
+          Positioned(
             top: -80,
             left: 15,
             right: 15,
             height: 150,
-            child: _HomeCard(),
+            child: _HomeCard(address: address),
           ),
         ],
       ),
@@ -63,8 +63,8 @@ class AddressCard extends StatelessWidget {
 }
 
 class _HomeCard extends StatelessWidget {
-  const _HomeCard({Key key, this.id}) : super(key: key);
-  final int id;
+  const _HomeCard({Key key, this.address}) : super(key: key);
+  final AddressModel address;
 
   @override
   Widget build(BuildContext context) {
@@ -79,17 +79,41 @@ class _HomeCard extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(25),
           ),
-          child: Hero(
-            tag: 'image$id',
-            createRectTween: (begin, end) => RectTween(begin: begin, end: end),
-            child: ClipRRect(
+          child: ClipRRect(
               borderRadius: BorderRadius.circular(25),
-              child: Image.asset(
-                'assets/images/map.png',
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
+              child: () {
+                if (address == null) {
+                  return Image.asset(
+                    'assets/images/map.png',
+                    fit: BoxFit.cover,
+                  );
+                }
+                return !address.hasLocation
+                    ? Image.asset(
+                        'assets/images/map.png',
+                        fit: BoxFit.cover,
+                      )
+                    : GoogleMap(
+                        onMapCreated: (controller) async {
+                          await controller.animateCamera(
+                            CameraUpdate.newCameraPosition(
+                              CameraPosition(
+                                target: address.latLng,
+                                zoom: 15,
+                              ),
+                            ),
+                          );
+                        },
+                        initialCameraPosition:
+                            const CameraPosition(target: LatLng(0, 0)),
+                        markers: {
+                          Marker(
+                            markerId: MarkerId(''),
+                            position: address.latLng,
+                          ),
+                        },
+                      );
+              }()),
         ),
       ],
     );

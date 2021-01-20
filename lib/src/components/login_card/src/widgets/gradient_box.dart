@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class GradientBox extends StatelessWidget {
-  GradientBox({
+  const GradientBox({
     this.colors,
     this.begin = Alignment.topLeft,
     this.end = Alignment.bottomRight,
@@ -14,15 +14,15 @@ class GradientBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DecoratedBox(
-      child: SizedBox.expand(),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: colors,
           begin: begin,
           end: end,
-          stops: [0, 1],
+          stops: const [0, 1],
         ),
       ),
+      child: const SizedBox.expand(),
     );
   }
 }

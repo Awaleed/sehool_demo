@@ -149,10 +149,10 @@ class _AnimatedButtonState extends State<AnimatedButton>
       maxLines: 1,
     );
 
-    renderParagraph.layout(BoxConstraints(minWidth: 120.0));
+    renderParagraph.layout(const BoxConstraints(minWidth: 120.0));
 
     // text width based on fontSize, plus 45.0 for padding
-    var textWidth =
+    final textWidth =
         renderParagraph.getMinIntrinsicWidth(fontSize).ceilToDouble() + 45.0;
 
     // button width is min 120.0 and max 240.0
@@ -165,7 +165,7 @@ class _AnimatedButtonState extends State<AnimatedButton>
     _sizeAnimation = Tween<double>(begin: 1.0, end: _height / _width)
         .animate(CurvedAnimation(
       parent: widget.controller,
-      curve: Interval(0.0, .65, curve: Curves.fastOutSlowIn),
+      curve: const Interval(0.0, .65, curve: Curves.fastOutSlowIn),
     ));
   }
 
@@ -185,19 +185,19 @@ class _AnimatedButtonState extends State<AnimatedButton>
     return FadeTransition(
       opacity: _buttonOpacityAnimation,
       child: AnimatedContainer(
-        duration: Duration(milliseconds: 300),
+        duration: const Duration(milliseconds: 300),
         child: AnimatedBuilder(
           animation: _colorAnimation,
           builder: (context, child) => Material(
             shape: buttonTheme.shape,
             color: _colorAnimation.value,
-            child: child,
             shadowColor: _color,
             elevation: !_isLoading
                 ? (_hover
                     ? buttonTheme.highlightElevation
                     : buttonTheme.elevation)
                 : 0,
+            child: child,
           ),
           child: InkWell(
             onTap: !_isLoading ? widget.onPressed : null,
@@ -233,7 +233,6 @@ class _AnimatedButtonState extends State<AnimatedButton>
             animation: _ringThicknessAnimation,
             builder: (context, child) => Ring(
               color: widget.loadingColor,
-              size: _height,
               thickness: _ringThicknessAnimation.value,
             ),
           ),
@@ -244,8 +243,6 @@ class _AnimatedButtonState extends State<AnimatedButton>
             height: _height - _loadingCircleThickness,
             child: CircularProgressIndicator(
               valueColor: AlwaysStoppedAnimation<Color>(widget.loadingColor),
-              // backgroundColor: Colors.red,
-              strokeWidth: _loadingCircleThickness,
             ),
           ),
         _buildButton(theme),

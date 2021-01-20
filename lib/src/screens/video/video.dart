@@ -39,7 +39,6 @@ class _VideoScreenState extends State<VideoScreen> {
       ..addListener(() {
         _chewieController = ChewieController(
           allowedScreenSleep: false,
-          allowFullScreen: true,
           deviceOrientationsAfterFullScreen: [
             DeviceOrientation.landscapeRight,
             DeviceOrientation.landscapeLeft,
@@ -50,8 +49,7 @@ class _VideoScreenState extends State<VideoScreen> {
           aspectRatio: _aspectRatio,
           autoInitialize: true,
           autoPlay: true,
-          showControls: true,
-          customControls: CustomMaterialControls(),
+          customControls: const CustomMaterialControls(),
           // overlay: Placeholder(),
         );
         setState(() {});
@@ -65,7 +63,6 @@ class _VideoScreenState extends State<VideoScreen> {
     ]);
     _chewieController = ChewieController(
       allowedScreenSleep: false,
-      allowFullScreen: true,
       deviceOrientationsAfterFullScreen: [
         DeviceOrientation.landscapeRight,
         DeviceOrientation.landscapeLeft,
@@ -76,8 +73,7 @@ class _VideoScreenState extends State<VideoScreen> {
       aspectRatio: _aspectRatio,
       autoInitialize: true,
       autoPlay: true,
-      showControls: true,
-      customControls: CustomMaterialControls(),
+      customControls: const CustomMaterialControls(),
       // overlay: Placeholder(),
     );
 

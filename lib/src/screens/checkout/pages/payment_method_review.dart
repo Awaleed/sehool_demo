@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:sehool/src/helpers/helper.dart';
+
 import '../../../../generated/l10n.dart';
 import '../../../components/cart_dropdown.dart';
 import '../../../data/user_datasource.dart';
 import '../../../models/cart_model.dart';
 import '../../../models/dropdown_value_model.dart';
-import '../../../models/order_model.dart';
-
-import '../../../routes/config_routes.dart';
-import '../../profile/dialogs/new_address_dialog.dart';
 
 class PaymentMethodReviewPage extends StatefulWidget {
   const PaymentMethodReviewPage({
@@ -44,26 +40,12 @@ class _PaymentMethodReviewPageState extends State<PaymentMethodReviewPage> {
                 dropdownType: DropdownValueType.paymentMethods,
                 initialValue: widget.cart.paymentMethod,
                 itemAsString: (value) => value.name,
+                cart: widget.cart,
                 onValueChanged: (value) {
-                  if ((value as PaymentMethodModel).type == 'wallet') {
-                    if (kUser.wallet <= widget.cart.total) {
-                      Helpers.showErrorOverlay(context, error: 'nooo');
-                    } else {
-                      // print(
-                      //     'wallet : ${kUser.wallet} , cart : ${widget.cart.total}');
-                      // Helpers.showSuccessOverlay(context,
-                      //     message: '${kUser.wallet - widget.cart.total}');
-                      setState(() {
-                        widget.cart.paymentMethod = value;
-                      });
-                      widget.onChanged(value);
-                    }
-                  } else {
-                    setState(() {
-                      widget.cart.paymentMethod = value;
-                    });
-                    widget.onChanged(value);
-                  }
+                  setState(() {
+                    widget.cart.paymentMethod = value;
+                  });
+                  widget.onChanged(value);
                 },
               ),
             ),

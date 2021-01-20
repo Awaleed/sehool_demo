@@ -26,14 +26,13 @@ class SplashScreen extends StatelessWidget {
       cubit: getIt<SplashCubit>(),
       listener: (context, state) async {
         // AppRouter.sailor.navigate(
-        //   HomeScreen.routeName,
+        //   Playground.routeName,
         //   navigationType: NavigationType.pushAndRemoveUntil,
         //   removeUntilPredicate: (_) => false,
         // );
         // return;
         // await Future.delayed(5.seconds);
         String routeName;
-        print(state);
         switch (state) {
           case SplashState.initial:
             break;

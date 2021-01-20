@@ -2,7 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../models/form_data_model.dart';
 import '../../models/user_model.dart';
 import '../../repositories/user_repository.dart';
 
@@ -20,7 +19,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     try {
       final value = await _userRepository.updateProfileImage(path);
       emit(ProfileState.success(value));
-        } catch (e) {
+    } catch (e) {
       addError(e);
       // TODO: Handel error messages
       emit(ProfileState.failure(message: '$e'));
@@ -32,19 +31,19 @@ class ProfileCubit extends Cubit<ProfileState> {
     try {
       final value = await _userRepository.changePassword(password);
       emit(ProfileState.success(value));
-        } catch (e) {
+    } catch (e) {
       addError(e);
       // TODO: Handel error messages
       emit(ProfileState.failure(message: '$e'));
     }
   }
 
-  Future<void> updateProfile(Map<FormFieldType, FormFieldModel> data) async {
+  Future<void> updateProfile(Map<String, dynamic> data) async {
     emit(const ProfileState.loading());
     try {
       final value = await _userRepository.updateProfile(data);
       emit(ProfileState.success(value));
-        } catch (e) {
+    } catch (e) {
       addError(e);
       // TODO: Handel error messages
       emit(ProfileState.failure(message: '$e'));

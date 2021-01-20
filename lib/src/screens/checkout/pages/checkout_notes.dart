@@ -1,6 +1,5 @@
-import 'package:arabic_numbers/arabic_numbers.dart';
-import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
+
 import '../../../components/cart_text_field.dart';
 import '../../../models/cart_model.dart';
 

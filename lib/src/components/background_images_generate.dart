@@ -244,7 +244,7 @@ class BackgroundGeneratorState extends State<BackgroundGenerator>
         ),
       );
     } else {
-      return const Center(child: Text('loading'));
+      return const SizedBox.shrink();
     }
   }
 

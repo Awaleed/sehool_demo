@@ -1,6 +1,6 @@
 import 'package:injectable/injectable.dart';
-import 'package:sehool/src/core/api_caller.dart';
 
+import '../core/api_caller.dart';
 import '../data/order_datasource.dart';
 import '../models/checkout_model.dart';
 import '../models/order_model.dart';

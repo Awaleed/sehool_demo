@@ -18,7 +18,7 @@ class CustomTextFromField extends StatelessWidget {
     this.obscureText = false,
   }) : super(key: key);
 
-  final Map<FormFieldType, FormFieldModel> map;
+  final Map<String, dynamic> map;
   final String initialValue;
   final FormFieldType type;
   final Widget suffixIcon;
@@ -78,7 +78,7 @@ class CustomDropdownFromField<T> extends StatelessWidget {
   final ValueChanged<T> onChanged;
   final ValueChanged<T> onSave;
   final List<T> items;
-  final Map<FormFieldType, FormFieldModel> map;
+  final Map<String, dynamic> map;
   final FormFieldType type;
   final Widget suffixIcon;
   final bool enabled;
@@ -150,7 +150,7 @@ class CustomSearchDropdownFromField<T> extends StatelessWidget {
   final ValueChanged<T> onChanged;
   final ValueChanged<T> onSave;
   final List<T> items;
-  final Map<FormFieldType, FormFieldModel> map;
+  final Map<String, dynamic> map;
   final FormFieldType type;
   final Widget suffixIcon;
   final bool enabled;

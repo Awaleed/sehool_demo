@@ -1,9 +1,13 @@
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'address_model.g.dart';
 
 @JsonSerializable(
-    fieldRename: FieldRename.snake, explicitToJson: true, nullable: true)
+    fieldRename: FieldRename.snake,
+    explicitToJson: true,
+    nullable: true,
+    createToJson: false)
 class AddressModel {
   const AddressModel({
     this.city,
@@ -21,10 +25,16 @@ class AddressModel {
   final CityModel city;
   final CitySectionModel section;
 
+  bool get hasLocation => lat != null && lang != null;
+
+  LatLng get latLng => LatLng(lat, lang);
+
   @override
   String toString() => address ?? '';
+
   factory AddressModel.fromJson(Map<String, dynamic> json) =>
       _$AddressModelFromJson(json);
+
   Map<String, dynamic> toJson() => {
         'address': address,
         'lat': lat,
@@ -75,6 +85,7 @@ class CityModel {
 
   factory CityModel.fromJson(Map<String, dynamic> json) =>
       _$CityModelFromJson(json);
+
   Map<String, dynamic> toJson() => _$CityModelToJson(this);
 
   @override
@@ -104,6 +115,7 @@ class CitySectionModel {
 
   factory CitySectionModel.fromJson(Map<String, dynamic> json) =>
       _$CitySectionModelFromJson(json);
+
   Map<String, dynamic> toJson() => _$CitySectionModelToJson(this);
 
   @override

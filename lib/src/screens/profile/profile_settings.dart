@@ -1,17 +1,18 @@
 import 'package:division/division.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sehool/src/components/background_images_generate.dart';
-import 'package:sehool/src/models/user_model.dart';
 
 import '../../../generated/l10n.dart';
 import '../../../init_injectable.dart';
 import '../../components/avatar_section.dart';
+import '../../components/background_images_generate.dart';
 import '../../components/my_loading_overlay.dart';
 import '../../cubits/profile_cubit/profile_cubit.dart';
 import '../../data/user_datasource.dart';
 import '../../helpers/helper.dart';
 import '../../models/form_data_model.dart';
+import '../../models/user_model.dart';
+import '../home/home.dart';
 
 class ProfileSettingsScreen extends StatefulWidget {
   static const routeName = '/profile_settings';
@@ -25,7 +26,7 @@ class ProfileSettingsScreen extends StatefulWidget {
 class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
   ProfileCubit cubit;
   bool hidePassword = true;
-  final data = <FormFieldType, FormFieldModel>{};
+  final data = <String, dynamic>{};
   final formKey = GlobalKey<FormState>();
 
   @override
@@ -146,6 +147,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                         _buildTextInput(
                           map: data,
                           type: FormFieldType.password,
+                          validator: (value) => null,
                           enabled: !isLoading,
                         ),
                         if (kUser.level == UserLevel.merchant) ...[
@@ -188,11 +190,12 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                   // ),
                   // const Divider(),
                   ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       Helpers.dismissFauces(context);
                       if (formKey.currentState.validate()) {
                         formKey.currentState.save();
-                        cubit.updateProfile(data);
+                        await cubit.updateProfile(data);
+                        homeNotifier.value++;
                       }
                     },
                     child: Text(
@@ -208,12 +211,13 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
       );
 
   Widget _buildTextInput({
-    @required Map<FormFieldType, FormFieldModel> map,
+    @required Map<String, dynamic> map,
     @required FormFieldType type,
     bool enabled = true,
     bool obscureText = false,
     String initialValue,
     Widget suffixIcon,
+    String Function(dynamic) validator,
   }) {
     final _model = FormFieldModel.mapType(type, map);
 
@@ -222,7 +226,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
       autovalidateMode: AutovalidateMode.onUserInteraction,
       keyboardType: _model.keyboardType,
       onSaved: _model.onSave,
-      validator: _model.validator,
+      validator: validator ?? _model.validator,
       style: const TextStyle(fontSize: 14),
       enabled: enabled,
       obscureText: obscureText,

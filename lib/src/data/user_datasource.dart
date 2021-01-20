@@ -108,11 +108,8 @@ class UserRemoteDataSource extends IUserRemoteDataSource with ApiCaller {
   @override
   Future<Map<String, dynamic>> forgotPassword(
     Map<String, dynamic> credentials,
-  ) async {
-    //TODO FIXME
-    await Future.delayed(1500.milliseconds);
-    return {'time_out': 5};
-  }
+  ) async =>
+      post(path: '/auth/ForgotPassword', data: credentials);
 
   @override
   Future<Map<String, dynamic>> resetPassword(

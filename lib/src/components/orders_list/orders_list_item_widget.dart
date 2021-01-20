@@ -27,7 +27,7 @@ class OrdersListItemWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              '${S.current.order_status}: ${S.current.ready_for_delivery}',
+              '${S.current.order_status}: ${cart.status.name}',
               style: Theme.of(context).textTheme.headline5,
             ),
             const Divider(),

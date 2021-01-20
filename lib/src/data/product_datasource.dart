@@ -51,9 +51,6 @@ class FakeProductRemoteDataSource extends IProductRemoteDataSource {
   }
 
   @override
-  Future<Map<String, dynamic>> getProduct(int id) => throw UnimplementedError();
-
-  @override
   Future<List> getProducts() {
     // TODO: implement getProducts
     throw UnimplementedError();

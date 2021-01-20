@@ -1,10 +1,16 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sehool/src/components/address_card.dart';
+import 'package:sailor/sailor.dart';
 
 import '../../../../generated/l10n.dart';
+import '../../../../init_injectable.dart';
+import '../../../components/address_card.dart';
+import '../../../cubits/cart_cubit/cart_cubit.dart';
 import '../../../models/cart_model.dart';
-import '../../../models/order_model.dart';
-import 'shpping_date_review.dart';
+import '../../../routes/config_routes.dart';
+import '../../cart/add_to_cart.dart';
+import '../checkout.dart';
 
 class CheckoutPage extends StatelessWidget {
   const CheckoutPage({
@@ -15,6 +21,7 @@ class CheckoutPage extends StatelessWidget {
 
   final CartModel cart;
   final ValueChanged onChanged;
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -74,8 +81,10 @@ class CheckoutPage extends StatelessWidget {
 }
 
 class SummeryCard extends StatelessWidget {
-  const SummeryCard({Key key, @required this.cart}) : super(key: key);
+  const SummeryCard({Key key, @required this.cart, this.onChanged})
+      : super(key: key);
   final CartModel cart;
+  final ValueChanged onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -103,7 +112,90 @@ class SummeryCard extends StatelessWidget {
                   ),
                   const Divider(),
                   ...cart.cartItems.map(
-                    (e) => ListTile(
+                        (e) => ListTile(
+                      leading: IconButton(
+                        icon: const Icon(
+                          FluentIcons.delete_24_regular,
+                          color: Colors.red,
+                        ),
+                        onPressed: () {
+                          final action = CupertinoActionSheet(
+                            title: Text(
+                              S.current.remove_from_cart,
+                              style: Theme.of(context).textTheme.headline3,
+                            ),
+                            message: Theme(
+                              data: Theme.of(context),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          e?.product?.name ?? '',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .headline6,
+                                        ),
+                                        Text(
+                                          '${e.quantity} ${S.current.piece}, ${e.slicingMethod?.name}',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyText2,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Text('${cart.total} ${S.current.rial}'),
+                                ],
+                              ),
+                            ),
+                            actions: <Widget>[
+                              CupertinoActionSheetAction(
+                                isDestructiveAction: true,
+                                onPressed: () {
+                                  getIt<CartCubit>().removeItem(e.product.id);
+                                  onChanged(e);
+                                  AppRouter.sailor.navigate(
+                                    CheckoutScreen.routeName,
+                                    navigationType: NavigationType.pushReplace,
+                                  );
+                                },
+                                child: Text(
+                                  S.current.confirmation,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .button
+                                      .copyWith(color: Colors.red),
+                                ),
+                              ),
+                            ],
+                            cancelButton: CupertinoActionSheetAction(
+                              onPressed: () {
+                                Navigator.pop(context, false);
+                              },
+                              child: Text(
+                                'الغاء',
+                                style: Theme.of(context).textTheme.button,
+                              ),
+                            ),
+                          );
+                          showCupertinoModalPopup(
+                              context: context, builder: (context) => action);
+                        },
+                      ),
+                      onTap: () async {
+                        await AppRouter.sailor.navigate(
+                          AddToCartScreen.routeName,
+                          params: {
+                            'cart_item': e,
+                            'editing': true,
+                          },
+                        );
+                        onChanged(e);
+                      },
                       title: Text(e?.product?.name ?? ''),
                       subtitle: Text(
                         '${e.quantity} ${S.current.piece}, ${e.slicingMethod?.name}',

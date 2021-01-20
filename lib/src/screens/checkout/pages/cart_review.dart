@@ -1,6 +1,5 @@
-import 'package:arabic_numbers/arabic_numbers.dart';
-import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
+
 import '../../../components/checkout_item_preview.dart';
 import '../../../models/cart_model.dart';
 
@@ -9,7 +8,7 @@ class CartReviewPage extends StatelessWidget {
       : super(key: key);
   final List<CartItemModel> cartItems;
   final ValueChanged onChanged;
-  
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -19,7 +18,7 @@ class CartReviewPage extends StatelessWidget {
           ...cartItems.map(
             (e) => Center(
               child: Padding(
-                padding: const EdgeInsets.all( 20),
+                padding: const EdgeInsets.all(20),
                 child: CheckoutItemPreview(cartItem: e),
               ),
             ),

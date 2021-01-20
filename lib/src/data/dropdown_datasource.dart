@@ -5,7 +5,6 @@ import 'package:supercharged/supercharged.dart';
 import '../core/api_caller.dart';
 import '../helpers/fake_data_generator.dart';
 import '../models/dropdown_value_model.dart';
-import '../models/order_model.dart';
 
 abstract class IDropdownRemoteDataSource {
   Future<List> getDropdownValues(DropdownValueType type);

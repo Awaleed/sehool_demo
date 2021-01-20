@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:sehool/src/components/address_card.dart';
-import '../../../components/cart_dropdown.dart';
 
+import '../../../components/address_card.dart';
+import '../../../components/cart_dropdown.dart';
 import '../../../models/address_model.dart';
 import '../../../models/cart_model.dart';
 import '../../../models/dropdown_value_model.dart';
-import '../../../routes/config_routes.dart';
-import '../../profile/dialogs/new_address_dialog.dart';
 
 class AddressReviewPage extends StatefulWidget {
   const AddressReviewPage({

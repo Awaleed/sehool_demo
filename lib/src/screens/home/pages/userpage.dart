@@ -4,23 +4,24 @@ import 'package:division/division.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:supercharged/supercharged.dart';
+import 'package:validators/validators.dart';
+
 import '../../../../generated/l10n.dart';
 import '../../../../init_injectable.dart';
 import '../../../cubits/auth_cubit/auth_cubit.dart';
 import '../../../data/user_datasource.dart';
 import '../../../models/user_model.dart';
-import '../../../routes/config_routes.dart';
 import '../../profile/pages/about.dart';
 import '../../profile/pages/addresses.dart';
 import '../../profile/pages/help.dart';
 import '../../profile/pages/language.dart';
 import '../../profile/pages/orders_history.dart';
 import '../../profile/profile_settings.dart';
-import 'package:validators/validators.dart';
-import 'package:supercharged/supercharged.dart';
+import '../home.dart';
 
 class UserPage extends StatelessWidget {
-  final contentStyle = (BuildContext context) => ParentStyle()
+  ParentStyle contentStyle(BuildContext context) => ParentStyle()
     ..overflow.scrollable()
     ..padding(vertical: 30, horizontal: 20)
     ..minHeight(MediaQuery.of(context).size.height - (2 * 30));
@@ -30,20 +31,27 @@ class UserPage extends StatelessWidget {
     ..fontSize(32)
     ..textColor(Colors.white)
     ..margin(bottom: 20);
+
   @override
   Widget build(BuildContext context) {
-    return Parent(
-      style: contentStyle(context),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          Txt(S.current.profile, style: titleStyle),
-          UserCard(),
-          // ActionsRow(),
-          Settings(),
-        ],
-      ),
-    );
+    return ValueListenableBuilder(
+        valueListenable: homeNotifier,
+        builder: (BuildContext context, int value, Widget child) {
+          debugPrint('SettingsItem $value times');
+
+          return Parent(
+            style: contentStyle(context),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Txt(S.current.profile, style: titleStyle),
+                UserCard(),
+                // ActionsRow(),
+                const Settings(),
+              ],
+            ),
+          );
+        });
   }
 }
 
@@ -96,16 +104,13 @@ class UserCard extends StatelessWidget {
   }
 
   Widget _buildUserStatsItem(String value, IconData icon) {
-    final TxtStyle textStyle = TxtStyle()
-      ..fontSize(20)
-      ..textColor(Colors.white);
     return Column(
       children: <Widget>[
         Icon(
           icon,
           color: Colors.white,
         ),
-        SizedBox(height: 5),
+        const SizedBox(height: 5),
         Txt(value, style: nameDescriptionTextStyle),
       ],
     );
@@ -117,7 +122,10 @@ class UserCard extends StatelessWidget {
       style: userCardStyle,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: <Widget>[_buildUserRow(), _buildUserStats()],
+        children: <Widget>[
+          _buildUserRow(),
+          _buildUserStats(),
+        ],
       ),
     );
   }
@@ -197,12 +205,22 @@ class UserCard extends StatelessWidget {
 //     ..fontSize(12);
 // }
 
-class Settings extends StatelessWidget {
+class Settings extends StatefulWidget {
+  final VoidCallback onRefresh;
+
+  const Settings({Key key, this.onRefresh}) : super(key: key);
+
+  @override
+  _SettingsState createState() => _SettingsState();
+}
+
+class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
         SettingsItem(
+          onRefresh: widget.onRefresh,
           icon: FluentIcons.sign_out_20_regular,
           title: S.current.log_out,
           description: 'تغير الحساب',
@@ -263,6 +281,7 @@ class Settings extends StatelessWidget {
           },
         ),
         SettingsItem(
+            onRefresh: widget.onRefresh,
             icon: FluentIcons.location_12_regular,
             title: S.current.addresses,
             target: const AddressesScreen(),
@@ -270,34 +289,39 @@ class Settings extends StatelessWidget {
             // onTap: () => AppRouter.sailor.navigate(AddressesScreen.routeName),
             description: 'عناوينك التي تريدنا ان نوصل اليك'),
         SettingsItem(
+            onRefresh: widget.onRefresh,
             icon: FluentIcons.local_language_16_regular,
             title: S.current.languages,
             target: const LanguageScreen(),
             description: 'نحن نتحدث اكثر من لغة'),
         SettingsItem(
+            onRefresh: widget.onRefresh,
             icon: FluentIcons.settings_28_regular,
             title: S.current.settings,
             target: const ProfileSettingsScreen(),
             description: 'تطبيقك قواعدك'),
         SettingsItem(
+            onRefresh: widget.onRefresh,
             icon: FluentIcons.history_20_filled,
             title: S.current.my_orders,
             target: const OrdersHistory(),
             description: 'رحلتك معنا'),
         SettingsItem(
+            onRefresh: widget.onRefresh,
             icon: FluentIcons.chat_help_24_regular,
             title: S.current.help_support,
             target: const HelpAndSupport(),
             description: 'نحن هنا لاجلك'),
-        // SettingsItem(
+        // SettingsItem(onRefresh: onRefresh,
         //     icon: FluentIcons.money_16_regular,
         //     title: S.current.balance,
         //     target: const AddressesScreen(),
         //     description: 'محفظتك الخاصة'),
         SettingsItem(
+            onRefresh: widget.onRefresh,
             icon: FluentIcons.info_16_regular,
             title: S.current.about,
-            target: About(),
+            target: const About(),
             description: 'الأصدار 1.0.2'),
       ],
     );
@@ -305,13 +329,15 @@ class Settings extends StatelessWidget {
 }
 
 class SettingsItem extends StatefulWidget {
-  const SettingsItem(
-      {this.icon,
-      this.iswarrning = false,
-      this.title,
-      this.target,
-      this.description,
-      this.onTap});
+  const SettingsItem({
+    this.icon,
+    this.iswarrning = false,
+    this.title,
+    this.target,
+    this.description,
+    this.onTap,
+    this.onRefresh,
+  });
 
   final IconData icon;
   final bool iswarrning;
@@ -319,6 +345,7 @@ class SettingsItem extends StatefulWidget {
   final Widget target;
   final String description;
   final VoidCallback onTap;
+  final VoidCallback onRefresh;
 
   @override
   _SettingsItemState createState() => _SettingsItemState();
@@ -342,38 +369,46 @@ class _SettingsItemState extends State<SettingsItem> {
         ),
       ),
       openColor: Colors.transparent,
-      closedBuilder: (context, action) => Parent(
-        style: settingsItemStyle(pressed),
-        gesture: Gestures()
-          ..isTap((isTapped) {
-            setState(() => pressed = isTapped);
-          })
-          ..onTap(widget.target == null ? widget.onTap : action),
-        child: Row(
-          children: <Widget>[
-            Parent(
-              style: settingsItemIconStyle(widget.iswarrning),
-              child: Icon(widget.icon,
-                  color: widget.iswarrning ? Colors.red : Colors.amber,
-                  size: 20),
-            ),
-            const SizedBox(width: 10),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Txt(widget.title, style: itemTitleTextStyle(widget.iswarrning)),
-                const SizedBox(height: 5),
-                Txt(widget.description, style: itemDescriptionTextStyle),
-              ],
-            )
-          ],
-        ),
-      ),
+      closedBuilder: (context, action) {
+        // Timer.run(() {
+        //   widget.onRefresh?.call();
+        // });
+        return Parent(
+          style: settingsItemStyle(pressed: pressed),
+          gesture: Gestures()
+            ..isTap((isTapped) {
+              setState(() => pressed = isTapped);
+            })
+            ..onTap(() {
+              widget.target == null ? widget.onTap() : action();
+            }),
+          child: Row(
+            children: <Widget>[
+              Parent(
+                style: settingsItemIconStyle(iswarrning: widget.iswarrning),
+                child: Icon(widget.icon,
+                    color: widget.iswarrning ? Colors.red : Colors.amber,
+                    size: 20),
+              ),
+              const SizedBox(width: 10),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Txt(widget.title,
+                      style: itemTitleTextStyle(iswarrning: widget.iswarrning)),
+                  const SizedBox(height: 5),
+                  Txt(widget.description, style: itemDescriptionTextStyle),
+                ],
+              )
+            ],
+          ),
+        );
+      },
     );
   }
 
-  final settingsItemStyle = (pressed) => ParentStyle()
+  ParentStyle settingsItemStyle({bool pressed}) => ParentStyle()
     ..elevation(pressed ? 0 : 50, color: Colors.grey)
     ..scale(pressed ? 0.90 : 1.0)
     ..alignmentContent.center()
@@ -384,14 +419,14 @@ class _SettingsItemState extends State<SettingsItem> {
     ..ripple(true)
     ..animate(150, Curves.easeInOut);
 
-  settingsItemIconStyle(bool iswarrning) => ParentStyle()
+  ParentStyle settingsItemIconStyle({bool iswarrning}) => ParentStyle()
     ..background.color(
         iswarrning ? Colors.red.withOpacity(.1) : Colors.amber.withOpacity(.1))
     ..margin(horizontal: 15)
     ..padding(all: 12)
     ..borderRadius(all: 30);
 
-  TxtStyle itemTitleTextStyle(bool iswarrning) => TxtStyle()
+  TxtStyle itemTitleTextStyle({bool iswarrning}) => TxtStyle()
     ..bold()
     ..textColor(iswarrning ? Colors.red : Colors.amber)
     ..fontSize(16);

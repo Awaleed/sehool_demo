@@ -24,6 +24,11 @@ class _$LoginStateTearOff {
   }
 
 // ignore: unused_element
+  _CodeRequested codeRequested() {
+    return const _CodeRequested();
+  }
+
+// ignore: unused_element
   _Success success() {
     return const _Success();
   }
@@ -46,6 +51,7 @@ mixin _$LoginState {
   TResult when<TResult extends Object>({
     @required TResult initial(),
     @required TResult loading(),
+    @required TResult codeRequested(),
     @required TResult success(),
     @required TResult failure(String message),
   });
@@ -53,6 +59,7 @@ mixin _$LoginState {
   TResult maybeWhen<TResult extends Object>({
     TResult initial(),
     TResult loading(),
+    TResult codeRequested(),
     TResult success(),
     TResult failure(String message),
     @required TResult orElse(),
@@ -61,6 +68,7 @@ mixin _$LoginState {
   TResult map<TResult extends Object>({
     @required TResult initial(_Initial value),
     @required TResult loading(_Loading value),
+    @required TResult codeRequested(_CodeRequested value),
     @required TResult success(_Success value),
     @required TResult failure(_Failure value),
   });
@@ -68,6 +76,7 @@ mixin _$LoginState {
   TResult maybeMap<TResult extends Object>({
     TResult initial(_Initial value),
     TResult loading(_Loading value),
+    TResult codeRequested(_CodeRequested value),
     TResult success(_Success value),
     TResult failure(_Failure value),
     @required TResult orElse(),
@@ -128,11 +137,13 @@ class _$_Initial implements _Initial {
   TResult when<TResult extends Object>({
     @required TResult initial(),
     @required TResult loading(),
+    @required TResult codeRequested(),
     @required TResult success(),
     @required TResult failure(String message),
   }) {
     assert(initial != null);
     assert(loading != null);
+    assert(codeRequested != null);
     assert(success != null);
     assert(failure != null);
     return initial();
@@ -143,6 +154,7 @@ class _$_Initial implements _Initial {
   TResult maybeWhen<TResult extends Object>({
     TResult initial(),
     TResult loading(),
+    TResult codeRequested(),
     TResult success(),
     TResult failure(String message),
     @required TResult orElse(),
@@ -159,11 +171,13 @@ class _$_Initial implements _Initial {
   TResult map<TResult extends Object>({
     @required TResult initial(_Initial value),
     @required TResult loading(_Loading value),
+    @required TResult codeRequested(_CodeRequested value),
     @required TResult success(_Success value),
     @required TResult failure(_Failure value),
   }) {
     assert(initial != null);
     assert(loading != null);
+    assert(codeRequested != null);
     assert(success != null);
     assert(failure != null);
     return initial(this);
@@ -174,6 +188,7 @@ class _$_Initial implements _Initial {
   TResult maybeMap<TResult extends Object>({
     TResult initial(_Initial value),
     TResult loading(_Loading value),
+    TResult codeRequested(_CodeRequested value),
     TResult success(_Success value),
     TResult failure(_Failure value),
     @required TResult orElse(),
@@ -228,11 +243,13 @@ class _$_Loading implements _Loading {
   TResult when<TResult extends Object>({
     @required TResult initial(),
     @required TResult loading(),
+    @required TResult codeRequested(),
     @required TResult success(),
     @required TResult failure(String message),
   }) {
     assert(initial != null);
     assert(loading != null);
+    assert(codeRequested != null);
     assert(success != null);
     assert(failure != null);
     return loading();
@@ -243,6 +260,7 @@ class _$_Loading implements _Loading {
   TResult maybeWhen<TResult extends Object>({
     TResult initial(),
     TResult loading(),
+    TResult codeRequested(),
     TResult success(),
     TResult failure(String message),
     @required TResult orElse(),
@@ -259,11 +277,13 @@ class _$_Loading implements _Loading {
   TResult map<TResult extends Object>({
     @required TResult initial(_Initial value),
     @required TResult loading(_Loading value),
+    @required TResult codeRequested(_CodeRequested value),
     @required TResult success(_Success value),
     @required TResult failure(_Failure value),
   }) {
     assert(initial != null);
     assert(loading != null);
+    assert(codeRequested != null);
     assert(success != null);
     assert(failure != null);
     return loading(this);
@@ -274,6 +294,7 @@ class _$_Loading implements _Loading {
   TResult maybeMap<TResult extends Object>({
     TResult initial(_Initial value),
     TResult loading(_Loading value),
+    TResult codeRequested(_CodeRequested value),
     TResult success(_Success value),
     TResult failure(_Failure value),
     @required TResult orElse(),
@@ -288,6 +309,114 @@ class _$_Loading implements _Loading {
 
 abstract class _Loading implements LoginState {
   const factory _Loading() = _$_Loading;
+}
+
+/// @nodoc
+abstract class _$CodeRequestedCopyWith<$Res> {
+  factory _$CodeRequestedCopyWith(
+          _CodeRequested value, $Res Function(_CodeRequested) then) =
+      __$CodeRequestedCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$CodeRequestedCopyWithImpl<$Res> extends _$LoginStateCopyWithImpl<$Res>
+    implements _$CodeRequestedCopyWith<$Res> {
+  __$CodeRequestedCopyWithImpl(
+      _CodeRequested _value, $Res Function(_CodeRequested) _then)
+      : super(_value, (v) => _then(v as _CodeRequested));
+
+  @override
+  _CodeRequested get _value => super._value as _CodeRequested;
+}
+
+/// @nodoc
+class _$_CodeRequested implements _CodeRequested {
+  const _$_CodeRequested();
+
+  @override
+  String toString() {
+    return 'LoginState.codeRequested()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) || (other is _CodeRequested);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object>({
+    @required TResult initial(),
+    @required TResult loading(),
+    @required TResult codeRequested(),
+    @required TResult success(),
+    @required TResult failure(String message),
+  }) {
+    assert(initial != null);
+    assert(loading != null);
+    assert(codeRequested != null);
+    assert(success != null);
+    assert(failure != null);
+    return codeRequested();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object>({
+    TResult initial(),
+    TResult loading(),
+    TResult codeRequested(),
+    TResult success(),
+    TResult failure(String message),
+    @required TResult orElse(),
+  }) {
+    assert(orElse != null);
+    if (codeRequested != null) {
+      return codeRequested();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object>({
+    @required TResult initial(_Initial value),
+    @required TResult loading(_Loading value),
+    @required TResult codeRequested(_CodeRequested value),
+    @required TResult success(_Success value),
+    @required TResult failure(_Failure value),
+  }) {
+    assert(initial != null);
+    assert(loading != null);
+    assert(codeRequested != null);
+    assert(success != null);
+    assert(failure != null);
+    return codeRequested(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object>({
+    TResult initial(_Initial value),
+    TResult loading(_Loading value),
+    TResult codeRequested(_CodeRequested value),
+    TResult success(_Success value),
+    TResult failure(_Failure value),
+    @required TResult orElse(),
+  }) {
+    assert(orElse != null);
+    if (codeRequested != null) {
+      return codeRequested(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _CodeRequested implements LoginState {
+  const factory _CodeRequested() = _$_CodeRequested;
 }
 
 /// @nodoc
@@ -328,11 +457,13 @@ class _$_Success implements _Success {
   TResult when<TResult extends Object>({
     @required TResult initial(),
     @required TResult loading(),
+    @required TResult codeRequested(),
     @required TResult success(),
     @required TResult failure(String message),
   }) {
     assert(initial != null);
     assert(loading != null);
+    assert(codeRequested != null);
     assert(success != null);
     assert(failure != null);
     return success();
@@ -343,6 +474,7 @@ class _$_Success implements _Success {
   TResult maybeWhen<TResult extends Object>({
     TResult initial(),
     TResult loading(),
+    TResult codeRequested(),
     TResult success(),
     TResult failure(String message),
     @required TResult orElse(),
@@ -359,11 +491,13 @@ class _$_Success implements _Success {
   TResult map<TResult extends Object>({
     @required TResult initial(_Initial value),
     @required TResult loading(_Loading value),
+    @required TResult codeRequested(_CodeRequested value),
     @required TResult success(_Success value),
     @required TResult failure(_Failure value),
   }) {
     assert(initial != null);
     assert(loading != null);
+    assert(codeRequested != null);
     assert(success != null);
     assert(failure != null);
     return success(this);
@@ -374,6 +508,7 @@ class _$_Success implements _Success {
   TResult maybeMap<TResult extends Object>({
     TResult initial(_Initial value),
     TResult loading(_Loading value),
+    TResult codeRequested(_CodeRequested value),
     TResult success(_Success value),
     TResult failure(_Failure value),
     @required TResult orElse(),
@@ -449,11 +584,13 @@ class _$_Failure implements _Failure {
   TResult when<TResult extends Object>({
     @required TResult initial(),
     @required TResult loading(),
+    @required TResult codeRequested(),
     @required TResult success(),
     @required TResult failure(String message),
   }) {
     assert(initial != null);
     assert(loading != null);
+    assert(codeRequested != null);
     assert(success != null);
     assert(failure != null);
     return failure(message);
@@ -464,6 +601,7 @@ class _$_Failure implements _Failure {
   TResult maybeWhen<TResult extends Object>({
     TResult initial(),
     TResult loading(),
+    TResult codeRequested(),
     TResult success(),
     TResult failure(String message),
     @required TResult orElse(),
@@ -480,11 +618,13 @@ class _$_Failure implements _Failure {
   TResult map<TResult extends Object>({
     @required TResult initial(_Initial value),
     @required TResult loading(_Loading value),
+    @required TResult codeRequested(_CodeRequested value),
     @required TResult success(_Success value),
     @required TResult failure(_Failure value),
   }) {
     assert(initial != null);
     assert(loading != null);
+    assert(codeRequested != null);
     assert(success != null);
     assert(failure != null);
     return failure(this);
@@ -495,6 +635,7 @@ class _$_Failure implements _Failure {
   TResult maybeMap<TResult extends Object>({
     TResult initial(_Initial value),
     TResult loading(_Loading value),
+    TResult codeRequested(_CodeRequested value),
     TResult success(_Success value),
     TResult failure(_Failure value),
     @required TResult orElse(),

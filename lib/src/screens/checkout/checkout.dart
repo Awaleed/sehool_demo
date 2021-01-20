@@ -1,30 +1,25 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:division/division.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sailor/sailor.dart';
-import 'package:sehool/src/components/cart_coupon_field.dart';
-import 'package:sehool/src/core/api_caller.dart';
-import 'package:sehool/src/helpers/helper.dart';
-import 'package:sehool/src/patched_components/custom_stepper.dart';
-import 'package:sehool/src/routes/config_routes.dart';
-import '../../../generated/l10n.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
+import '../../../generated/l10n.dart';
 import '../../../init_injectable.dart';
+import '../../components/cart_coupon_field.dart';
+import '../../components/my_loading_overlay.dart';
 import '../../cubits/cart_cubit/cart_cubit.dart';
+import '../../cubits/checkout_cubit/checkout_cubit.dart';
+import '../../helpers/helper.dart';
 import '../../models/cart_model.dart';
-import '../../models/order_model.dart';
-import '../../patched_components/stepper.dart';
+import '../../patched_components/custom_stepper.dart';
+import '../../routes/config_routes.dart';
 import 'pages/address_review.dart';
-import 'pages/cart_review.dart';
 import 'pages/checkout.dart';
 import 'pages/checkout_notes.dart';
 import 'pages/payment_method_review.dart';
-import 'pages/pickup.dart';
-import 'pages/shpping_date_review.dart';
 
 class CheckoutScreen extends StatelessWidget {
   static const routeName = '/cart';
@@ -46,211 +41,22 @@ class CheckoutScreen extends StatelessWidget {
         ),
         backgroundColor: Colors.transparent,
         body: SafeArea(
-          child: BlocBuilder<CartCubit, CartState>(
+          child: BlocConsumer<CartCubit, CartState>(
             cubit: getIt<CartCubit>(),
+            listener: (context, state) async {
+              if (state.cart.cartItems.isEmpty) {
+                AppRouter.sailor.pop();
+                AppRouter.sailor.pop();
+                Helpers.showMessageOverlay(
+                  context,
+                  message: S.current.dont_have_any_item_in_your_cart,
+                );
+              }
+            },
             builder: (context, state) => CheckoutScroll(cart: state.cart),
           ),
         ),
       ),
-    );
-  }
-}
-
-class CheckoutStepper extends StatefulWidget {
-  const CheckoutStepper({
-    Key key,
-    @required this.cart,
-  }) : super(key: key);
-
-  final CartModel cart;
-
-  @override
-  _CheckoutStepperState createState() => _CheckoutStepperState();
-}
-
-class _CheckoutStepperState extends State<CheckoutStepper> {
-  int currentStep = 0;
-  ValueChanged get onChange => (_) => setState(() {});
-  List<_StepItem> get steps => [
-        _StepItem(
-          label: S.current.cart_contents,
-          child: CartReviewPage(
-            cartItems: widget.cart.cartItems,
-            onChanged: onChange,
-          ),
-          icon: const Icon(
-            FluentIcons.cart_24_regular,
-            size: 50,
-            color: Colors.amber,
-          ),
-          header: FluentIcons.cart_24_regular,
-        ),
-        _StepItem(
-          label: S.current.shipping_address,
-          child: AddressReviewPage(
-            cart: widget.cart,
-            onChanged: onChange,
-          ),
-          icon: const Icon(
-            FluentIcons.location_48_regular,
-            size: 50,
-            color: Colors.amber,
-          ),
-          header: FluentIcons.location_48_regular,
-        ),
-        _StepItem(
-            label: S.current.notes,
-            icon: const Icon(
-              FluentIcons.note_24_regular,
-              size: 50,
-              color: Colors.amber,
-            ),
-            child: CheckoutNotesPage(
-              cart: widget.cart,
-              onChanged: onChange,
-            ),
-            header: FluentIcons.note_24_regular),
-        _StepItem(
-            label: S.current.payment_mode,
-            child: PaymentMethodReviewPage(
-              cart: widget.cart,
-              onChanged: onChange,
-            ),
-            icon: const Icon(
-              FluentIcons.payment_28_regular,
-              size: 50,
-              color: Colors.amber,
-            ),
-            header: FluentIcons.payment_28_regular),
-        _StepItem(
-            label: S.current.finish,
-            child: CheckoutPage(
-              cart: widget.cart,
-              onChanged: onChange,
-            ),
-            state: widget.cart.validate
-                ? CustomStepState.indexed
-                : CustomStepState.disabled,
-            icon: const Icon(
-              FluentIcons.checkmark_48_regular,
-              size: 50,
-              color: Colors.amber,
-            ),
-            header: FluentIcons.checkmark_48_regular),
-      ];
-
-  List<CustomStep> get stepsWidget {
-    return <CustomStep>[
-      for (var i = 0; i < steps.length; i++)
-        CustomStep(
-            isActive: currentStep == i,
-            state: steps[i].state,
-            title: steps[i].label,
-            subtitle: steps[i].icon,
-            content: steps[i].child,
-            header: steps[i].header),
-    ];
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Expanded(
-          child: CustomStepper(
-            currentCustomStep: currentStep,
-            physics: const BouncingScrollPhysics(),
-            onCustomStepTapped: (value) => setState(() => currentStep = value),
-            customSteps: stepsWidget,
-            controlsBuilder: (context, {onStepCancel, onStepContinue}) =>
-                const SizedBox.shrink(),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-          child: Wrap(
-            crossAxisAlignment: WrapCrossAlignment.center,
-            alignment: WrapAlignment.spaceBetween,
-            runAlignment: WrapAlignment.center,
-            children: <Widget>[
-              _buildButton(
-                label: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Icon(FluentIcons.arrow_left_24_regular),
-                    const SizedBox(width: 10),
-                    Text(S.current.previous),
-                  ],
-                ),
-                enabled: currentStep != 0,
-                onTap: () {
-                  for (var i = currentStep - 1; i >= 0; i--) {
-                    final _StepItem step = steps[i];
-                    if (step.state == CustomStepState.disabled) {
-                      continue;
-                    } else {
-                      setState(() => currentStep = i);
-                      break;
-                    }
-                  }
-                },
-              ),
-              if (currentStep == steps.length - 1)
-                _buildButton(
-                  label: Text(S.current.checkout),
-                  onTap: () {
-                    getIt<CartCubit>().placeOrder(context, widget.cart);
-                  },
-                )
-              else
-                _buildButton(
-                  label: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(S.current.next),
-                      const SizedBox(width: 10),
-                      const Icon(FluentIcons.arrow_right_24_regular),
-                    ],
-                  ),
-                  enabled: currentStep != steps.length - 1,
-                  onTap: () {
-                    for (var i = currentStep + 1; i < steps.length; i++) {
-                      final _StepItem step = steps[i];
-                      if (step.state == CustomStepState.disabled) {
-                        continue;
-                      } else {
-                        setState(() => currentStep = i);
-                        break;
-                      }
-                    }
-                  },
-                ),
-            ],
-          ),
-        )
-      ],
-    );
-  }
-
-  Widget _buildButton({
-    Widget label,
-    bool enabled = true,
-    VoidCallback onTap,
-  }) {
-    return ElevatedButton(
-      style: ButtonStyle(
-        minimumSize: MaterialStateProperty.all(
-          const Size.fromRadius(25),
-        ),
-        shape: MaterialStateProperty.all(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(25),
-          ),
-        ),
-      ),
-      onPressed: enabled ? onTap : null,
-      child: label,
     );
   }
 }
@@ -287,6 +93,71 @@ class CheckoutScroll extends StatefulWidget {
 }
 
 class _CheckoutScrollState extends State<CheckoutScroll> {
+  CheckoutCubit cubit;
+
+  @override
+  void initState() {
+    super.initState();
+    cubit = getIt<CheckoutCubit>();
+  }
+
+  @override
+  void dispose() {
+    cubit.close();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocConsumer<CheckoutCubit, CheckoutState>(
+      cubit: cubit,
+      listener: (context, state) {
+        state.maybeWhen(
+          visaPayment: (url) {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => OnlinePay(
+                  url: url,
+                  cubit: cubit,
+                ),
+              ),
+            );
+          },
+          success: () {
+            Helpers.showSuccessOverlay(context,
+                message: S.current.your_order_has_been_successfully_submitted);
+          },
+          failure: (message) {
+            Helpers.showErrorOverlay(context, error: message);
+          },
+          orElse: () {},
+        );
+      },
+      builder: (context, state) {
+        return state.when(
+          initial: () => _buildUI(),
+          loading: () => _buildUI(isLoading: true),
+          visaPayment: (_) => _buildUI(),
+          success: () => _buildUI(),
+          failure: (message) => _buildUI(),
+        );
+      },
+    );
+  }
+
+  Widget _buildUI({bool isLoading = false}) {
+    return MyLoadingOverLay(
+      isLoading: isLoading,
+      showSpinner: true,
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: stepsWidget,
+        ),
+      ),
+    );
+  }
+
   ValueChanged get onChange => (_) => setState(() {});
 
   List<_StepItem> get steps => [
@@ -356,11 +227,15 @@ class _CheckoutScrollState extends State<CheckoutScroll> {
           header: FluentIcons.note_24_regular,
         ),
       ];
+
   List<Widget> get stepsWidget {
     return <Widget>[
       Padding(
         padding: const EdgeInsets.all(20),
-        child: SummeryCard(cart: widget.cart),
+        child: SummeryCard(
+          cart: widget.cart,
+          onChanged: onChange,
+        ),
       ),
       for (var i = 0; i < steps.length; i++)
         Column(
@@ -400,9 +275,11 @@ class _CheckoutScrollState extends State<CheckoutScroll> {
         child: _buildButton(
           enabled: widget.cart.validate,
           label: Text(S.current.checkout),
-          onTap: () {
-            getIt<CartCubit>().placeOrder(context, widget.cart);
-          },
+          onTap: widget.cart.validate
+              ? () {
+                  cubit.placeOrder(widget.cart);
+                }
+              : null,
         ),
       )
     ];
@@ -428,13 +305,236 @@ class _CheckoutScrollState extends State<CheckoutScroll> {
       child: label,
     );
   }
+}
+
+// class CheckoutStepper extends StatefulWidget {
+//   const CheckoutStepper({
+//     Key key,
+//     @required this.cart,
+//   }) : super(key: key);
+
+//   final CartModel cart;
+
+//   @override
+//   _CheckoutStepperState createState() => _CheckoutStepperState();
+// }
+
+// class _CheckoutStepperState extends State<CheckoutStepper> {
+//   int currentStep = 0;
+//   ValueChanged get onChange => (_) => setState(() {});
+//   List<_StepItem> get steps => [
+//         _StepItem(
+//           label: S.current.cart_contents,
+//           child: CartReviewPage(
+//             cartItems: widget.cart.cartItems,
+//             onChanged: onChange,
+//           ),
+//           icon: const Icon(
+//             FluentIcons.cart_24_regular,
+//             size: 50,
+//             color: Colors.amber,
+//           ),
+//           header: FluentIcons.cart_24_regular,
+//         ),
+//         _StepItem(
+//           label: S.current.shipping_address,
+//           child: AddressReviewPage(
+//             cart: widget.cart,
+//             onChanged: onChange,
+//           ),
+//           icon: const Icon(
+//             FluentIcons.location_48_regular,
+//             size: 50,
+//             color: Colors.amber,
+//           ),
+//           header: FluentIcons.location_48_regular,
+//         ),
+//         _StepItem(
+//             label: S.current.notes,
+//             icon: const Icon(
+//               FluentIcons.note_24_regular,
+//               size: 50,
+//               color: Colors.amber,
+//             ),
+//             child: CheckoutNotesPage(
+//               cart: widget.cart,
+//               onChanged: onChange,
+//             ),
+//             header: FluentIcons.note_24_regular),
+//         _StepItem(
+//             label: S.current.payment_mode,
+//             child: PaymentMethodReviewPage(
+//               cart: widget.cart,
+//               onChanged: onChange,
+//             ),
+//             icon: const Icon(
+//               FluentIcons.payment_28_regular,
+//               size: 50,
+//               color: Colors.amber,
+//             ),
+//             header: FluentIcons.payment_28_regular),
+//         _StepItem(
+//             label: S.current.finish,
+//             child: CheckoutPage(
+//               cart: widget.cart,
+//               onChanged: onChange,
+//             ),
+//             state: widget.cart.validate
+//                 ? CustomStepState.indexed
+//                 : CustomStepState.disabled,
+//             icon: const Icon(
+//               FluentIcons.checkmark_48_regular,
+//               size: 50,
+//               color: Colors.amber,
+//             ),
+//             header: FluentIcons.checkmark_48_regular),
+//       ];
+
+//   List<CustomStep> get stepsWidget {
+//     return <CustomStep>[
+//       for (var i = 0; i < steps.length; i++)
+//         CustomStep(
+//             isActive: currentStep == i,
+//             state: steps[i].state,
+//             title: steps[i].label,
+//             subtitle: steps[i].icon,
+//             content: steps[i].child,
+//             header: steps[i].header),
+//     ];
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Column(
+//       crossAxisAlignment: CrossAxisAlignment.stretch,
+//       children: [
+//         Expanded(
+//           child: CustomStepper(
+//             currentCustomStep: currentStep,
+//             physics: const BouncingScrollPhysics(),
+//             onCustomStepTapped: (value) => setState(() => currentStep = value),
+//             customSteps: stepsWidget,
+//             controlsBuilder: (context, {onStepCancel, onStepContinue}) =>
+//                 const SizedBox.shrink(),
+//           ),
+//         ),
+//         Padding(
+//           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+//           child: Wrap(
+//             crossAxisAlignment: WrapCrossAlignment.center,
+//             alignment: WrapAlignment.spaceBetween,
+//             runAlignment: WrapAlignment.center,
+//             children: <Widget>[
+//               _buildButton(
+//                 label: Row(
+//                   mainAxisSize: MainAxisSize.min,
+//                   children: [
+//                     const Icon(FluentIcons.arrow_left_24_regular),
+//                     const SizedBox(width: 10),
+//                     Text(S.current.previous),
+//                   ],
+//                 ),
+//                 enabled: currentStep != 0,
+//                 onTap: () {
+//                   for (var i = currentStep - 1; i >= 0; i--) {
+//                     final _StepItem step = steps[i];
+//                     if (step.state == CustomStepState.disabled) {
+//                       continue;
+//                     } else {
+//                       setState(() => currentStep = i);
+//                       break;
+//                     }
+//                   }
+//                 },
+//               ),
+//               if (currentStep == steps.length - 1)
+//                 _buildButton(
+//                   label: Text(S.current.checkout),
+//                   onTap: () {
+//                     // getIt<CartCubit>().placeOrder(context, widget.cart);
+//                   },
+//                 )
+//               else
+//                 _buildButton(
+//                   label: Row(
+//                     mainAxisSize: MainAxisSize.min,
+//                     children: [
+//                       Text(S.current.next),
+//                       const SizedBox(width: 10),
+//                       const Icon(FluentIcons.arrow_right_24_regular),
+//                     ],
+//                   ),
+//                   enabled: currentStep != steps.length - 1,
+//                   onTap: () {
+//                     for (var i = currentStep + 1; i < steps.length; i++) {
+//                       final _StepItem step = steps[i];
+//                       if (step.state == CustomStepState.disabled) {
+//                         continue;
+//                       } else {
+//                         setState(() => currentStep = i);
+//                         break;
+//                       }
+//                     }
+//                   },
+//                 ),
+//             ],
+//           ),
+//         )
+//       ],
+//     );
+//   }
+
+//   Widget _buildButton({
+//     Widget label,
+//     bool enabled = true,
+//     VoidCallback onTap,
+//   }) {
+//     return ElevatedButton(
+//       style: ButtonStyle(
+//         minimumSize: MaterialStateProperty.all(
+//           const Size.fromRadius(25),
+//         ),
+//         shape: MaterialStateProperty.all(
+//           RoundedRectangleBorder(
+//             borderRadius: BorderRadius.circular(25),
+//           ),
+//         ),
+//       ),
+//       onPressed: enabled ? onTap : null,
+//       child: label,
+//     );
+//   }
+// }
+
+class OnlinePay extends StatelessWidget {
+  const OnlinePay({
+    Key key,
+    this.url,
+    this.cubit,
+  }) : super(key: key);
+  final String url;
+  final CheckoutCubit cubit;
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: stepsWidget,
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(url),
+      ),
+      body: WebView(
+        initialUrl: url,
+        navigationDelegate: (NavigationRequest request) {
+          final uri = Uri.tryParse(request.url);
+          if (uri != null && uri.queryParameters['status'] == 'paid') {
+            AppRouter.sailor.pop();
+            cubit.orderSuccess();
+          } else if (uri != null && uri.queryParameters['status'] == 'failed') {
+            AppRouter.sailor.pop();
+            cubit.orderFailure(uri.queryParameters['message']);
+          }
+
+          return NavigationDecision.navigate;
+        },
       ),
     );
   }

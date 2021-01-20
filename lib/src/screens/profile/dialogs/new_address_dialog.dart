@@ -1,12 +1,11 @@
 import 'package:division/division.dart';
-import 'package:dropdown_search/dropdown_search.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:sailor/sailor.dart';
-import 'package:sehool/src/components/custom_form_fileds.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:sehool/src/components/address_picker_card.dart';
 import 'package:sehool/src/models/address_model.dart';
+import 'package:sehool/src/patched_components/places_picker/src/place_picker.dart';
 import 'package:sehool/src/routes/config_routes.dart';
 
 import '../../../../generated/l10n.dart';
@@ -21,7 +20,7 @@ import '../../../models/form_data_model.dart';
 class NewAddressDialog extends StatefulWidget {
   static const routeName = '/addresses/new';
 
-  NewAddressDialog({
+  const NewAddressDialog({
     Key key,
     this.cubit,
   }) : super(key: key);
@@ -34,7 +33,8 @@ class NewAddressDialog extends StatefulWidget {
 
 class _NewAddressDialogState extends State<NewAddressDialog> {
   final formKey = GlobalKey<FormState>();
-  final data = <FormFieldType, FormFieldModel>{};
+  final data = <String, dynamic>{};
+  LatLng location;
 
   CityModel selectedCity;
   CitySectionModel selectedSection;
@@ -138,7 +138,13 @@ class _NewAddressDialogState extends State<NewAddressDialog> {
                               failure: (_) => throw UnimplementedError(),
                             );
                           },
-                        )
+                        ),
+                        _buildAddressCard(
+                          context,
+                          map: data,
+                          enabled: !isLoading,
+                          initialValue: location,
+                        ),
                       ],
                     ),
                   ),
@@ -163,9 +169,54 @@ class _NewAddressDialogState extends State<NewAddressDialog> {
     );
   }
 
+  Widget _buildAddressCard(
+    BuildContext context, {
+    @required LatLng initialValue,
+    @required Map<String, dynamic> map,
+    bool enabled = true,
+  }) {
+    final _model = FormFieldModel.mapType(FormFieldType.location, map);
+
+    return IgnorePointer(
+      ignoring: !enabled,
+      child: AddressPickerCard(
+        key: ObjectKey(location),
+        label: _model.labelText,
+        onSaved: (newValue) {
+          setState(() => location = newValue);
+          _model.onSave(newValue);
+        },
+        validator: _model.validator,
+        initialValue: initialValue,
+        openMapScreen: (onSaved, state) {
+          Helpers.dismissFauces(context);
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => PlacePicker(
+                initialPosition: const LatLng(
+                  15.591851764538097,
+                  32.520090490579605,
+                ),
+                onSave: (newValue) {
+                  if (newValue != null) {
+                    onSaved(newValue);
+                    state.didChange(newValue);
+                    _model.onSave(newValue);
+                  }
+                  Navigator.of(context).pop();
+                },
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
   Widget _buildTextInput(
     BuildContext context, {
-    @required Map<FormFieldType, FormFieldModel> map,
+    @required Map<String, dynamic> map,
     @required FormFieldType type,
     bool enabled = true,
     bool obscureText = false,

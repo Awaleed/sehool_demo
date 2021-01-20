@@ -3,7 +3,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../models/address_model.dart';
-import '../../models/form_data_model.dart';
 import '../../repositories/user_repository.dart';
 
 part 'address_cubit.freezed.dart';
@@ -27,7 +26,7 @@ class AddressCubit extends Cubit<AddressState> {
     }
   }
 
-  Future<void> addAddress(Map<FormFieldType, FormFieldModel> data) async {
+  Future<void> addAddress(Map<String, dynamic> data) async {
     emit(const AddressState.loading());
     try {
       final value = await _userRepository.addAddress(data);

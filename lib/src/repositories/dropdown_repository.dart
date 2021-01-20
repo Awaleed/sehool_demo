@@ -1,9 +1,8 @@
-import 'package:enum_to_string/enum_to_string.dart';
 import 'package:injectable/injectable.dart';
-import '../helpers/fake_data_generator.dart';
 
 import '../core/api_caller.dart';
 import '../data/dropdown_datasource.dart';
+import '../helpers/fake_data_generator.dart';
 import '../models/address_model.dart';
 import '../models/dropdown_value_model.dart';
 import '../models/order_model.dart';

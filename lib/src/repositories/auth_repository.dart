@@ -1,16 +1,19 @@
 import 'package:injectable/injectable.dart';
 
 import '../data/user_datasource.dart';
-import '../models/form_data_model.dart';
 import '../models/user_model.dart';
 
 abstract class IAuthRepository {
-  Future<UserModel> login(Map<FormFieldType, FormFieldModel> credentials);
-  Future<UserModel> register(Map<FormFieldType, FormFieldModel> credentials);
+  Future<UserModel> login(Map<String, dynamic> credentials);
+
+  Future<UserModel> register(Map<String, dynamic> credentials);
+
   Future<UserModel> me();
+
   Future<void> logout();
 
-  Future<int> forgotPassword(String email);
+  Future<void> forgotPassword(String email);
+
   Future<void> resetPassword(String email, String password);
 }
 
@@ -21,11 +24,8 @@ class AuthRepositoryImpl implements IAuthRepository {
   AuthRepositoryImpl(this._localSource, this._remoteSource);
 
   @override
-  Future<UserModel> login(
-      Map<FormFieldType, FormFieldModel> credentials) async {
-    final res = await _remoteSource.login(
-      FormFieldModel.generateJson(credentials),
-    );
+  Future<UserModel> login(Map<String, dynamic> credentials) async {
+    final res = await _remoteSource.login(credentials);
     final token = AccessTokenModel(
       expiresIn: res['expires_in'],
       token: res['access_token']['token'],
@@ -52,11 +52,8 @@ class AuthRepositoryImpl implements IAuthRepository {
   }
 
   @override
-  Future<UserModel> register(
-      Map<FormFieldType, FormFieldModel> credentials) async {
-    final res = await _remoteSource.register(
-      FormFieldModel.generateJson(credentials),
-    );
+  Future<UserModel> register(Map<String, dynamic> credentials) async {
+    final res = await _remoteSource.register(credentials);
     final token = AccessTokenModel(
       expiresIn: res['expires_in'],
       token: res['access_token']['token'],
@@ -94,10 +91,8 @@ class AuthRepositoryImpl implements IAuthRepository {
   }
 
   @override
-  Future<int> forgotPassword(String email) async {
-    final res = await _remoteSource.forgotPassword({'email': email});
-    return res['time_out'];
-  }
+  Future<void> forgotPassword(String email) =>
+      _remoteSource.forgotPassword({'email': email});
 
   @override
   Future<void> resetPassword(String email, String password) =>

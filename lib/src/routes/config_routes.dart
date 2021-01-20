@@ -90,10 +90,12 @@ abstract class AppRouter {
           builder: (context, args, paramMap) => AddToCartScreen(
             product: paramMap.param('product'),
             cartItem: paramMap.param('cart_item'),
+            editing: paramMap.param('editing'),
           ),
           params: [
             SailorParam(name: 'product'),
             SailorParam(name: 'cart_item'),
+            SailorParam(name: 'editing', defaultValue: false),
           ],
         ),
         SailorRoute(
@@ -129,7 +131,7 @@ abstract class AppRouter {
         /// Debug Screens
         SailorRoute(
           name: Playground.routeName,
-          builder: (context, args, paramMap) => const Playground(),
+          builder: (context, args, paramMap) => Playground(),
         ),
       ],
     );

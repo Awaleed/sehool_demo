@@ -4,6 +4,9 @@ part of 'login_cubit.dart';
 abstract class LoginState with _$LoginState {
   const factory LoginState.initial() = _Initial;
   const factory LoginState.loading() = _Loading;
+
+  const factory LoginState.codeRequested() = _CodeRequested;
+
   const factory LoginState.success() = _Success;
   const factory LoginState.failure({String message}) = _Failure;
 }

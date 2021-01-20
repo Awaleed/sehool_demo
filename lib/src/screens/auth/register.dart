@@ -1,10 +1,11 @@
 import 'package:division/division.dart';
-import 'package:dropdown_search/dropdown_search.dart';
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../../generated/l10n.dart';
+import '../../../init_injectable.dart';
 import '../../components/custom_form_fileds.dart';
 import '../../cubits/registration_cubit/registration_cubit.dart';
 import '../../helpers/helper.dart';
@@ -12,8 +13,6 @@ import '../../models/form_data_model.dart';
 import '../../models/user_model.dart';
 import '../../routes/config_routes.dart';
 import 'login.dart';
-
-import '../../../init_injectable.dart';
 
 class RegistrationScreen extends StatefulWidget {
   static const routeName = '/register';
@@ -26,7 +25,7 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
-  final credentials = <FormFieldType, FormFieldModel>{};
+  final credentials = <String, dynamic>{};
   final formKey = GlobalKey<FormState>();
 
   UserLevel userLevel;
@@ -196,7 +195,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   }
 
   Widget _buildLevelDropdownInput({
-    @required Map<FormFieldType, FormFieldModel> map,
+    @required Map<String, dynamic> map,
     @required FormFieldType type,
     bool enabled = true,
   }) {

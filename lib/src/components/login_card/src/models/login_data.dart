@@ -12,9 +12,10 @@ class LoginData {
 
   @override
   String toString() {
-    return '$runtimeType($name, $password)';
+    return 'LoginData($name, $password)';
   }
 
+  @override
   bool operator ==(Object other) {
     if (other is LoginData) {
       return name == other.name && password == other.password;
@@ -22,5 +23,6 @@ class LoginData {
     return false;
   }
 
+  @override
   int get hashCode => hash2(name, password);
 }

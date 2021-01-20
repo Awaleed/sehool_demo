@@ -2,8 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:sehool/src/helpers/helper.dart';
 
+import '../../../../helpers/helper.dart';
 import '../math_helper.dart';
 import '../matrix.dart';
 
@@ -11,7 +11,7 @@ enum AnimatedTextRotation { up, down }
 
 /// https://medium.com/flutter-community/flutter-challenge-3d-bottom-navigation-bar-48952a5fd996
 class AnimatedText extends StatefulWidget {
-  AnimatedText({
+ const AnimatedText({
     Key key,
     @required this.text,
     this.style,

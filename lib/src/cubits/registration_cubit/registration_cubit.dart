@@ -3,7 +3,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../init_injectable.dart';
-import '../../models/form_data_model.dart';
 import '../../repositories/auth_repository.dart';
 import '../auth_cubit/auth_cubit.dart';
 
@@ -17,14 +16,13 @@ class RegistrationCubit extends Cubit<RegistrationState> {
 
   final IAuthRepository _authRepository;
 
-  Future<void> registration(
-      Map<FormFieldType, FormFieldModel> credentials) async {
+  Future<void> registration(Map<String, dynamic> credentials) async {
     emit(const RegistrationState.loading());
     try {
       await _authRepository.register(credentials);
       emit(const RegistrationState.success());
       getIt<AuthCubit>().authenticateUser();
-        } catch (e) {
+    } catch (e) {
       addError(e);
       // TODO: Handel error messages
       emit(RegistrationState.failure(message: '$e'));

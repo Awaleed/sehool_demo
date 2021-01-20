@@ -1,9 +1,10 @@
 import 'package:division/division.dart';
 import 'package:flutter/material.dart';
-import 'package:sehool/generated/l10n.dart';
+
+import '../../../../generated/l10n.dart';
 
 class About extends StatefulWidget {
-  About({Key key}) : super(key: key);
+  const About({Key key}) : super(key: key);
 
   @override
   _AboutState createState() => _AboutState();
@@ -31,9 +32,7 @@ class _AboutState extends State<About> {
           body: Column(
             children: [
               Expanded(
-                child: Column(
-                  children: [],
-                ),
+                child: Column(),
               ),
               Txt(
                 '❤Made in Panda180 with love❤',

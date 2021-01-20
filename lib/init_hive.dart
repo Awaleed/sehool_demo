@@ -11,9 +11,7 @@ List<String> _boxesNames = [
   userBoxName,
 ];
 
-List<TypeAdapter> _adapters = [
-  SettingsModelAdapter()
-];
+List<TypeAdapter> _adapters = [SettingsModelAdapter()];
 
 Future<void> initHive() async {
   if (kIsWeb) {

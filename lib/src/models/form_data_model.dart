@@ -7,6 +7,7 @@ import '../../generated/l10n.dart';
 enum FormFieldType {
   /// TODO: MODELS USED HERE REMOVE OTHER
   address,
+  location,
   password,
   name,
   email,
@@ -41,19 +42,18 @@ class FormFieldModel {
     this.value,
   });
 
-  static Map<String, dynamic> generateJson(
-    Map<FormFieldType, FormFieldModel> map,
-  ) {
-    final jsonMap = <String, dynamic>{};
-    for (final item in map.entries) {
-      if (item.value?.value == null) continue;
-      jsonMap[item.value.name] = item.value.value;
-    }
-    return jsonMap;
-  }
+  // static Map<String, dynamic> generateJson(
+  //   Map<String, dynamic> map,
+  // ) {
+  //   final jsonMap = <String, dynamic>{};
+  //   for (final item in map.entries) {
+  //     if (item.value?.value == null) continue;
+  //     jsonMap[item.value.name] = item.value.value;
+  //   }
+  //   return jsonMap;
+  // }
 
-  factory FormFieldModel.mapType(
-      FormFieldType type, Map<FormFieldType, FormFieldModel> map) {
+  factory FormFieldModel.mapType(FormFieldType type, Map<String, dynamic> map) {
     switch (type) {
       case FormFieldType.name:
         return FormFieldModel(
@@ -61,13 +61,8 @@ class FormFieldModel {
           labelText: S.current.full_name,
           iconData: FluentIcons.person_28_regular,
           keyboardType: TextInputType.text,
-          validator: _Validators.shortStringValidator,
-          onSave: (value) {
-            map[FormFieldType.name] = FormFieldModel(
-              name: 'name',
-              value: _toString(value),
-            );
-          },
+          validator: Validators.shortStringValidator,
+          onSave: (value) => map['name'] = _toString(value),
         );
       case FormFieldType.address:
         return FormFieldModel(
@@ -75,12 +70,19 @@ class FormFieldModel {
           labelText: S.current.address,
           iconData: FluentIcons.location_28_regular,
           keyboardType: TextInputType.text,
-          validator: _Validators.notEmptyStringValidator,
+          validator: Validators.notEmptyStringValidator,
+          onSave: (value) => map['address'] = _toString(value),
+        );
+      case FormFieldType.location:
+        return FormFieldModel(
+          hintText: S.current.show_on_map,
+          labelText: S.current.show_on_map,
+          iconData: FluentIcons.location_28_regular,
+          keyboardType: TextInputType.text,
+          validator: Validators.notNullValidator,
           onSave: (value) {
-            map[FormFieldType.address] = FormFieldModel(
-              name: 'address',
-              value: _toString(value),
-            );
+            map['lat'] = _toDouble(value.latitude);
+            map['lang'] = _toDouble(value.longitude);
           },
         );
       case FormFieldType.password:
@@ -88,14 +90,9 @@ class FormFieldModel {
           hintText: '************',
           labelText: S.current.password,
           iconData: FluentIcons.eye_show_24_regular,
-          keyboardType: TextInputType.text,
-          validator: _Validators.longStringValidator,
-          onSave: (value) {
-            map[FormFieldType.password] = FormFieldModel(
-              name: 'password',
-              value: _toString(value),
-            );
-          },
+          keyboardType: TextInputType.visiblePassword,
+          validator: Validators.longStringValidator,
+          onSave: (value) => map['password'] = _toString(value),
         );
       case FormFieldType.email:
         return FormFieldModel(
@@ -107,12 +104,7 @@ class FormFieldModel {
             if (!isEmail(value)) return S.current.should_be_a_valid_email;
             return null;
           },
-          onSave: (value) {
-            map[FormFieldType.email] = FormFieldModel(
-              name: 'email',
-              value: _toString(value),
-            );
-          },
+          onSave: (value) => map['email'] = _toString(value),
         );
       case FormFieldType.phone:
         return FormFieldModel(
@@ -120,52 +112,35 @@ class FormFieldModel {
           labelText: S.current.phone,
           iconData: FluentIcons.call_28_regular,
           keyboardType: TextInputType.number,
-          validator: _Validators.numericValidator,
-          onSave: (value) {
-            map[FormFieldType.phone] = FormFieldModel(
-              name: 'phone',
-              value: _toString(value),
-            );
-          },
+          validator: Validators.numericValidator,
+          onSave: (value) => map['phone'] = _toString(value),
         );
       case FormFieldType.notes:
         return FormFieldModel(
-          hintText: 'ملاحظات',
+          hintText: S.current.notes,
           iconData: FluentIcons.send_28_regular,
-          keyboardType: TextInputType.number,
-          validator: _Validators.notEmptyStringValidator,
-          onSave: (value) {
-            map[FormFieldType.notes] = FormFieldModel(
-              name: 'notes',
-              value: _toString(value),
-            );
-          },
+          keyboardType: TextInputType.multiline,
+          validator: Validators.notEmptyStringValidator,
+          onSave: (value) => map['note'] = _toString(value),
         );
+    //TODO: Localize this
       case FormFieldType.cityId:
         return FormFieldModel(
-          hintText: 'المدينة',
+          hintText: S.current.cites,
           iconData: FluentIcons.location_28_regular,
           keyboardType: TextInputType.number,
-          validator: _Validators.notNullValidator,
-          onSave: (value) {
-            map[FormFieldType.cityId] = FormFieldModel(
-              name: 'city_id',
-              value: _toInt(value),
-            );
-          },
+          validator: Validators.notNullValidator,
+          onSave: (value) => map['city_id'] = _toInt(value),
         );
       case FormFieldType.citySectionId:
         return FormFieldModel(
+          //TODO: Localize this
+
           hintText: 'قطاع المدينة',
           iconData: FluentIcons.location_28_regular,
           keyboardType: TextInputType.number,
-          validator: _Validators.notNullValidator,
-          onSave: (value) {
-            map[FormFieldType.citySectionId] = FormFieldModel(
-              name: 'city_section_id',
-              value: _toString(value),
-            );
-          },
+          validator: Validators.notNullValidator,
+          onSave: (value) => map['section_id'] = _toInt(value),
         );
       case FormFieldType.level:
         return FormFieldModel(
@@ -173,13 +148,8 @@ class FormFieldModel {
           hintText: S.current.level,
           labelText: S.current.level,
           iconData: FluentIcons.person_accounts_24_regular,
-          validator: _Validators.notNullValidator,
-          onSave: (value) {
-            map[FormFieldType.level] = FormFieldModel(
-              name: 'level',
-              value: _toString(value),
-            );
-          },
+          validator: Validators.notNullValidator,
+          onSave: (value) => map['level'] = _toString(value),
         );
       case FormFieldType.storeName:
         //TODO: Add localization
@@ -188,13 +158,8 @@ class FormFieldModel {
           labelText: S.current.store,
           iconData: Icons.store,
           keyboardType: TextInputType.text,
-          validator: _Validators.shortStringValidator,
-          onSave: (value) {
-            map[FormFieldType.storeName] = FormFieldModel(
-              name: 'store_name',
-              value: _toString(value),
-            );
-          },
+          validator: Validators.shortStringValidator,
+          onSave: (value) => map['store_name'] = _toString(value),
         );
       case FormFieldType.vatNumber:
         return FormFieldModel(
@@ -202,30 +167,31 @@ class FormFieldModel {
           labelText: S.current.vat_number,
           iconData: FluentIcons.money_24_regular,
           keyboardType: TextInputType.number,
-          validator: _Validators.notEmptyStringValidator,
+          validator: Validators.notEmptyStringValidator,
           onSave: (value) {
-            map[FormFieldType.vatNumber] = FormFieldModel(
-              name: 'vat_number',
-              value: _toInt(value),
-            );
+            map['vat_number'] = _toInt(value);
           },
         );
       default:
         throw UnsupportedError(
-          'Unsupported FormFieldModel with prams FormFieldType $type, Map<FormFieldType, FormFieldModel> $BigInt.one',
+          'Unsupported FormFieldModel with prams FormFieldType $type, Map<String, dynamic> $BigInt.one',
         );
     }
   }
 
-  // static double _toDouble(String value) => double.tryParse(value ?? '0') ?? 0;
-  static int _toInt(String value) => int.tryParse('$value' ?? '');
-  static String _toString(String value) => value?.trim();
+  static double _toDouble(value) => double.tryParse(value?.toString() ?? '');
+
+  static int _toInt(value) => int.tryParse(value.toString() ?? '');
+
+  static String _toString(value) => value?.toString()?.trim();
 }
 
-abstract class _Validators {
+abstract class Validators {
   static String notEmptyStringValidator(dynamic value) {
     if (value is String) {
       if (value.isEmpty || value == null) {
+        //TODO: Add localization
+
         return 'إملاء هذا الحقل';
       }
       return null;
@@ -255,6 +221,8 @@ abstract class _Validators {
 
   static String notNullValidator(dynamic value) {
     if (value == null) {
+      //TODO: Add localization
+
       return 'الرجاء إختيار واحد';
     }
     return null;
@@ -263,6 +231,8 @@ abstract class _Validators {
   static String numericValidator(dynamic value) {
     if (value is String) {
       if (!isNumeric(value) || value.isEmpty || value == null) {
+        //TODO: Add localization
+
         return 'أدخل رقم صحيح';
       }
       return null;

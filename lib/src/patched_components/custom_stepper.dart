@@ -407,19 +407,19 @@ class _Animated extends StatelessWidget {
         duration: 200.milliseconds,
         curve: Curves.easeOut,
         builder: (context, child, value) => IgnorePointer(
-              ignoring: value >= 0,
-              child: Opacity(
-                opacity: 1 - value,
-                child: Container(
-                  margin: const EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(25),
-                  ),
-                  child: step.subtitle,
-                ),
+          ignoring: value >= 0,
+          child: Opacity(
+            opacity: 1 - value,
+            child: Container(
+              margin: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(25),
               ),
+              child: step.subtitle,
             ),
+          ),
+        ),
       ),
     );
   }

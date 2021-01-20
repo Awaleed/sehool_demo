@@ -7,8 +7,12 @@ part of 'checkout_model.dart';
 // **************************************************************************
 
 CheckoutModel _$CheckoutModelFromJson(Map<String, dynamic> json) {
-  return CheckoutModel();
+  return CheckoutModel(
+    url: json['url'] as String,
+  );
 }
 
 Map<String, dynamic> _$CheckoutModelToJson(CheckoutModel instance) =>
-    <String, dynamic>{};
+    <String, dynamic>{
+      'url': instance.url,
+    };

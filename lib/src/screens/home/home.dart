@@ -2,18 +2,20 @@ import 'package:division/division.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sehool/src/helpers/helper.dart';
-import 'package:sehool/src/screens/home/pages/userpage.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../generated/l10n.dart';
 import '../../../init_injectable.dart';
 import '../../cubits/cart_cubit/cart_cubit.dart';
+import '../../helpers/helper.dart';
 import '../../routes/config_routes.dart';
 import '../checkout/checkout.dart';
 import 'pages/main.dart';
-import 'pages/profile.dart';
+import 'pages/userpage.dart';
 import 'pages/videos.dart';
+
+final homeNotifier = ValueNotifier(0);
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home';
@@ -58,6 +60,9 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     selectedIndex = 0;
     pageController = PageController(initialPage: selectedIndex);
+    homeNotifier.addListener(() {
+      onPageChanged(0);
+    });
   }
 
   void onPageChanged(int index) {
@@ -67,128 +72,131 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Parent(
-      style: ParentStyle()
-        ..background.image(path: 'assets/images/bg.jpg', fit: BoxFit.cover),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: Stack(
-          fit: StackFit.expand,
-          children: [
-            const DecoratedBox(
-              decoration: BoxDecoration(
-                color: Colors.black45,
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Colors.black,
-                    Colors.amber,
-                    Colors.black,
-                  ],
-                ),
-              ),
-            ),
-            SafeArea(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Expanded(
-                    child: PageView(
-                      physics: const NeverScrollableScrollPhysics(),
-                      controller: pageController,
-                      children: [...pages.map((e) => e.page)],
+    return ValueListenableBuilder(
+      valueListenable: homeNotifier,
+      builder: (BuildContext context, int value, Widget child) {
+        debugPrint('HomeScreenNotified $value');
+        return Parent(
+          style: ParentStyle()
+            ..background.image(path: 'assets/images/bg.jpg', fit: BoxFit.cover),
+          child: Scaffold(
+            backgroundColor: Colors.transparent,
+            body: Stack(
+              fit: StackFit.expand,
+              children: [
+                const DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: Colors.black45,
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Colors.black,
+                        Colors.amber,
+                        Colors.black,
+                      ],
                     ),
                   ),
-                  Container(
-                    decoration: const BoxDecoration(
-                      color: Colors.black45,
-                      gradient: LinearGradient(
-                        begin: Alignment.bottomCenter,
-                        end: Alignment.topCenter,
-                        colors: [
-                          Colors.black,
-                          Colors.transparent,
-                        ],
-                      ),
-                    ),
-                    height: 75,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 0),
-                      child: FittedBox(
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            ...() {
-                              final list = <Widget>[];
-                              for (var i = 0; i < pages.length; i++) {
-                                final isSelected = selectedIndex == i;
-                                final item = pages[i];
-
-                                if (item.label == S.current.cart) {
-                                  list.add(_buildCartButton());
-                                  continue;
-                                } else if (item.label == S.current.about) {
-                                  list.add(_buildMessageButton());
-                                  continue;
-                                }
-                                final tab = Parent(
-                                  gesture: Gestures()
-                                    ..onTap(() {
-                                      if (!isSelected) onPageChanged(i);
-                                    }),
-                                  style: ParentStyle()
-                                    ..animate(600, Curves.easeOut)
-                                    ..width(isSelected ? 130 : 70)
-                                    ..background.color(isSelected
-                                        ? Colors.black87
-                                        : Colors.transparent)
-                                    ..padding(
-                                      horizontal: 20,
-                                      vertical: 10,
-                                    )
-                                    ..borderRadius(all: 50)
-                                    ..alignmentContent.center(),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Icon(
-                                        item.icon,
-                                        color: isSelected
-                                            ? Colors.amber
-                                            : Colors.white,
-                                      ),
-                                      if (isSelected)
-                                        Flexible(
-                                          child: FittedBox(
-                                            child: Text(
-                                              '  ${item.label}',
-                                              style: const TextStyle(
-                                                color: Colors.amber,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                    ],
-                                  ),
-                                );
-                                list.add(tab);
-                              }
-                              return list;
-                            }()
-                          ],
+                ),
+                SafeArea(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Expanded(
+                        child: PageView(
+                          physics: const NeverScrollableScrollPhysics(),
+                          controller: pageController,
+                          children: [...pages.map((e) => e.page)],
                         ),
                       ),
+                      Container(
+                        decoration: const BoxDecoration(
+                          color: Colors.black45,
+                          gradient: LinearGradient(
+                            begin: Alignment.bottomCenter,
+                            end: Alignment.topCenter,
+                            colors: [
+                              Colors.black,
+                              Colors.transparent,
+                            ],
+                          ),
+                        ),
+                        height: 75,
+                        child: FittedBox(
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              _buildRange(0, 2),
+                              _buildCartButton(),
+                              _buildRange(3, 5),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildRange(int min, int max) {
+    final list = <Widget>[];
+    for (var i = min; i < max; i++) {
+      final isSelected = selectedIndex == i;
+      final item = pages[i];
+
+      if (item.label == S.current.cart) {
+        list.add(_buildCartButton());
+        continue;
+      } else if (item.label == S.current.about) {
+        list.add(_buildMessageButton());
+        continue;
+      }
+      final tab = Parent(
+        gesture: Gestures()
+          ..onTap(() {
+            if (!isSelected) onPageChanged(i);
+          }),
+        style: ParentStyle()
+          ..animate(600, Curves.easeOut)
+          ..width(isSelected ? 130 : 70)
+          ..background.color(isSelected ? Colors.black87 : Colors.transparent)
+          ..padding(
+            horizontal: 20,
+            vertical: 10,
+          )
+          ..borderRadius(all: 50)
+          ..alignmentContent.center(),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              item.icon,
+              color: isSelected ? Colors.amber : Colors.white,
+            ),
+            if (isSelected)
+              Flexible(
+                child: FittedBox(
+                  child: Text(
+                    '  ${item.label}',
+                    style: const TextStyle(
+                      color: Colors.amber,
                     ),
                   ),
-                ],
+                ),
               ),
-            ),
           ],
         ),
-      ),
-    );
+      );
+      list.add(tab);
+    }
+    return Row(children: list);
   }
 
   Widget _buildMessageButton() => Parent(
@@ -210,7 +218,7 @@ class _HomeScreenState extends State<HomeScreen> {
           )
           ..borderRadius(all: 50)
           ..alignmentContent.center(),
-        child: const Icon(Icons.message, color: Colors.white),
+        child: const Icon(FontAwesomeIcons.whatsapp, color: Colors.white),
       );
 
   Widget _buildCartButton() => Padding(

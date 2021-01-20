@@ -1,16 +1,18 @@
 import 'dart:math';
 
 import 'package:faker/faker.dart';
+// ignore: implementation_imports
+import 'package:faker/src/lorem.dart';
+// ignore: implementation_imports
+import 'package:faker/src/person.dart';
+import 'package:supercharged/supercharged.dart';
+
+import '../models/address_model.dart';
 import '../models/banner_model.dart';
 import '../models/cart_model.dart';
-import '../models/video_model.dart';
-import 'package:faker/src/person.dart';
-import 'package:faker/src/lorem.dart';
-import '../models/address_model.dart';
-import '../models/order_model.dart';
 import '../models/product_model.dart';
 import '../models/user_model.dart';
-import 'package:supercharged/supercharged.dart';
+import '../models/video_model.dart';
 
 abstract class FakeDataGenerator {
   static const List videos = [
@@ -204,7 +206,7 @@ abstract class FakeDataGenerator {
 }
 
 extension on List {
-  get random => this[Random().nextInt(this.length)];
+  dynamic get random => this[Random().nextInt(length)];
 }
 
 extension on Lorem {

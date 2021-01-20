@@ -1,15 +1,15 @@
 import 'package:division/division.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sehool/src/components/orders_list/orders_list_sliver.dart';
-import 'package:sehool/src/cubits/order_cubit/order_cubit.dart';
-import 'package:sehool/src/helpers/fake_data_generator.dart';
+
 import '../../../../generated/l10n.dart';
 import '../../../../init_injectable.dart';
-import '../../../components/empty_orders_widget.dart';
+import '../../../components/orders_list/orders_list_sliver.dart';
+import '../../../cubits/order_cubit/order_cubit.dart';
 
 class OrdersHistory extends StatefulWidget {
   static const routeName = '/myOrdersHistory';
+
   const OrdersHistory({Key key}) : super(key: key);
 
   @override

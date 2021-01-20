@@ -13,7 +13,7 @@ class LanguageModel {
     this.selected = false,
   });
 
- static List<LanguageModel> get languages => [
+  static List<LanguageModel> get languages => [
         LanguageModel(
           'en',
           'English',

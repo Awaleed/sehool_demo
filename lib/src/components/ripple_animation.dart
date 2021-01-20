@@ -1,6 +1,5 @@
 import 'dart:math' as math show sin, pi, sqrt;
 
-import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 
 class RipplesAnimation extends StatefulWidget {

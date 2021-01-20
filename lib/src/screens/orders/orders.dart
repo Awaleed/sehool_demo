@@ -1,16 +1,13 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:division/division.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:sehool/src/cubits/order_cubit/order_cubit.dart';
-import 'package:sehool/src/helpers/fake_data_generator.dart';
 
 import '../../../generated/l10n.dart';
 import '../../../init_injectable.dart';
 import '../../components/orders_list/orders_list_sliver.dart';
-import '../../models/lazy_list_model.dart';
+import '../../cubits/order_cubit/order_cubit.dart';
 
 class OrdersScreen extends StatefulWidget {
   static const routeName = '/orders';

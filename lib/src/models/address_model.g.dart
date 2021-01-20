@@ -21,16 +21,6 @@ AddressModel _$AddressModelFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$AddressModelToJson(AddressModel instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'address': instance.address,
-      'lat': instance.lat,
-      'lang': instance.lang,
-      'city': instance.city?.toJson(),
-      'section': instance.section?.toJson(),
-    };
-
 CityModel _$CityModelFromJson(Map<String, dynamic> json) {
   return CityModel(
     id: json['id'] as int,
