@@ -107,6 +107,7 @@ class UserCard extends StatelessWidget {
           ),
           if (kUser.level == UserLevel.merchant)
             Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 _buildUserStatsItem(
@@ -292,7 +293,7 @@ class _SettingsState extends State<Settings> {
                   Navigator.pop(context, false);
                 },
                 child: Text(
-                  'الغاء',
+                  S.current.cancel,
                   style: Theme.of(context).textTheme.button,
                 ),
               ),

@@ -177,7 +177,7 @@ class SummeryCard extends StatelessWidget {
                                 Navigator.pop(context, false);
                               },
                               child: Text(
-                                'الغاء',
+                                S.current.cancel,
                                 style: Theme.of(context).textTheme.button,
                               ),
                             ),

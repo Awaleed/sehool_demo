@@ -186,6 +186,7 @@ class _$_EnterYourEmail implements _EnterYourEmail {
   int get hashCode =>
       runtimeType.hashCode ^ const DeepCollectionEquality().hash(email);
 
+  @JsonKey(ignore: true)
   @override
   _$EnterYourEmailCopyWith<_EnterYourEmail> get copyWith =>
       __$EnterYourEmailCopyWithImpl<_EnterYourEmail>(this, _$identity);
@@ -276,6 +277,7 @@ abstract class _EnterYourEmail implements ForgotPasswordState {
   const factory _EnterYourEmail({String email}) = _$_EnterYourEmail;
 
   String get email;
+  @JsonKey(ignore: true)
   _$EnterYourEmailCopyWith<_EnterYourEmail> get copyWith;
 }
 
@@ -340,6 +342,7 @@ class _$_EnterNewPassword implements _EnterNewPassword {
       const DeepCollectionEquality().hash(email) ^
       const DeepCollectionEquality().hash(timeout);
 
+  @JsonKey(ignore: true)
   @override
   _$EnterNewPasswordCopyWith<_EnterNewPassword> get copyWith =>
       __$EnterNewPasswordCopyWithImpl<_EnterNewPassword>(this, _$identity);
@@ -432,6 +435,7 @@ abstract class _EnterNewPassword implements ForgotPasswordState {
 
   String get email;
   int get timeout;
+  @JsonKey(ignore: true)
   _$EnterNewPasswordCopyWith<_EnterNewPassword> get copyWith;
 }
 
@@ -488,6 +492,7 @@ class _$_EnterYourEmailLoading implements _EnterYourEmailLoading {
   int get hashCode =>
       runtimeType.hashCode ^ const DeepCollectionEquality().hash(email);
 
+  @JsonKey(ignore: true)
   @override
   _$EnterYourEmailLoadingCopyWith<_EnterYourEmailLoading> get copyWith =>
       __$EnterYourEmailLoadingCopyWithImpl<_EnterYourEmailLoading>(
@@ -580,6 +585,7 @@ abstract class _EnterYourEmailLoading implements ForgotPasswordState {
       _$_EnterYourEmailLoading;
 
   String get email;
+  @JsonKey(ignore: true)
   _$EnterYourEmailLoadingCopyWith<_EnterYourEmailLoading> get copyWith;
 }
 
@@ -637,6 +643,7 @@ class _$_EnterNewPasswordLoading implements _EnterNewPasswordLoading {
   int get hashCode =>
       runtimeType.hashCode ^ const DeepCollectionEquality().hash(email);
 
+  @JsonKey(ignore: true)
   @override
   _$EnterNewPasswordLoadingCopyWith<_EnterNewPasswordLoading> get copyWith =>
       __$EnterNewPasswordLoadingCopyWithImpl<_EnterNewPasswordLoading>(
@@ -729,6 +736,7 @@ abstract class _EnterNewPasswordLoading implements ForgotPasswordState {
       _$_EnterNewPasswordLoading;
 
   String get email;
+  @JsonKey(ignore: true)
   _$EnterNewPasswordLoadingCopyWith<_EnterNewPasswordLoading> get copyWith;
 }
 
@@ -906,6 +914,7 @@ class _$_FailureOnEnterYourEmail implements _FailureOnEnterYourEmail {
   int get hashCode =>
       runtimeType.hashCode ^ const DeepCollectionEquality().hash(message);
 
+  @JsonKey(ignore: true)
   @override
   _$FailureOnEnterYourEmailCopyWith<_FailureOnEnterYourEmail> get copyWith =>
       __$FailureOnEnterYourEmailCopyWithImpl<_FailureOnEnterYourEmail>(
@@ -998,6 +1007,7 @@ abstract class _FailureOnEnterYourEmail implements ForgotPasswordState {
       _$_FailureOnEnterYourEmail;
 
   String get message;
+  @JsonKey(ignore: true)
   _$FailureOnEnterYourEmailCopyWith<_FailureOnEnterYourEmail> get copyWith;
 }
 
@@ -1070,6 +1080,7 @@ class _$_FailureOnNewPassword implements _FailureOnNewPassword {
       const DeepCollectionEquality().hash(email) ^
       const DeepCollectionEquality().hash(timeout);
 
+  @JsonKey(ignore: true)
   @override
   _$FailureOnNewPasswordCopyWith<_FailureOnNewPassword> get copyWith =>
       __$FailureOnNewPasswordCopyWithImpl<_FailureOnNewPassword>(
@@ -1164,5 +1175,6 @@ abstract class _FailureOnNewPassword implements ForgotPasswordState {
   String get message;
   String get email;
   int get timeout;
+  @JsonKey(ignore: true)
   _$FailureOnNewPasswordCopyWith<_FailureOnNewPassword> get copyWith;
 }

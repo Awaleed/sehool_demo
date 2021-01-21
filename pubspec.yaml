@@ -58,6 +58,7 @@ dependencies:
   onesignal_flutter: ^2.6.2
   palette_generator: ^0.2.3
   pretty_dio_logger: ^1.1.1
+  pretty_json: ^1.1.0
   sailor: ^0.7.1
   simple_animations: ^2.4.2
   supercharged: ^1.12.0

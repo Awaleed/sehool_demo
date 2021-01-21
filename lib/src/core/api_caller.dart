@@ -5,14 +5,16 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 import '../../init_injectable.dart';
+import '../data/settings_datasource.dart';
 import '../data/user_datasource.dart';
+import '../repositories/settings_repository.dart';
 
 mixin ApiCaller {
   static final box = Hive.box(userBoxName)
-    ..listenable().addListener(() {
-      _userId = getIt<IUserLocalDataSource>().readUser().id;
-      _configureDioClient();
-    });
+    ..listenable().addListener(_configureDioClient);
+    
+  static final settingsBox = Hive.box(settingsBoxName)
+    ..listenable().addListener(_configureDioClient);
 
   static const _baseUrl = 'http://sehoool.com/api';
   static Dio _dio;
@@ -76,24 +78,27 @@ mixin ApiCaller {
 
   static Map<String, dynamic> _getHeaders() {
     final token = getIt<IUserLocalDataSource>().readAuthToken();
-    return token == null
-        ? {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-          }
-        : {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer $token',
-          };
+    final languageCode =
+        getIt<ISettingsRepository>().getSettings().languageCode;
+    return {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Accept-Language': languageCode,
+      if (token != null) 'Authorization': 'Bearer $token',
+    };
   }
 
   static void _configureDioClient() {
+    _userId = kUser?.id;
     _dio = Dio(
       BaseOptions(
         baseUrl: _baseUrl,
         headers: _getHeaders(),
       ),
-    );//..interceptors.add(_logger);
+    );
+
+    if (kDebugMode) {
+      _dio.interceptors.add(_logger);
+    }
   }
 }

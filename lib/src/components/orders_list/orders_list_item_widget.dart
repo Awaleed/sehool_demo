@@ -46,7 +46,7 @@ class OrdersListItemWidget extends StatelessWidget {
                       ),
                     ],
                   ),
-                  trailing: Text('${cart.total} ${S.current.rial}'),
+                  trailing: Text('${e.subtotal} ${S.current.rial}'),
                 ),
               ),
             const Divider(),

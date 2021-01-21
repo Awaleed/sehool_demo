@@ -34,6 +34,7 @@ class UserLocalDataSource extends IUserLocalDataSource {
   @override
   UserModel readUser() {
     final userEncodedJson = box.get(currentUserKey);
+    if (userEncodedJson == null) return null;
     final user = UserWithTokenModel.fromJson(jsonDecode(userEncodedJson));
     return user.user;
   }
@@ -58,9 +59,9 @@ class UserLocalDataSource extends IUserLocalDataSource {
   }
 
   @override
-  Future<void> removeUser() async {
+  Future<void> removeUser() {
     try {
-      await OneSignal.shared.removeExternalUserId();
+      OneSignal.shared.removeExternalUserId();
     } catch (e) {}
     return box.delete(currentUserKey);
   }

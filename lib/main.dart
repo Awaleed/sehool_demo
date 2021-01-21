@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,9 +20,9 @@ import 'src/screens/splash.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await initPushNotifications();
   await initHive();
   configureDependencies();
-  await initPushNotifications();
   AppRouter.createRoutes();
 
   Bloc.observer = CustomBlocObserver();
@@ -70,7 +71,6 @@ class MyApp extends StatelessWidget {
             ],
             theme: ThemeData(
               appBarTheme: const AppBarTheme(
-                // systemOverlayStyle: SystemUiOverlayStyle.light,
                 brightness: Brightness.dark,
                 actionsIconTheme: IconThemeData(color: Colors.white),
                 iconTheme: IconThemeData(color: Colors.white),
@@ -82,10 +82,12 @@ class MyApp extends StatelessWidget {
             locale: box.get(currentSettingsKey)?.locale,
             onGenerateRoute: AppRouter.sailor.generator(),
             navigatorKey: AppRouter.sailor.navigatorKey,
-            navigatorObservers: [
-              // SailorLoggingObserver(),
-              // AppRouter.sailor.navigationStackObserver,
-            ],
+            navigatorObservers: kDebugMode
+                ? [
+                    SailorLoggingObserver(),
+                    AppRouter.sailor.navigationStackObserver,
+                  ]
+                : null,
           ),
         );
       },

@@ -152,7 +152,13 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                         _buildTextInput(
                           map: data,
                           type: FormFieldType.password,
-                          validator: (value) => null,
+                          validator: (value) {
+                            if (value != null) {
+                              return Validators.longStringValidator(value);
+                            } else {
+                              return null;
+                            }
+                          },
                           enabled: !isLoading,
                         ),
                         if (kUser.level == UserLevel.merchant) ...[

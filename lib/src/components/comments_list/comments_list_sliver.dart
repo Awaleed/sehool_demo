@@ -18,7 +18,7 @@ class CommentsListSliver extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (reviews.isEmpty && !isLoading) {
-      return const EmptyCommentsList();
+      return const SliverToBoxAdapter(child: EmptyCommentsList());
     }
     return SliverList(
       delegate: SliverChildBuilderDelegate(

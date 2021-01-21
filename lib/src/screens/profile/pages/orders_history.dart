@@ -75,7 +75,7 @@ class _OrdersHistoryState extends State<OrdersHistory> {
           ),
           body: OrdersListWidget(
             isLoading: isLoading,
-            orders: values,
+            orders: values.reversed.toList(),
           ),
         ),
       ),

@@ -3,6 +3,8 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:sailor/sailor.dart';
+import 'package:sehool/src/components/my_error_widget.dart';
+import 'package:supercharged/supercharged.dart';
 
 import '../../../generated/l10n.dart';
 import '../../../init_injectable.dart';
@@ -67,12 +69,14 @@ class AddToCartScreen extends StatelessWidget {
 }
 
 class _StepItem {
+  final Key key;
   final String label;
   final Widget child;
   final Widget icon;
   final IconData header;
   final CustomStepState state;
   _StepItem({
+    this.key,
     this.label,
     this.child,
     this.icon = const Icon(
@@ -100,6 +104,7 @@ class CartScroll extends StatefulWidget {
 }
 
 class _CartScrollState extends State<CartScroll> {
+  final slicingMethodKey = GlobalKey();
   List<_StepItem> get steps => [
         _StepItem(
           label: S.current.quantity,
@@ -115,6 +120,7 @@ class _CartScrollState extends State<CartScroll> {
           header: FluentIcons.re_order_dots_24_regular,
         ),
         _StepItem(
+            key: slicingMethodKey,
             label: S.current.slicing_method,
             child: Padding(
               padding: const EdgeInsets.all(20),
@@ -199,14 +205,33 @@ class _CartScrollState extends State<CartScroll> {
             steps[i].child,
           ],
         ),
+      Column(
+        children: [
+          if (widget.cartItem.slicingMethod == null)
+            MyErrorWidget(
+              message: S.current.not_a_valid_address,
+              buttonLabel: S.current.select_shipping_address,
+              onRetry: () {
+                Scrollable.ensureVisible(
+                  slicingMethodKey.currentContext,
+                  duration: 700.milliseconds,
+                  curve: Curves.easeOut,
+                );
+              },
+            ),
+        ],
+      ),
       if (widget.editing)
-        _buildButton(
-          enabled: widget.cartItem.validate,
-          label: Text(S.current.back),
-          onTap: () {
-            Helpers.dismissFauces(context);
-            AppRouter.sailor.pop();
-          },
+        Padding(
+          padding: const EdgeInsets.all(20),
+          child: _buildButton(
+            enabled: widget.cartItem.validate,
+            label: Text(S.current.back),
+            onTap: () {
+              Helpers.dismissFauces(context);
+              AppRouter.sailor.pop();
+            },
+          ),
         )
       else
         Padding(

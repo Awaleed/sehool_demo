@@ -6,7 +6,8 @@ abstract class CheckoutState with _$CheckoutState {
 
   const factory CheckoutState.loading() = _Loading;
 
-  const factory CheckoutState.visaPayment(String payUrl) = _VisaPayment;
+  const factory CheckoutState.visaPayment(String payUrl, int orderId) =
+      _VisaPayment;
 
   const factory CheckoutState.success() = _Success;
 

@@ -102,7 +102,10 @@ class _OrdersScreenState extends State<OrdersScreen> {
                     ),
                   ),
                 ),
-                OrdersListWidget(isLoading: isLoading, orders: values),
+                OrdersListWidget(
+                  isLoading: isLoading,
+                  orders: values.reversed.toList(),
+                ),
                 const SliverToBoxAdapter(child: SizedBox(height: 100)),
               ],
             ),

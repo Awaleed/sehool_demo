@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 
 import '../../init_injectable.dart';
 import '../cubits/auth_cubit/auth_cubit.dart';

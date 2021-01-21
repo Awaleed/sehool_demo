@@ -33,6 +33,13 @@ class CartCubit extends Cubit<CartState> {
   void clear() {
     emit(CartState(cart: CartModel()));
   }
+
+  void reset() {
+    state.cart
+      ..address = null
+      ..coupon = null
+      ..paymentMethod = null;
+  }
 }
 
 class CartState {

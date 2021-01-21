@@ -7,10 +7,12 @@ class MyErrorWidget extends StatelessWidget {
     Key key,
     @required this.onRetry,
     @required this.message,
+    this.buttonLabel,
   }) : super(key: key);
 
   final VoidCallback onRetry;
   final String message;
+  final String buttonLabel;
 
   @override
   Widget build(BuildContext context) {
@@ -34,26 +36,27 @@ class MyErrorWidget extends StatelessWidget {
                       .headline5
                       .copyWith(color: Colors.black),
                 ),
-                ElevatedButton(
-                  style: ButtonStyle(
-                    minimumSize: MaterialStateProperty.all(
-                      const Size.fromRadius(25),
-                    ),
-                    shape: MaterialStateProperty.all(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25),
+                if (onRetry != null)
+                  ElevatedButton(
+                    style: ButtonStyle(
+                      minimumSize: MaterialStateProperty.all(
+                        const Size.fromRadius(25),
+                      ),
+                      shape: MaterialStateProperty.all(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25),
+                        ),
                       ),
                     ),
-                  ),
-                  onPressed: onRetry,
-                  child: Text(
-                    S.current.retry,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline5
-                        .copyWith(color: Colors.black),
-                  ),
-                )
+                    onPressed: onRetry,
+                    child: Text(
+                      buttonLabel ?? S.current.retry,
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline5
+                          .copyWith(color: Colors.black),
+                    ),
+                  )
               ],
             ),
           ),

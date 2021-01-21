@@ -24,9 +24,10 @@ class _$CheckoutStateTearOff {
   }
 
 // ignore: unused_element
-  _VisaPayment visaPayment(String payUrl) {
+  _VisaPayment visaPayment(String payUrl, int orderId) {
     return _VisaPayment(
       payUrl,
+      orderId,
     );
   }
 
@@ -53,7 +54,7 @@ mixin _$CheckoutState {
   TResult when<TResult extends Object>({
     @required TResult initial(),
     @required TResult loading(),
-    @required TResult visaPayment(String payUrl),
+    @required TResult visaPayment(String payUrl, int orderId),
     @required TResult success(),
     @required TResult failure(String message),
   });
@@ -61,7 +62,7 @@ mixin _$CheckoutState {
   TResult maybeWhen<TResult extends Object>({
     TResult initial(),
     TResult loading(),
-    TResult visaPayment(String payUrl),
+    TResult visaPayment(String payUrl, int orderId),
     TResult success(),
     TResult failure(String message),
     @required TResult orElse(),
@@ -140,7 +141,7 @@ class _$_Initial implements _Initial {
   TResult when<TResult extends Object>({
     @required TResult initial(),
     @required TResult loading(),
-    @required TResult visaPayment(String payUrl),
+    @required TResult visaPayment(String payUrl, int orderId),
     @required TResult success(),
     @required TResult failure(String message),
   }) {
@@ -157,7 +158,7 @@ class _$_Initial implements _Initial {
   TResult maybeWhen<TResult extends Object>({
     TResult initial(),
     TResult loading(),
-    TResult visaPayment(String payUrl),
+    TResult visaPayment(String payUrl, int orderId),
     TResult success(),
     TResult failure(String message),
     @required TResult orElse(),
@@ -246,7 +247,7 @@ class _$_Loading implements _Loading {
   TResult when<TResult extends Object>({
     @required TResult initial(),
     @required TResult loading(),
-    @required TResult visaPayment(String payUrl),
+    @required TResult visaPayment(String payUrl, int orderId),
     @required TResult success(),
     @required TResult failure(String message),
   }) {
@@ -263,7 +264,7 @@ class _$_Loading implements _Loading {
   TResult maybeWhen<TResult extends Object>({
     TResult initial(),
     TResult loading(),
-    TResult visaPayment(String payUrl),
+    TResult visaPayment(String payUrl, int orderId),
     TResult success(),
     TResult failure(String message),
     @required TResult orElse(),
@@ -319,7 +320,7 @@ abstract class _$VisaPaymentCopyWith<$Res> {
   factory _$VisaPaymentCopyWith(
           _VisaPayment value, $Res Function(_VisaPayment) then) =
       __$VisaPaymentCopyWithImpl<$Res>;
-  $Res call({String payUrl});
+  $Res call({String payUrl, int orderId});
 }
 
 /// @nodoc
@@ -335,23 +336,29 @@ class __$VisaPaymentCopyWithImpl<$Res> extends _$CheckoutStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object payUrl = freezed,
+    Object orderId = freezed,
   }) {
     return _then(_VisaPayment(
       payUrl == freezed ? _value.payUrl : payUrl as String,
+      orderId == freezed ? _value.orderId : orderId as int,
     ));
   }
 }
 
 /// @nodoc
 class _$_VisaPayment implements _VisaPayment {
-  const _$_VisaPayment(this.payUrl) : assert(payUrl != null);
+  const _$_VisaPayment(this.payUrl, this.orderId)
+      : assert(payUrl != null),
+        assert(orderId != null);
 
   @override
   final String payUrl;
+  @override
+  final int orderId;
 
   @override
   String toString() {
-    return 'CheckoutState.visaPayment(payUrl: $payUrl)';
+    return 'CheckoutState.visaPayment(payUrl: $payUrl, orderId: $orderId)';
   }
 
   @override
@@ -359,12 +366,16 @@ class _$_VisaPayment implements _VisaPayment {
     return identical(this, other) ||
         (other is _VisaPayment &&
             (identical(other.payUrl, payUrl) ||
-                const DeepCollectionEquality().equals(other.payUrl, payUrl)));
+                const DeepCollectionEquality().equals(other.payUrl, payUrl)) &&
+            (identical(other.orderId, orderId) ||
+                const DeepCollectionEquality().equals(other.orderId, orderId)));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(payUrl);
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(payUrl) ^
+      const DeepCollectionEquality().hash(orderId);
 
   @JsonKey(ignore: true)
   @override
@@ -376,7 +387,7 @@ class _$_VisaPayment implements _VisaPayment {
   TResult when<TResult extends Object>({
     @required TResult initial(),
     @required TResult loading(),
-    @required TResult visaPayment(String payUrl),
+    @required TResult visaPayment(String payUrl, int orderId),
     @required TResult success(),
     @required TResult failure(String message),
   }) {
@@ -385,7 +396,7 @@ class _$_VisaPayment implements _VisaPayment {
     assert(visaPayment != null);
     assert(success != null);
     assert(failure != null);
-    return visaPayment(payUrl);
+    return visaPayment(payUrl, orderId);
   }
 
   @override
@@ -393,14 +404,14 @@ class _$_VisaPayment implements _VisaPayment {
   TResult maybeWhen<TResult extends Object>({
     TResult initial(),
     TResult loading(),
-    TResult visaPayment(String payUrl),
+    TResult visaPayment(String payUrl, int orderId),
     TResult success(),
     TResult failure(String message),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
     if (visaPayment != null) {
-      return visaPayment(payUrl);
+      return visaPayment(payUrl, orderId);
     }
     return orElse();
   }
@@ -441,9 +452,10 @@ class _$_VisaPayment implements _VisaPayment {
 }
 
 abstract class _VisaPayment implements CheckoutState {
-  const factory _VisaPayment(String payUrl) = _$_VisaPayment;
+  const factory _VisaPayment(String payUrl, int orderId) = _$_VisaPayment;
 
   String get payUrl;
+  int get orderId;
   @JsonKey(ignore: true)
   _$VisaPaymentCopyWith<_VisaPayment> get copyWith;
 }
@@ -486,7 +498,7 @@ class _$_Success implements _Success {
   TResult when<TResult extends Object>({
     @required TResult initial(),
     @required TResult loading(),
-    @required TResult visaPayment(String payUrl),
+    @required TResult visaPayment(String payUrl, int orderId),
     @required TResult success(),
     @required TResult failure(String message),
   }) {
@@ -503,7 +515,7 @@ class _$_Success implements _Success {
   TResult maybeWhen<TResult extends Object>({
     TResult initial(),
     TResult loading(),
-    TResult visaPayment(String payUrl),
+    TResult visaPayment(String payUrl, int orderId),
     TResult success(),
     TResult failure(String message),
     @required TResult orElse(),
@@ -614,7 +626,7 @@ class _$_Failure implements _Failure {
   TResult when<TResult extends Object>({
     @required TResult initial(),
     @required TResult loading(),
-    @required TResult visaPayment(String payUrl),
+    @required TResult visaPayment(String payUrl, int orderId),
     @required TResult success(),
     @required TResult failure(String message),
   }) {
@@ -631,7 +643,7 @@ class _$_Failure implements _Failure {
   TResult maybeWhen<TResult extends Object>({
     TResult initial(),
     TResult loading(),
-    TResult visaPayment(String payUrl),
+    TResult visaPayment(String payUrl, int orderId),
     TResult success(),
     TResult failure(String message),
     @required TResult orElse(),

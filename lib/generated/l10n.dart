@@ -215,6 +215,16 @@ class S {
     );
   }
 
+  /// `An error occurred`
+  String get an_error_occurred {
+    return Intl.message(
+      'An error occurred',
+      name: 'an_error_occurred',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `App Language`
   String get app_language {
     return Intl.message(
@@ -2208,6 +2218,16 @@ class S {
     );
   }
 
+  /// `Sorry, your balance is not enough`
+  String get sorry_your_balance_is_not_enough {
+    return Intl.message(
+      'Sorry, your balance is not enough',
+      name: 'sorry_your_balance_is_not_enough',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Sort alphabetically`
   String get sort_by_name {
     return Intl.message(
@@ -2278,10 +2298,10 @@ class S {
     );
   }
 
-  /// `Tap back again to leavepro`
+  /// `Tap back again to leave`
   String get tap_back_again_to_leave {
     return Intl.message(
-      'Tap back again to leavepro',
+      'Tap back again to leave',
       name: 'tap_back_again_to_leave',
       desc: '',
       args: [],

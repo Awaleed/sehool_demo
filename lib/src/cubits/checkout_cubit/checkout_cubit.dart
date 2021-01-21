@@ -21,8 +21,9 @@ class CheckoutCubit extends Cubit<CheckoutState> with ApiCaller {
       final res = await post(path: '/shoppingCart', data: cart.toJson());
       if (cart.paymentMethod.type == 'visa') {
         final url = res['url'];
+        final orderId = res['order_id'];
         if (url != null) {
-          emit(CheckoutState.visaPayment(url));
+          emit(CheckoutState.visaPayment(url, orderId));
         }
       } else {
         emit(const CheckoutState.success());

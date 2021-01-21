@@ -81,13 +81,6 @@ class ProductsCarouselItemWidget extends StatelessWidget {
                         .copyWith(color: Colors.white),
                   ),
                 ),
-                // Text(
-                //   '${S.current.available_quantity} ${Helpers.isArabic(context) ? ArabicNumbers().convert(product.qyt) : product.qyt} ${S.current.piece}',
-                //   style: Theme.of(context)
-                //       .textTheme
-                //       .subtitle2
-                //       .copyWith(color: Colors.white),
-                // )
               ],
             ),
           ),
@@ -158,7 +151,7 @@ class ProductsCarouselItemWidget extends StatelessWidget {
                             Navigator.pop(context, false);
                           },
                           child: Text(
-                            'الغاء',
+                            S.current.cancel,
                             style: Theme.of(context).textTheme.button,
                           ),
                         ),

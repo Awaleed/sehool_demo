@@ -48,6 +48,7 @@ class CartModel {
       'note': note ?? '',
       'address_id': address.id,
       'payment_method_id': paymentMethod.id,
+      'coupon_id': coupon?.id,
       'products': cartItems
           .map(
             (e) => {

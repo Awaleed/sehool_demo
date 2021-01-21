@@ -133,8 +133,10 @@ class _CartDropdownState extends State<CartDropdown> {
               onChanged: (value) async {
                 if (value is PaymentMethodModel && value.type == 'wallet') {
                   if (kUser.wallet <= widget.cart.total) {
-                    Helpers.showErrorOverlay(context,
-                        error: 'عفرا رصيدك غير كافي');
+                    Helpers.showErrorOverlay(
+                      context,
+                      error: S.current.sorry_your_balance_is_not_enough,
+                    );
                   } else {
                     widget.onValueChanged?.call(value);
                     setState(() => selectedValue = value);

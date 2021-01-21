@@ -25,6 +25,7 @@ class AuthRepositoryImpl implements IAuthRepository {
 
   @override
   Future<UserModel> login(Map<String, dynamic> credentials) async {
+    credentials['level'] = 'customer';
     final res = await _remoteSource.login(credentials);
     final token = AccessTokenModel(
       expiresIn: res['expires_in'],

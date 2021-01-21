@@ -148,6 +148,7 @@ class _AddressesScreenState extends State<AddressesScreen> {
                               CupertinoActionSheetAction(
                                 isDestructiveAction: true,
                                 onPressed: () {
+                                  Navigator.pop(context, true);
                                   cubit.deleteAddress(addresses[index].id);
                                 },
                                 child: Text(
@@ -164,7 +165,7 @@ class _AddressesScreenState extends State<AddressesScreen> {
                                 Navigator.pop(context, false);
                               },
                               child: Text(
-                                'الغاء',
+                                S.current.cancel,
                                 style: Theme.of(context).textTheme.button,
                               ),
                             ),

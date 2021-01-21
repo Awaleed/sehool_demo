@@ -56,6 +56,8 @@ class _NewReviewFieldState extends State<NewReviewField> {
                 child: TextField(
                   controller: widget.textEditingController,
                   enabled: !widget.isLoading,
+                  maxLines: 10,
+                  keyboardType: TextInputType.multiline,
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.white54,

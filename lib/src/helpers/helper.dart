@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:supercharged/supercharged.dart';
 
@@ -22,41 +23,98 @@ abstract class Helpers {
 
   static void showErrorOverlay(
     BuildContext context, {
+    @required String error,
+  }) {
+    final message = error;
+
+    if (context == null) return;
+
+    dismissFauces(context);
+    final okButton = FlatButton(
+      onPressed: () => Navigator.of(context).pop(),
+      child: Text(S.current.back),
+    );
+
+    final alert = AlertDialog(
+      title: Text(
+        '${S.current.an_error_occurred}...',
+      ),
+      content: Text(message),
+      actions: [okButton],
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(25),
+      ),
+    );
+
+    showDialog(
+      context: context,
+      builder: (context) => alert,
+    );
+  }
+
+  static void showErrorDialog(
+    BuildContext context, {
     @required dynamic error,
   }) {
-    String message;
-    if (error is DioError && error?.response?.data != null) {
-      if (error?.response?.data is Map) {
-        message = error?.response?.data['message']?.toString() ??
-            error?.response?.data['error']?.toString() ??
-            error?.response?.data?.toString();
-      } else if (error?.response?.data is List) {
-        message = error?.response?.data?.first['message']?.toString() ??
-            error?.response?.data?.first['error']?.toString() ??
-            error?.response?.data?.first?.toString();
-      } else {
-        message = error?.response?.data?.toString();
-      }
-      if (error.response.statusCode == 401) {
-        // if (UserRepository.currentUser.value != null) {
-        //   message = 'Logged Out';
-        //   shouldLogout = true;
-        // }
-      }
-    } else {
-      message = '$error';
-    }
-    // debugPrint('$error');
     if (context == null) return;
-    final completer = Completer();
-    Future.delayed(3.seconds).then((_) {
-      completer.complete();
-    });
 
-    FlashHelper.blockErrorMessage(
-      context,
-      message: message,
-      dismissCompleter: completer,
+    dismissFauces(context);
+    final okButton = FlatButton(
+      onPressed: () => Navigator.of(context).pop(),
+      child: Text(S.current.back),
+    );
+
+    final messageWidget = <Widget>[];
+
+    if (error['errors'] != null && error['errors'] is Map) {
+      final map = error['errors'] as Map;
+      for (final entrie in map.entries) {
+        messageWidget.add(
+          Text(
+            '${entrie.key}',
+            style: Theme.of(context).textTheme.headline6,
+          ),
+        );
+        if (entrie.value is List) {
+          for (final str in entrie.value) {
+            messageWidget.add(Text('$str'));
+          }
+        } else {
+          messageWidget.add(Text('${entrie.value}'));
+        }
+
+        messageWidget.add(const Divider());
+      }
+    } else if (error['error'] != null) {
+      messageWidget.add(Text('${error['error']}'));
+    } else {
+      messageWidget.add(Text('$error'));
+    }
+
+    final alert = AlertDialog(
+      title: Text(
+        '${S.current.an_error_occurred}...',
+        locale: const Locale('en', ''),
+      ),
+      content: SingleChildScrollView(
+        child: Directionality(
+          textDirection: TextDirection.ltr,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: messageWidget,
+          ),
+        ),
+      ),
+      actions: [okButton],
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(25),
+      ),
+    );
+
+    showDialog(
+      context: context,
+      builder: (context) => alert,
     );
   }
 
@@ -124,10 +182,8 @@ abstract class Helpers {
       } else {
         message = '$error';
       }
-      // debugPrint('$error');
       return message;
     } catch (e) {
-      // debugPrint('Error in mapErrorToMessage: $e\nError: $error');
       return '$error';
     }
   }
