@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../helpers/helper.dart';
 import '../../repositories/auth_repository.dart';
 
 part 'login_cubit.freezed.dart';
@@ -19,8 +20,7 @@ class LoginCubit extends Cubit<LoginState> {
       await _authRepository.login(credentials);
       emit(const LoginState.success());
     } catch (e) {
-      // TODO: Handel error messages
-      emit(LoginState.failure(message: '$e'));
+      emit(LoginState.failure(message: Helpers.mapErrorToMessage(e)));
     }
   }
 
@@ -30,8 +30,7 @@ class LoginCubit extends Cubit<LoginState> {
       await _authRepository.register(credentials);
       emit(const LoginState.success());
     } catch (e) {
-      // TODO: Handel error messages
-      emit(LoginState.failure(message: '$e'));
+      emit(LoginState.failure(message: Helpers.mapErrorToMessage(e)));
     }
   }
 
@@ -42,8 +41,7 @@ class LoginCubit extends Cubit<LoginState> {
 
       emit(const LoginState.codeRequested());
     } catch (e) {
-      // TODO: Handel error messages
-      emit(LoginState.failure(message: '$e'));
+      emit(LoginState.failure(message: Helpers.mapErrorToMessage(e)));
     }
   }
 }

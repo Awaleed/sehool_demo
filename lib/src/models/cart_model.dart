@@ -139,19 +139,16 @@ class CouponModel {
   @override
   bool operator ==(Object o) {
     if (identical(this, o)) return true;
-  
+
     return o is CouponModel &&
-      o.id == id &&
-      o.name == name &&
-      o.amount == amount &&
-      o.type == type;
+        o.id == id &&
+        o.name == name &&
+        o.amount == amount &&
+        o.type == type;
   }
 
   @override
   int get hashCode {
-    return id.hashCode ^
-      name.hashCode ^
-      amount.hashCode ^
-      type.hashCode;
+    return id.hashCode ^ name.hashCode ^ amount.hashCode ^ type.hashCode;
   }
 }

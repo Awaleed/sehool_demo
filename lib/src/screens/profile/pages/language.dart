@@ -1,13 +1,16 @@
 import 'package:division/division.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sailor/sailor.dart';
 
 import '../../../../generated/l10n.dart';
 import '../../../../init_injectable.dart';
 import '../../../components/background_images_generate.dart';
 import '../../../cubits/settings_cubit/settings_cubit.dart';
+import '../../../helpers/helper.dart';
 import '../../../models/language_model.dart';
-import '../../home/home.dart';
+import '../../../routes/config_routes.dart';
+import '../../splash.dart';
 
 class LanguageScreen extends StatefulWidget {
   static const routeName = '/language_settings';
@@ -20,6 +23,10 @@ class LanguageScreen extends StatefulWidget {
 
 class _LanguageScreenState extends State<LanguageScreen> {
   SettingsCubit cubit;
+
+  String selectedLanguage;
+  String currentLanguage;
+
   @override
   void initState() {
     super.initState();
@@ -89,14 +96,20 @@ class _LanguageScreenState extends State<LanguageScreen> {
                     ),
                   ),
                   const SizedBox(height: 10),
-                  BlocBuilder<SettingsCubit, SettingsState>(
+                  BlocListener<SettingsCubit, SettingsState>(
                     cubit: cubit,
-                    builder: (context, state) {
-                      return state.maybeWhen(
-                        loaded: (value) => _buildList(value.languageCode),
-                        orElse: () => _buildList(),
+                    listener: (context, state) {
+                      state.maybeWhen(
+                        loaded: (value) {
+                          setState(() {
+                            selectedLanguage = value.languageCode;
+                            currentLanguage = value.languageCode;
+                          });
+                        },
+                        orElse: () {},
                       );
                     },
+                    child: _buildList(),
                   ),
                 ],
               ),
@@ -105,20 +118,55 @@ class _LanguageScreenState extends State<LanguageScreen> {
         ]));
   }
 
-  Widget _buildList([String selectedLanguage]) {
+  Widget _buildList() {
     return ListView.separated(
       shrinkWrap: true,
       primary: false,
-      itemCount: LanguageModel.languages.length,
+      itemCount: LanguageModel.languages.length + 1,
       separatorBuilder: (context, index) => const SizedBox(height: 10),
       itemBuilder: (context, index) {
+        if (index >= LanguageModel.languages.length) {
+          return Padding(
+            padding: const EdgeInsets.all(20),
+            child: ElevatedButton(
+              onPressed: () async {
+                Helpers.dismissFauces(context);
+                if (currentLanguage != selectedLanguage) {
+                  await cubit.setLanguageCode(selectedLanguage);
+                  AppRouter.sailor.navigate(
+                    SplashScreen.routeName,
+                    navigationType: NavigationType.pushAndRemoveUntil,
+                    removeUntilPredicate: (_) => false,
+                  );
+                } else {
+                  AppRouter.sailor.pop();
+                }
+              },
+              style: ButtonStyle(
+                shape: MaterialStateProperty.all(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                ),
+                minimumSize: MaterialStateProperty.all(
+                  const Size.fromRadius(25),
+                ),
+              ),
+              child: Text(
+                S.current.save,
+                style: const TextStyle(color: Colors.white),
+              ),
+            ),
+          );
+        }
         final _language = LanguageModel.languages[index];
         _language.selected = _language.code == selectedLanguage;
 
         return InkWell(
           onTap: () async {
-            await cubit.setLanguageCode(_language.code);
-            homeNotifier.value++;
+            setState(() {
+              selectedLanguage = _language.code;
+            });
           },
           child: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -126,6 +174,7 @@ class _LanguageScreenState extends State<LanguageScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
               decoration: BoxDecoration(
                 color: Colors.white,
+                borderRadius: BorderRadius.circular(25),
                 boxShadow: [
                   BoxShadow(
                     color: Theme.of(context).focusColor.withOpacity(0.1),

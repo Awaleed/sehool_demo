@@ -17,5 +17,4 @@ void registerPlugins(Registrar registrar) {
   UrlLauncherPlugin.registerWith(registrar);
   VideoPlayerPlugin.registerWith(registrar);
   WakelockWeb.registerWith(registrar);
-  registrar.registerMessageHandler();
 }

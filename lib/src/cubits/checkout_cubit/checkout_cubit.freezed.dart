@@ -366,6 +366,7 @@ class _$_VisaPayment implements _VisaPayment {
   int get hashCode =>
       runtimeType.hashCode ^ const DeepCollectionEquality().hash(payUrl);
 
+  @JsonKey(ignore: true)
   @override
   _$VisaPaymentCopyWith<_VisaPayment> get copyWith =>
       __$VisaPaymentCopyWithImpl<_VisaPayment>(this, _$identity);
@@ -443,6 +444,7 @@ abstract class _VisaPayment implements CheckoutState {
   const factory _VisaPayment(String payUrl) = _$_VisaPayment;
 
   String get payUrl;
+  @JsonKey(ignore: true)
   _$VisaPaymentCopyWith<_VisaPayment> get copyWith;
 }
 
@@ -602,6 +604,7 @@ class _$_Failure implements _Failure {
   int get hashCode =>
       runtimeType.hashCode ^ const DeepCollectionEquality().hash(message);
 
+  @JsonKey(ignore: true)
   @override
   _$FailureCopyWith<_Failure> get copyWith =>
       __$FailureCopyWithImpl<_Failure>(this, _$identity);
@@ -679,5 +682,6 @@ abstract class _Failure implements CheckoutState {
   const factory _Failure({String message}) = _$_Failure;
 
   String get message;
+  @JsonKey(ignore: true)
   _$FailureCopyWith<_Failure> get copyWith;
 }

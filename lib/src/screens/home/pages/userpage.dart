@@ -4,6 +4,8 @@ import 'package:division/division.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:supercharged/supercharged.dart';
 import 'package:validators/validators.dart';
 
@@ -18,7 +20,6 @@ import '../../profile/pages/help.dart';
 import '../../profile/pages/language.dart';
 import '../../profile/pages/orders_history.dart';
 import '../../profile/profile_settings.dart';
-import '../home.dart';
 
 class UserPage extends StatelessWidget {
   ParentStyle contentStyle(BuildContext context) => ParentStyle()
@@ -35,8 +36,8 @@ class UserPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
-        valueListenable: homeNotifier,
-        builder: (BuildContext context, int value, Widget child) {
+        valueListenable: Hive.box(userBoxName).listenable(),
+        builder: (BuildContext context, dynamic value, Widget child) {
           debugPrint('SettingsItem $value times');
 
           return Parent(
@@ -77,7 +78,9 @@ class UserCard extends StatelessWidget {
             Txt(kUser.name, style: nameTextStyle),
             const SizedBox(height: 5),
             Txt(
-              (kUser.level == UserLevel.merchant) ? 'تاجر' : 'مستخدم',
+              (kUser.level == UserLevel.merchant)
+                  ? S.current.merchant
+                  : S.current.customer,
               style: nameDescriptionTextStyle,
             )
           ],
@@ -89,30 +92,47 @@ class UserCard extends StatelessWidget {
   Widget _buildUserStats() {
     return Parent(
       style: userStatsStyle,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: <Widget>[
-          _buildUserStatsItem(
-              '${kUser.wallet} ﷼', FluentIcons.money_24_regular),
-          _buildUserStatsItem(kUser.email, FluentIcons.mail_24_regular),
-          _buildUserStatsItem(kUser.phone, FluentIcons.phone_24_regular),
-          // _buildUserStatsItem(
-          //     '@${kUser.id}', FluentIcons.person_accounts_24_regular)
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              _buildUserStatsItem(
+                  '${kUser.wallet} ﷼', FluentIcons.money_24_regular),
+              _buildUserStatsItem(kUser.email, FluentIcons.mail_24_regular),
+              _buildUserStatsItem(kUser.phone, FluentIcons.phone_24_regular),
+              // _buildUserStatsItem(
+              //     '@${kUser.id}', FluentIcons.person_accounts_24_regular)
+            ],
+          ),
+          if (kUser.level == UserLevel.merchant)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                _buildUserStatsItem(
+                    kUser.vatNumber, FluentIcons.money_24_regular),
+                _buildUserStatsItem(kUser.storeName, Icons.store),
+                // _buildUserStatsItem(
+                //     '@${kUser.id}', FluentIcons.person_accounts_24_regular)
+              ],
+            ),
         ],
       ),
     );
   }
 
   Widget _buildUserStatsItem(String value, IconData icon) {
-    return Column(
-      children: <Widget>[
-        Icon(
-          icon,
-          color: Colors.white,
-        ),
-        const SizedBox(height: 5),
-        Txt(value, style: nameDescriptionTextStyle),
-      ],
+    return Expanded(
+      child: Column(
+        children: <Widget>[
+          Icon(
+            icon,
+            color: Colors.white,
+          ),
+          const SizedBox(height: 5),
+          Txt(value, style: nameDescriptionTextStyle),
+        ],
+      ),
     );
   }
 
@@ -133,7 +153,7 @@ class UserCard extends StatelessWidget {
   //Styling
 
   final ParentStyle userCardStyle = ParentStyle()
-    ..height(175)
+    // ..height(175)
     ..padding(horizontal: 20.0, vertical: 10)
     ..alignment.center()
     ..background.color(Colors.amber)
@@ -156,6 +176,7 @@ class UserCard extends StatelessWidget {
 
   final TxtStyle nameDescriptionTextStyle = TxtStyle()
     ..textColor(Colors.white.withOpacity(0.8))
+    ..textAlign.center()
     ..bold()
     ..fontSize(12);
 }
@@ -223,7 +244,7 @@ class _SettingsState extends State<Settings> {
           onRefresh: widget.onRefresh,
           icon: FluentIcons.sign_out_20_regular,
           title: S.current.log_out,
-          description: 'تغير الحساب',
+          description: S.current.change_account,
           iswarrning: true,
           onTap: () {
             final action = CupertinoActionSheet(
@@ -235,7 +256,7 @@ class _SettingsState extends State<Settings> {
                     .copyWith(color: Colors.amber),
               ),
               message: Text(
-                'هل تريد تسجيل الخروج و تبديل الحساب؟',
+                S.current.do_you_want_to_log_out_and_switch_account,
                 style: Theme.of(context)
                     .textTheme
                     .bodyText2
@@ -248,7 +269,7 @@ class _SettingsState extends State<Settings> {
                     getIt<AuthCubit>().unauthenticateUser();
                   },
                   child: Text(
-                    'نعم',
+                    S.current.yes,
                     style: Theme.of(context)
                         .textTheme
                         .button
@@ -261,7 +282,7 @@ class _SettingsState extends State<Settings> {
                     Navigator.pop(context, false);
                   },
                   child: Text(
-                    'لا',
+                    S.current.no,
                     style: Theme.of(context).textTheme.button,
                   ),
                 )
@@ -281,37 +302,42 @@ class _SettingsState extends State<Settings> {
           },
         ),
         SettingsItem(
-            onRefresh: widget.onRefresh,
-            icon: FluentIcons.location_12_regular,
-            title: S.current.addresses,
-            target: const AddressesScreen(),
-            // iswarrning: true,
-            // onTap: () => AppRouter.sailor.navigate(AddressesScreen.routeName),
-            description: 'عناوينك التي تريدنا ان نوصل اليك'),
+          onRefresh: widget.onRefresh,
+          icon: FluentIcons.location_12_regular,
+          title: S.current.addresses,
+          target: const AddressesScreen(),
+          // iswarrning: true,
+          // onTap: () => AppRouter.sailor.navigate(AddressesScreen.routeName),
+          description: S.current.your_addresses_that_you_want_us_to_reach_you,
+        ),
         SettingsItem(
-            onRefresh: widget.onRefresh,
-            icon: FluentIcons.local_language_16_regular,
-            title: S.current.languages,
-            target: const LanguageScreen(),
-            description: 'نحن نتحدث اكثر من لغة'),
+          onRefresh: widget.onRefresh,
+          icon: FluentIcons.local_language_16_regular,
+          title: S.current.languages,
+          target: const LanguageScreen(),
+          description: S.current.we_speak_more_than_one_language,
+        ),
         SettingsItem(
-            onRefresh: widget.onRefresh,
-            icon: FluentIcons.settings_28_regular,
-            title: S.current.settings,
-            target: const ProfileSettingsScreen(),
-            description: 'تطبيقك قواعدك'),
+          onRefresh: widget.onRefresh,
+          icon: FluentIcons.settings_28_regular,
+          title: S.current.settings,
+          target: const ProfileSettingsScreen(),
+          description: S.current.your_application_your_rules,
+        ),
         SettingsItem(
-            onRefresh: widget.onRefresh,
-            icon: FluentIcons.history_20_filled,
-            title: S.current.my_orders,
-            target: const OrdersHistory(),
-            description: 'رحلتك معنا'),
+          onRefresh: widget.onRefresh,
+          icon: FluentIcons.history_20_filled,
+          title: S.current.my_orders,
+          target: const OrdersHistory(),
+          description: S.current.your_journey_with_us,
+        ),
         SettingsItem(
-            onRefresh: widget.onRefresh,
-            icon: FluentIcons.chat_help_24_regular,
-            title: S.current.help_support,
-            target: const HelpAndSupport(),
-            description: 'نحن هنا لاجلك'),
+          onRefresh: widget.onRefresh,
+          icon: FluentIcons.chat_help_24_regular,
+          title: S.current.help_support,
+          target: const HelpAndSupport(),
+          description: S.current.we_are_here_for_you,
+        ),
         // SettingsItem(onRefresh: onRefresh,
         //     icon: FluentIcons.money_16_regular,
         //     title: S.current.balance,
@@ -322,7 +348,7 @@ class _SettingsState extends State<Settings> {
             icon: FluentIcons.info_16_regular,
             title: S.current.about,
             target: const About(),
-            description: 'الأصدار 1.0.2'),
+            description: '${S.current.version} 1.0.2'),
       ],
     );
   }

@@ -33,16 +33,12 @@ class VideosCarouselItemWidget extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(25),
           ),
-          child: Hero(
-            tag: 'image${video.id}',
-            createRectTween: (begin, end) => RectTween(begin: begin, end: end),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(25),
-              child: VideoApp(
-                controller: controller,
-                video: video,
-                play: play,
-              ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(25),
+            child: VideoApp(
+              controller: controller,
+              video: video,
+              play: play,
             ),
           ),
         ),

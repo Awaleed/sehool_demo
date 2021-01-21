@@ -18,7 +18,6 @@ abstract class IUserRepository {
 
   Future<UserModel> updateProfile(Map<String, dynamic> data);
 
-  Future<UserModel> changePassword(String password);
   Future<UserModel> updateProfileImage(String imagePath);
 }
 
@@ -50,11 +49,6 @@ class UserRepositoryImpl implements IUserRepository {
   Future<List<AddressModel>> addAddress(Map<String, dynamic> data) async {
     await _remoteSource.addAddress(data);
     return getAddresses();
-  }
-
-  @override
-  Future<UserModel> changePassword(String password) {
-    throw UnsupportedError('message');
   }
 
   @override
@@ -90,6 +84,9 @@ class UserRepositoryImpl implements IUserRepository {
       'photo': await MultipartFile.fromFile(imagePath),
     });
     final res = await _remoteSource.updateProfileImage(data);
+    res['wallet'] = double.tryParse('${res['wallet']}');
+    res['vat_number'] = '${res['vat_number']}';
+
     final user = UserModel.fromJson(res);
     await _localSource.updateUser(user);
     return user;

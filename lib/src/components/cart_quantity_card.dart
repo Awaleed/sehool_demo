@@ -8,9 +8,11 @@ import '../models/cart_model.dart';
 import '../routes/config_routes.dart';
 
 class CartQuantityCard extends StatefulWidget {
-  const CartQuantityCard({Key key, @required this.cartItem}) : super(key: key);
+  const CartQuantityCard(
+      {Key key, @required this.cartItem, @required this.onChanged})
+      : super(key: key);
   final CartItemModel cartItem;
-
+  final VoidCallback onChanged;
   @override
   _CartQuantityCardState createState() => _CartQuantityCardState();
 }
@@ -24,7 +26,10 @@ class _CartQuantityCardState extends State<CartQuantityCard> {
         _buildButton(
             onTap: widget.cartItem.quantity <= 1
                 ? () {}
-                : widget.cartItem.decrementCart,
+                : () {
+                    widget.onChanged();
+                    widget.cartItem.decrementCart();
+                  },
             child: const Icon(Icons.remove_rounded)),
         TextButton(
           style: ButtonStyle(
@@ -132,6 +137,7 @@ class _CartQuantityCardState extends State<CartQuantityCard> {
                               key.currentState.save();
                               AppRouter.sailor.pop();
                               setState(() {});
+                              widget.onChanged();
                             }
                           },
                           child: Text(S.current.save),
@@ -154,7 +160,10 @@ class _CartQuantityCardState extends State<CartQuantityCard> {
         _buildButton(
           onTap: widget.cartItem.quantity >= 100
               ? () {}
-              : widget.cartItem.incrementCart,
+              : () {
+                  widget.onChanged();
+                  widget.cartItem.incrementCart();
+                },
           child: const Icon(FluentIcons.add_24_regular),
         ),
       ],

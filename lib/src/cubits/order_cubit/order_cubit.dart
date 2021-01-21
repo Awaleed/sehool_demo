@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
+import '../../helpers/helper.dart';
 
 import '../../models/order_model.dart';
 import '../../repositories/order_repository.dart';
@@ -22,9 +23,8 @@ class OrderCubit extends Cubit<OrderState> {
       final value = await _productRepository.getOrders();
       emit(OrderState.success(value));
     } catch (e) {
+      emit(OrderState.failure(message: Helpers.mapErrorToMessage(e)));
       addError(e);
-      // TODO: Handel error messages
-      emit(OrderState.failure(message: '$e'));
     }
   }
 
@@ -40,9 +40,8 @@ class OrderCubit extends Cubit<OrderState> {
       );
       emit(const OrderState.canceled());
     } catch (e) {
+      emit(OrderState.failure(message: Helpers.mapErrorToMessage(e)));
       addError(e);
-      // TODO: Handel error messages
-      emit(OrderState.failure(message: '$e'));
     }
   }
 }

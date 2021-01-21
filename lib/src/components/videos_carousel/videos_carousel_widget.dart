@@ -9,6 +9,8 @@ import 'package:video_player/video_player.dart';
 import '../../../init_injectable.dart';
 import '../../cubits/product_cubits/video_cubit/video_cubit.dart';
 import '../../models/video_model.dart';
+import '../../screens/home/home.dart';
+import '../my_error_widget.dart';
 import 'empty_videos_carousel.dart';
 import 'videos_carousel_item_widget.dart';
 import 'videos_carousel_loading_item_widget.dart';
@@ -25,19 +27,21 @@ class VideosCarouselWidget extends StatefulWidget {
 class _VideosCarouselWidgetState extends State<VideosCarouselWidget> {
   VideoCubit cubit;
   int currentItem = 0;
-
   Map<int, VideoPlayerController> _controllers;
+  bool canPlay = false;
 
   @override
   void initState() {
     super.initState();
     cubit = getIt<VideoCubit>();
     _controllers = {};
+    selectedIndex.addListener(onPageChange);
   }
 
   @override
   void dispose() {
     cubit.close();
+    selectedIndex.removeListener(onPageChange);
     for (final _controller in _controllers.values) {
       _controller.pause();
       _controller.dispose();
@@ -45,19 +49,49 @@ class _VideosCarouselWidgetState extends State<VideosCarouselWidget> {
     super.dispose();
   }
 
+  void onPageChange() {
+    if (selectedIndex.value != 3) {
+      setState(() => canPlay = false);
+      for (final _controller in _controllers.values) {
+        _controller?.pause();
+        _controller?.seekTo(0.seconds);
+      }
+    } else {
+      setState(() => canPlay = true);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<VideoCubit, VideoState>(
-      cubit: cubit,
-      builder: (context, state) {
-        return state.when(
-          loading: () => _buildUI([], isLoading: true),
-          success: (values) => _buildUI(values),
-
-          //TODO: handel ERRORS
-          failure: (message) => throw UnimplementedError(),
-        );
+    return RefreshIndicator(
+      onRefresh: () async {
+        for (final _controller in _controllers.values) {
+          await _controller.pause();
+          await _controller.seekTo(0.seconds);
+        }
+        return cubit.getVideos();
       },
+      child: Column(
+        children: [
+          Expanded(
+            child: BlocBuilder<VideoCubit, VideoState>(
+              cubit: cubit,
+              builder: (context, state) {
+                return state.when(
+                  loading: () => _buildUI([], isLoading: true),
+                  success: (values) => _buildUI(values),
+                  failure: (message) => MyErrorWidget(
+                    onRetry: () {
+                      cubit.getVideos();
+                    },
+                    message: message,
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -74,6 +108,8 @@ class _VideosCarouselWidgetState extends State<VideosCarouselWidget> {
         if (index >= videosList.length) {
           return const VideosCarouselLoadingItemWidget();
         } else {
+          if (!canPlay) return const SizedBox.shrink();
+
           if (Platform.isWindows) {
             return Center(
                 child: Text(

@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../../helpers/helper.dart';
 import '../../../models/product_model.dart';
 import '../../../repositories/product_repository.dart';
 
@@ -22,9 +23,8 @@ class ProductCubit extends Cubit<ProductState> {
       final value = await _productRepository.getProducts();
       emit(ProductState.success(value));
     } catch (e) {
+      emit(ProductState.failure(message: Helpers.mapErrorToMessage(e)));
       addError(e);
-      // TODO: Handel error messages
-      emit(ProductState.failure(message: '$e'));
     }
   }
 }

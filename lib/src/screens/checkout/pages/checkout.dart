@@ -112,7 +112,7 @@ class SummeryCard extends StatelessWidget {
                   ),
                   const Divider(),
                   ...cart.cartItems.map(
-                        (e) => ListTile(
+                    (e) => ListTile(
                       leading: IconButton(
                         icon: const Icon(
                           FluentIcons.delete_24_regular,
@@ -148,7 +148,7 @@ class SummeryCard extends StatelessWidget {
                                       ],
                                     ),
                                   ),
-                                  Text('${cart.total} ${S.current.rial}'),
+                                  Text('${e.total} ${S.current.rial}'),
                                 ],
                               ),
                             ),
@@ -200,7 +200,7 @@ class SummeryCard extends StatelessWidget {
                       subtitle: Text(
                         '${e.quantity} ${S.current.piece}, ${e.slicingMethod?.name}',
                       ),
-                      trailing: Text('${cart.total} ${S.current.rial}'),
+                      trailing: Text('${e.total} ${S.current.rial}'),
                     ),
                   ),
                   // const Divider(),

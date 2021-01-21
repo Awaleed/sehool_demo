@@ -343,6 +343,7 @@ class _$_Success implements _Success {
   int get hashCode =>
       runtimeType.hashCode ^ const DeepCollectionEquality().hash(values);
 
+  @JsonKey(ignore: true)
   @override
   _$SuccessCopyWith<_Success> get copyWith =>
       __$SuccessCopyWithImpl<_Success>(this, _$identity);
@@ -414,6 +415,7 @@ abstract class _Success implements DropdownState {
   const factory _Success(List<dynamic> values) = _$_Success;
 
   List<dynamic> get values;
+  @JsonKey(ignore: true)
   _$SuccessCopyWith<_Success> get copyWith;
 }
 
@@ -467,6 +469,7 @@ class _$_Failure implements _Failure {
   int get hashCode =>
       runtimeType.hashCode ^ const DeepCollectionEquality().hash(message);
 
+  @JsonKey(ignore: true)
   @override
   _$FailureCopyWith<_Failure> get copyWith =>
       __$FailureCopyWithImpl<_Failure>(this, _$identity);
@@ -538,5 +541,6 @@ abstract class _Failure implements DropdownState {
   const factory _Failure({String message}) = _$_Failure;
 
   String get message;
+  @JsonKey(ignore: true)
   _$FailureCopyWith<_Failure> get copyWith;
 }

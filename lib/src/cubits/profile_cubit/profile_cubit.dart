@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../helpers/helper.dart';
 import '../../models/user_model.dart';
 import '../../repositories/user_repository.dart';
 
@@ -20,21 +21,8 @@ class ProfileCubit extends Cubit<ProfileState> {
       final value = await _userRepository.updateProfileImage(path);
       emit(ProfileState.success(value));
     } catch (e) {
+      emit(ProfileState.failure(message: Helpers.mapErrorToMessage(e)));
       addError(e);
-      // TODO: Handel error messages
-      emit(ProfileState.failure(message: '$e'));
-    }
-  }
-
-  Future<void> changePassword(String password) async {
-    emit(const ProfileState.loading());
-    try {
-      final value = await _userRepository.changePassword(password);
-      emit(ProfileState.success(value));
-    } catch (e) {
-      addError(e);
-      // TODO: Handel error messages
-      emit(ProfileState.failure(message: '$e'));
     }
   }
 
@@ -44,9 +32,10 @@ class ProfileCubit extends Cubit<ProfileState> {
       final value = await _userRepository.updateProfile(data);
       emit(ProfileState.success(value));
     } catch (e) {
+      emit(ProfileState.failure(message: Helpers.mapErrorToMessage(e)));
       addError(e);
-      // TODO: Handel error messages
-      emit(ProfileState.failure(message: '$e'));
     }
   }
+
+  void reset() => emit(const ProfileState.initial());
 }

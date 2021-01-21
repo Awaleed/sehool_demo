@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 
 import '../../../generated/l10n.dart';
 import '../../../init_injectable.dart';
+import '../../components/my_error_widget.dart';
 import '../../components/orders_list/orders_list_sliver.dart';
 import '../../cubits/order_cubit/order_cubit.dart';
 
@@ -45,9 +46,12 @@ class _OrdersScreenState extends State<OrdersScreen> {
             canceled: () => _buildUI([], isLoading: true),
             loading: () => _buildUI([], isLoading: true),
             success: (values) => _buildUI(values),
-
-            //TODO: handel ERRORS
-            failure: (message) => throw UnimplementedError(),
+            failure: (message) => MyErrorWidget(
+              onRetry: () {
+                cubit.getOrders();
+              },
+              message: message,
+            ),
           );
         },
       ),
@@ -55,52 +59,55 @@ class _OrdersScreenState extends State<OrdersScreen> {
   }
 
   Widget _buildUI(List values, {isLoading = false}) {
-    return Parent(
-      style: ParentStyle()
-        ..background.image(path: 'assets/images/bg.jpg', fit: BoxFit.cover),
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          CustomScrollView(
-            slivers: [
-              SliverAppBar(
-                pinned: true,
-                elevation: 0,
-                title: Text(
-                  S.current.my_orders,
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline6
-                      .copyWith(color: Colors.white),
-                ),
-                backgroundColor: Colors.black54,
-              ),
-              const SliverToBoxAdapter(child: SizedBox(height: 20)),
-              SliverToBoxAdapter(
-                child: Card(
-                  elevation: 10,
-                  clipBehavior: Clip.hardEdge,
-                  color: Colors.white70,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(25),
+    return RefreshIndicator(
+      onRefresh: cubit.getOrders,
+      child: Parent(
+        style: ParentStyle()
+          ..background.image(path: 'assets/images/bg.jpg', fit: BoxFit.cover),
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            CustomScrollView(
+              slivers: [
+                SliverAppBar(
+                  pinned: true,
+                  elevation: 0,
+                  title: Text(
+                    S.current.my_orders,
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline6
+                        .copyWith(color: Colors.white),
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ListTile(
-                      title: Center(
-                        child: Text(
-                          DateFormat.yMMMEd().format(DateTime.now()),
+                  backgroundColor: Colors.black54,
+                ),
+                const SliverToBoxAdapter(child: SizedBox(height: 20)),
+                SliverToBoxAdapter(
+                  child: Card(
+                    elevation: 10,
+                    clipBehavior: Clip.hardEdge,
+                    color: Colors.white70,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ListTile(
+                        title: Center(
+                          child: Text(
+                            DateFormat.yMMMEd().format(DateTime.now()),
+                          ),
                         ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              OrdersListWidget(isLoading: isLoading, orders: values),
-              const SliverToBoxAdapter(child: SizedBox(height: 100)),
-            ],
-          ),
-        ],
+                OrdersListWidget(isLoading: isLoading, orders: values),
+                const SliverToBoxAdapter(child: SizedBox(height: 100)),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -3,19 +3,20 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:sehool/src/components/address_picker_card.dart';
-import 'package:sehool/src/models/address_model.dart';
-import 'package:sehool/src/patched_components/places_picker/src/place_picker.dart';
-import 'package:sehool/src/routes/config_routes.dart';
 
 import '../../../../generated/l10n.dart';
 import '../../../../init_injectable.dart';
+import '../../../components/address_picker_card.dart';
+import '../../../components/my_error_widget.dart';
 import '../../../components/my_loading_overlay.dart';
 import '../../../cubits/address_cubit/address_cubit.dart';
 import '../../../cubits/dropdown_cubit/dropdown_cubit.dart';
 import '../../../helpers/helper.dart';
+import '../../../models/address_model.dart';
 import '../../../models/dropdown_value_model.dart';
 import '../../../models/form_data_model.dart';
+import '../../../patched_components/places_picker/src/place_picker.dart';
+import '../../../routes/config_routes.dart';
 
 class NewAddressDialog extends StatefulWidget {
   static const routeName = '/addresses/new';
@@ -71,8 +72,12 @@ class _NewAddressDialogState extends State<NewAddressDialog> {
           created: () => _buildUi(context, widget.cubit),
           loading: () => _buildUi(context, widget.cubit, isLoading: true),
           success: (value) => _buildUi(context, widget.cubit),
-          // TODO: Handel ERROR STATE
-          failure: (message) => throw UnimplementedError(),
+          failure: (message) => MyErrorWidget(
+            onRetry: () {
+              widget.cubit.retryAddAddress();
+            },
+            message: message,
+          ),
         );
       },
     );
@@ -135,7 +140,14 @@ class _NewAddressDialogState extends State<NewAddressDialog> {
                               loading: () =>
                                   _buildCityDropdownUI([], isLoading: true),
                               success: (values) => _buildCityDropdownUI(values),
-                              failure: (_) => throw UnimplementedError(),
+                              failure: (message) => MyErrorWidget(
+                                onRetry: () {
+                                  cityCubit.getDropdownValues(
+                                    DropdownValueType.cites,
+                                  );
+                                },
+                                message: message,
+                              ),
                             );
                           },
                         ),

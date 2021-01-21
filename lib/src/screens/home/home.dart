@@ -15,7 +15,7 @@ import 'pages/main.dart';
 import 'pages/userpage.dart';
 import 'pages/videos.dart';
 
-final homeNotifier = ValueNotifier(0);
+ValueNotifier<int> selectedIndex = ValueNotifier(0);
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home';
@@ -27,8 +27,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int selectedIndex;
-  PageController pageController;
+  // PageController pageController;
   List<_TabBarItem> get pages => [
         _TabBarItem(
           icon: FluentIcons.home_24_regular,
@@ -38,10 +37,12 @@ class _HomeScreenState extends State<HomeScreen> {
         _TabBarItem(
           icon: FluentIcons.cart_24_filled,
           label: S.current.about,
+          page: const SizedBox.shrink(),
         ),
         _TabBarItem(
           icon: FluentIcons.cart_24_filled,
           label: S.current.cart,
+          page: const SizedBox.shrink(),
         ),
         _TabBarItem(
           icon: FluentIcons.video_24_regular,
@@ -58,25 +59,20 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    selectedIndex = 0;
-    pageController = PageController(initialPage: selectedIndex);
-    homeNotifier.addListener(() {
-      onPageChanged(0);
-    });
+
+    // pageController = PageController(initialPage: selectedIndex);
   }
 
   void onPageChanged(int index) {
-    setState(() => selectedIndex = index);
-    pageController.jumpToPage(index);
+    setState(() => selectedIndex.value = index);
+    // pageController.jumpToPage(index);
   }
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder(
-      valueListenable: homeNotifier,
-      builder: (BuildContext context, int value, Widget child) {
-        debugPrint('HomeScreenNotified $value');
-        return Parent(
+    return WillPopScope(
+        onWillPop: () => Helpers.onWillPop(context),
+        child: Parent(
           style: ParentStyle()
             ..background.image(path: 'assets/images/bg.jpg', fit: BoxFit.cover),
           child: Scaffold(
@@ -103,10 +99,15 @@ class _HomeScreenState extends State<HomeScreen> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Expanded(
-                        child: PageView(
-                          physics: const NeverScrollableScrollPhysics(),
-                          controller: pageController,
-                          children: [...pages.map((e) => e.page)],
+                        child: IndexedStack(
+                          sizing: StackFit.expand,
+                          alignment: Alignment.center,
+                          // physics: const NeverScrollableScrollPhysics(),
+                          // controller: pageController,
+                          index: selectedIndex.value,
+                          children: [
+                            ...pages.map((e) => e.page),
+                          ],
                         ),
                       ),
                       Container(
@@ -140,15 +141,13 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
           ),
-        );
-      },
-    );
+        ));
   }
 
   Widget _buildRange(int min, int max) {
     final list = <Widget>[];
     for (var i = min; i < max; i++) {
-      final isSelected = selectedIndex == i;
+      final isSelected = selectedIndex.value == i;
       final item = pages[i];
 
       if (item.label == S.current.cart) {

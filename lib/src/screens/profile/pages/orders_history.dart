@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../generated/l10n.dart';
 import '../../../../init_injectable.dart';
+import '../../../components/my_error_widget.dart';
 import '../../../components/orders_list/orders_list_sliver.dart';
 import '../../../cubits/order_cubit/order_cubit.dart';
 
@@ -41,9 +42,12 @@ class _OrdersHistoryState extends State<OrdersHistory> {
             canceled: () => _buildUI([], isLoading: true),
             loading: () => _buildUI([], isLoading: true),
             success: (values) => _buildUI(values),
-
-            //TODO: handel ERRORS
-            failure: (message) => throw UnimplementedError(),
+            failure: (message) => MyErrorWidget(
+              onRetry: () {
+                cubit.getOrders();
+              },
+              message: message,
+            ),
           );
         },
       ),
@@ -51,26 +55,28 @@ class _OrdersHistoryState extends State<OrdersHistory> {
   }
 
   Widget _buildUI(List values, {isLoading = false}) {
-    // const EmptyOrdersWidget()
-    return Parent(
-      style: ParentStyle()
-        ..background.image(path: 'assets/images/bg.jpg', fit: BoxFit.cover),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          elevation: 0,
+    return RefreshIndicator(
+      onRefresh: cubit.getOrders,
+      child: Parent(
+        style: ParentStyle()
+          ..background.image(path: 'assets/images/bg.jpg', fit: BoxFit.cover),
+        child: Scaffold(
           backgroundColor: Colors.transparent,
-          title: Text(
-            S.current.my_orders,
-            style: Theme.of(context)
-                .textTheme
-                .headline6
-                .copyWith(color: Colors.white),
+          appBar: AppBar(
+            elevation: 0,
+            backgroundColor: Colors.transparent,
+            title: Text(
+              S.current.my_orders,
+              style: Theme.of(context)
+                  .textTheme
+                  .headline6
+                  .copyWith(color: Colors.white),
+            ),
           ),
-        ),
-        body: OrdersListWidget(
-          isLoading: isLoading,
-          orders: values,
+          body: OrdersListWidget(
+            isLoading: isLoading,
+            orders: values,
+          ),
         ),
       ),
     );

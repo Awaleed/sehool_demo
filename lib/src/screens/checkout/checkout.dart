@@ -4,6 +4,7 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sailor/sailor.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../../generated/l10n.dart';
@@ -16,6 +17,7 @@ import '../../helpers/helper.dart';
 import '../../models/cart_model.dart';
 import '../../patched_components/custom_stepper.dart';
 import '../../routes/config_routes.dart';
+import '../home/home.dart';
 import 'pages/address_review.dart';
 import 'pages/checkout.dart';
 import 'pages/checkout_notes.dart';
@@ -36,6 +38,13 @@ class CheckoutScreen extends StatelessWidget {
       child: Scaffold(
         extendBodyBehindAppBar: true,
         appBar: AppBar(
+          title: Text(
+            S.current.add_to_cart,
+            style: Theme.of(context)
+                .textTheme
+                .headline6
+                .copyWith(color: Colors.white),
+          ),
           elevation: 0,
           backgroundColor: Colors.black54,
         ),
@@ -45,8 +54,13 @@ class CheckoutScreen extends StatelessWidget {
             cubit: getIt<CartCubit>(),
             listener: (context, state) async {
               if (state.cart.cartItems.isEmpty) {
-                AppRouter.sailor.pop();
-                AppRouter.sailor.pop();
+                AppRouter.sailor.navigate(
+                  HomeScreen.routeName,
+                  navigationType: NavigationType.pushAndRemoveUntil,
+                  removeUntilPredicate: (_) => false,
+                );
+                // AppRouter.sailor.navigate(
+                //   HomeScreen.routeName);
                 Helpers.showMessageOverlay(
                   context,
                   message: S.current.dont_have_any_item_in_your_cart,
@@ -124,8 +138,11 @@ class _CheckoutScrollState extends State<CheckoutScroll> {
             );
           },
           success: () {
-            Helpers.showSuccessOverlay(context,
-                message: S.current.your_order_has_been_successfully_submitted);
+            Helpers.showSuccessOverlay(
+              context,
+              message: S.current.your_order_has_been_successfully_submitted,
+            );
+            getIt<CartCubit>().clear();
           },
           failure: (message) {
             Helpers.showErrorOverlay(context, error: message);
@@ -251,7 +268,7 @@ class _CheckoutScrollState extends State<CheckoutScroll> {
                 borderRadius: BorderRadius.circular(25),
               ),
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -277,6 +294,7 @@ class _CheckoutScrollState extends State<CheckoutScroll> {
           label: Text(S.current.checkout),
           onTap: widget.cart.validate
               ? () {
+                  Helpers.dismissFauces(context);
                   cubit.placeOrder(widget.cart);
                 }
               : null,
@@ -517,24 +535,31 @@ class OnlinePay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(url),
-      ),
-      body: WebView(
-        initialUrl: url,
-        navigationDelegate: (NavigationRequest request) {
-          final uri = Uri.tryParse(request.url);
-          if (uri != null && uri.queryParameters['status'] == 'paid') {
-            AppRouter.sailor.pop();
-            cubit.orderSuccess();
-          } else if (uri != null && uri.queryParameters['status'] == 'failed') {
-            AppRouter.sailor.pop();
-            cubit.orderFailure(uri.queryParameters['message']);
-          }
+    return WillPopScope(
+      onWillPop: () => Helpers.onWillPop(context),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            S.current.confirm_payment,
+            style: Theme.of(context).textTheme.headline6,
+          ),
+        ),
+        body: WebView(
+          initialUrl: url,
+          navigationDelegate: (NavigationRequest request) {
+            final uri = Uri.tryParse(request.url);
+            if (uri != null && uri.queryParameters['status'] == 'paid') {
+              AppRouter.sailor.pop();
+              cubit.orderSuccess();
+            } else if (uri != null &&
+                uri.queryParameters['status'] == 'failed') {
+              AppRouter.sailor.pop();
+              cubit.orderFailure(uri.queryParameters['message']);
+            }
 
-          return NavigationDecision.navigate;
-        },
+            return NavigationDecision.navigate;
+          },
+        ),
       ),
     );
   }

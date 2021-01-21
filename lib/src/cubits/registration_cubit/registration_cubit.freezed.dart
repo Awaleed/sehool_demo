@@ -441,6 +441,7 @@ class _$_Failure implements _Failure {
   int get hashCode =>
       runtimeType.hashCode ^ const DeepCollectionEquality().hash(message);
 
+  @JsonKey(ignore: true)
   @override
   _$FailureCopyWith<_Failure> get copyWith =>
       __$FailureCopyWithImpl<_Failure>(this, _$identity);
@@ -512,5 +513,6 @@ abstract class _Failure implements RegistrationState {
   const factory _Failure({String message}) = _$_Failure;
 
   String get message;
+  @JsonKey(ignore: true)
   _$FailureCopyWith<_Failure> get copyWith;
 }

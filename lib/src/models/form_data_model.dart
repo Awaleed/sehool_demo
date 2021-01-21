@@ -5,7 +5,6 @@ import 'package:validators/validators.dart';
 import '../../generated/l10n.dart';
 
 enum FormFieldType {
-  /// TODO: MODELS USED HERE REMOVE OTHER
   address,
   location,
   password,
@@ -123,10 +122,9 @@ class FormFieldModel {
           validator: Validators.notEmptyStringValidator,
           onSave: (value) => map['note'] = _toString(value),
         );
-    //TODO: Localize this
       case FormFieldType.cityId:
         return FormFieldModel(
-          hintText: S.current.cites,
+          hintText: S.current.city,
           iconData: FluentIcons.location_28_regular,
           keyboardType: TextInputType.number,
           validator: Validators.notNullValidator,
@@ -134,9 +132,7 @@ class FormFieldModel {
         );
       case FormFieldType.citySectionId:
         return FormFieldModel(
-          //TODO: Localize this
-
-          hintText: 'قطاع المدينة',
+          hintText: S.current.neighborhood,
           iconData: FluentIcons.location_28_regular,
           keyboardType: TextInputType.number,
           validator: Validators.notNullValidator,
@@ -144,7 +140,6 @@ class FormFieldModel {
         );
       case FormFieldType.level:
         return FormFieldModel(
-          //TODO: Add localization
           hintText: S.current.level,
           labelText: S.current.level,
           iconData: FluentIcons.person_accounts_24_regular,
@@ -152,7 +147,6 @@ class FormFieldModel {
           onSave: (value) => map['level'] = _toString(value),
         );
       case FormFieldType.storeName:
-        //TODO: Add localization
         return FormFieldModel(
           hintText: S.current.store,
           labelText: S.current.store,
@@ -190,9 +184,7 @@ abstract class Validators {
   static String notEmptyStringValidator(dynamic value) {
     if (value is String) {
       if (value.isEmpty || value == null) {
-        //TODO: Add localization
-
-        return 'إملاء هذا الحقل';
+        return S.current.must_not_be_empty;
       }
       return null;
     }
@@ -221,9 +213,7 @@ abstract class Validators {
 
   static String notNullValidator(dynamic value) {
     if (value == null) {
-      //TODO: Add localization
-
-      return 'الرجاء إختيار واحد';
+      return S.current.please_choose_one;
     }
     return null;
   }
@@ -231,9 +221,7 @@ abstract class Validators {
   static String numericValidator(dynamic value) {
     if (value is String) {
       if (!isNumeric(value) || value.isEmpty || value == null) {
-        //TODO: Add localization
-
-        return 'أدخل رقم صحيح';
+        return S.current.enter_a_valid_number;
       }
       return null;
     }

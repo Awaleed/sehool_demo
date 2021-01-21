@@ -39,16 +39,11 @@ class ProductsCarouselItemWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(25),
             ),
             color: Colors.transparent,
-            child: Hero(
-              tag: 'image${product.id}',
-              createRectTween: (begin, end) =>
-                  RectTween(begin: begin, end: end),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(25),
-                child: CachedNetworkImage(
-                  imageUrl: product.image,
-                  fit: BoxFit.cover,
-                ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(25),
+              child: CachedNetworkImage(
+                imageUrl: product.image,
+                fit: BoxFit.cover,
               ),
             ),
           ),

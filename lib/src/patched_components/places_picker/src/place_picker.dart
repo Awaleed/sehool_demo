@@ -96,13 +96,12 @@ class _PlacePickerState extends State<PlacePicker> {
       initialTarget: initialTarget,
       enableMyLocationButton: widget.enableMyLocationButton,
       onMapCreated: (controller) => provider.mapController = controller,
-      onSaveLocation: () =>
-          widget.onSave(
-            LatLng(
-              provider.currentPosition.latitude,
-              provider.currentPosition.longitude,
-            ),
-          ),
+      onSaveLocation: () => widget.onSave(
+        LatLng(
+          provider.currentPosition.latitude,
+          provider.currentPosition.longitude,
+        ),
+      ),
       onMyLocation: () async {
         // Prevent to click many times in short period.
         if (provider.isOnUpdateLocationCooldown == false) {

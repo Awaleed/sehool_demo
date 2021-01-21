@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../helpers/helper.dart';
 import '../../models/dropdown_value_model.dart';
 import '../../repositories/dropdown_repository.dart';
 
@@ -21,9 +22,8 @@ class DropdownCubit extends Cubit<DropdownState> {
       final values = await _dropdownRepository.getDropdownValues(type);
       emit(DropdownState.success(values));
     } catch (e) {
+      emit(DropdownState.failure(message: Helpers.mapErrorToMessage(e)));
       addError(e);
-      // TODO: Handel error messages
-      emit(DropdownState.failure(message: '$e'));
     }
   }
 

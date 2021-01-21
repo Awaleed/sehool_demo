@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:supercharged/supercharged.dart';
 
+import '../../generated/l10n.dart';
 import 'flash_helper.dart';
 
 abstract class Helpers {
@@ -91,13 +92,20 @@ abstract class Helpers {
     return completer.future;
   }
 
+  static DateTime _currentBackPressTime;
+
   static Future<bool> onWillPop(BuildContext context) {
-    return showDialog<bool>(
-      context: context,
-      builder: (_) => const AlertDialog(
-        title: Text('Text'),
-      ),
-    );
+    final now = DateTime.now();
+    if (_currentBackPressTime == null ||
+        now.difference(_currentBackPressTime) > const Duration(seconds: 2)) {
+      _currentBackPressTime = now;
+      Helpers.showMessageOverlay(
+        context,
+        message: S.current.tap_back_again_to_leave,
+      );
+      return Future.value(false);
+    }
+    return Future.value(true);
   }
 
   static Completer showLoading(BuildContext context) {
@@ -106,5 +114,43 @@ abstract class Helpers {
       FlashHelper.blockDialog(context, dismissCompleter: completer);
     }
     return completer;
+  }
+
+  static String mapErrorToMessage(dynamic error) {
+    try {
+      String message;
+      if (error is DioError) {
+        message = _mapDioError(error);
+      } else {
+        message = '$error';
+      }
+      debugPrint('$error');
+      return message;
+    } catch (e) {
+      debugPrint('Error in mapErrorToMessage: $e\nError: $error');
+      return '$error';
+    }
+  }
+
+  static String _mapDioError(DioError error) {
+    final message = StringBuffer();
+    if (error.response?.data['errors'] != null &&
+        error.response?.data['errors'] is Map) {
+      final map = error.response?.data['errors'] as Map;
+      for (final value in map.values) {
+        if (value is List) {
+          for (final str in value) {
+            message.write('$str\n');
+          }
+        } else {
+          message.write('$value\n');
+        }
+      }
+      return message.toString();
+    } else if (error.response?.data['error'] != null) {
+      return '${error.response?.data['error']}';
+    } else {
+      return '${error.response?.data}';
+    }
   }
 }

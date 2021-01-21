@@ -65,7 +65,7 @@ class FakeLazyListRemoteDataSource extends ILazyListRemoteDataSource {
       case LazyListType.banners:
         return List.generate(
           10,
-              (_) => FakeDataGenerator.bannerModel.toJson(),
+          (_) => FakeDataGenerator.bannerModel.toJson(),
         );
       case LazyListType.orders:
       // return List.generate(

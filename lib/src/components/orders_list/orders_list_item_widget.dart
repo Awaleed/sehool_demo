@@ -88,7 +88,7 @@ class OrdersListItemWidget extends StatelessWidget {
                     subtitle: Text(cart.address?.city?.name ?? S.current.none),
                   ),
                   ListTile(
-                    title: Text(S.current.city_section),
+                    title: Text(S.current.neighborhood),
                     subtitle:
                         Text(cart.address?.section?.name ?? S.current.none),
                   ),

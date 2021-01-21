@@ -342,6 +342,7 @@ class _$_Success implements _Success {
   int get hashCode =>
       runtimeType.hashCode ^ const DeepCollectionEquality().hash(value);
 
+  @JsonKey(ignore: true)
   @override
   _$SuccessCopyWith<_Success> get copyWith =>
       __$SuccessCopyWithImpl<_Success>(this, _$identity);
@@ -413,6 +414,7 @@ abstract class _Success implements OrderState {
   const factory _Success(List<OrderModel> value) = _$_Success;
 
   List<OrderModel> get value;
+  @JsonKey(ignore: true)
   _$SuccessCopyWith<_Success> get copyWith;
 }
 
@@ -466,6 +468,7 @@ class _$_Failure implements _Failure {
   int get hashCode =>
       runtimeType.hashCode ^ const DeepCollectionEquality().hash(message);
 
+  @JsonKey(ignore: true)
   @override
   _$FailureCopyWith<_Failure> get copyWith =>
       __$FailureCopyWithImpl<_Failure>(this, _$identity);
@@ -537,5 +540,6 @@ abstract class _Failure implements OrderState {
   const factory _Failure({String message}) = _$_Failure;
 
   String get message;
+  @JsonKey(ignore: true)
   _$FailureCopyWith<_Failure> get copyWith;
 }

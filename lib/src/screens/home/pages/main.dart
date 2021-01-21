@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../init_injectable.dart';
+import '../../../components/my_error_widget.dart';
 import '../../../components/products_carousel/products_carousel_widget.dart';
 import '../../../cubits/product_cubits/banner_cubit/banner_cubit.dart';
+import '../../../cubits/product_cubits/product_cubit/product_cubit.dart';
 import '../../../models/banner_model.dart';
 
 class MainPage extends StatefulWidget {
@@ -18,38 +20,54 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   BannerCubit cubit;
+  ProductCubit productCubit;
 
   @override
   void initState() {
     super.initState();
     cubit = getIt<BannerCubit>();
+    productCubit = getIt<ProductCubit>();
   }
 
   @override
   void dispose() {
     cubit.close();
+    productCubit.close();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        BlocBuilder<BannerCubit, BannerState>(
-          cubit: cubit,
-          builder: (context, state) {
-            return state.when(
-              loading: () => _buildBanner([], isLoading: true),
-              success: (values) => _buildBanner(values),
-
-              //TODO: handel ERRORS
-              failure: (message) => throw UnimplementedError(),
-            );
-          },
-        ),
-        const Expanded(child: ProductsCarouselWidget()),
-      ],
+    return RefreshIndicator(
+      onRefresh: () async {
+        cubit.getBanners();
+        await productCubit.getProducts();
+      },
+      child: CustomScrollView(
+        slivers: [
+          SliverToBoxAdapter(
+            child: BlocBuilder<BannerCubit, BannerState>(
+              cubit: cubit,
+              builder: (context, state) {
+                return state.when(
+                  loading: () => _buildBanner([], isLoading: true),
+                  success: (values) => _buildBanner(values),
+                  failure: (message) => MyErrorWidget(
+                    onRetry: () {
+                      cubit.getBanners();
+                    },
+                    message: message,
+                  ),
+                );
+              },
+            ),
+          ),
+          SliverFillRemaining(
+            hasScrollBody: false,
+            child: ProductsCarouselWidget(cubit: productCubit),
+          ),
+        ],
+      ),
     );
   }
 

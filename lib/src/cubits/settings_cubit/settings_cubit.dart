@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../helpers/helper.dart';
 import '../../models/settings_model.dart';
 import '../../repositories/settings_repository.dart';
 
@@ -20,8 +21,8 @@ class SettingsCubit extends Cubit<SettingsState> {
       final value = _settingsRepository.getSettings();
       emit(SettingsState.loaded(value));
     } catch (e) {
+      emit(SettingsState.failure(message: Helpers.mapErrorToMessage(e)));
       addError(e);
-      emit(SettingsState.failure(message: '$e'));
     }
   }
 
@@ -33,9 +34,8 @@ class SettingsCubit extends Cubit<SettingsState> {
       _settingsRepository.saveSettings(value);
       emit(SettingsState.loaded(value));
     } catch (e) {
+      emit(SettingsState.failure(message: Helpers.mapErrorToMessage(e)));
       addError(e);
-      // TODO: Handel error messages
-      emit(SettingsState.failure(message: '$e'));
     }
   }
 
@@ -47,9 +47,8 @@ class SettingsCubit extends Cubit<SettingsState> {
       _settingsRepository.saveSettings(value);
       emit(SettingsState.loaded(value));
     } catch (e) {
+      emit(SettingsState.failure(message: Helpers.mapErrorToMessage(e)));
       addError(e);
-      // TODO: Handel error messages
-      emit(SettingsState.failure(message: '$e'));
     }
   }
 }

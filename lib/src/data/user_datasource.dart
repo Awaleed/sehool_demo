@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:faker/faker.dart';
 import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:supercharged/supercharged.dart';
 
 import '../../init_injectable.dart';
@@ -13,6 +14,7 @@ import '../models/user_model.dart';
 
 const String userBoxName = 'UserBox';
 const String currentUserKey = 'currentUser';
+
 UserModel get kUser => getIt<IUserLocalDataSource>().readUser();
 
 abstract class IUserLocalDataSource {
@@ -38,6 +40,11 @@ class UserLocalDataSource extends IUserLocalDataSource {
 
   @override
   Future<void> saveUser(UserWithTokenModel user) async {
+    try {
+      await OneSignal.shared.setExternalUserId(
+        user.user.id.toString(),
+      );
+    } catch (e) {}
     final userEncodedJson = jsonEncode(user.toJson());
     await box.put(currentUserKey, userEncodedJson);
   }
@@ -51,7 +58,10 @@ class UserLocalDataSource extends IUserLocalDataSource {
   }
 
   @override
-  Future<void> removeUser() {
+  Future<void> removeUser() async {
+    try {
+      await OneSignal.shared.removeExternalUserId();
+    } catch (e) {}
     return box.delete(currentUserKey);
   }
 
@@ -114,7 +124,6 @@ class UserRemoteDataSource extends IUserRemoteDataSource with ApiCaller {
   @override
   Future<Map<String, dynamic>> resetPassword(
       Map<String, dynamic> credentials) async {
-    //TODO FIXME
     await Future.delayed(1500.milliseconds);
     if (random.boolean()) throw DioError(response: Response(statusCode: 400));
     return {'time_out': 5};
@@ -160,12 +169,8 @@ class UserRemoteDataSource extends IUserRemoteDataSource with ApiCaller {
   }
 
   @override
-  Future<Map<String, dynamic>> updateProfileImage(FormData data) {
-    return post(
-      path: '/auth/login',
-      data: data,
-    );
-  }
+  Future<Map<String, dynamic>> updateProfileImage(FormData data) =>
+      post(path: '/auth/updateProfilePhoto', data: data);
 }
 
 @test
@@ -188,7 +193,6 @@ class FakeUserRemoteDataSource extends IUserRemoteDataSource {
 
   @override
   Future<Map<String, dynamic>> changePassword(Map<String, dynamic> data) {
-    // TODO: implement changePassword
     throw UnimplementedError();
   }
 
@@ -204,7 +208,6 @@ class FakeUserRemoteDataSource extends IUserRemoteDataSource {
   @override
   Future<Map<String, dynamic>> forgotPassword(
       Map<String, dynamic> credentials) {
-    // TODO: implement forgotPassword
     throw UnimplementedError();
   }
 
@@ -235,13 +238,11 @@ class FakeUserRemoteDataSource extends IUserRemoteDataSource {
 
   @override
   Future<Map<String, dynamic>> resetPassword(Map<String, dynamic> credentials) {
-    // TODO: implement resetPassword
     throw UnimplementedError();
   }
 
   @override
   Future<List> updateAddress(Map<String, dynamic> data) {
-    // TODO: implement updateAddress
     throw UnimplementedError();
   }
 
@@ -253,7 +254,6 @@ class FakeUserRemoteDataSource extends IUserRemoteDataSource {
 
   @override
   Future<Map<String, dynamic>> updateProfileImage(FormData data) {
-    // TODO: implement updateProfileImage
     throw UnimplementedError();
   }
 }

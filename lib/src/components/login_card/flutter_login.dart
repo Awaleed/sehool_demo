@@ -6,12 +6,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
+import 'package:sehool/generated/l10n.dart';
 
 import 'src/color_helper.dart';
 import 'src/constants.dart';
 import 'src/dart_helper.dart';
 import 'src/providers/auth.dart';
-import 'src/providers/login_messages.dart';
 import 'src/providers/login_theme.dart';
 import 'src/regex.dart';
 import 'src/widgets/auth_card.dart';
@@ -164,7 +164,6 @@ class FlutterLogin extends StatefulWidget {
     @required this.onRecoverPassword,
     this.title = 'LOGIN',
     this.logo,
-    this.messages,
     this.signupFields,
     this.theme,
     this.emailValidator,
@@ -186,8 +185,6 @@ class FlutterLogin extends StatefulWidget {
 
   final String logo;
 
-  final LoginMessages messages;
-
   final LoginTheme theme;
 
   final FormFieldValidator<String> emailValidator;
@@ -202,14 +199,14 @@ class FlutterLogin extends StatefulWidget {
 
   static FormFieldValidator<String> get defaultEmailValidator => (value) {
         if (value.isEmpty || !Regex.email.hasMatch(value)) {
-          return 'Invalid email!';
+          return S.current.should_be_a_valid_email;
         }
         return null;
       };
 
   static FormFieldValidator<String> get defaultPasswordValidator => (value) {
         if (value.isEmpty || value.length <= 2) {
-          return 'Password is too short!';
+          return S.current.should_be_more_than_6_letters;
         }
         return null;
       };
@@ -411,9 +408,6 @@ class _FlutterLoginState extends State<FlutterLogin>
 
     return MultiProvider(
         providers: [
-          ChangeNotifierProvider.value(
-            value: widget.messages ?? LoginMessages(),
-          ),
           ChangeNotifierProvider(
             create: (context) => Auth(
               onLogin: widget.onLogin,

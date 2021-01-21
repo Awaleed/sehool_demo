@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../../helpers/helper.dart';
 import '../../../models/video_model.dart';
 import '../../../repositories/product_repository.dart';
 
@@ -22,9 +23,8 @@ class VideoCubit extends Cubit<VideoState> {
       final value = await _productRepository.getVideos();
       emit(VideoState.success(value));
     } catch (e) {
+      emit(VideoState.failure(message: Helpers.mapErrorToMessage(e)));
       addError(e);
-      // TODO: Handel error messages
-      emit(VideoState.failure(message: '$e'));
     }
   }
 }

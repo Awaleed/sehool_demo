@@ -20,7 +20,7 @@ class QuantityPage extends StatelessWidget {
             height: 300,
             child: CartProductPreview(product: cartItem.product),
           ),
-          CartQuantityCard(cartItem: cartItem),
+          CartQuantityCard(cartItem: cartItem, onChanged: () {}),
         ],
       ),
     );

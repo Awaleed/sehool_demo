@@ -29,6 +29,10 @@ class CartCubit extends Cubit<CartState> {
       orElse: () => null,
     );
   }
+
+  void clear() {
+    emit(CartState(cart: CartModel()));
+  }
 }
 
 class CartState {

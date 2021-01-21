@@ -107,11 +107,13 @@ class AvatarSection extends FormField<File> {
   static Future<File> _imageCrop(PickedFile imageFile) =>
       ImageCropper.cropImage(
         sourcePath: imageFile.path,
+        cropStyle: CropStyle.circle,
         aspectRatioPresets: [CropAspectRatioPreset.square],
         androidUiSettings: const AndroidUiSettings(
-          toolbarTitle: 'Cropper',
           toolbarWidgetColor: Colors.white,
-          initAspectRatio: CropAspectRatioPreset.original,
+          initAspectRatio: CropAspectRatioPreset.square,
+          backgroundColor: Colors.amber,
+          toolbarColor: Colors.amber,
           lockAspectRatio: true,
         ),
         iosUiSettings: const IOSUiSettings(minimumAspectRatio: 1.0),

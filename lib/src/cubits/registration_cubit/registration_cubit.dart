@@ -3,6 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../init_injectable.dart';
+import '../../helpers/helper.dart';
 import '../../repositories/auth_repository.dart';
 import '../auth_cubit/auth_cubit.dart';
 
@@ -23,9 +24,8 @@ class RegistrationCubit extends Cubit<RegistrationState> {
       emit(const RegistrationState.success());
       getIt<AuthCubit>().authenticateUser();
     } catch (e) {
+      emit(RegistrationState.failure(message: Helpers.mapErrorToMessage(e)));
       addError(e);
-      // TODO: Handel error messages
-      emit(RegistrationState.failure(message: '$e'));
     }
   }
 }

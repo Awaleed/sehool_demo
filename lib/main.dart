@@ -10,6 +10,7 @@ import 'package:sailor/sailor.dart';
 import 'generated/l10n.dart';
 import 'init_hive.dart';
 import 'init_injectable.dart';
+import 'onesignal.dart';
 import 'src/core/custom_bloc_observer.dart';
 import 'src/cubits/auth_cubit/auth_cubit.dart';
 import 'src/data/settings_datasource.dart';
@@ -20,6 +21,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initHive();
   configureDependencies();
+  await initPushNotifications();
   AppRouter.createRoutes();
 
   Bloc.observer = CustomBlocObserver();
@@ -33,9 +35,13 @@ Future<void> main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
-      statusBarIconBrightness: Brightness.light));
+      statusBarIconBrightness: Brightness.light,
+      statusBarBrightness: Brightness.light,
+    ),
+  );
   runApp(MyApp());
 }
 
@@ -48,12 +54,14 @@ class MyApp extends StatelessWidget {
         return BlocListener<AuthCubit, AuthState>(
           cubit: getIt<AuthCubit>(),
           listener: (context, state) {
-            AppRouter.createRoutes();
-            AppRouter.sailor.navigate(SplashScreen.routeName);
+            AppRouter.sailor.navigate(
+              SplashScreen.routeName,
+              navigationType: NavigationType.pushAndRemoveUntil,
+              removeUntilPredicate: (_) => false,
+            );
           },
           child: MaterialApp(
             title: 'Sehool',
-            //TODO: add theme here
             localizationsDelegates: const [
               S.delegate,
               GlobalMaterialLocalizations.delegate,
@@ -62,7 +70,8 @@ class MyApp extends StatelessWidget {
             ],
             theme: ThemeData(
               appBarTheme: const AppBarTheme(
-                systemOverlayStyle: SystemUiOverlayStyle.light,
+                // systemOverlayStyle: SystemUiOverlayStyle.light,
+                brightness: Brightness.dark,
                 actionsIconTheme: IconThemeData(color: Colors.white),
                 iconTheme: IconThemeData(color: Colors.white),
               ),

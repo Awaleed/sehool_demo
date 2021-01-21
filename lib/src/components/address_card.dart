@@ -34,11 +34,11 @@ class AddressCard extends StatelessWidget {
                   ),
                   const Divider(),
                   ListTile(
-                    title: Text(S.current.cites),
+                    title: Text(S.current.city),
                     subtitle: Text(address?.city?.name ?? S.current.none),
                   ),
                   ListTile(
-                    title: Text(S.current.city_section),
+                    title: Text(S.current.neighborhood),
                     subtitle: Text(address?.section?.name ?? S.current.none),
                   ),
                   ListTile(

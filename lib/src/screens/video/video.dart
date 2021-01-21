@@ -55,12 +55,12 @@ class _VideoScreenState extends State<VideoScreen> {
         setState(() {});
       });
     _aspectRatio = _videoPlayerController.value.aspectRatio;
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.landscapeRight,
-      DeviceOrientation.landscapeLeft,
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
+    // SystemChrome.setPreferredOrientations([
+    //   DeviceOrientation.landscapeRight,
+    //   DeviceOrientation.landscapeLeft,
+    //   DeviceOrientation.portraitUp,
+    //   DeviceOrientation.portraitDown,
+    // ]);
     _chewieController = ChewieController(
       allowedScreenSleep: false,
       deviceOrientationsAfterFullScreen: [
@@ -77,34 +77,34 @@ class _VideoScreenState extends State<VideoScreen> {
       // overlay: Placeholder(),
     );
 
-    _chewieController.addListener(() {
-      if (_chewieController.isFullScreen) {
-        SystemChrome.setPreferredOrientations([
-          DeviceOrientation.landscapeRight,
-          DeviceOrientation.landscapeLeft,
-        ]);
-      } else {
-        SystemChrome.setPreferredOrientations([
-          DeviceOrientation.portraitUp,
-          DeviceOrientation.portraitDown,
-        ]);
-      }
-    });
+    // _chewieController.addListener(() {
+    //   if (_chewieController.isFullScreen) {
+    //     SystemChrome.setPreferredOrientations([
+    //       DeviceOrientation.landscapeRight,
+    //       DeviceOrientation.landscapeLeft,
+    //     ]);
+    //   } else {
+    //     SystemChrome.setPreferredOrientations([
+    //       DeviceOrientation.portraitUp,
+    //       DeviceOrientation.portraitDown,
+    //     ]);
+    //   }
+    // });
   }
 
   @override
   void dispose() {
     _videoPlayerController.dispose();
     _chewieController.dispose();
-    SystemChrome.setEnabledSystemUIOverlays([
-      SystemUiOverlay.top,
-      SystemUiOverlay.bottom,
-    ]);
+    // SystemChrome.setEnabledSystemUIOverlays([
+    //   SystemUiOverlay.top,
+    //   SystemUiOverlay.bottom,
+    // ]);
 
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
+    // SystemChrome.setPreferredOrientations([
+    //   DeviceOrientation.portraitUp,
+    //   DeviceOrientation.portraitDown,
+    // ]);
     super.dispose();
   }
 

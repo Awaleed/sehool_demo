@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sailor/sailor.dart';
 import 'package:transformer_page_view/transformer_page_view.dart';
 import 'package:validators/validators.dart';
 
@@ -12,13 +13,14 @@ import '../../../../cubits/settings_cubit/settings_cubit.dart';
 import '../../../../helpers/helper.dart';
 import '../../../../models/form_data_model.dart';
 import '../../../../models/language_model.dart';
+import '../../../../routes/config_routes.dart';
+import '../../../../screens/splash.dart';
 import '../constants.dart';
 import '../dart_helper.dart';
 import '../matrix.dart';
 import '../models/login_data.dart';
 import '../paddings.dart';
 import '../providers/auth.dart';
-import '../providers/login_messages.dart';
 import 'animated_button.dart';
 import 'animated_text.dart';
 import 'animated_text_form_field.dart';
@@ -504,7 +506,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
     return true;
   }
 
-  Widget _buildNameField(double width, LoginMessages messages, Auth auth) {
+  Widget _buildNameField(double width, Auth auth) {
     return AnimatedTextFormField(
       controller: _nameController,
       width: width,
@@ -525,7 +527,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
     );
   }
 
-  Widget _buildPasswordField(double width, LoginMessages messages, Auth auth) {
+  Widget _buildPasswordField(double width, Auth auth) {
     return AnimatedPasswordTextFormField(
       animatedWidth: width,
       loadingController: _loadingController,
@@ -545,10 +547,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
     );
   }
 
-
-
-
-  Widget _buildForgotPassword(ThemeData theme, LoginMessages messages) {
+  Widget _buildForgotPassword(ThemeData theme) {
     return FadeIn(
       controller: _loadingController,
       fadeDirection: FadeDirection.bottomToTop,
@@ -573,8 +572,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
     );
   }
 
-  Widget _buildSubmitButton(
-      ThemeData theme, LoginMessages messages, Auth auth) {
+  Widget _buildSubmitButton(ThemeData theme, Auth auth) {
     return ScaleTransition(
       scale: _buttonScaleAnimation,
       child: AnimatedButton(
@@ -585,8 +583,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
     );
   }
 
-  Widget _buildSwitchAuthButton(
-      ThemeData theme, LoginMessages messages, Auth auth) {
+  Widget _buildSwitchAuthButton(ThemeData theme, Auth auth) {
     return FadeIn(
       controller: _loadingController,
       offset: .5,
@@ -612,7 +609,6 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     final auth = Provider.of<Auth>(context, listen: true);
     final isLogin = auth.isLogin;
-    final messages = Provider.of<LoginMessages>(context, listen: false);
     final theme = Theme.of(context);
     final deviceSize = MediaQuery.of(context).size;
     final cardWidth = min(deviceSize.width * 0.95, 400.0);
@@ -631,35 +627,23 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 ...LanguageModel.languages.map(
-                  (e) => ElevatedButton(
-                    style: ButtonStyle(
-                      minimumSize: MaterialStateProperty.all(
-                        const Size.fromRadius(30),
+                  (e) {
+                    return ScaleTransition(
+                      scale: _buttonScaleAnimation,
+                      child: AnimatedButton(
+                        controller: _submitController,
+                        text: e.localName,
+                        onPressed: () async {
+                          await cubit.setLanguageCode(e.code);
+                          AppRouter.sailor.navigate(
+                            SplashScreen.routeName,
+                            navigationType: NavigationType.pushAndRemoveUntil,
+                            removeUntilPredicate: (_) => false,
+                          );
+                        },
                       ),
-                      shape: MaterialStateProperty.all(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(25),
-                        ),
-                      ),
-                    ),
-                    onPressed: () async {
-                      await cubit.setLanguageCode(e.code);
-                      setState(() {});
-                    },
-                    child: Column(
-                      children: [
-                        // const SizedBox(height: 8),
-                        // Image.asset(e.flag, height: 50, width: 50),
-                        Text(
-                          e.localName,
-                          style: Theme.of(context)
-                              .textTheme
-                              .button
-                              .copyWith(color: Colors.white),
-                        ),
-                      ],
-                    ),
-                  ),
+                    );
+                  },
                 ),
               ],
             ),
@@ -684,9 +668,9 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
               mainAxisSize: MainAxisSize.min,
               // crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                _buildNameField(textFieldWidth, messages, auth),
+                _buildNameField(textFieldWidth, auth),
                 const SizedBox(height: 20),
-                _buildPasswordField(textFieldWidth, messages, auth),
+                _buildPasswordField(textFieldWidth, auth),
                 const SizedBox(height: 10),
               ],
             ),
@@ -718,11 +702,11 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
             width: cardWidth,
             child: Column(
               children: <Widget>[
-                _buildForgotPassword(theme, messages),
+                _buildForgotPassword(theme),
                 const SizedBox(height: 10),
-                _buildSubmitButton(theme, messages, auth),
+                _buildSubmitButton(theme, auth),
                 const SizedBox(height: 10),
-                _buildSwitchAuthButton(theme, messages, auth),
+                _buildSwitchAuthButton(theme, auth),
               ],
             ),
           ),
@@ -810,19 +794,16 @@ ${auth.email}''',
 
       setState(() => _isSubmitting = false);
       _submitController.reverse();
-
-      _formRecoverKey.currentState.reset();
       widget.onSwitchLogin();
       return true;
     }
   }
 
-  Widget _buildRecoverNameField(
-      double width, LoginMessages messages, Auth auth) {
+  Widget _buildRecoverNameField(double width, Auth auth) {
     return AnimatedTextFormField(
       controller: _nameController,
       width: width,
-      labelText: messages.usernameHint,
+      labelText: S.current.email,
       prefixIcon: const Icon(FluentIcons.person_accounts_24_regular),
       keyboardType: TextInputType.emailAddress,
       textInputAction: TextInputAction.done,
@@ -832,15 +813,15 @@ ${auth.email}''',
     );
   }
 
-  Widget _buildRecoverButton(ThemeData theme, LoginMessages messages) {
+  Widget _buildRecoverButton(ThemeData theme) {
     return AnimatedButton(
       controller: _submitController,
-      text: messages.recoverPasswordButton,
+      text: S.current.send,
       onPressed: !_isSubmitting ? _submit : null,
     );
   }
 
-  Widget _buildBackButton(ThemeData theme, LoginMessages messages) {
+  Widget _buildBackButton(ThemeData theme) {
     return TextButton(
       onPressed: !_isSubmitting
           ? () {
@@ -854,7 +835,7 @@ ${auth.email}''',
               .textTheme
               .button
               .copyWith(color: theme.primaryColor)),
-      child: Text(messages.goBackButton),
+      child: Text(S.current.back),
     );
   }
 
@@ -862,7 +843,6 @@ ${auth.email}''',
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final auth = Provider.of<Auth>(context, listen: false);
-    final messages = Provider.of<LoginMessages>(context, listen: false);
     final deviceSize = MediaQuery.of(context).size;
     final cardWidth = min(deviceSize.width * 0.75, 360.0);
     const cardPadding = 16.0;
@@ -884,24 +864,24 @@ ${auth.email}''',
           child: Column(
             children: [
               Text(
-                messages.recoverPasswordIntro,
+                S.current.recoverPasswordIntro,
                 key: kRecoverPasswordIntroKey,
                 textAlign: TextAlign.center,
                 style: theme.textTheme.bodyText2,
               ),
               const SizedBox(height: 20),
-              _buildRecoverNameField(textFieldWidth, messages, auth),
+              _buildRecoverNameField(textFieldWidth, auth),
               const SizedBox(height: 20),
               Text(
-                messages.recoverPasswordDescription,
+                S.current.recoverPasswordDescription,
                 key: kRecoverPasswordDescriptionKey,
                 textAlign: TextAlign.center,
                 style: theme.textTheme.bodyText2,
               ),
               const SizedBox(height: 10),
-              _buildRecoverButton(theme, messages),
+              _buildRecoverButton(theme),
               const SizedBox(height: 10),
-              _buildBackButton(theme, messages),
+              _buildBackButton(theme),
             ],
           ),
         ),

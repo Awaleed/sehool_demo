@@ -52,19 +52,16 @@ class FakeProductRemoteDataSource extends IProductRemoteDataSource {
 
   @override
   Future<List> getProducts() {
-    // TODO: implement getProducts
     throw UnimplementedError();
   }
 
   @override
   Future<List> getVideos() {
-    // TODO: implement getVideos
     throw UnimplementedError();
   }
 
   @override
   Future<List> getBanners() {
-    // TODO: implement getBanners
     throw UnimplementedError();
   }
 }

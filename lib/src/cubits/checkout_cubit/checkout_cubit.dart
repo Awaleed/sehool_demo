@@ -3,6 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../core/api_caller.dart';
+import '../../helpers/helper.dart';
 import '../../models/cart_model.dart';
 
 part 'checkout_cubit.freezed.dart';
@@ -19,16 +20,16 @@ class CheckoutCubit extends Cubit<CheckoutState> with ApiCaller {
     try {
       final res = await post(path: '/shoppingCart', data: cart.toJson());
       if (cart.paymentMethod.type == 'visa') {
-        emit(
-          // final url =res['url'];
-          const CheckoutState.visaPayment('http://sehoool.com/paymentGateWay'),
-        );
+        final url = res['url'];
+        if (url != null) {
+          emit(CheckoutState.visaPayment(url));
+        }
       } else {
         emit(const CheckoutState.success());
       }
     } catch (e) {
+      emit(CheckoutState.failure(message: Helpers.mapErrorToMessage(e)));
       addError(e);
-      emit(CheckoutState.failure(message: '$e'));
     }
   }
 

@@ -1,5 +1,6 @@
 import 'package:division/division.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -7,6 +8,7 @@ import '../../../../generated/l10n.dart';
 import '../../../../init_injectable.dart';
 import '../../../components/address_card.dart';
 import '../../../components/empty_addresses_widget.dart';
+import '../../../components/my_error_widget.dart';
 import '../../../components/ripple_animation.dart';
 import '../../../cubits/address_cubit/address_cubit.dart';
 import '../../../models/address_model.dart';
@@ -39,60 +41,66 @@ class _AddressesScreenState extends State<AddressesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Parent(
-      style: ParentStyle()
-        ..background.image(path: 'assets/images/bg.jpg', fit: BoxFit.cover),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          elevation: 0,
+    return RefreshIndicator(
+      onRefresh: cubit.getAddresses,
+      child: Parent(
+        style: ParentStyle()
+          ..background.image(path: 'assets/images/bg.jpg', fit: BoxFit.cover),
+        child: Scaffold(
           backgroundColor: Colors.transparent,
-          title: Row(
-            children: [
-              Parent(
-                style: ParentStyle()
-                  ..background.color(Colors.white.withOpacity(.1))
-                  ..padding(all: 12)
-                  ..borderRadius(all: 30),
-                child: const Icon(FluentIcons.location_28_regular,
-                    color: Colors.white, size: 20),
-              ),
-              Text(
-                S.current.addresses,
-                style: Theme.of(context)
-                    .textTheme
-                    .headline6
-                    .copyWith(color: Colors.white, fontWeight: FontWeight.bold),
-              ),
-            ],
+          appBar: AppBar(
+            elevation: 0,
+            backgroundColor: Colors.transparent,
+            title: Row(
+              children: [
+                Parent(
+                  style: ParentStyle()
+                    ..background.color(Colors.white.withOpacity(.1))
+                    ..padding(all: 12)
+                    ..borderRadius(all: 30),
+                  child: const Icon(FluentIcons.location_28_regular,
+                      color: Colors.white, size: 20),
+                ),
+                Text(
+                  S.current.addresses,
+                  style: Theme.of(context).textTheme.headline6.copyWith(
+                      color: Colors.white, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
           ),
-        ),
-        body: BlocBuilder<AddressCubit, AddressState>(
-          cubit: cubit,
-          builder: (context, state) {
-            return state.when(
-              initial: _buildUi,
-              created: _buildUi,
-              loading: () => _buildUi(isLoading: true),
-              success: (value) => _buildUi(addresses: value),
-              // TODO: Handel ERROR STATE
-              failure: (message) => throw UnimplementedError(),
-            );
-          },
-        ),
-        floatingActionButton: RipplesAnimation(
-          onPressed: () => AppRouter.sailor.navigate(
-            NewAddressDialog.routeName,
-            params: {'address_cubit': cubit},
+          body: BlocBuilder<AddressCubit, AddressState>(
+            cubit: cubit,
+            builder: (context, state) {
+              return state.when(
+                initial: _buildUi,
+                created: _buildUi,
+                loading: () => _buildUi(isLoading: true),
+                success: (value) => _buildUi(addresses: value),
+                failure: (message) => MyErrorWidget(
+                  onRetry: () {
+                    cubit.getAddresses();
+                  },
+                  message: message,
+                ),
+              );
+            },
           ),
-          color: Colors.amberAccent,
-          size: 30,
-          child: const Icon(
-            FluentIcons.add_28_filled,
-            color: Colors.white,
+          floatingActionButton: RipplesAnimation(
+            onPressed: () => AppRouter.sailor.navigate(
+              NewAddressDialog.routeName,
+              params: {'address_cubit': cubit},
+            ),
+            color: Colors.amberAccent,
+            size: 30,
+            child: const Icon(
+              FluentIcons.add_28_filled,
+              color: Colors.white,
+            ),
           ),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerFloat,
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       ),
     );
   }
@@ -124,8 +132,46 @@ class _AddressesScreenState extends State<AddressesScreen> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       ElevatedButton.icon(
-                        onPressed: () =>
-                            cubit.deleteAddress(addresses[index].id),
+                        onPressed: () {
+                          final action = CupertinoActionSheet(
+                            title: Text(
+                              S.current.delete_address,
+                              style: Theme.of(context).textTheme.headline3,
+                            ),
+                            message: Theme(
+                              data: Theme.of(context),
+                              child: Text(
+                                '${S.current.address} ${addresses[index].address}',
+                              ),
+                            ),
+                            actions: <Widget>[
+                              CupertinoActionSheetAction(
+                                isDestructiveAction: true,
+                                onPressed: () {
+                                  cubit.deleteAddress(addresses[index].id);
+                                },
+                                child: Text(
+                                  S.current.confirmation,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .button
+                                      .copyWith(color: Colors.red),
+                                ),
+                              ),
+                            ],
+                            cancelButton: CupertinoActionSheetAction(
+                              onPressed: () {
+                                Navigator.pop(context, false);
+                              },
+                              child: Text(
+                                'الغاء',
+                                style: Theme.of(context).textTheme.button,
+                              ),
+                            ),
+                          );
+                          showCupertinoModalPopup(
+                              context: context, builder: (context) => action);
+                        },
                         icon: const Icon(Icons.delete),
                         label: Text(S.current.delete),
                       ),

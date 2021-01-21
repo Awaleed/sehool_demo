@@ -13,6 +13,7 @@ import '../models/dropdown_value_model.dart';
 import '../models/order_model.dart';
 import '../routes/config_routes.dart';
 import '../screens/profile/dialogs/new_address_dialog.dart';
+import 'my_error_widget.dart';
 
 class CartDropdown extends StatefulWidget {
   const CartDropdown({
@@ -76,7 +77,12 @@ class _CartDropdownState extends State<CartDropdown> {
           initial: () => _buildUI([], isLoading: true),
           loading: () => _buildUI([], isLoading: true),
           success: (values) => _buildUI(values),
-          failure: (_) => throw UnimplementedError(),
+          failure: (message) => MyErrorWidget(
+            onRetry: () {
+              cubit.getDropdownValues(widget.dropdownType);
+            },
+            message: message,
+          ),
         );
       },
     );
@@ -91,15 +97,17 @@ class _CartDropdownState extends State<CartDropdown> {
 
   Widget _buildRadio(List values, {bool isLoading = false}) {
     if (isLoading) {
-      return Container(
-        margin: const EdgeInsets.only(left: 40.0, right: 40.0),
-        decoration: const BoxDecoration(
-          color: Colors.black87,
-          borderRadius: BorderRadius.all(Radius.circular(8.0)),
-        ),
-        child: const Padding(
-          padding: EdgeInsets.all(16.0),
-          child: CircularProgressIndicator(strokeWidth: 2.0),
+      return FittedBox(
+        child: Container(
+          margin: const EdgeInsets.only(left: 40.0, right: 40.0),
+          decoration: const BoxDecoration(
+            color: Colors.black87,
+            borderRadius: BorderRadius.all(Radius.circular(8.0)),
+          ),
+          child: const Padding(
+            padding: EdgeInsets.all(16.0),
+            child: CircularProgressIndicator(strokeWidth: 2.0),
+          ),
         ),
       );
     }
@@ -123,7 +131,7 @@ class _CartDropdownState extends State<CartDropdown> {
                     .copyWith(color: Colors.black),
               ),
               onChanged: (value) async {
-                if ((value as PaymentMethodModel).type == 'wallet') {
+                if (value is PaymentMethodModel && value.type == 'wallet') {
                   if (kUser.wallet <= widget.cart.total) {
                     Helpers.showErrorOverlay(context,
                         error: 'عفرا رصيدك غير كافي');
@@ -212,7 +220,7 @@ class _CartDropdownState extends State<CartDropdown> {
                     case DropdownValueType.cites:
                       return S.current.cites;
                     case DropdownValueType.citySections:
-                      return S.current.city_section;
+                      return S.current.neighborhood;
                     case DropdownValueType.slicingMethods:
                       return S.current.slicing_method;
                     case DropdownValueType.paymentMethods:

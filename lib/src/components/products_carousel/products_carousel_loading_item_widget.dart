@@ -42,7 +42,6 @@ class ProductsCarouselLoadingItemWidget extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // TODO: add localization
               Text(
                 '${S.current.please_wait}...',
                 style: Theme.of(context)

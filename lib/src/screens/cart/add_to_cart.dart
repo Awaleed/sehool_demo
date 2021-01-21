@@ -18,10 +18,6 @@ import '../../models/product_model.dart';
 import '../../patched_components/custom_stepper.dart';
 import '../../routes/config_routes.dart';
 import '../checkout/checkout.dart';
-import 'pages/finish.dart';
-import 'pages/notes.dart';
-import 'pages/quantity.dart';
-import 'pages/slicing_method.dart';
 
 class AddToCartScreen extends StatelessWidget {
   static const routeName = '/add_to_cart';
@@ -45,7 +41,17 @@ class AddToCartScreen extends StatelessWidget {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         extendBodyBehindAppBar: true,
-        appBar: AppBar(elevation: 0, backgroundColor: Colors.black54),
+        appBar: AppBar(
+          title: Text(
+            S.current.add_to_cart,
+            style: Theme.of(context)
+                .textTheme
+                .headline6
+                .copyWith(color: Colors.white),
+          ),
+          elevation: 0,
+          backgroundColor: Colors.black54,
+        ),
         body: SafeArea(
           child: CartScroll(
             cartItem: cartItem ?? (CartItemModel()..product = product),
@@ -56,197 +62,6 @@ class AddToCartScreen extends StatelessWidget {
           // ),
         ),
       ),
-    );
-  }
-}
-
-class CartStepper extends StatefulWidget {
-  const CartStepper({
-    Key key,
-    @required this.cartItem,
-  }) : super(key: key);
-  final CartItemModel cartItem;
-  @override
-  _CartStepperState createState() => _CartStepperState();
-}
-
-class _CartStepperState extends State<CartStepper> {
-  int currentStep = 0;
-
-  List<_StepItem> get steps => [
-        _StepItem(
-          label: S.current.quantity,
-          child: QuantityPage(cartItem: widget.cartItem),
-          icon: const Icon(
-            FluentIcons.re_order_dots_24_regular,
-            size: 50,
-            color: Colors.amber,
-          ),
-          header: FluentIcons.re_order_dots_24_regular,
-        ),
-        _StepItem(
-            label: S.current.slicing_method,
-            child: SlicingMethodPage(
-              cartItem: widget.cartItem,
-              onChanged: (_) => setState(() {}),
-            ),
-            icon: const Icon(
-              FluentIcons.cut_24_regular,
-              size: 50,
-              color: Colors.amber,
-            ),
-            header: FluentIcons.cut_24_regular),
-        _StepItem(
-          label: S.current.notes,
-          child: NotesPage(cartItem: widget.cartItem),
-          icon: const Icon(
-            FluentIcons.note_24_regular,
-            size: 50,
-            color: Colors.amber,
-          ),
-          header: FluentIcons.note_24_regular,
-        ),
-        _StepItem(
-            label: S.current.finish,
-            child: FinishPage(cartItem: widget.cartItem),
-            state: widget.cartItem.validate
-                ? CustomStepState.indexed
-                : CustomStepState.disabled,
-            icon: const Icon(
-              FluentIcons.checkmark_48_regular,
-              size: 50,
-              color: Colors.amber,
-            ),
-            header: FluentIcons.checkmark_48_regular),
-      ];
-
-  List<CustomStep> get stepsWidget {
-    return <CustomStep>[
-      for (var i = 0; i < steps.length; i++)
-        CustomStep(
-          isActive: currentStep == i,
-          state: steps[i].state,
-          title: steps[i].label,
-          subtitle: steps[i].icon,
-          content: steps[i].child,
-          header: steps[i].header,
-        ),
-    ];
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Expanded(
-          child: CustomStepper(
-            currentCustomStep: currentStep,
-            physics: const BouncingScrollPhysics(),
-            onCustomStepTapped: (value) => setState(() {
-              currentStep = value;
-            }),
-            controlsBuilder: (context, {onStepCancel, onStepContinue}) =>
-                const SizedBox.shrink(),
-            customSteps: stepsWidget,
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-          child: Wrap(
-            crossAxisAlignment: WrapCrossAlignment.center,
-            alignment: WrapAlignment.spaceBetween,
-            runAlignment: WrapAlignment.center,
-            children: <Widget>[
-              _buildButton(
-                label: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Icon(FluentIcons.arrow_left_24_regular),
-                    const SizedBox(width: 10),
-                    Text(S.current.previous),
-                  ],
-                ),
-                enabled: currentStep != 0,
-                onTap: () {
-                  for (var i = currentStep - 1; i >= 0; i--) {
-                    final _StepItem step = steps[i];
-                    if (step.state == CustomStepState.disabled) {
-                      continue;
-                    } else {
-                      setState(() => currentStep = i);
-                      break;
-                    }
-                  }
-                },
-              ),
-              // Spacer(),
-              if (currentStep == steps.length - 1) ...[
-                _buildButton(
-                  label: Text(S.current.checkout),
-                  onTap: () {
-                    getIt<CartCubit>().addItem(widget.cartItem);
-                    AppRouter.sailor.navigate(
-                      CheckoutScreen.routeName,
-                      navigationType: NavigationType.pushReplace,
-                    );
-                  },
-                ),
-                _buildButton(
-                  label: Text(S.current.add_to_cart),
-                  onTap: () {
-                    getIt<CartCubit>().addItem(widget.cartItem);
-                    AppRouter.sailor.pop();
-                  },
-                ),
-              ] else
-                _buildButton(
-                  label: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(S.current.next),
-                      const SizedBox(width: 10),
-                      const Icon(FluentIcons.arrow_right_24_regular),
-                    ],
-                  ),
-                  enabled: currentStep != steps.length - 1,
-                  onTap: () {
-                    for (var i = currentStep + 1; i < steps.length; i++) {
-                      final _StepItem step = steps[i];
-                      if (step.state == CustomStepState.disabled) {
-                        continue;
-                      } else {
-                        setState(() => currentStep = i);
-                        break;
-                      }
-                    }
-                  },
-                ),
-            ],
-          ),
-        )
-      ],
-    );
-  }
-
-  Widget _buildButton({
-    Widget label,
-    bool enabled = true,
-    VoidCallback onTap,
-  }) {
-    return ElevatedButton(
-      style: ButtonStyle(
-        minimumSize: MaterialStateProperty.all(
-          const Size.fromRadius(25),
-        ),
-        shape: MaterialStateProperty.all(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(25),
-          ),
-        ),
-      ),
-      onPressed: enabled ? onTap : null,
-      child: label,
     );
   }
 }
@@ -288,7 +103,10 @@ class _CartScrollState extends State<CartScroll> {
   List<_StepItem> get steps => [
         _StepItem(
           label: S.current.quantity,
-          child: CartQuantityCard(cartItem: widget.cartItem),
+          child: CartQuantityCard(
+            cartItem: widget.cartItem,
+            onChanged: () => setState(() {}),
+          ),
           icon: const Icon(
             FluentIcons.re_order_dots_24_regular,
             size: 50,
@@ -362,7 +180,7 @@ class _CartScrollState extends State<CartScroll> {
                 borderRadius: BorderRadius.circular(25),
               ),
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -382,8 +200,14 @@ class _CartScrollState extends State<CartScroll> {
           ],
         ),
       if (widget.editing)
-        //TODO: add return button
-        const Placeholder()
+        _buildButton(
+          enabled: widget.cartItem.validate,
+          label: Text(S.current.back),
+          onTap: () {
+            Helpers.dismissFauces(context);
+            AppRouter.sailor.pop();
+          },
+        )
       else
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
@@ -394,7 +218,7 @@ class _CartScrollState extends State<CartScroll> {
             children: <Widget>[
               _buildButton(
                 enabled: widget.cartItem.validate,
-                label: Text(S.current.checkout),
+                label: Text(S.current.continue_to_checkout),
                 onTap: () {
                   Helpers.dismissFauces(context);
                   getIt<CartCubit>().addItem(widget.cartItem);
@@ -406,7 +230,7 @@ class _CartScrollState extends State<CartScroll> {
               ),
               _buildButton(
                 enabled: widget.cartItem.validate,
-                label: Text(S.current.add_to_cart),
+                label: Text(S.current.continue_shopping),
                 onTap: () {
                   Helpers.dismissFauces(context);
                   getIt<CartCubit>().addItem(widget.cartItem);

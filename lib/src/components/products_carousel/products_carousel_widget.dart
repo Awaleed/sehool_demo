@@ -2,35 +2,19 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../init_injectable.dart';
 import '../../cubits/product_cubits/product_cubit/product_cubit.dart';
+import '../my_error_widget.dart';
 import 'empty_products_carousel.dart';
 import 'products_carousel_item_widget.dart';
 import 'products_carousel_loading_item_widget.dart';
 
-class ProductsCarouselWidget extends StatefulWidget {
+class ProductsCarouselWidget extends StatelessWidget {
   const ProductsCarouselWidget({
     Key key,
+    @required this.cubit,
   }) : super(key: key);
 
-  @override
-  _ProductsCarouselWidgetState createState() => _ProductsCarouselWidgetState();
-}
-
-class _ProductsCarouselWidgetState extends State<ProductsCarouselWidget> {
-  ProductCubit cubit;
-
-  @override
-  void initState() {
-    super.initState();
-    cubit = getIt<ProductCubit>();
-  }
-
-  @override
-  void dispose() {
-    cubit.close();
-    super.dispose();
-  }
+  final ProductCubit cubit;
 
   @override
   Widget build(BuildContext context) {
@@ -40,9 +24,12 @@ class _ProductsCarouselWidgetState extends State<ProductsCarouselWidget> {
         return state.when(
           loading: () => _buildUI([], isLoading: true),
           success: (values) => _buildUI(values),
-
-          //TODO: handel ERRORS
-          failure: (message) => throw UnimplementedError(),
+          failure: (message) => MyErrorWidget(
+            onRetry: () {
+              cubit.getProducts();
+            },
+            message: message,
+          ),
         );
       },
     );

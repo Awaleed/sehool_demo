@@ -31,7 +31,6 @@ dependencies:
   cached_network_image: ^2.5.0
   carousel_slider: ^2.3.1
   chewie: ^0.12.1+1
-  cupertino_icons: ^1.0.2
   dio: ^3.0.10
   division: ^0.8.8
   dropdown_search: ^0.4.8
@@ -43,7 +42,6 @@ dependencies:
   fluentui_system_icons: ^1.1.91
   flutter_bloc: ^6.1.1
   flutter_rating_bar: ^3.2.0+1
-  flutter_svg: ^0.19.2+1
   font_awesome_flutter: ^8.11.0
   freezed_annotation: ^0.12.0
   geolocator: ^6.1.14
@@ -57,6 +55,7 @@ dependencies:
   intl: ^0.16.1
   json_annotation: ^3.1.1
   loading_overlay: ^0.2.1
+  onesignal_flutter: ^2.6.2
   palette_generator: ^0.2.3
   pretty_dio_logger: ^1.1.1
   sailor: ^0.7.1
@@ -72,18 +71,17 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  integration_test:
-    sdk: flutter
+  # integration_test:
+  #   sdk: flutter
   build_runner: null
   freezed: ^0.12.6
   hive_generator: ^0.8.2
   injectable_generator: ^1.0.7
   json_serializable: ^3.5.1
-  lint: ^1.5.1
+  lint: null
 
-dependency_overrides:
-  intl: ^0.17.0-nullsafety.2
-
+# dependency_overrides:
+#   intl: ^0.17.0-nullsafety.2
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 # The following section is specific to Flutter.

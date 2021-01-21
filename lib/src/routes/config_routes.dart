@@ -1,12 +1,9 @@
 import 'package:sailor/sailor.dart';
 import 'package:supercharged/supercharged.dart';
 
-import '../screens/auth/forgot_password.dart';
 import '../screens/auth/login.dart';
-import '../screens/auth/register.dart';
 import '../screens/cart/add_to_cart.dart';
 import '../screens/checkout/checkout.dart';
-import '../screens/debug/playground.dart';
 import '../screens/home/home.dart';
 import '../screens/onboarding.dart';
 import '../screens/orders/orders.dart';
@@ -47,14 +44,6 @@ abstract class AppRouter {
         SailorRoute(
           name: LoginScreen.routeName,
           builder: (context, args, paramMap) => const LoginScreen(),
-        ),
-        SailorRoute(
-          name: RegistrationScreen.routeName,
-          builder: (context, args, paramMap) => const RegistrationScreen(),
-        ),
-        SailorRoute(
-          name: ForgotPasswordScreen.routeName,
-          builder: (context, args, paramMap) => const ForgotPasswordScreen(),
         ),
 
         /// App Screens
@@ -126,12 +115,6 @@ abstract class AppRouter {
             cubit: paramMap.param('address_cubit'),
           ),
           params: [SailorParam(name: 'address_cubit')],
-        ),
-
-        /// Debug Screens
-        SailorRoute(
-          name: Playground.routeName,
-          builder: (context, args, paramMap) => Playground(),
         ),
       ],
     );

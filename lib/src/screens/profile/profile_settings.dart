@@ -6,13 +6,14 @@ import '../../../generated/l10n.dart';
 import '../../../init_injectable.dart';
 import '../../components/avatar_section.dart';
 import '../../components/background_images_generate.dart';
+import '../../components/my_error_widget.dart';
 import '../../components/my_loading_overlay.dart';
 import '../../cubits/profile_cubit/profile_cubit.dart';
 import '../../data/user_datasource.dart';
 import '../../helpers/helper.dart';
 import '../../models/form_data_model.dart';
 import '../../models/user_model.dart';
-import '../home/home.dart';
+import '../../routes/config_routes.dart';
 
 class ProfileSettingsScreen extends StatefulWidget {
   static const routeName = '/profile_settings';
@@ -84,8 +85,12 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                   initial: _buildUi,
                   loading: () => _buildUi(isLoading: true),
                   success: (value) => _buildUi(),
-                  // TODO: Handel ERROR STATE
-                  failure: (message) => throw UnimplementedError(),
+                  failure: (message) => MyErrorWidget(
+                    onRetry: () {
+                      cubit.reset();
+                    },
+                    message: message,
+                  ),
                 );
               },
             ),
@@ -195,7 +200,12 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                       if (formKey.currentState.validate()) {
                         formKey.currentState.save();
                         await cubit.updateProfile(data);
-                        homeNotifier.value++;
+                        cubit.state.maybeWhen(
+                          success: (_) {
+                            AppRouter.sailor.pop();
+                          },
+                          orElse: () {},
+                        );
                       }
                     },
                     child: Text(
@@ -233,7 +243,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
       decoration: InputDecoration(
         fillColor: Colors.amber.withOpacity(.2),
         filled: true,
-        labelText: _model.hintText,
+        labelText: _model.labelText,
         labelStyle: TextStyle(color: Theme.of(context).accentColor),
         contentPadding: const EdgeInsets.all(12),
         hintText: _model.hintText,
