@@ -83,8 +83,8 @@ class MyApp extends StatelessWidget {
             onGenerateRoute: AppRouter.sailor.generator(),
             navigatorKey: AppRouter.sailor.navigatorKey,
             navigatorObservers: [
-              SailorLoggingObserver(),
-              AppRouter.sailor.navigationStackObserver,
+              // SailorLoggingObserver(),
+              // AppRouter.sailor.navigationStackObserver,
             ],
           ),
         );

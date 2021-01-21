@@ -94,6 +94,6 @@ mixin ApiCaller {
         baseUrl: _baseUrl,
         headers: _getHeaders(),
       ),
-    )..interceptors.add(_logger);
+    );//..interceptors.add(_logger);
   }
 }

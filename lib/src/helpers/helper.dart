@@ -46,7 +46,7 @@ abstract class Helpers {
     } else {
       message = '$error';
     }
-    debugPrint('$error');
+    // debugPrint('$error');
     if (context == null) return;
     final completer = Completer();
     Future.delayed(3.seconds).then((_) {
@@ -124,10 +124,10 @@ abstract class Helpers {
       } else {
         message = '$error';
       }
-      debugPrint('$error');
+      // debugPrint('$error');
       return message;
     } catch (e) {
-      debugPrint('Error in mapErrorToMessage: $e\nError: $error');
+      // debugPrint('Error in mapErrorToMessage: $e\nError: $error');
       return '$error';
     }
   }

@@ -38,7 +38,7 @@ class UserPage extends StatelessWidget {
     return ValueListenableBuilder(
         valueListenable: Hive.box(userBoxName).listenable(),
         builder: (BuildContext context, dynamic value, Widget child) {
-          debugPrint('SettingsItem $value times');
+          // debugPrint('SettingsItem $value times');
 
           return Parent(
             style: contentStyle(context),
