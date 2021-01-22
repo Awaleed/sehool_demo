@@ -57,6 +57,7 @@ class _NewReviewFieldState extends State<NewReviewField> {
                   controller: widget.textEditingController,
                   enabled: !widget.isLoading,
                   maxLines: 10,
+                  minLines: 0,
                   keyboardType: TextInputType.multiline,
                   decoration: InputDecoration(
                     filled: true,

@@ -7,12 +7,11 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import '../../init_injectable.dart';
 import '../data/settings_datasource.dart';
 import '../data/user_datasource.dart';
-import '../repositories/settings_repository.dart';
 
 mixin ApiCaller {
   static final box = Hive.box(userBoxName)
     ..listenable().addListener(_configureDioClient);
-    
+
   static final settingsBox = Hive.box(settingsBoxName)
     ..listenable().addListener(_configureDioClient);
 
@@ -79,11 +78,11 @@ mixin ApiCaller {
   static Map<String, dynamic> _getHeaders() {
     final token = getIt<IUserLocalDataSource>().readAuthToken();
     final languageCode =
-        getIt<ISettingsRepository>().getSettings().languageCode;
+        getIt<ISettingsDataSource>().getSettings().languageCode;
     return {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'Accept-Language': languageCode,
+      'Accept-Language': languageCode ?? 'ar',
       if (token != null) 'Authorization': 'Bearer $token',
     };
   }

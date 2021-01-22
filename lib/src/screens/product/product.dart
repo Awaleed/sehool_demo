@@ -299,10 +299,11 @@ class _ProductScreenState extends State<ProductScreen> {
                                   hoverColor: Colors.amber.withOpacity(.3),
                                   splashColor: Colors.amber.withOpacity(.3),
                                   child: Icon(
-                                      cartItem != null
-                                          ? FluentIcons.delete_24_regular
-                                          : FluentIcons.cart_24_regular,
-                                      color: Colors.black),
+                                    cartItem != null
+                                        ? FluentIcons.delete_24_regular
+                                        : FluentIcons.cart_24_regular,
+                                    color: Colors.amber,
+                                  ),
                                 );
                               },
                             ),

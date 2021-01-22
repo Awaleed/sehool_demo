@@ -152,8 +152,13 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                         _buildTextInput(
                           map: data,
                           type: FormFieldType.password,
+                          onSaved: (value) {
+                            if (value is String && value.isNotEmpty) {
+                              data['password'] = value.trim();
+                            }
+                          },
                           validator: (value) {
-                            if (value != null) {
+                            if (value is String && value.isNotEmpty) {
                               return Validators.longStringValidator(value);
                             } else {
                               return null;
@@ -233,6 +238,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
     bool obscureText = false,
     String initialValue,
     Widget suffixIcon,
+    void Function(String) onSaved,
     String Function(dynamic) validator,
   }) {
     final _model = FormFieldModel.mapType(type, map);
@@ -241,7 +247,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
       initialValue: initialValue,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       keyboardType: _model.keyboardType,
-      onSaved: _model.onSave,
+      onSaved: onSaved ?? _model.onSave,
       validator: validator ?? _model.validator,
       style: const TextStyle(fontSize: 14),
       enabled: enabled,

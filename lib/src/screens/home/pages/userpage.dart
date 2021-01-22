@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:package_info/package_info.dart';
 import 'package:supercharged/supercharged.dart';
 import 'package:validators/validators.dart';
 
@@ -344,12 +345,24 @@ class _SettingsState extends State<Settings> {
         //     title: S.current.balance,
         //     target: const AddressesScreen(),
         //     description: 'محفظتك الخاصة'),
-        SettingsItem(
-            onRefresh: widget.onRefresh,
-            icon: FluentIcons.info_16_regular,
-            title: S.current.about,
-            target: const About(),
-            description: '${S.current.version} 1.0.2'),
+        FutureBuilder<PackageInfo>(
+            future: PackageInfo.fromPlatform(),
+            builder: (context, snapshot) {
+              String message;
+              if (snapshot.hasData) {
+                message = snapshot.data.version;
+              } else {
+                message = 'loading';
+              }
+              // : '';
+              return SettingsItem(
+                onRefresh: widget.onRefresh,
+                icon: FluentIcons.info_16_regular,
+                title: S.current.about,
+                target: const About(),
+                description: '${S.current.version}  $message',
+              );
+            }),
       ],
     );
   }

@@ -62,33 +62,32 @@ class MyApp extends StatelessWidget {
             );
           },
           child: MaterialApp(
-            title: 'Sehool',
-            localizationsDelegates: const [
-              S.delegate,
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-            ],
-            theme: ThemeData(
-              appBarTheme: const AppBarTheme(
-                brightness: Brightness.dark,
-                actionsIconTheme: IconThemeData(color: Colors.white),
-                iconTheme: IconThemeData(color: Colors.white),
+              title: 'Sehool',
+              localizationsDelegates: const [
+                S.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+              ],
+              theme: ThemeData(
+                appBarTheme: const AppBarTheme(
+                  brightness: Brightness.dark,
+                  actionsIconTheme: IconThemeData(color: Colors.white),
+                  iconTheme: IconThemeData(color: Colors.white),
+                ),
+                primarySwatch: Colors.amber,
+                textTheme: GoogleFonts.cairoTextTheme(),
               ),
-              primarySwatch: Colors.amber,
-              textTheme: GoogleFonts.cairoTextTheme(),
-            ),
-            supportedLocales: S.delegate.supportedLocales,
-            locale: box.get(currentSettingsKey)?.locale,
-            onGenerateRoute: AppRouter.sailor.generator(),
-            navigatorKey: AppRouter.sailor.navigatorKey,
-            navigatorObservers: kDebugMode
-                ? [
-                    SailorLoggingObserver(),
-                    AppRouter.sailor.navigationStackObserver,
-                  ]
-                : null,
-          ),
+              supportedLocales: S.delegate.supportedLocales,
+              locale: box.get(currentSettingsKey)?.locale,
+              onGenerateRoute: AppRouter.sailor.generator(),
+              navigatorKey: AppRouter.sailor.navigatorKey,
+              navigatorObservers: [
+                if (kDebugMode) ...[
+                  SailorLoggingObserver(),
+                  AppRouter.sailor.navigationStackObserver,
+                ],
+              ]),
         );
       },
     );
