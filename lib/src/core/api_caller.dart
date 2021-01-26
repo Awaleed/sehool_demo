@@ -9,13 +9,11 @@ import '../data/settings_datasource.dart';
 import '../data/user_datasource.dart';
 
 mixin ApiCaller {
-  static final box = Hive.box(userBoxName)
-    ..listenable().addListener(_configureDioClient);
+  static final box = Hive.box(userBoxName)..listenable().addListener(_configureDioClient);
 
-  static final settingsBox = Hive.box(settingsBoxName)
-    ..listenable().addListener(_configureDioClient);
+  static final settingsBox = Hive.box(settingsBoxName)..listenable().addListener(_configureDioClient);
 
-  static const _baseUrl = 'http://sehoool.com/api';
+  static const _baseUrl = 'https://sehoool.com/api';
   static Dio _dio;
   static final PrettyDioLogger _logger = PrettyDioLogger(
     responseBody: false,
@@ -77,8 +75,7 @@ mixin ApiCaller {
 
   static Map<String, dynamic> _getHeaders() {
     final token = getIt<IUserLocalDataSource>().readAuthToken();
-    final languageCode =
-        getIt<ISettingsDataSource>().getSettings().languageCode;
+    final languageCode = getIt<ISettingsDataSource>().getSettings().languageCode;
     return {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
