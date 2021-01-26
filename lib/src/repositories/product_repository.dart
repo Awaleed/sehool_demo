@@ -8,8 +8,7 @@ import '../models/video_model.dart';
 
 abstract class IProductRepository {
   Future<List<ProductModel>> getProducts();
-  Future<List<ReviewModel>> addReview(
-      {int productId, int rating, String review});
+  Future<List<ReviewModel>> addReview({int productId, int rating, String review});
   Future<List<ReviewModel>> getReviews(int productId);
 
   Future<List<VideoModel>> getVideos();
@@ -23,8 +22,7 @@ class ProductRepositoryImpl implements IProductRepository {
   ProductRepositoryImpl(this._productRemoteDataSource);
 
   @override
-  Future<List<ReviewModel>> addReview(
-      {int productId, int rating, String review}) async {
+  Future<List<ReviewModel>> addReview({int productId, int rating, String review}) async {
     await _productRemoteDataSource.addReview(
       {
         'product_id': productId,
@@ -53,9 +51,7 @@ class ProductRepositoryImpl implements IProductRepository {
     return ApiCaller.listParser(res, (data) {
       data['rating'] = double.tryParse('${data['rating']}' ?? '');
       if (data['user'] != null) {
-        data['user']['level'] = 'customer';
-        data['user']['wallet'] =
-            double.tryParse('${data['user']['wallet']}' ?? '');
+        data['user']['wallet'] = double.tryParse('${data['user']['wallet']}' ?? '');
         data['user']['vat_number'] = '${data['user']['vat_number']}';
       }
 

@@ -25,7 +25,6 @@ class AuthRepositoryImpl implements IAuthRepository {
 
   @override
   Future<UserModel> login(Map<String, dynamic> credentials) async {
-    credentials['level'] = 'customer';
     final res = await _remoteSource.login(credentials);
     final token = AccessTokenModel(
       expiresIn: res['expires_in'],
@@ -34,8 +33,7 @@ class AuthRepositoryImpl implements IAuthRepository {
     );
 
     //pars values from string to there respective values
-    res['access_token']['user']['original']['wallet'] =
-        double.tryParse('${res['access_token']['user']['original']['wallet']}');
+    res['access_token']['user']['original']['wallet'] = double.tryParse('${res['access_token']['user']['original']['wallet']}');
 
     final user = UserModel.fromJson(
       res['access_token']['user']['original'],
@@ -62,8 +60,7 @@ class AuthRepositoryImpl implements IAuthRepository {
     );
 
     //pars values from string to there respective values
-    res['access_token']['user']['original']['wallet'] =
-        double.tryParse('${res['access_token']['user']['original']['wallet']}');
+    res['access_token']['user']['original']['wallet'] = double.tryParse('${res['access_token']['user']['original']['wallet']}');
 
     final user = UserModel.fromJson(
       res['access_token']['user']['original'],
@@ -92,10 +89,8 @@ class AuthRepositoryImpl implements IAuthRepository {
   }
 
   @override
-  Future<void> forgotPassword(String email) =>
-      _remoteSource.forgotPassword({'email': email});
+  Future<void> forgotPassword(String email) => _remoteSource.forgotPassword({'email': email});
 
   @override
-  Future<void> resetPassword(String email, String password) =>
-      _remoteSource.resetPassword({'email': email, 'password': password});
+  Future<void> resetPassword(String email, String password) => _remoteSource.resetPassword({'email': email, 'password': password});
 }
