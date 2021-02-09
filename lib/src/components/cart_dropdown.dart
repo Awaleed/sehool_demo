@@ -62,8 +62,7 @@ class _CartDropdownState extends State<CartDropdown> {
         if (selectedValue == null) {
           setState(() {
             final value = state.maybeWhen(
-                  success: (values) =>
-                      values?.isNotEmpty ?? false ? values.first : null,
+                  success: (values) => values?.isNotEmpty ?? false ? values.first : null,
                   orElse: () => null,
                 ) ??
                 selectedValue;
@@ -125,10 +124,7 @@ class _CartDropdownState extends State<CartDropdown> {
               groupValue: selectedValue,
               title: Text(
                 widget.itemAsString?.call(e) ?? '$e',
-                style: Theme.of(context)
-                    .textTheme
-                    .headline5
-                    .copyWith(color: Colors.black),
+                style: Theme.of(context).textTheme.headline5.copyWith(color: Colors.black),
               ),
               onChanged: (value) async {
                 if (value is PaymentMethodModel && value.type == 'wallet') {
@@ -158,10 +154,7 @@ class _CartDropdownState extends State<CartDropdown> {
             child: ListTile(
               title: Text(
                 S.current.add_a_new_address,
-                style: Theme.of(context)
-                    .textTheme
-                    .headline5
-                    .copyWith(color: Colors.black),
+                style: Theme.of(context).textTheme.headline5.copyWith(color: Colors.black),
               ),
               onTap: () async {
                 final _cubit = getIt<AddressCubit>();
@@ -231,10 +224,7 @@ class _CartDropdownState extends State<CartDropdown> {
                       return S.current.address;
                   }
                 }(),
-                style: Theme.of(context)
-                    .textTheme
-                    .headline5
-                    .copyWith(color: Colors.black),
+                style: Theme.of(context).textTheme.headline5.copyWith(color: Colors.black),
               ),
             ),
           ),
@@ -245,10 +235,7 @@ class _CartDropdownState extends State<CartDropdown> {
                 child: Center(
                   child: Text(
                     widget.itemAsString?.call(e) ?? '$e',
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline5
-                        .copyWith(color: Colors.black),
+                    style: Theme.of(context).textTheme.headline5.copyWith(color: Colors.black),
                   ),
                 ),
               ),
@@ -259,10 +246,7 @@ class _CartDropdownState extends State<CartDropdown> {
                 child: Center(
                   child: Text(
                     '${S.current.add_a_new_address} +',
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline5
-                        .copyWith(color: Colors.black),
+                    style: Theme.of(context).textTheme.headline5.copyWith(color: Colors.black),
                   ),
                 ),
               ),

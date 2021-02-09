@@ -63,7 +63,15 @@ class _OrdersScreenState extends State<OrdersScreen> {
       onRefresh: cubit.getOrders,
       child: Parent(
         style: ParentStyle()
-          ..background.image(path: 'assets/images/bg.jpg', fit: BoxFit.cover),
+          ..linearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Colors.black,
+              Colors.amber,
+              Colors.black,
+            ],
+          ), //..background.image(path: 'assets/images/bg.jpg', fit: BoxFit.cover),
         child: Stack(
           fit: StackFit.expand,
           children: [
@@ -74,10 +82,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                   elevation: 0,
                   title: Text(
                     S.current.my_orders,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline6
-                        .copyWith(color: Colors.white),
+                    style: Theme.of(context).textTheme.headline6.copyWith(color: Colors.white),
                   ),
                   backgroundColor: Colors.black54,
                 ),

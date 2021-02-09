@@ -8,8 +8,7 @@ class CartCubit extends Cubit<CartState> {
   CartCubit() : super(CartState(cart: CartModel()));
 
   void addItem(CartItemModel value) {
-    final foundIndex = state.cart.cartItems
-        .indexWhere((e) => e.product.id == value.product.id);
+    final foundIndex = state.cart.cartItems.indexWhere((e) => e.product.id == value.product.id);
     if (foundIndex > -1) {
       state.cart.cartItems[foundIndex] = value;
     } else {
@@ -38,7 +37,10 @@ class CartCubit extends Cubit<CartState> {
     state.cart
       ..address = null
       ..coupon = null
-      ..paymentMethod = null;
+      ..paymentMethod = null
+      ..isGift = false
+      ..event = null
+      ..phrase = null;
   }
 }
 

@@ -35,6 +35,36 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
+  /// `Occasion`
+  String get occasion {
+    return Intl.message(
+      'Occasion',
+      name: 'occasion',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Message`
+  String get message {
+    return Intl.message(
+      'Message',
+      name: 'message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Is gift?`
+  String get is_gift {
+    return Intl.message(
+      'Is gift?',
+      name: 'is_gift',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `About`
   String get about {
     return Intl.message(
@@ -1420,6 +1450,16 @@ class S {
     return Intl.message(
       'There are no suggestions',
       name: 'no_suggestions',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Not a valid slicing method`
+  String get not_a_valid_slicing_method {
+    return Intl.message(
+      'Not a valid slicing method',
+      name: 'not_a_valid_slicing_method',
       desc: '',
       args: [],
     );

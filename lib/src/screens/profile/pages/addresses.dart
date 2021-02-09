@@ -45,7 +45,15 @@ class _AddressesScreenState extends State<AddressesScreen> {
       onRefresh: cubit.getAddresses,
       child: Parent(
         style: ParentStyle()
-          ..background.image(path: 'assets/images/bg.jpg', fit: BoxFit.cover),
+          ..linearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Colors.black,
+              Colors.amber,
+              Colors.black,
+            ],
+          ), //..background.image(path: 'assets/images/bg.jpg', fit: BoxFit.cover),
         child: Scaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBar(
@@ -58,13 +66,11 @@ class _AddressesScreenState extends State<AddressesScreen> {
                     ..background.color(Colors.white.withOpacity(.1))
                     ..padding(all: 12)
                     ..borderRadius(all: 30),
-                  child: const Icon(FluentIcons.location_28_regular,
-                      color: Colors.white, size: 20),
+                  child: const Icon(FluentIcons.location_28_regular, color: Colors.white, size: 20),
                 ),
                 Text(
                   S.current.addresses,
-                  style: Theme.of(context).textTheme.headline6.copyWith(
-                      color: Colors.white, fontWeight: FontWeight.bold),
+                  style: Theme.of(context).textTheme.headline6.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
                 ),
               ],
             ),
@@ -98,8 +104,7 @@ class _AddressesScreenState extends State<AddressesScreen> {
               color: Colors.white,
             ),
           ),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerFloat,
+          floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         ),
       ),
     );
@@ -153,10 +158,7 @@ class _AddressesScreenState extends State<AddressesScreen> {
                                 },
                                 child: Text(
                                   S.current.confirmation,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .button
-                                      .copyWith(color: Colors.red),
+                                  style: Theme.of(context).textTheme.button.copyWith(color: Colors.red),
                                 ),
                               ),
                             ],
@@ -170,8 +172,7 @@ class _AddressesScreenState extends State<AddressesScreen> {
                               ),
                             ),
                           );
-                          showCupertinoModalPopup(
-                              context: context, builder: (context) => action);
+                          showCupertinoModalPopup(context: context, builder: (context) => action);
                         },
                         icon: const Icon(Icons.delete),
                         label: Text(S.current.delete),

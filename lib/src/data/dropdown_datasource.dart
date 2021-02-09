@@ -12,8 +12,7 @@ abstract class IDropdownRemoteDataSource {
 
 @prod
 @Singleton(as: IDropdownRemoteDataSource)
-class DropdownRemoteDataSource extends IDropdownRemoteDataSource
-    with ApiCaller {
+class DropdownRemoteDataSource extends IDropdownRemoteDataSource with ApiCaller {
   @override
   Future<List> getDropdownValues(DropdownValueType type) {
     return get(path: () {

@@ -19,7 +19,15 @@ class _AboutState extends State<About> {
   Widget build(BuildContext context) {
     return Parent(
         style: ParentStyle()
-          ..background.image(path: 'assets/images/bg.jpg', fit: BoxFit.cover),
+          ..linearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Colors.black,
+              Colors.amber,
+              Colors.black,
+            ],
+          ), //..background.image(path: 'assets/images/bg.jpg', fit: BoxFit.cover),
         child: Scaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBar(
@@ -27,10 +35,7 @@ class _AboutState extends State<About> {
             elevation: 0,
             title: Text(
               S.current.about,
-              style: Theme.of(context)
-                  .textTheme
-                  .headline5
-                  .copyWith(color: Colors.white),
+              style: Theme.of(context).textTheme.headline5.copyWith(color: Colors.white),
             ),
           ),
           body: Column(
@@ -150,9 +155,7 @@ class _AboutItemState extends State<AboutItem> {
             children: <Widget>[
               Parent(
                 style: aboutItemIconStyle(iswarrning: widget.iswarrning),
-                child: Icon(widget.icon,
-                    color: widget.iswarrning ? Colors.red : Colors.amber,
-                    size: 20),
+                child: Icon(widget.icon, color: widget.iswarrning ? Colors.red : Colors.amber, size: 20),
               ),
               const SizedBox(width: 10),
               Column(
@@ -191,8 +194,7 @@ class _AboutItemState extends State<AboutItem> {
     ..animate(150, Curves.easeInOut);
 
   ParentStyle aboutItemIconStyle({bool iswarrning}) => ParentStyle()
-    ..background.color(
-        iswarrning ? Colors.red.withOpacity(.1) : Colors.amber.withOpacity(.1))
+    ..background.color(iswarrning ? Colors.red.withOpacity(.1) : Colors.amber.withOpacity(.1))
     ..margin(horizontal: 15)
     ..padding(all: 12)
     ..borderRadius(all: 30);

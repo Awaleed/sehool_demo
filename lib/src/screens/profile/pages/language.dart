@@ -42,17 +42,25 @@ class _LanguageScreenState extends State<LanguageScreen> {
   @override
   Widget build(BuildContext context) {
     return Parent(
-        style: ParentStyle()
-          ..background.image(path: 'assets/images/bg.jpg', fit: BoxFit.cover),
-        child: Stack(children: [
+      style: ParentStyle()
+        ..linearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            Colors.black,
+            Colors.amber,
+            Colors.black,
+          ],
+        ), //..background.image(path: 'assets/images/bg.jpg', fit: BoxFit.cover),
+      child: Stack(
+        children: [
           BackgroundGeneratorGroup(
             number: _Hello.hellos.length,
             colors: Colors.accents,
             trajectory: Trajectory.straight,
             speed: DotSpeed.medium,
             opacity: .9,
-            span: List.generate(_Hello.hellos.length,
-                (e) => _Hello.fromJson(_Hello.hellos[e]).hello),
+            span: List.generate(_Hello.hellos.length, (e) => _Hello.fromJson(_Hello.hellos[e]).hello),
           ),
           Scaffold(
             backgroundColor: Colors.transparent,
@@ -61,10 +69,7 @@ class _LanguageScreenState extends State<LanguageScreen> {
               elevation: 0,
               title: Text(
                 S.current.languages,
-                style: Theme.of(context)
-                    .textTheme
-                    .headline5
-                    .copyWith(color: Colors.white),
+                style: Theme.of(context).textTheme.headline5.copyWith(color: Colors.white),
               ),
             ),
             body: SingleChildScrollView(
@@ -81,17 +86,11 @@ class _LanguageScreenState extends State<LanguageScreen> {
                         S.current.app_language,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline4
-                            .copyWith(color: Colors.white),
+                        style: Theme.of(context).textTheme.headline4.copyWith(color: Colors.white),
                       ),
                       subtitle: Text(
                         S.current.select_your_preferred_languages,
-                        style: Theme.of(context)
-                            .textTheme
-                            .subtitle2
-                            .copyWith(color: Colors.white),
+                        style: Theme.of(context).textTheme.subtitle2.copyWith(color: Colors.white),
                       ),
                     ),
                   ),
@@ -114,8 +113,10 @@ class _LanguageScreenState extends State<LanguageScreen> {
                 ],
               ),
             ),
-          )
-        ]));
+          ),
+        ],
+      ),
+    );
   }
 
   Widget _buildList() {
@@ -205,10 +206,8 @@ class _LanguageScreenState extends State<LanguageScreen> {
                         height: _language.selected ? 40 : 0,
                         width: _language.selected ? 40 : 0,
                         decoration: BoxDecoration(
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(40)),
-                          color: Colors.amber
-                              .withOpacity(_language.selected ? 0.85 : 0),
+                          borderRadius: const BorderRadius.all(Radius.circular(40)),
+                          color: Colors.amber.withOpacity(_language.selected ? 0.85 : 0),
                         ),
                         child: Icon(
                           Icons.check,
@@ -227,19 +226,13 @@ class _LanguageScreenState extends State<LanguageScreen> {
                           _language.localName,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
-                          style: Theme.of(context)
-                              .textTheme
-                              .subtitle1
-                              .copyWith(color: Colors.amber),
+                          style: Theme.of(context).textTheme.subtitle1.copyWith(color: Colors.amber),
                         ),
                         Text(
                           _language.englishName,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
-                          style: Theme.of(context)
-                              .textTheme
-                              .caption
-                              .copyWith(color: Colors.amber.withOpacity(.6)),
+                          style: Theme.of(context).textTheme.caption.copyWith(color: Colors.amber.withOpacity(.6)),
                         ),
                       ],
                     ),

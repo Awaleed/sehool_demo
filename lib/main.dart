@@ -76,7 +76,7 @@ class MyApp extends StatelessWidget {
                   iconTheme: IconThemeData(color: Colors.white),
                 ),
                 primarySwatch: Colors.amber,
-                textTheme: GoogleFonts.cairoTextTheme(),
+                textTheme: GoogleFonts.tajawalTextTheme(),
               ),
               supportedLocales: S.delegate.supportedLocales,
               locale: box.get(currentSettingsKey)?.locale,

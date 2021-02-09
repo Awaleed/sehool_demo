@@ -11,6 +11,7 @@ import 'src/cubits/address_cubit/address_cubit.dart';
 import 'src/cubits/auth_cubit/auth_cubit.dart';
 import 'src/cubits/product_cubits/banner_cubit/banner_cubit.dart';
 import 'src/cubits/cart_cubit/cart_cubit.dart';
+import 'src/cubits/cart_message_cubit/cart_messages_cubit.dart';
 import 'src/cubits/checkout_cubit/checkout_cubit.dart';
 import 'src/cubits/dropdown_cubit/dropdown_cubit.dart';
 import 'src/cubits/forgot_password_cubit/forgot_password_cubit.dart';
@@ -50,6 +51,7 @@ GetIt $initGetIt(
   EnvironmentFilter environmentFilter,
 }) {
   final gh = GetItHelper(get, environment, environmentFilter);
+  gh.factory<CartMessagesCubit>(() => CartMessagesCubit());
   gh.factory<CheckoutCubit>(() => CheckoutCubit());
   gh.factory<OrderCubit>(() => OrderCubit(get<IOrderRepository>()));
   gh.factory<ProductCubit>(() => ProductCubit(get<IProductRepository>()));
@@ -75,19 +77,19 @@ GetIt $initGetIt(
       registerFor: {_test});
   gh.singleton<IDropdownRepository>(
       DropdownRepositoryImpl(get<IDropdownRemoteDataSource>()));
-  gh.singleton<ILazyListRemoteDataSource>(FakeLazyListRemoteDataSource(),
-      registerFor: {_test});
   gh.singleton<ILazyListRemoteDataSource>(LazyListRemoteDataSource(),
       registerFor: {_prod});
+  gh.singleton<ILazyListRemoteDataSource>(FakeLazyListRemoteDataSource(),
+      registerFor: {_test});
   gh.singleton<ILazyListRepository>(
       LazyListRepositoryImpl(get<ILazyListRemoteDataSource>()));
   gh.singleton<IOrderRemoteDataSource>(OrderRemoteDataSource());
   gh.singleton<IOrderRepository>(
       OrderRepositoryImpl(get<IOrderRemoteDataSource>()));
-  gh.singleton<IProductRemoteDataSource>(FakeProductRemoteDataSource(),
-      registerFor: {_test});
   gh.singleton<IProductRemoteDataSource>(ProductRemoteDataSource(),
       registerFor: {_prod});
+  gh.singleton<IProductRemoteDataSource>(FakeProductRemoteDataSource(),
+      registerFor: {_test});
   gh.singleton<IProductRepository>(
       ProductRepositoryImpl(get<IProductRemoteDataSource>()));
   gh.singleton<ISettingsDataSource>(SettingsLocalDataSource());

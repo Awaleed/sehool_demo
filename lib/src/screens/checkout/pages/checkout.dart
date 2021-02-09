@@ -53,26 +53,26 @@ class CheckoutPage extends StatelessWidget {
           //     ),
           //   ),
           // ),
-          const SizedBox(height: 20),
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: TextFormField(
-                initialValue: cart.note,
-                readOnly: true,
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: Colors.white70,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(25),
-                  ),
-                ),
-                keyboardType: TextInputType.multiline,
-                minLines: 7,
-                maxLines: 14,
-              ),
-            ),
-          ),
+          // const SizedBox(height: 20),
+          // Center(
+          //   child: Padding(
+          //     padding: const EdgeInsets.symmetric(horizontal: 20),
+          //     child: TextFormField(
+          //       initialValue: cart.note,
+          //       readOnly: true,
+          //       decoration: InputDecoration(
+          //         filled: true,
+          //         fillColor: Colors.white70,
+          //         border: OutlineInputBorder(
+          //           borderRadius: BorderRadius.circular(25),
+          //         ),
+          //       ),
+          //       keyboardType: TextInputType.multiline,
+          //       minLines: 7,
+          //       maxLines: 14,
+          //     ),
+          //   ),
+          // ),
           const SizedBox(height: 20),
         ],
       ),
@@ -81,8 +81,7 @@ class CheckoutPage extends StatelessWidget {
 }
 
 class SummeryCard extends StatelessWidget {
-  const SummeryCard({Key key, @required this.cart, this.onChanged})
-      : super(key: key);
+  const SummeryCard({Key key, @required this.cart, this.onChanged}) : super(key: key);
   final CartModel cart;
   final ValueChanged onChanged;
 
@@ -130,20 +129,15 @@ class SummeryCard extends StatelessWidget {
                                 children: [
                                   Expanded(
                                     child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           e?.product?.name ?? '',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .headline6,
+                                          style: Theme.of(context).textTheme.headline6,
                                         ),
                                         Text(
                                           '${e.quantity} ${S.current.piece}, ${e.slicingMethod?.name}',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyText2,
+                                          style: Theme.of(context).textTheme.bodyText2,
                                         ),
                                       ],
                                     ),
@@ -165,10 +159,7 @@ class SummeryCard extends StatelessWidget {
                                 },
                                 child: Text(
                                   S.current.confirmation,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .button
-                                      .copyWith(color: Colors.red),
+                                  style: Theme.of(context).textTheme.button.copyWith(color: Colors.red),
                                 ),
                               ),
                             ],
@@ -182,8 +173,7 @@ class SummeryCard extends StatelessWidget {
                               ),
                             ),
                           );
-                          showCupertinoModalPopup(
-                              context: context, builder: (context) => action);
+                          showCupertinoModalPopup(context: context, builder: (context) => action);
                         },
                       ),
                       onTap: () async {
@@ -245,7 +235,7 @@ class SummeryCard extends StatelessWidget {
             top: -75,
             left: 15,
             right: 15,
-            height: 150,
+            height: 120,
             child: Card(
               elevation: 2,
               clipBehavior: Clip.hardEdge,

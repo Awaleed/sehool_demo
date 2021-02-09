@@ -70,10 +70,7 @@ class VideosCarouselItemWidget extends StatelessWidget {
               children: [
                 Text(
                   video.description,
-                  style: Theme.of(context)
-                      .textTheme
-                      .subtitle2
-                      .copyWith(color: Colors.white),
+                  style: Theme.of(context).textTheme.subtitle2.copyWith(color: Colors.white),
                 )
               ],
             ),
@@ -113,17 +110,14 @@ class VideoApp extends StatelessWidget {
   final bool play;
   final VideoPlayerController controller;
 
-  const VideoApp({Key key, this.video, this.play, this.controller})
-      : super(key: key);
+  const VideoApp({Key key, this.video, this.play, this.controller}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: CustomAnimation<double>(
-        control: play
-            ? CustomAnimationControl.PLAY
-            : CustomAnimationControl.PLAY_REVERSE,
+        control: play ? CustomAnimationControl.PLAY : CustomAnimationControl.PLAY_REVERSE,
         tween: 0.0.tweenTo(1.0),
         duration: 500.milliseconds,
         curve: Curves.easeOut,
@@ -140,17 +134,14 @@ class VideoApp extends StatelessWidget {
                               child: VideoPlayer(controller),
                             )
                           : Container(
-                              margin: const EdgeInsets.only(
-                                  left: 40.0, right: 40.0),
+                              margin: const EdgeInsets.only(left: 40.0, right: 40.0),
                               decoration: const BoxDecoration(
                                 color: Colors.black87,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(8.0)),
+                                borderRadius: BorderRadius.all(Radius.circular(8.0)),
                               ),
                               child: const Padding(
                                 padding: EdgeInsets.all(16.0),
-                                child:
-                                    CircularProgressIndicator(strokeWidth: 2.0),
+                                child: CircularProgressIndicator(strokeWidth: 2.0),
                               ),
                             ),
                     )
@@ -196,8 +187,7 @@ class VideoApp extends StatelessWidget {
                     duration: 500.milliseconds,
                     child: Center(
                       child: Container(
-                        constraints:
-                            BoxConstraints.loose(const Size.fromRadius(50)),
+                        constraints: BoxConstraints.loose(const Size.fromRadius(50)),
                         decoration: const BoxDecoration(
                           color: Colors.black87,
                           borderRadius: BorderRadius.all(Radius.circular(8.0)),

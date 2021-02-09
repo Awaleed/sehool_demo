@@ -46,7 +46,15 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
   Widget build(BuildContext context) {
     return Parent(
       style: ParentStyle()
-        ..background.image(path: 'assets/images/bg.jpg', fit: BoxFit.cover),
+        ..linearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            Colors.black,
+            Colors.amber,
+            Colors.black,
+          ],
+        ), //..background.image(path: 'assets/images/bg.jpg', fit: BoxFit.cover),
       child: Stack(
         children: [
           BackgroundGeneratorGroup(
@@ -70,10 +78,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
             appBar: AppBar(
               title: Text(
                 S.current.profile_settings,
-                style: Theme.of(context)
-                    .textTheme
-                    .headline5
-                    .copyWith(color: Colors.white),
+                style: Theme.of(context).textTheme.headline5.copyWith(color: Colors.white),
               ),
               backgroundColor: Colors.transparent,
               elevation: 0,
@@ -259,22 +264,12 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
         labelStyle: TextStyle(color: Theme.of(context).accentColor),
         contentPadding: const EdgeInsets.all(12),
         hintText: _model.hintText,
-        hintStyle:
-            TextStyle(color: Theme.of(context).focusColor.withOpacity(0.7)),
+        hintStyle: TextStyle(color: Theme.of(context).focusColor.withOpacity(0.7)),
         prefixIcon: Icon(_model.iconData, color: Theme.of(context).accentColor),
         suffixIcon: suffixIcon,
-        border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(50),
-            borderSide: BorderSide(
-                color: Theme.of(context).focusColor.withOpacity(0.0))),
-        focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(50),
-            borderSide: BorderSide(
-                color: Theme.of(context).focusColor.withOpacity(0.0))),
-        enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(50),
-            borderSide: BorderSide(
-                color: Theme.of(context).focusColor.withOpacity(0.0))),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(50), borderSide: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.0))),
+        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(50), borderSide: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.0))),
+        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(50), borderSide: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.0))),
       ),
     );
   }

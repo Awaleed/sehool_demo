@@ -28,8 +28,7 @@ class _NewReviewFieldState extends State<NewReviewField> {
 
   @override
   Widget build(BuildContext context) {
-    final canSend = (widget.textEditingController?.text?.isNotEmpty ?? false) &&
-        !widget.isLoading;
+    final canSend = (widget.textEditingController?.text?.isNotEmpty ?? false) && !widget.isLoading;
     return Container(
       color: Colors.black54,
       padding: const EdgeInsets.all(5),
@@ -57,7 +56,7 @@ class _NewReviewFieldState extends State<NewReviewField> {
                   controller: widget.textEditingController,
                   enabled: !widget.isLoading,
                   maxLines: 10,
-                  minLines: 0,
+                  minLines: 1,
                   keyboardType: TextInputType.multiline,
                   decoration: InputDecoration(
                     filled: true,

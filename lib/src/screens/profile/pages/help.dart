@@ -15,7 +15,15 @@ class _HelpAndSupportState extends State<HelpAndSupport> {
   Widget build(BuildContext context) {
     return Parent(
       style: ParentStyle()
-        ..background.image(path: 'assets/images/bg.jpg', fit: BoxFit.cover),
+        ..linearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            Colors.black,
+            Colors.amber,
+            Colors.black,
+          ],
+        ), //..background.image(path: 'assets/images/bg.jpg', fit: BoxFit.cover),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
@@ -23,10 +31,7 @@ class _HelpAndSupportState extends State<HelpAndSupport> {
           elevation: 0,
           title: Text(
             S.current.help_support,
-            style: Theme.of(context)
-                .textTheme
-                .headline5
-                .copyWith(color: Colors.white),
+            style: Theme.of(context).textTheme.headline5.copyWith(color: Colors.white),
           ),
         ),
         body: Column(),

@@ -16,11 +16,11 @@ class CartTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       controller: TextEditingController.fromValue(
-        TextEditingValue(text: cart?.note ?? cartItem?.note ?? ''),
+        TextEditingValue(text: /*cart?.note ??*/ cartItem?.note ?? ''),
       ),
       onChanged: (value) {
         cartItem?.note = value;
-        cart?.note = value;
+        // cart?.note = value;
       },
       decoration: InputDecoration(
         hintText: S.current.notes,

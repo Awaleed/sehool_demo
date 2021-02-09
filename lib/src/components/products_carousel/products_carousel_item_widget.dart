@@ -25,8 +25,7 @@ class ProductsCarouselItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => AppRouter.sailor
-          .navigate(ProductScreen.routeName, params: {'product': product}),
+      onTap: () => AppRouter.sailor.navigate(ProductScreen.routeName, params: {'product': product}),
       child: Stack(
         clipBehavior: Clip.none,
         fit: StackFit.expand,
@@ -75,10 +74,7 @@ class ProductsCarouselItemWidget extends StatelessWidget {
                   child: Text(
                     product.name,
                     maxLines: 1,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline5
-                        .copyWith(color: Colors.white),
+                    style: Theme.of(context).textTheme.headline5.copyWith(color: Colors.white),
                   ),
                 ),
               ],
@@ -112,13 +108,11 @@ class ProductsCarouselItemWidget extends StatelessWidget {
                                   children: [
                                     Text(
                                       cartItem?.product?.name ?? '',
-                                      style:
-                                          Theme.of(context).textTheme.headline6,
+                                      style: Theme.of(context).textTheme.headline6,
                                     ),
                                     Text(
                                       '${cartItem.quantity} ${S.current.piece}, ${cartItem.slicingMethod?.name}',
-                                      style:
-                                          Theme.of(context).textTheme.bodyText2,
+                                      style: Theme.of(context).textTheme.bodyText2,
                                     ),
                                   ],
                                 ),
@@ -132,17 +126,16 @@ class ProductsCarouselItemWidget extends StatelessWidget {
                             isDestructiveAction: true,
                             onPressed: () {
                               getIt<CartCubit>().removeItem(product.id);
-                              AppRouter.sailor.navigate(
-                                CheckoutScreen.routeName,
-                                navigationType: NavigationType.pushReplace,
-                              );
+                              Navigator.pop(context, true);
+
+                              // AppRouter.sailor.navigate(
+                              //   CheckoutScreen.routeName,
+                              //   navigationType: NavigationType.pushReplace,
+                              // );
                             },
                             child: Text(
                               S.current.confirmation,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .button
-                                  .copyWith(color: Colors.red),
+                              style: Theme.of(context).textTheme.button.copyWith(color: Colors.red),
                             ),
                           ),
                         ],
@@ -156,8 +149,7 @@ class ProductsCarouselItemWidget extends StatelessWidget {
                           ),
                         ),
                       );
-                      showCupertinoModalPopup(
-                          context: context, builder: (context) => action);
+                      showCupertinoModalPopup(context: context, builder: (context) => action);
                     } else {
                       AppRouter.sailor.navigate(
                         AddToCartScreen.routeName,
@@ -171,17 +163,10 @@ class ProductsCarouselItemWidget extends StatelessWidget {
                   backgroundColor: Colors.amber,
                   hoverColor: Colors.amber.withOpacity(.3),
                   splashColor: Colors.amber.withOpacity(.3),
-                  icon: Icon(
-                      cartItem != null
-                          ? FluentIcons.delete_24_regular
-                          : FluentIcons.cart_24_regular,
-                      color: Colors.black),
+                  icon: Icon(cartItem != null ? FluentIcons.delete_24_regular : FluentIcons.cart_24_regular, color: Colors.black),
                   label: Text(
-                    cartItem != null
-                        ? S.current.remove_from_cart
-                        : S.current.add_to_cart,
-                    style: const TextStyle(
-                        color: Colors.black, fontWeight: FontWeight.bold),
+                    cartItem != null ? S.current.remove_from_cart : S.current.add_to_cart,
+                    style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
                   ),
                 );
               },
@@ -201,10 +186,7 @@ class ProductsCarouselItemWidget extends StatelessWidget {
               child: FittedBox(
                 child: Text(
                   '${product.price} ${S.current.rial} / ${S.current.piece}',
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline5
-                      .copyWith(color: Colors.amber),
+                  style: Theme.of(context).textTheme.headline5.copyWith(color: Colors.amber),
                 ),
               ),
             ),

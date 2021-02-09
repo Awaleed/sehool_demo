@@ -74,26 +74,34 @@ class _HomeScreenState extends State<HomeScreen> {
         onWillPop: () => Helpers.onWillPop(context),
         child: Parent(
           style: ParentStyle()
-            ..background.image(path: 'assets/images/bg.jpg', fit: BoxFit.cover),
+            ..linearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Colors.black,
+                Colors.amber,
+                Colors.black,
+              ],
+            ), // ..background.image(path: 'assets/images/bg.jpg', fit: BoxFit.cover),
           child: Scaffold(
             backgroundColor: Colors.transparent,
             body: Stack(
               fit: StackFit.expand,
               children: [
-                const DecoratedBox(
-                  decoration: BoxDecoration(
-                    color: Colors.black45,
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        Colors.black,
-                        Colors.amber,
-                        Colors.black,
-                      ],
-                    ),
-                  ),
-                ),
+                // const DecoratedBox(
+                // decoration: BoxDecoration(
+                //   color: Colors.black45,
+                //   gradient: LinearGradient(
+                //     begin: Alignment.topCenter,
+                //     end: Alignment.bottomCenter,
+                //     colors: [
+                //       Colors.black,
+                //       Colors.amber,
+                //       Colors.black,
+                //     ],
+                //   ),
+                // ),
+                // ),
                 SafeArea(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -201,8 +209,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildMessageButton() => Parent(
         gesture: Gestures()
           ..onTap(() async {
-            const url =
-                "https://wa.me/249966787917?text=I'm redirected from sehool user app.";
+            const url = "https://wa.me/249966787917?text=I'm redirected from sehool user app.";
             if (await canLaunch(url)) {
               await launch(url);
             }

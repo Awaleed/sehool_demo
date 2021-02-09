@@ -93,7 +93,15 @@ class _NewAddressDialogState extends State<NewAddressDialog> {
       showSpinner: true,
       child: Parent(
         style: ParentStyle()
-          ..background.image(path: 'assets/images/bg.jpg', fit: BoxFit.cover),
+          ..linearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Colors.black,
+              Colors.amber,
+              Colors.black,
+            ],
+          ), //..background.image(path: 'assets/images/bg.jpg', fit: BoxFit.cover),
         child: Scaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBar(
@@ -101,10 +109,7 @@ class _NewAddressDialogState extends State<NewAddressDialog> {
             backgroundColor: Colors.transparent,
             title: Text(
               S.of(context).address,
-              style: Theme.of(context)
-                  .textTheme
-                  .headline6
-                  .copyWith(color: Colors.white),
+              style: Theme.of(context).textTheme.headline6.copyWith(color: Colors.white),
             ),
           ),
           body: Center(
@@ -135,10 +140,8 @@ class _NewAddressDialogState extends State<NewAddressDialog> {
                           cubit: cityCubit,
                           builder: (context, state) {
                             return state.when(
-                              initial: () =>
-                                  _buildCityDropdownUI([], isLoading: true),
-                              loading: () =>
-                                  _buildCityDropdownUI([], isLoading: true),
+                              initial: () => _buildCityDropdownUI([], isLoading: true),
+                              loading: () => _buildCityDropdownUI([], isLoading: true),
                               success: (values) => _buildCityDropdownUI(values),
                               failure: (message) => MyErrorWidget(
                                 onRetry: () {
@@ -164,8 +167,7 @@ class _NewAddressDialogState extends State<NewAddressDialog> {
               ),
             ),
           ),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerFloat,
+          floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
           floatingActionButton: FloatingActionButton(
             onPressed: () async {
               Helpers.dismissFauces(context);
@@ -251,22 +253,12 @@ class _NewAddressDialogState extends State<NewAddressDialog> {
         labelStyle: TextStyle(color: Theme.of(context).accentColor),
         contentPadding: const EdgeInsets.all(12),
         hintText: _model.hintText,
-        hintStyle:
-            TextStyle(color: Theme.of(context).focusColor.withOpacity(0.7)),
+        hintStyle: TextStyle(color: Theme.of(context).focusColor.withOpacity(0.7)),
         prefixIcon: Icon(_model.iconData, color: Theme.of(context).accentColor),
         suffixIcon: suffixIcon,
-        border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(50),
-            borderSide: BorderSide(
-                color: Theme.of(context).focusColor.withOpacity(0.2))),
-        focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(50),
-            borderSide: BorderSide(
-                color: Theme.of(context).focusColor.withOpacity(0.5))),
-        enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(50),
-            borderSide: BorderSide(
-                color: Theme.of(context).focusColor.withOpacity(0.2))),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(50), borderSide: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.2))),
+        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(50), borderSide: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.5))),
+        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(50), borderSide: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.2))),
       ),
     );
   }
@@ -308,32 +300,18 @@ class _NewAddressDialogState extends State<NewAddressDialog> {
     return DropdownButtonHideUnderline(
       child: DropdownButtonFormField(
         decoration: InputDecoration(
-          prefixIcon:
-              Icon(_model.iconData, color: Theme.of(context).accentColor),
+          prefixIcon: Icon(_model.iconData, color: Theme.of(context).accentColor),
           labelStyle: TextStyle(color: Theme.of(context).accentColor),
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 25, vertical: 3),
+          contentPadding: const EdgeInsets.symmetric(horizontal: 25, vertical: 3),
           hintText: _model.hintText,
           labelText: _model.labelText,
           hintStyle: TextStyle(color: Theme.of(context).accentColor),
-          border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(50),
-              borderSide: BorderSide(
-                  color: Theme.of(context).focusColor.withOpacity(0.2))),
-          focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(50),
-              borderSide: BorderSide(
-                  color: Theme.of(context).focusColor.withOpacity(0.5))),
-          enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(50),
-              borderSide: BorderSide(
-                  color: Theme.of(context).focusColor.withOpacity(0.2))),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(50), borderSide: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.2))),
+          focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(50), borderSide: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.5))),
+          enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(50), borderSide: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.2))),
         ),
         value: value,
-        style: Theme.of(context)
-            .textTheme
-            .bodyText2
-            .copyWith(color: Theme.of(context).accentColor),
+        style: Theme.of(context).textTheme.bodyText2.copyWith(color: Theme.of(context).accentColor),
         items: [
           ...values.map(
             (e) => DropdownMenuItem(

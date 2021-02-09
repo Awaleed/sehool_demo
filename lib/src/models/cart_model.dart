@@ -11,7 +11,10 @@ class CartModel {
   List<CartItemModel> cartItems = [];
   AddressModel address;
   PaymentMethodModel paymentMethod;
-  String note;
+  // String note;
+  bool isGift = false;
+  ValueWithId phrase;
+  ValueWithId event;
   CouponModel coupon;
 
   double get total {
@@ -45,18 +48,17 @@ class CartModel {
 
   Map<String, dynamic> toJson() {
     return {
-      'note': note ?? '',
+      // 'note': note ?? '',
+      if (isGift) ...{
+        'event_id': event.id,
+        'phrases_id': phrase.id,
+      },
       'address_id': address.id,
       'payment_method_id': paymentMethod.id,
       'coupon_id': coupon?.id,
       'products': cartItems
           .map(
-            (e) => {
-              'product_id': e.product.id,
-              'qyt': e.quantity,
-              'note': e.note ?? '',
-              'slicer_type_id': e.slicingMethod.id
-            },
+            (e) => {'product_id': e.product.id, 'qyt': e.quantity, 'note': e.note ?? '', 'slicer_type_id': e.slicingMethod.id},
           )
           .toList(),
     };
@@ -66,19 +68,13 @@ class CartModel {
   bool operator ==(Object o) {
     if (identical(this, o)) return true;
 
-    return o is CartModel &&
-        listEquals(o.cartItems, cartItems) &&
-        o.address == address &&
-        o.paymentMethod == paymentMethod &&
-        o.note == note;
+    return o is CartModel && listEquals(o.cartItems, cartItems) && o.address == address && o.paymentMethod == paymentMethod; // &&
+    // o.note == note;
   }
 
   @override
   int get hashCode {
-    return cartItems.hashCode ^
-        address.hashCode ^
-        paymentMethod.hashCode ^
-        note.hashCode;
+    return cartItems.hashCode ^ address.hashCode ^ paymentMethod.hashCode; //^ note.hashCode;
   }
 }
 
@@ -100,21 +96,43 @@ class CartItemModel {
   bool operator ==(Object o) {
     if (identical(this, o)) return true;
 
-    return o is CartItemModel &&
-        o.quantity == quantity &&
-        o.slicingMethod == slicingMethod &&
-        o.note == note;
+    return o is CartItemModel && o.quantity == quantity && o.slicingMethod == slicingMethod && o.note == note;
   }
 
   @override
-  int get hashCode =>
-      quantity.hashCode ^ slicingMethod.hashCode ^ note.hashCode;
+  int get hashCode => quantity.hashCode ^ slicingMethod.hashCode ^ note.hashCode;
+}
+
+@JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true, nullable: true)
+class CartMessageModel {
+  CartMessageModel({
+    this.phrases,
+    this.event,
+  });
+
+  final List<ValueWithId> phrases;
+  final List<ValueWithId> event;
+
+  factory CartMessageModel.fromJson(Map<String, dynamic> json) => _$CartMessageModelFromJson(json);
+  Map<String, dynamic> toJson() => _$CartMessageModelToJson(this);
+}
+
+@JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true, nullable: true)
+class ValueWithId {
+  ValueWithId(this.id, this.name);
+
+  final int id;
+  final String name;
+
+  factory ValueWithId.fromJson(Map<String, dynamic> json) => _$ValueWithIdFromJson(json);
+  Map<String, dynamic> toJson() => _$ValueWithIdToJson(this);
+  @override
+  String toString() => name;
 }
 
 enum CouponType { fixed, percentage }
 
-@JsonSerializable(
-    fieldRename: FieldRename.snake, explicitToJson: true, nullable: true)
+@JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true, nullable: true)
 class CouponModel {
   const CouponModel({
     this.id,
@@ -133,19 +151,14 @@ class CouponModel {
     return 'CouponModel(id: $id, name: $name, amount: $amount, type: $type)';
   }
 
-  factory CouponModel.fromJson(Map<String, dynamic> json) =>
-      _$CouponModelFromJson(json);
+  factory CouponModel.fromJson(Map<String, dynamic> json) => _$CouponModelFromJson(json);
   Map<String, dynamic> toJson() => _$CouponModelToJson(this);
 
   @override
   bool operator ==(Object o) {
     if (identical(this, o)) return true;
 
-    return o is CouponModel &&
-        o.id == id &&
-        o.name == name &&
-        o.amount == amount &&
-        o.type == type;
+    return o is CouponModel && o.id == id && o.name == name && o.amount == amount && o.type == type;
   }
 
   @override

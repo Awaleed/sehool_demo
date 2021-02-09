@@ -89,7 +89,15 @@ class _ProductScreenState extends State<ProductScreen> {
       onRefresh: cubit.retryGetReviews,
       child: Parent(
         style: ParentStyle()
-          ..background.image(path: 'assets/images/bg.jpg', fit: BoxFit.cover),
+          ..linearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Colors.black,
+              Colors.amber,
+              Colors.black,
+            ],
+          ), //..background.image(path: 'assets/images/bg.jpg', fit: BoxFit.cover),
         child: Stack(
           fit: StackFit.expand,
           children: [
@@ -125,10 +133,7 @@ class _ProductScreenState extends State<ProductScreen> {
                             child: Text(
                               widget.product.name,
                               maxLines: 1,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headline6
-                                  .copyWith(color: Colors.white),
+                              style: Theme.of(context).textTheme.headline6.copyWith(color: Colors.white),
                             ),
                           ),
                           background: Stack(
@@ -147,8 +152,7 @@ class _ProductScreenState extends State<ProductScreen> {
                                   child: child,
                                 ),
                                 child: Container(
-                                  padding: const EdgeInsets.only(
-                                      bottom: 50, top: 20),
+                                  padding: const EdgeInsets.only(bottom: 50, top: 20),
                                   decoration: const BoxDecoration(
                                     gradient: LinearGradient(
                                       begin: Alignment.bottomCenter,
@@ -176,15 +180,11 @@ class _ProductScreenState extends State<ProductScreen> {
                                         ),
                                         decoration: BoxDecoration(
                                           color: Colors.black,
-                                          borderRadius:
-                                              BorderRadius.circular(25),
+                                          borderRadius: BorderRadius.circular(25),
                                         ),
                                         child: Text(
                                           '${widget.product.price} ﷼ / ${S.current.piece}',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .headline5
-                                              .copyWith(color: Colors.amber),
+                                          style: Theme.of(context).textTheme.headline5.copyWith(color: Colors.amber),
                                         ),
                                       ),
                                     ],
@@ -205,8 +205,7 @@ class _ProductScreenState extends State<ProductScreen> {
                             BlocBuilder<CartCubit, CartState>(
                               cubit: getIt<CartCubit>(),
                               builder: (context, state) {
-                                final cartItem = getIt<CartCubit>()
-                                    .getItem(widget.product.id);
+                                final cartItem = getIt<CartCubit>().getItem(widget.product.id);
                                 return FloatingActionButton(
                                   heroTag: 'btn${widget.product.id}',
                                   onPressed: () {
@@ -214,9 +213,7 @@ class _ProductScreenState extends State<ProductScreen> {
                                       final action = CupertinoActionSheet(
                                         title: Text(
                                           S.current.remove_from_cart,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .headline3,
+                                          style: Theme.of(context).textTheme.headline3,
                                         ),
                                         message: Theme(
                                           data: Theme.of(context),
@@ -224,27 +221,20 @@ class _ProductScreenState extends State<ProductScreen> {
                                             children: [
                                               Expanded(
                                                 child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
-                                                      cartItem?.product?.name ??
-                                                          '',
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .headline6,
+                                                      cartItem?.product?.name ?? '',
+                                                      style: Theme.of(context).textTheme.headline6,
                                                     ),
                                                     Text(
                                                       '${cartItem.quantity} ${S.current.piece}, ${cartItem.slicingMethod?.name}',
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .bodyText2,
+                                                      style: Theme.of(context).textTheme.bodyText2,
                                                     ),
                                                   ],
                                                 ),
                                               ),
-                                              Text(
-                                                  '${cartItem.total} ${S.current.rial}'),
+                                              Text('${cartItem.total} ${S.current.rial}'),
                                             ],
                                           ),
                                         ),
@@ -252,39 +242,29 @@ class _ProductScreenState extends State<ProductScreen> {
                                           CupertinoActionSheetAction(
                                             isDestructiveAction: true,
                                             onPressed: () {
-                                              getIt<CartCubit>().removeItem(
-                                                  widget.product.id);
+                                              getIt<CartCubit>().removeItem(widget.product.id);
                                               AppRouter.sailor.navigate(
                                                 CheckoutScreen.routeName,
-                                                navigationType:
-                                                    NavigationType.pushReplace,
+                                                navigationType: NavigationType.pushReplace,
                                               );
                                             },
                                             child: Text(
                                               S.current.confirmation,
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .button
-                                                  .copyWith(color: Colors.red),
+                                              style: Theme.of(context).textTheme.button.copyWith(color: Colors.red),
                                             ),
                                           ),
                                         ],
-                                        cancelButton:
-                                            CupertinoActionSheetAction(
+                                        cancelButton: CupertinoActionSheetAction(
                                           onPressed: () {
                                             Navigator.pop(context, false);
                                           },
                                           child: Text(
                                             S.current.cancel,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .button,
+                                            style: Theme.of(context).textTheme.button,
                                           ),
                                         ),
                                       );
-                                      showCupertinoModalPopup(
-                                          context: context,
-                                          builder: (context) => action);
+                                      showCupertinoModalPopup(context: context, builder: (context) => action);
                                     } else {
                                       AppRouter.sailor.navigate(
                                         AddToCartScreen.routeName,
@@ -299,9 +279,7 @@ class _ProductScreenState extends State<ProductScreen> {
                                   hoverColor: Colors.amber.withOpacity(.3),
                                   splashColor: Colors.amber.withOpacity(.3),
                                   child: Icon(
-                                    cartItem != null
-                                        ? FluentIcons.delete_24_regular
-                                        : FluentIcons.cart_24_regular,
+                                    cartItem != null ? FluentIcons.delete_24_regular : FluentIcons.cart_24_regular,
                                     color: Colors.amber,
                                   ),
                                 );

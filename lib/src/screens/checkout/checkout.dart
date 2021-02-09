@@ -7,6 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sailor/sailor.dart';
+import 'package:sehool/src/components/message_check_box.dart';
 import 'package:supercharged/supercharged.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -39,16 +40,21 @@ class CheckoutScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Parent(
       style: ParentStyle()
-        ..background.image(path: 'assets/images/bg.jpg', fit: BoxFit.cover),
+        ..linearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            Colors.black,
+            Colors.amber,
+            Colors.black,
+          ],
+        ), //..background.image(path: 'assets/images/bg.jpg', fit: BoxFit.cover),
       child: Scaffold(
         extendBodyBehindAppBar: true,
         appBar: AppBar(
           title: Text(
             S.current.checkout,
-            style: Theme.of(context)
-                .textTheme
-                .headline6
-                .copyWith(color: Colors.white),
+            style: Theme.of(context).textTheme.headline6.copyWith(color: Colors.white),
           ),
           elevation: 0,
           backgroundColor: Colors.black54,
@@ -235,9 +241,14 @@ class _CheckoutScrollState extends State<CheckoutScroll> {
             size: 50,
             color: Colors.amber,
           ),
-          child: CheckoutNotesPage(
-            cart: widget.cart,
-            onChanged: onChange,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: MessageCheckBox(
+              cart: widget.cart,
+              onValueChanged: (value) {
+                setState(() {});
+              },
+            ),
           ),
           header: FluentIcons.note_24_regular,
         ),
@@ -253,20 +264,18 @@ class _CheckoutScrollState extends State<CheckoutScroll> {
         ),
       ),
       for (var i = 0; i < steps.length; i++)
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Card(
-              key: steps[i].key,
-              elevation: 2,
-              clipBehavior: Clip.hardEdge,
-              color: Colors.white70,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(25),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
+        Card(
+          key: steps[i].key,
+          elevation: 2,
+          clipBehavior: Clip.hardEdge,
+          color: Colors.white70,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(25),
+          ),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -280,9 +289,10 @@ class _CheckoutScrollState extends State<CheckoutScroll> {
                   ],
                 ),
               ),
-            ),
-            steps[i].child,
-          ],
+              const Divider(),
+              steps[i].child,
+            ],
+          ),
         ),
       Column(
         children: [
@@ -351,7 +361,7 @@ class _CheckoutScrollState extends State<CheckoutScroll> {
 }
 
 class OnlinePay extends StatefulWidget {
- const  OnlinePay({
+  const OnlinePay({
     Key key,
     @required this.url,
     @required this.cubit,
@@ -389,19 +399,14 @@ class _OnlinePayState extends State<OnlinePay> with ApiCaller {
         appBar: AppBar(
           title: Text(
             S.current.confirm_payment,
-            style: Theme.of(context)
-                .textTheme
-                .headline6
-                .copyWith(color: Colors.white),
+            style: Theme.of(context).textTheme.headline6.copyWith(color: Colors.white),
           ),
         ),
         body: WebView(
           javascriptMode: JavascriptMode.unrestricted,
           onPageFinished: (str) async {
             Helpers.dismissFauces(context);
-            final res = await controller
-                .evaluateJavascript('document.documentElement.innerText');
-
+            final res = await controller.evaluateJavascript('document.documentElement.innerText');
 
             try {
               final json = jsonDecode(jsonDecode(res));
@@ -437,8 +442,7 @@ class _OnlinePayState extends State<OnlinePay> with ApiCaller {
                 );
                 AppRouter.sailor.pop();
                 widget.cubit.orderSuccess();
-              } else if (uri != null &&
-                  uri.queryParameters['status'] == 'failed') {
+              } else if (uri != null && uri.queryParameters['status'] == 'failed') {
                 post(
                   path: '/payments_order_callback',
                   data: {'order_id': widget.orderId, 'status': 'failed'},

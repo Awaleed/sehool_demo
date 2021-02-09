@@ -112,7 +112,15 @@ class _VideoScreenState extends State<VideoScreen> {
   Widget build(BuildContext context) {
     return Parent(
       style: ParentStyle()
-        ..background.image(path: 'assets/images/bg.jpg', fit: BoxFit.cover),
+        ..linearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            Colors.black,
+            Colors.amber,
+            Colors.black,
+          ],
+        ), //..background.image(path: 'assets/images/bg.jpg', fit: BoxFit.cover),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: Stack(

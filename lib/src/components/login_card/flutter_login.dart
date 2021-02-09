@@ -68,9 +68,7 @@ class __HeaderState extends State<_Header> {
 
     renderParagraph.layout(const BoxConstraints());
 
-    return renderParagraph
-        .getMinIntrinsicHeight(widget.loginTheme.beforeHeroFontSize)
-        .ceilToDouble();
+    return renderParagraph.getMinIntrinsicHeight(widget.loginTheme.beforeHeroFontSize).ceilToDouble();
   }
 
   @override
@@ -215,8 +213,7 @@ class FlutterLogin extends StatefulWidget {
   _FlutterLoginState createState() => _FlutterLoginState();
 }
 
-class _FlutterLoginState extends State<FlutterLogin>
-    with TickerProviderStateMixin {
+class _FlutterLoginState extends State<FlutterLogin> with TickerProviderStateMixin {
   final GlobalKey<AuthCardState> authCardKey = GlobalKey();
   static const loadingDuration = Duration(milliseconds: 400);
   AnimationController _loadingController;
@@ -287,36 +284,22 @@ class _FlutterLoginState extends State<FlutterLogin>
   ThemeData _mergeTheme({ThemeData theme, LoginTheme loginTheme}) {
     final originalPrimaryColor = loginTheme.primaryColor ?? theme.primaryColor;
     final primaryDarkShades = getDarkShades(originalPrimaryColor);
-    final primaryColor = primaryDarkShades.length == 1
-        ? lighten(primaryDarkShades.first)
-        : primaryDarkShades.first;
-    final primaryColorDark = primaryDarkShades.length >= 3
-        ? primaryDarkShades[2]
-        : primaryDarkShades.last;
+    final primaryColor = primaryDarkShades.length == 1 ? lighten(primaryDarkShades.first) : primaryDarkShades.first;
+    final primaryColorDark = primaryDarkShades.length >= 3 ? primaryDarkShades[2] : primaryDarkShades.last;
     final accentColor = loginTheme.accentColor ?? theme.accentColor;
     final errorColor = loginTheme.errorColor ?? theme.errorColor;
 
-    final isDefaultBlackText = theme.textTheme.headline3.color ==
-        Typography.blackMountainView.headline3.color;
+    final isDefaultBlackText = theme.textTheme.headline3.color == Typography.blackMountainView.headline3.color;
     final titleStyle = theme.textTheme.headline3
         .copyWith(
-          color: loginTheme.accentColor ??
-              (isDefaultBlackText
-                  ? Colors.white
-                  : theme.textTheme.headline3.color),
+          color: loginTheme.accentColor ?? (isDefaultBlackText ? Colors.white : theme.textTheme.headline3.color),
           fontSize: loginTheme.beforeHeroFontSize,
           fontWeight: FontWeight.w300,
         )
         .merge(loginTheme.titleStyle);
-    final textStyle = theme.textTheme.bodyText2
-        .copyWith(color: Colors.black54)
-        .merge(loginTheme.bodyStyle);
-    final textFieldStyle = theme.textTheme.subtitle2
-        .copyWith(color: Colors.black.withOpacity(.65), fontSize: 14)
-        .merge(loginTheme.textFieldStyle);
-    final buttonStyle = theme.textTheme.button
-        .copyWith(color: Colors.white)
-        .merge(loginTheme.buttonStyle);
+    final textStyle = theme.textTheme.bodyText2.copyWith(color: Colors.black54).merge(loginTheme.bodyStyle);
+    final textFieldStyle = theme.textTheme.subtitle2.copyWith(color: Colors.black.withOpacity(.65), fontSize: 14).merge(loginTheme.textFieldStyle);
+    final buttonStyle = theme.textTheme.button.copyWith(color: Colors.white).merge(loginTheme.buttonStyle);
     final cardTheme = loginTheme.cardTheme;
     final inputTheme = loginTheme.inputTheme;
     final buttonTheme = loginTheme.buttonTheme;
@@ -334,8 +317,7 @@ class _FlutterLoginState extends State<FlutterLogin>
         color: cardTheme.color ?? theme.cardColor,
         elevation: cardTheme.elevation ?? 12.0,
         margin: cardTheme.margin ?? const EdgeInsets.all(4.0),
-        shape: cardTheme.shape ??
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+        shape: cardTheme.shape ?? RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
       ),
       inputDecorationTheme: theme.inputDecorationTheme.copyWith(
         filled: inputTheme.filled,
@@ -344,8 +326,7 @@ class _FlutterLoginState extends State<FlutterLogin>
               primaryColor.withOpacity(.07),
               Colors.grey.withOpacity(.04),
             ),
-        contentPadding: inputTheme.contentPadding ??
-            const EdgeInsets.symmetric(vertical: 4.0),
+        contentPadding: inputTheme.contentPadding ?? const EdgeInsets.symmetric(vertical: 4.0),
         errorStyle: inputTheme.errorStyle ?? TextStyle(color: errorColor),
         labelStyle: inputTheme.labelStyle,
         enabledBorder: inputTheme.enabledBorder ??
@@ -381,8 +362,7 @@ class _FlutterLoginState extends State<FlutterLogin>
         highlightElevation: buttonTheme.highlightElevation ?? 2.0,
         shape: buttonTheme.shape ?? const StadiumBorder(),
       ),
-      highlightColor:
-          loginTheme.buttonTheme.highlightColor ?? theme.highlightColor,
+      highlightColor: loginTheme.buttonTheme.highlightColor ?? theme.highlightColor,
       textTheme: theme.textTheme.copyWith(
         headline3: titleStyle,
         bodyText2: textStyle,
@@ -401,10 +381,8 @@ class _FlutterLoginState extends State<FlutterLogin>
     const cardInitialHeight = 300;
     final cardTopPosition = deviceSize.height / 2 - cardInitialHeight / 2;
     final headerHeight = cardTopPosition - headerMargin;
-    final emailValidator =
-        widget.emailValidator ?? FlutterLogin.defaultEmailValidator;
-    final passwordValidator =
-        widget.passwordValidator ?? FlutterLogin.defaultPasswordValidator;
+    final emailValidator = widget.emailValidator ?? FlutterLogin.defaultEmailValidator;
+    final passwordValidator = widget.passwordValidator ?? FlutterLogin.defaultPasswordValidator;
 
     return MultiProvider(
         providers: [

@@ -6,6 +6,38 @@ part of 'cart_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+CartMessageModel _$CartMessageModelFromJson(Map<String, dynamic> json) {
+  return CartMessageModel(
+    phrases: (json['phrases'] as List)
+        ?.map((e) =>
+            e == null ? null : ValueWithId.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    event: (json['event'] as List)
+        ?.map((e) =>
+            e == null ? null : ValueWithId.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+Map<String, dynamic> _$CartMessageModelToJson(CartMessageModel instance) =>
+    <String, dynamic>{
+      'phrases': instance.phrases?.map((e) => e?.toJson())?.toList(),
+      'event': instance.event?.map((e) => e?.toJson())?.toList(),
+    };
+
+ValueWithId _$ValueWithIdFromJson(Map<String, dynamic> json) {
+  return ValueWithId(
+    json['id'] as int,
+    json['name'] as String,
+  );
+}
+
+Map<String, dynamic> _$ValueWithIdToJson(ValueWithId instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+    };
+
 CouponModel _$CouponModelFromJson(Map<String, dynamic> json) {
   return CouponModel(
     id: json['id'] as int,

@@ -1,4 +1,5 @@
 import 'package:injectable/injectable.dart';
+import 'package:sehool/src/models/cart_model.dart';
 
 import '../core/api_caller.dart';
 import '../data/dropdown_datasource.dart';
@@ -37,7 +38,7 @@ class DropdownRepositoryImpl implements IDropdownRepository {
           data['lat'] = double.tryParse('${data['lat']}' ?? '');
           return AddressModel.fromJson(data);
         default:
-          throw UnsupportedError('message');
+          throw UnsupportedError('type: $type');
       }
     });
   }

@@ -3,6 +3,7 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:sailor/sailor.dart';
+import 'package:sehool/src/components/message_check_box.dart';
 import 'package:sehool/src/components/my_error_widget.dart';
 import 'package:supercharged/supercharged.dart';
 
@@ -39,17 +40,22 @@ class AddToCartScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Parent(
       style: ParentStyle()
-        ..background.image(path: 'assets/images/bg.jpg', fit: BoxFit.cover),
+        ..linearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            Colors.black,
+            Colors.amber,
+            Colors.black,
+          ],
+        ), //..background.image(path: 'assets/images/bg.jpg', fit: BoxFit.cover),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         extendBodyBehindAppBar: true,
         appBar: AppBar(
           title: Text(
             S.current.add_to_cart,
-            style: Theme.of(context)
-                .textTheme
-                .headline6
-                .copyWith(color: Colors.white),
+            style: Theme.of(context).textTheme.headline6.copyWith(color: Colors.white),
           ),
           elevation: 0,
           backgroundColor: Colors.black54,
@@ -159,9 +165,7 @@ class _CartScrollState extends State<CartScroll> {
               padding: const EdgeInsets.all(20.0),
               child: CartItemPreview(cartItem: widget.cartItem),
             ),
-            state: widget.cartItem.validate
-                ? CustomStepState.indexed
-                : CustomStepState.disabled,
+            state: widget.cartItem.validate ? CustomStepState.indexed : CustomStepState.disabled,
             icon: const Icon(
               FluentIcons.checkmark_48_regular,
               size: 50,
@@ -173,20 +177,19 @@ class _CartScrollState extends State<CartScroll> {
   List<Widget> get stepsWidget {
     return <Widget>[
       for (var i = 0; i < steps.length; i++)
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Card(
-              elevation: 2,
-              clipBehavior: Clip.hardEdge,
-              // margin: const EdgeInsets.symmetric(horizontal: 20),
-              color: Colors.white70,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(25),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
+        Card(
+          key: steps[i].key,
+          elevation: 2,
+          clipBehavior: Clip.hardEdge,
+          // margin: const EdgeInsets.symmetric(horizontal: 20),
+          color: Colors.white70,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(25),
+          ),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -201,16 +204,17 @@ class _CartScrollState extends State<CartScroll> {
                   ],
                 ),
               ),
-            ),
-            steps[i].child,
-          ],
+              const Divider(),
+              steps[i].child,
+            ],
+          ),
         ),
       Column(
         children: [
           if (widget.cartItem.slicingMethod == null)
             MyErrorWidget(
-              message: S.current.not_a_valid_address,
-              buttonLabel: S.current.select_shipping_address,
+              message: S.current.not_a_valid_slicing_method,
+              buttonLabel: S.current.slicing_method,
               onRetry: () {
                 Scrollable.ensureVisible(
                   slicingMethodKey.currentContext,

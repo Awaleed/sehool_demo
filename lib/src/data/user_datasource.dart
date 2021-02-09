@@ -52,8 +52,7 @@ class UserLocalDataSource extends IUserLocalDataSource {
 
   @override
   Future<void> updateUser(UserModel user) async {
-    final _user =
-        UserWithTokenModel.fromJson(jsonDecode(box.get(currentUserKey)));
+    final _user = UserWithTokenModel.fromJson(jsonDecode(box.get(currentUserKey)));
     final userEncodedJson = jsonEncode(_user.copyWith(user: user).toJson());
     await box.put(currentUserKey, userEncodedJson);
   }
@@ -99,8 +98,7 @@ abstract class IUserRemoteDataSource {
 @Singleton(as: IUserRemoteDataSource)
 class UserRemoteDataSource extends IUserRemoteDataSource with ApiCaller {
   @override
-  Future<Map<String, dynamic>> login(Map<String, dynamic> credentials) =>
-      post(path: '/auth/login', data: credentials);
+  Future<Map<String, dynamic>> login(Map<String, dynamic> credentials) => post(path: '/auth/login', data: credentials);
 
   @override
   Future<Map<String, dynamic>> logout() {
@@ -113,8 +111,7 @@ class UserRemoteDataSource extends IUserRemoteDataSource with ApiCaller {
   Future<Map<String, dynamic>> me() => post(path: '/auth/me');
 
   @override
-  Future<Map<String, dynamic>> register(Map<String, dynamic> credentials) =>
-      post(path: '/auth/registration', data: credentials);
+  Future<Map<String, dynamic>> register(Map<String, dynamic> credentials) => post(path: '/auth/registration', data: credentials);
 
   @override
   Future<Map<String, dynamic>> forgotPassword(
@@ -123,8 +120,7 @@ class UserRemoteDataSource extends IUserRemoteDataSource with ApiCaller {
       post(path: '/auth/ForgotPassword', data: credentials);
 
   @override
-  Future<Map<String, dynamic>> resetPassword(
-      Map<String, dynamic> credentials) async {
+  Future<Map<String, dynamic>> resetPassword(Map<String, dynamic> credentials) async {
     await Future.delayed(1500.milliseconds);
     if (random.boolean()) throw DioError(response: Response(statusCode: 400));
     return {'time_out': 5};
@@ -142,10 +138,7 @@ class UserRemoteDataSource extends IUserRemoteDataSource with ApiCaller {
 
   @override
   Future<Map<String, dynamic>> changePassword(Map<String, dynamic> data) {
-    return post(
-      path: '/auth/login',
-      data: data,
-    );
+    return post(path: '/auth/login', data: data);
   }
 
   @override
@@ -170,8 +163,7 @@ class UserRemoteDataSource extends IUserRemoteDataSource with ApiCaller {
   }
 
   @override
-  Future<Map<String, dynamic>> updateProfileImage(FormData data) =>
-      post(path: '/auth/updateProfilePhoto', data: data);
+  Future<Map<String, dynamic>> updateProfileImage(FormData data) => post(path: '/auth/updateProfilePhoto', data: data);
 }
 
 @test
@@ -207,8 +199,7 @@ class FakeUserRemoteDataSource extends IUserRemoteDataSource {
   }
 
   @override
-  Future<Map<String, dynamic>> forgotPassword(
-      Map<String, dynamic> credentials) {
+  Future<Map<String, dynamic>> forgotPassword(Map<String, dynamic> credentials) {
     throw UnimplementedError();
   }
 
@@ -231,8 +222,7 @@ class FakeUserRemoteDataSource extends IUserRemoteDataSource {
   }
 
   @override
-  Future<Map<String, dynamic>> register(
-      Map<String, dynamic> credentials) async {
+  Future<Map<String, dynamic>> register(Map<String, dynamic> credentials) async {
     await Future.delayed(random.integer(1000).milliseconds);
     return FakeDataGenerator.userWithTokenModel.toJson();
   }
