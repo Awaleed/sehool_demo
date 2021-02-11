@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sehool/generated/l10n.dart';
+import 'package:sehool/src/helpers/helper.dart';
+import 'package:sehool/src/models/form_data_model.dart';
 
 import '../../init_injectable.dart';
 import '../cubits/cart_message_cubit/cart_messages_cubit.dart';
@@ -15,9 +17,11 @@ class MessageCheckBox extends StatefulWidget {
     Key key,
     @required this.cart,
     @required this.onValueChanged,
+    @required this.formKey,
   }) : super(key: key);
   final ValueChanged onValueChanged;
   final CartModel cart;
+  final GlobalKey<FormState> formKey;
 
   @override
   _MessageCheckBoxState createState() => _MessageCheckBoxState();
@@ -25,16 +29,19 @@ class MessageCheckBox extends StatefulWidget {
 
 class _MessageCheckBoxState extends State<MessageCheckBox> {
   CartMessagesCubit cubit;
+  TextEditingController messageController;
 
   @override
   void initState() {
     super.initState();
+    messageController = TextEditingController();
     cubit = getIt<CartMessagesCubit>();
     cubit.getMessagesValues();
   }
 
   @override
   void dispose() {
+    messageController.dispose();
     cubit.close();
     super.dispose();
   }
@@ -91,25 +98,125 @@ class _MessageCheckBoxState extends State<MessageCheckBox> {
     }
     return Column(
       children: [
-        CheckboxListTile(
-          value: widget.cart.isGift,
-          onChanged: (value) {
-            setState(() {
-              widget.cart.isGift = !widget.cart.isGift;
-            });
-          },
-          title: Text(S.current.is_gift),
+        Row(
+          children: [
+            Switch(
+              value: widget.cart.isGift,
+              onChanged: (value) {
+                setState(() {
+                  widget.cart.isGift = !widget.cart.isGift;
+                });
+              },
+            ),
+            Text(S.current.is_gift),
+          ],
         ),
+        // CheckboxListTile(
+        //   value: widget.cart.isGift,
+        //   onChanged: (value) {
+        //     setState(() {
+        //       widget.cart.isGift = !widget.cart.isGift;
+        //     });
+        //   },
+        //   title: Text(S.current.is_gift),
+        // ),
         if (widget.cart.isGift)
-          Column(
-            children: [
-              _buildDropdown(value.event, widget.cart.event, (value) => widget.cart.event = value, S.current.occasion),
-              const SizedBox(height: 20),
-              _buildDropdown(value.phrases, widget.cart.phrase, (value) => widget.cart.phrase = value, S.current.message),
-              const SizedBox(height: 20),
-            ],
+          Form(
+            key: widget.formKey,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            child: Column(
+              children: [
+                TextFormField(
+                  validator: Validators.shortStringValidator,
+                  decoration: InputDecoration(
+                    hintText: S.current.from,
+                    filled: true,
+                    fillColor: Colors.white,
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 15),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                  ),
+                  onSaved: (value) => widget.cart.from = value,
+                  keyboardType: TextInputType.text,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 20),
+                TextFormField(
+                  validator: Validators.shortStringValidator,
+                  decoration: InputDecoration(
+                    hintText: S.current.to,
+                    filled: true,
+                    fillColor: Colors.white,
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 15),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                  ),
+                  onSaved: (value) => widget.cart.to = value,
+                  keyboardType: TextInputType.text,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 20),
+                _buildDropdown(value.event, widget.cart.event, (value) => widget.cart.event = value, S.current.occasion),
+                const SizedBox(height: 20),
+                _buildDropdown(value.phrases, widget.cart.phrase, (value) => widget.cart.phrase = value, S.current.message),
+                const SizedBox(height: 20),
+                _buildTextInput(),
+                const SizedBox(height: 20),
+              ],
+            ),
           ),
       ],
+    );
+  }
+
+  Widget _buildTextInput() {
+    return TextFormField(
+      controller: messageController,
+      validator: (value) {
+        if (value.isEmpty) {
+          return null;
+        } else {
+          return Validators.shortStringValidator(value);
+        }
+      },
+      decoration: InputDecoration(
+        hintText: S.current.or_write_custom_message,
+        filled: true,
+        fillColor: Colors.white,
+        suffixIcon: IconButton(
+          icon: const Icon(Icons.clear),
+          onPressed: () {
+            Helpers.dismissFauces(context);
+            messageController.clear();
+          },
+        ),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 15),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(25),
+        ),
+      ),
+      onSaved: (value) {
+        if (value.isEmpty) {
+          widget.cart.customPhrase = null;
+        } else {
+          widget.cart.customPhrase = value;
+        }
+      },
+      keyboardType: TextInputType.text,
+      textAlign: TextAlign.center,
+      maxLines: 5,
+      minLines: 1,
+      style: const TextStyle(fontWeight: FontWeight.bold),
+      onChanged: (value) {
+        // sendTimer?.cancel();
+        // sendTimer = Timer(700.milliseconds, () {
+        //   cubit.validateCoupon(couponController.text);
+        // });
+      },
     );
   }
 
@@ -125,6 +232,8 @@ class _MessageCheckBoxState extends State<MessageCheckBox> {
       decoration: InputDecoration(
         filled: true,
         fillColor: Colors.white70,
+        contentPadding: EdgeInsets.zero,
+        labelText: label,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(25),
         ),
@@ -132,22 +241,14 @@ class _MessageCheckBoxState extends State<MessageCheckBox> {
       child: DropdownButtonHideUnderline(
         child: DropdownButton(
           value: value,
+          isDense: true,
           dropdownColor: Colors.amber.withOpacity(.8),
           onChanged: (value) {
             if (value == null) return;
             widget.onValueChanged?.call(value);
             setState(() => onChange(value));
           },
-          icon: const SizedBox.shrink(),
           isExpanded: true,
-          hint: DropdownMenuItem(
-            child: Center(
-              child: Text(
-                label,
-                style: Theme.of(context).textTheme.headline5.copyWith(color: Colors.black),
-              ),
-            ),
-          ),
           items: [
             ...values.map(
               (e) => DropdownMenuItem(
@@ -155,6 +256,7 @@ class _MessageCheckBoxState extends State<MessageCheckBox> {
                 child: Center(
                   child: Text(
                     '$e',
+                    overflow: TextOverflow.visible,
                     style: Theme.of(context).textTheme.headline5.copyWith(color: Colors.black),
                   ),
                 ),

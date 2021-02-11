@@ -2,6 +2,7 @@ import 'package:division/division.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -74,17 +75,19 @@ class _HomeScreenState extends State<HomeScreen> {
         onWillPop: () => Helpers.onWillPop(context),
         child: Parent(
           style: ParentStyle()
-            ..linearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                Colors.black,
-                Colors.amber,
-                Colors.black,
-              ],
-            ), // ..background.image(path: 'assets/images/bg.jpg', fit: BoxFit.cover),
+            // ..linearGradient(
+            //   begin: Alignment.topCenter,
+            //   end: Alignment.bottomCenter,
+            //   colors: [
+            //     Colors.black,
+            //     Colors.amber,
+            //     Colors.black,
+            //   ],
+            // ),
+            ..background.color(Colors.white)
+            ..background.image(path: 'assets/images/black.png', fit: BoxFit.contain),
           child: Scaffold(
-            backgroundColor: Colors.transparent,
+            backgroundColor: Colors.white70,
             body: Stack(
               fit: StackFit.expand,
               children: [
@@ -130,19 +133,44 @@ class _HomeScreenState extends State<HomeScreen> {
                             ],
                           ),
                         ),
-                        height: 75,
-                        child: FittedBox(
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              _buildRange(0, 2),
-                              _buildCartButton(),
-                              _buildRange(3, 5),
-                            ],
-                          ),
+                        child: Column(
+                          children: [
+                            FittedBox(
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: [
+                                  _buildRange(0, 2),
+                                  _buildCartButton(),
+                                  _buildRange(3, 5),
+                                ],
+                              ),
+                            ),
+                            if (false)
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  IconButton(
+                                    icon: Icon(FontAwesomeIcons.facebook),
+                                    onPressed: () {},
+                                  ),
+                                  IconButton(
+                                    icon: Icon(FontAwesomeIcons.facebook),
+                                    onPressed: () {},
+                                  ),
+                                  IconButton(
+                                    icon: Icon(FontAwesomeIcons.facebook),
+                                    onPressed: () {},
+                                  ),
+                                  IconButton(
+                                    icon: Icon(FontAwesomeIcons.facebook),
+                                    onPressed: () {},
+                                  ),
+                                ],
+                              ),
+                          ],
                         ),
-                      ),
+                      )
                     ],
                   ),
                 ),
@@ -209,10 +237,68 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildMessageButton() => Parent(
         gesture: Gestures()
           ..onTap(() async {
-            const url = "https://wa.me/249966787917?text=I'm redirected from sehool user app.";
-            if (await canLaunch(url)) {
-              await launch(url);
-            }
+            showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                clipBehavior: Clip.hardEdge,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+                backgroundColor: Colors.white,
+                title: Text(S.current.contact_us),
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ListTile(
+                      // leading: SvgPicture.asset('assets/images/whatsapp.svg', height: 15, width: 15),
+
+                      leading: const Icon(
+                        FontAwesomeIcons.whatsapp,
+                        color: Color(
+                          0xFF20b038,
+                        ),
+                      ),
+                      title: const Text('Whatsapp'),
+                      onTap: () {},
+                    ),
+                    ListTile(
+                      leading: const Icon(FontAwesomeIcons.facebook),
+                      title: const Text('Facebook'),
+                      onTap: () => lanuch('https://www.facebook.com/sehoool/'),
+                    ),
+                    ListTile(
+                      leading: const Icon(FontAwesomeIcons.snapchat),
+                      title: const Text('Snapchat'),
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          child: Dialog(
+                            clipBehavior: Clip.hardEdge,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(25),
+                            ),
+                            backgroundColor: Colors.transparent,
+                            child: Image.asset('assets/images/snapchat.jpeg'),
+                          ),
+                        );
+                      },
+                    ),
+                    ListTile(
+                      leading: const Icon(FontAwesomeIcons.instagram),
+                      title: const Text('Instagram'),
+                      onTap: () => lanuch('https://www.instagram.com/sehoool/'),
+                    ),
+                    ListTile(
+                      leading: const Icon(FontAwesomeIcons.twitter),
+                      title: const Text('Twitter'),
+                      onTap: () => lanuch('https://twitter.com/sehoool/'),
+                    ),
+                  ],
+                ),
+              ),
+            );
+            // const url = "https://wa.me/249966787917?text=I'm redirected from sehool user app.";
+            // if (await canLaunch(url)) {
+            //   await launch(url);
+            // }
           }),
         style: ParentStyle()
           ..animate(600, Curves.easeOut)
@@ -224,8 +310,13 @@ class _HomeScreenState extends State<HomeScreen> {
           )
           ..borderRadius(all: 50)
           ..alignmentContent.center(),
-        child: const Icon(FontAwesomeIcons.whatsapp, color: Colors.white),
+        child: const Icon(FontAwesomeIcons.commentDots, color: Colors.white),
       );
+  Future<void> lanuch(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    }
+  }
 
   Widget _buildCartButton() => Padding(
         padding: const EdgeInsets.all(8.0),

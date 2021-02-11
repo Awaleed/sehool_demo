@@ -8,7 +8,7 @@ import '../../init_injectable.dart';
 import '../data/settings_datasource.dart';
 import '../data/user_datasource.dart';
 
-mixin ApiCaller {
+class ApiCaller {
   static final box = Hive.box(userBoxName)..listenable().addListener(_configureDioClient);
 
   static final settingsBox = Hive.box(settingsBoxName)..listenable().addListener(_configureDioClient);

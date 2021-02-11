@@ -46,7 +46,7 @@ class OrdersListItemWidget extends StatelessWidget {
                       ),
                     ],
                   ),
-                  trailing: Text('${e.subtotal} ${S.current.rial}'),
+                  trailing: Text('${e.subtotal} ﷼'),
                 ),
               ),
             const Divider(),
@@ -89,8 +89,7 @@ class OrdersListItemWidget extends StatelessWidget {
                   ),
                   ListTile(
                     title: Text(S.current.neighborhood),
-                    subtitle:
-                        Text(cart.address?.section?.name ?? S.current.none),
+                    subtitle: Text(cart.address?.section?.name ?? S.current.none),
                   ),
                   ListTile(
                     title: Text(S.current.address),
@@ -114,7 +113,7 @@ class OrdersListItemWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(25),
               ),
               child: ListTile(
-                title: Text('${cart.total} ${S.current.rial}'),
+                title: Text('${cart.total} ﷼'),
               ),
             ),
             const Divider(),

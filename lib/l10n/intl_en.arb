@@ -1,5 +1,11 @@
 {
   "@@locale": "en",
+  "contact_us": "Contact us",
+  "@contact_us": {},
+  "check_that_you_filled_all_fields_correctly": "Check that you filled all fields correctly",
+  "@check_that_you_filled_all_fields_correctly": {},
+  "or_write_custom_message": "Or write custom message",
+  "@or_write_custom_message": {},
   "occasion": "Occasion",
   "@occasion": {},
   "message": "Message",

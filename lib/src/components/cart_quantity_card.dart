@@ -8,9 +8,7 @@ import '../models/cart_model.dart';
 import '../routes/config_routes.dart';
 
 class CartQuantityCard extends StatefulWidget {
-  const CartQuantityCard(
-      {Key key, @required this.cartItem, @required this.onChanged})
-      : super(key: key);
+  const CartQuantityCard({Key key, @required this.cartItem, @required this.onChanged}) : super(key: key);
   final CartItemModel cartItem;
   final VoidCallback onChanged;
   @override
@@ -33,9 +31,7 @@ class _CartQuantityCardState extends State<CartQuantityCard> {
             child: const Icon(Icons.remove_rounded)),
         TextButton(
           style: ButtonStyle(
-            minimumSize: MaterialStateProperty.all(
-              const Size.fromRadius(50),
-            ),
+            minimumSize: MaterialStateProperty.all(const Size.fromRadius(50)),
             shape: MaterialStateProperty.all(
               RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(25),
@@ -59,47 +55,24 @@ class _CartQuantityCardState extends State<CartQuantityCard> {
                           initialValue: '${widget.cartItem.quantity}',
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           keyboardType: TextInputType.number,
-                          onSaved: (value) =>
-                              widget.cartItem.quantity = int.tryParse(value),
+                          onSaved: (value) => widget.cartItem.quantity = int.tryParse(value),
                           validator: (value) {
                             if (!isNumeric(value) || int.tryParse(value) <= 0) {
-                              return S.current
-                                  .verify_your_quantity_and_click_checkout;
+                              return S.current.verify_your_quantity_and_click_checkout;
                             }
                             return null;
                           },
                           style: const TextStyle(fontSize: 14),
                           decoration: InputDecoration(
                             labelText: S.current.quantity,
-                            labelStyle:
-                                TextStyle(color: Theme.of(context).accentColor),
+                            labelStyle: TextStyle(color: Theme.of(context).accentColor),
                             contentPadding: const EdgeInsets.all(12),
                             hintText: S.current.quantity,
-                            hintStyle: TextStyle(
-                                color: Theme.of(context)
-                                    .focusColor
-                                    .withOpacity(0.7)),
-                            prefixIcon: Icon(
-                                FluentIcons.number_symbol_24_regular,
-                                color: Theme.of(context).accentColor),
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(50),
-                                borderSide: BorderSide(
-                                    color: Theme.of(context)
-                                        .focusColor
-                                        .withOpacity(0.2))),
-                            focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(50),
-                                borderSide: BorderSide(
-                                    color: Theme.of(context)
-                                        .focusColor
-                                        .withOpacity(0.5))),
-                            enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(50),
-                                borderSide: BorderSide(
-                                    color: Theme.of(context)
-                                        .focusColor
-                                        .withOpacity(0.2))),
+                            hintStyle: TextStyle(color: Theme.of(context).focusColor.withOpacity(0.7)),
+                            prefixIcon: Icon(FluentIcons.number_symbol_24_regular, color: Theme.of(context).accentColor),
+                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(50), borderSide: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.2))),
+                            focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(50), borderSide: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.5))),
+                            enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(50), borderSide: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.2))),
                           ),
                         ),
                       ),
@@ -151,10 +124,7 @@ class _CartQuantityCardState extends State<CartQuantityCard> {
           },
           child: Text(
             '${widget.cartItem.quantity}',
-            style: Theme.of(context)
-                .textTheme
-                .headline1
-                .copyWith(color: Colors.white),
+            style: Theme.of(context).textTheme.headline1.copyWith(color: Colors.black87),
           ),
         ),
         _buildButton(

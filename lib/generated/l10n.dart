@@ -35,6 +35,36 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
+  /// `Contact us`
+  String get contact_us {
+    return Intl.message(
+      'Contact us',
+      name: 'contact_us',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Check that you filled all fields correctly`
+  String get check_that_you_filled_all_fields_correctly {
+    return Intl.message(
+      'Check that you filled all fields correctly',
+      name: 'check_that_you_filled_all_fields_correctly',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Or write custom message`
+  String get or_write_custom_message {
+    return Intl.message(
+      'Or write custom message',
+      name: 'or_write_custom_message',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Occasion`
   String get occasion {
     return Intl.message(

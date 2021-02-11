@@ -3,7 +3,6 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sailor/sailor.dart';
 
 import '../../../generated/l10n.dart';
 import '../../../init_injectable.dart';
@@ -11,7 +10,6 @@ import '../../cubits/cart_cubit/cart_cubit.dart';
 import '../../models/product_model.dart';
 import '../../routes/config_routes.dart';
 import '../../screens/cart/add_to_cart.dart';
-import '../../screens/checkout/checkout.dart';
 import '../../screens/product/product.dart';
 
 class ProductsCarouselItemWidget extends StatelessWidget {
@@ -117,7 +115,7 @@ class ProductsCarouselItemWidget extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                              Text('${cartItem.total} ${S.current.rial}'),
+                              Text('${cartItem.total} ﷼'),
                             ],
                           ),
                         ),
@@ -185,7 +183,7 @@ class ProductsCarouselItemWidget extends StatelessWidget {
               ),
               child: FittedBox(
                 child: Text(
-                  '${product.price} ${S.current.rial} / ${S.current.piece}',
+                  '${product.price} ﷼ / ${S.current.piece}',
                   style: Theme.of(context).textTheme.headline5.copyWith(color: Colors.amber),
                 ),
               ),

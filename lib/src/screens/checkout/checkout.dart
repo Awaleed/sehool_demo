@@ -26,7 +26,6 @@ import '../../routes/config_routes.dart';
 import '../home/home.dart';
 import 'pages/address_review.dart';
 import 'pages/checkout.dart';
-import 'pages/checkout_notes.dart';
 import 'pages/payment_method_review.dart';
 
 class CheckoutScreen extends StatelessWidget {
@@ -40,16 +39,19 @@ class CheckoutScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Parent(
       style: ParentStyle()
-        ..linearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            Colors.black,
-            Colors.amber,
-            Colors.black,
-          ],
-        ), //..background.image(path: 'assets/images/bg.jpg', fit: BoxFit.cover),
+        // ..linearGradient(
+        //   begin: Alignment.topCenter,
+        //   end: Alignment.bottomCenter,
+        //   colors: [
+        //     Colors.black,
+        //     Colors.amber,
+        //     Colors.black,
+        //   ],
+        // ),
+        ..background.color(Colors.white)
+        ..background.image(path: 'assets/images/black.png', fit: BoxFit.contain),
       child: Scaffold(
+        backgroundColor: Colors.white70,
         extendBodyBehindAppBar: true,
         appBar: AppBar(
           title: Text(
@@ -59,7 +61,6 @@ class CheckoutScreen extends StatelessWidget {
           elevation: 0,
           backgroundColor: Colors.black54,
         ),
-        backgroundColor: Colors.transparent,
         body: SafeArea(
           child: BlocConsumer<CartCubit, CartState>(
             cubit: getIt<CartCubit>(),
@@ -86,6 +87,7 @@ class CheckoutScreen extends StatelessWidget {
 
 class _StepItem {
   final String label;
+  final bool hideLabel;
   final Widget child;
   final Widget icon;
   final IconData header;
@@ -94,6 +96,7 @@ class _StepItem {
   _StepItem({
     this.key,
     this.label,
+    this.hideLabel = false,
     this.child,
     this.header,
     this.icon = const Icon(
@@ -121,6 +124,7 @@ class _CheckoutScrollState extends State<CheckoutScroll> {
   CheckoutCubit cubit;
   final addressKey = GlobalKey();
   final paymentMethodKey = GlobalKey();
+  final messageFormKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -208,6 +212,13 @@ class _CheckoutScrollState extends State<CheckoutScroll> {
           header: FluentIcons.location_48_regular,
         ),
         _StepItem(
+          hideLabel: true,
+          child: SummeryCard(
+            cart: widget.cart,
+            onChanged: onChange,
+          ),
+        ),
+        _StepItem(
           label: S.current.add_coupon,
           child: CartCouponField(
             cart: widget.cart,
@@ -235,9 +246,9 @@ class _CheckoutScrollState extends State<CheckoutScroll> {
           header: FluentIcons.payment_28_regular,
         ),
         _StepItem(
-          label: S.current.notes,
+          label: S.current.is_gift,
           icon: const Icon(
-            FluentIcons.note_24_regular,
+            FluentIcons.gift_24_regular,
             size: 50,
             color: Colors.amber,
           ),
@@ -245,24 +256,18 @@ class _CheckoutScrollState extends State<CheckoutScroll> {
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: MessageCheckBox(
               cart: widget.cart,
+              formKey: messageFormKey,
               onValueChanged: (value) {
                 setState(() {});
               },
             ),
           ),
-          header: FluentIcons.note_24_regular,
+          header: FluentIcons.gift_24_regular,
         ),
       ];
 
   List<Widget> get stepsWidget {
     return <Widget>[
-      Padding(
-        padding: const EdgeInsets.all(20),
-        child: SummeryCard(
-          cart: widget.cart,
-          onChanged: onChange,
-        ),
-      ),
       for (var i = 0; i < steps.length; i++)
         Card(
           key: steps[i].key,
@@ -273,23 +278,28 @@ class _CheckoutScrollState extends State<CheckoutScroll> {
             borderRadius: BorderRadius.circular(25),
           ),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      steps[i].label,
-                      style: Theme.of(context).textTheme.headline4.copyWith(
-                            fontWeight: FontWeight.w600,
-                          ),
-                    ),
-                    steps[i].icon,
-                  ],
+              if (!steps[i].hideLabel) ...[
+                Padding(
+                  padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      steps[i].icon,
+                      const SizedBox(width: 10),
+                      Text(
+                        steps[i].label,
+                        style: Theme.of(context).textTheme.headline5.copyWith(
+                              fontWeight: FontWeight.w600,
+                              // color: Colors.black,
+                            ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              const Divider(),
+                const Divider(),
+              ],
               steps[i].child,
             ],
           ),
@@ -330,7 +340,12 @@ class _CheckoutScrollState extends State<CheckoutScroll> {
           onTap: widget.cart.validate
               ? () {
                   Helpers.dismissFauces(context);
-                  cubit.placeOrder(widget.cart);
+                  if (messageFormKey?.currentState?.validate() ?? true) {
+                    messageFormKey?.currentState?.save();
+                    cubit.placeOrder(widget.cart);
+                  } else {
+                    Helpers.showErrorOverlay(context, error: S.current.check_that_you_filled_all_fields_correctly);
+                  }
                 }
               : null,
         ),

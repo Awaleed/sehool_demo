@@ -7,8 +7,7 @@ import '../screens/cart/add_to_cart.dart';
 import 'cart_product_preview.dart';
 
 class CheckoutItemPreview extends StatelessWidget {
-  const CheckoutItemPreview({Key key, @required this.cartItem})
-      : super(key: key);
+  const CheckoutItemPreview({Key key, @required this.cartItem}) : super(key: key);
   final CartItemModel cartItem;
   @override
   Widget build(BuildContext context) {
@@ -56,7 +55,7 @@ class CheckoutItemPreview extends StatelessWidget {
                     ),
                     ListTile(
                       title: Text(S.current.total),
-                      subtitle: Text('${cartItem.total} ${S.current.rial}'),
+                      subtitle: Text('${cartItem.total} ﷼'),
                     ),
                   ],
                 ),

@@ -17,8 +17,7 @@ class PaymentMethodReviewPage extends StatefulWidget {
   final ValueChanged onChanged;
 
   @override
-  _PaymentMethodReviewPageState createState() =>
-      _PaymentMethodReviewPageState();
+  _PaymentMethodReviewPageState createState() => _PaymentMethodReviewPageState();
 }
 
 class _PaymentMethodReviewPageState extends State<PaymentMethodReviewPage> {
@@ -70,7 +69,7 @@ class _TotalCard extends StatelessWidget {
       clipBehavior: Clip.none,
       children: [
         Card(
-          elevation: 10,
+          elevation: 0,
           clipBehavior: Clip.hardEdge,
           margin: EdgeInsets.zero,
           color: Colors.white70,
@@ -102,11 +101,9 @@ class _TotalCard extends StatelessWidget {
                         if (cart.coupon != null) ...[
                           const SizedBox(width: 20),
                           Text(
-                            '${cart.totalBeforeCoupon} ﷼',
+                            '${cart.totalWithoutDiscount} ﷼',
                             style: TextStyle(
-                              decoration: cart.coupon != null
-                                  ? TextDecoration.lineThrough
-                                  : TextDecoration.none,
+                              decoration: cart.coupon != null ? TextDecoration.lineThrough : TextDecoration.none,
                             ),
                           ),
                         ]

@@ -5,17 +5,17 @@ import '../../init_injectable.dart';
 import '../cubits/auth_cubit/auth_cubit.dart';
 
 class CustomBlocObserver extends BlocObserver {
-  @override
-  void onCreate(Cubit cubit) {
-    super.onCreate(cubit);
-    // debugPrint('onCreate -- cubit: ${cubit.runtimeType}');
-  }
+  // @override
+  // void onCreate(Cubit cubit) {
+  //   super.onCreate(cubit);
+  //   debugPrint('onCreate -- cubit: ${cubit.runtimeType}');
+  // }
 
-  @override
-  void onChange(Cubit cubit, Change change) {
-    super.onChange(cubit, change);
-    // debugPrint('onChange -- cubit: ${cubit.runtimeType}, change: $change');
-  }
+  // @override
+  // void onChange(Cubit cubit, Change change) {
+  //   super.onChange(cubit, change);
+  //   // debugPrint('onChange -- cubit: ${cubit.runtimeType}, change: $change');
+  // }
 
   @override
   void onError(Cubit cubit, Object error, StackTrace stackTrace) {
@@ -28,9 +28,9 @@ class CustomBlocObserver extends BlocObserver {
     super.onError(cubit, error, stackTrace);
   }
 
-  @override
-  void onClose(Cubit cubit) {
-    super.onClose(cubit);
-    // debugPrint('onClose -- cubit: ${cubit.runtimeType}');
-  }
+  // @override
+  // void onClose(Cubit cubit) {
+  //   super.onClose(cubit);
+  //   debugPrint('onClose -- cubit: ${cubit.runtimeType}');
+  // }
 }

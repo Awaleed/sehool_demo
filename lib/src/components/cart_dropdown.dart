@@ -115,10 +115,11 @@ class _CartDropdownState extends State<CartDropdown> {
       children: [
         ...values.map(
           (e) => Card(
-            color: Colors.white70,
-            shape: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(25),
-            ),
+            elevation: 0,
+            color: Colors.transparent,
+            // shape: OutlineInputBorder(
+            //   borderRadius: BorderRadius.circular(25),
+            // ),
             child: RadioListTile(
               value: e,
               groupValue: selectedValue,
@@ -148,9 +149,9 @@ class _CartDropdownState extends State<CartDropdown> {
         if (widget.dropdownType == DropdownValueType.addresses)
           Card(
             color: Colors.white70,
-            shape: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(25),
-            ),
+            // shape: OutlineInputBorder(
+            //   borderRadius: BorderRadius.circular(25),
+            // ),
             child: ListTile(
               title: Text(
                 S.current.add_a_new_address,

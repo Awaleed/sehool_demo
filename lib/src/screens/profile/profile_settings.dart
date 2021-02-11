@@ -46,15 +46,17 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
   Widget build(BuildContext context) {
     return Parent(
       style: ParentStyle()
-        ..linearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            Colors.black,
-            Colors.amber,
-            Colors.black,
-          ],
-        ), //..background.image(path: 'assets/images/bg.jpg', fit: BoxFit.cover),
+        // ..linearGradient(
+        //   begin: Alignment.topCenter,
+        //   end: Alignment.bottomCenter,
+        //   colors: [
+        //     Colors.black,
+        //     Colors.amber,
+        //     Colors.black,
+        //   ],
+        // ),
+        ..background.color(Colors.white)
+        ..background.image(path: 'assets/images/black.png', fit: BoxFit.contain),
       child: Stack(
         children: [
           BackgroundGeneratorGroup(
@@ -74,7 +76,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
             ],
           ),
           Scaffold(
-            backgroundColor: Colors.transparent,
+            backgroundColor: Colors.white70,
             appBar: AppBar(
               title: Text(
                 S.current.profile_settings,

@@ -2,11 +2,11 @@ import 'package:division/division.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sailor/sailor.dart';
-import 'package:sehool/src/components/message_check_box.dart';
 import 'package:sehool/src/components/my_error_widget.dart';
 import 'package:supercharged/supercharged.dart';
-
+import 'package:flutter_svg/flutter_svg.dart';
 import '../../../generated/l10n.dart';
 import '../../../init_injectable.dart';
 import '../../components/cart_dropdown.dart';
@@ -40,17 +40,19 @@ class AddToCartScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Parent(
       style: ParentStyle()
-        ..linearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            Colors.black,
-            Colors.amber,
-            Colors.black,
-          ],
-        ), //..background.image(path: 'assets/images/bg.jpg', fit: BoxFit.cover),
+        // ..linearGradient(
+        //   begin: Alignment.topCenter,
+        //   end: Alignment.bottomCenter,
+        //   colors: [
+        //     Colors.black,
+        //     Colors.amber,
+        //     Colors.black,
+        //   ],
+        // ),
+        ..background.color(Colors.white)
+        ..background.image(path: 'assets/images/black.png', fit: BoxFit.contain),
       child: Scaffold(
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.white70,
         extendBodyBehindAppBar: true,
         appBar: AppBar(
           title: Text(
@@ -77,13 +79,16 @@ class AddToCartScreen extends StatelessWidget {
 class _StepItem {
   final Key key;
   final String label;
+  final bool hideLabel;
   final Widget child;
   final Widget icon;
   final IconData header;
   final CustomStepState state;
+
   _StepItem({
     this.key,
     this.label,
+    this.hideLabel = false,
     this.child,
     this.icon = const Icon(
       Icons.track_changes,
@@ -126,27 +131,30 @@ class _CartScrollState extends State<CartScroll> {
           header: FluentIcons.re_order_dots_24_regular,
         ),
         _StepItem(
-            key: slicingMethodKey,
-            label: S.current.slicing_method,
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: CartDropdown(
-                dropdownType: DropdownValueType.slicingMethods,
-                initialValue: widget.cartItem.slicingMethod,
-                isRadio: true,
-                onValueChanged: (value) {
-                  widget.cartItem.slicingMethod = value;
-                  setState(() {});
-                },
-              ),
+          key: slicingMethodKey,
+          label: S.current.slicing_method,
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: CartDropdown(
+              dropdownType: DropdownValueType.slicingMethods,
+              initialValue: widget.cartItem.slicingMethod,
+              isRadio: true,
+              onValueChanged: (value) {
+                widget.cartItem.slicingMethod = value;
+                setState(() {});
+              },
             ),
-            icon: const Icon(
-              FluentIcons.cut_24_regular,
-              size: 50,
-              color: Colors.amber,
-            ),
-            header: FluentIcons.cut_24_regular),
+          ),
+          icon: SvgPicture.asset(
+            'assets/images/cleaver.svg',
+            width: 50,
+            height: 50,
+            color: Colors.amber,
+          ),
+          header: Icons.kitchen_outlined,
+        ),
         _StepItem(
+          hideLabel: true,
           label: S.current.notes,
           child: Padding(
             padding: const EdgeInsets.all(20),
@@ -160,6 +168,7 @@ class _CartScrollState extends State<CartScroll> {
           header: FluentIcons.note_24_regular,
         ),
         _StepItem(
+            hideLabel: true,
             label: S.current.finish,
             child: Padding(
               padding: const EdgeInsets.all(20.0),
@@ -187,24 +196,28 @@ class _CartScrollState extends State<CartScroll> {
             borderRadius: BorderRadius.circular(25),
           ),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      steps[i].label,
-                      style: Theme.of(context).textTheme.headline4.copyWith(
-                            fontWeight: FontWeight.w600,
-                            // color: Colors.black,
-                          ),
-                    ),
-                    steps[i].icon,
-                  ],
+              if (!steps[i].hideLabel) ...[
+                Padding(
+                  padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      steps[i].icon,
+                      const SizedBox(width: 10),
+                      Text(
+                        steps[i].label,
+                        style: Theme.of(context).textTheme.headline5.copyWith(
+                              fontWeight: FontWeight.w600,
+                              // color: Colors.black,
+                            ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              const Divider(),
+                const Divider(),
+              ],
               steps[i].child,
             ],
           ),

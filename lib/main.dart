@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -82,6 +83,39 @@ class MyApp extends StatelessWidget {
               locale: box.get(currentSettingsKey)?.locale,
               onGenerateRoute: AppRouter.sailor.generator(),
               navigatorKey: AppRouter.sailor.navigatorKey,
+              builder: (context, child) {
+                return Scaffold(
+                  body: child,
+                  // floatingActionButton: FloatingActionButton(
+                  //   onPressed: () {},
+                  // ),
+                );
+                //   return Stack(
+                //     fit: StackFit.expand,
+                //     children: [
+                //       child,
+                //       Positioned(
+                //         left: 0,
+                //         top: 0,
+                //         bottom: 0,
+                //         child: Column(
+                //           mainAxisAlignment: MainAxisAlignment.end,
+                //           children: [
+                //             for (var i = 0; i < 4; i++)
+                //               // IconButton(
+                //               // icon:
+                //               Padding(
+                //                 padding: const EdgeInsets.all(8.0),
+                //                 child: Icon(FontAwesomeIcons.facebook),
+                //               ),
+                //             // onPressed: () {},
+                //             // ),
+                //           ],
+                //         ),
+                //       ),
+                //     ],
+                //   );
+              },
               navigatorObservers: [
                 if (kDebugMode) ...[
                   SailorLoggingObserver(),

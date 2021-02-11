@@ -109,7 +109,6 @@ class SummeryCard extends StatelessWidget {
                     '',
                     style: Theme.of(context).textTheme.headline5,
                   ),
-                  const Divider(),
                   ...cart.cartItems.map(
                     (e) => ListTile(
                       leading: IconButton(
@@ -142,7 +141,7 @@ class SummeryCard extends StatelessWidget {
                                       ],
                                     ),
                                   ),
-                                  Text('${e.total} ${S.current.rial}'),
+                                  Text('${e.total} ﷼'),
                                 ],
                               ),
                             ),
@@ -190,10 +189,38 @@ class SummeryCard extends StatelessWidget {
                       subtitle: Text(
                         '${e.quantity} ${S.current.piece}, ${e.slicingMethod?.name}',
                       ),
-                      trailing: Text('${e.total} ${S.current.rial}'),
+                      trailing: Text('${e.total} ﷼'),
                     ),
                   ),
-                  // const Divider(),
+                  const Divider(),
+                  ListTile(
+                    title: Text(S.current.subtotal),
+                    trailing: Text('${cart.subtotal} ﷼'),
+                  ),
+                  ListTile(
+                    title: Text(S.current.delivery_price),
+                    trailing: Text('${cart.deliveryFees}  ﷼'),
+                  ),
+                  ListTile(
+                    title: Text(S.current.total),
+                    trailing: Text('${cart.subtotalWithDelivery}  ﷼'),
+                  ),
+                  const Divider(),
+                  if (cart.discountAmount > 0)
+                    ListTile(
+                      tileColor: Colors.amber.withOpacity(.8),
+                      title: Text(S.current.discount),
+                      trailing: Text('${cart.discountAmount} ﷼'),
+                    ),
+                  ListTile(
+                    title: Text(S.current.tax),
+                    trailing: Text('15%'),
+                  ),
+                  ListTile(
+                    title: Text(S.current.total),
+                    trailing: Text('${cart.total} ﷼'),
+                  ),
+
                   // Text(
                   //   S.current.total,
                   //   style: Theme.of(context).textTheme.headline5,
@@ -208,7 +235,7 @@ class SummeryCard extends StatelessWidget {
                   //     borderRadius: BorderRadius.circular(25),
                   //   ),
                   //   child: ListTile(
-                  //     title: Text('${cart.total} ${S.current.rial}'),
+                  //     title: Text('${cart.total} ﷼'),
                   //   ),
                   // ),
                   // const Divider(),

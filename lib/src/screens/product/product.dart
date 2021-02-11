@@ -89,15 +89,17 @@ class _ProductScreenState extends State<ProductScreen> {
       onRefresh: cubit.retryGetReviews,
       child: Parent(
         style: ParentStyle()
-          ..linearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Colors.black,
-              Colors.amber,
-              Colors.black,
-            ],
-          ), //..background.image(path: 'assets/images/bg.jpg', fit: BoxFit.cover),
+          // ..linearGradient(
+          //   begin: Alignment.topCenter,
+          //   end: Alignment.bottomCenter,
+          //   colors: [
+          //     Colors.black,
+          //     Colors.amber,
+          //     Colors.black,
+          //   ],
+          // ),
+          ..background.color(Colors.white)
+          ..background.image(path: 'assets/images/black.png', fit: BoxFit.contain),
         child: Stack(
           fit: StackFit.expand,
           children: [
@@ -234,7 +236,7 @@ class _ProductScreenState extends State<ProductScreen> {
                                                   ],
                                                 ),
                                               ),
-                                              Text('${cartItem.total} ${S.current.rial}'),
+                                              Text('${cartItem.total} ﷼'),
                                             ],
                                           ),
                                         ),

@@ -18,13 +18,13 @@ class LanguageModel {
           'en',
           'English',
           'English',
-          'assets/images/usa.png',
+          'assets/images/usa.svg',
         ),
         LanguageModel(
           'ar',
           'Arabic',
           'العربية',
-          'assets/images/uae.png',
+          'assets/images/ksa.png',
         ),
       ];
 }

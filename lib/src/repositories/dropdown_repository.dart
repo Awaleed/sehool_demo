@@ -1,5 +1,4 @@
 import 'package:injectable/injectable.dart';
-import 'package:sehool/src/models/cart_model.dart';
 
 import '../core/api_caller.dart';
 import '../data/dropdown_datasource.dart';

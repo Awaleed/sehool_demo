@@ -17,11 +17,27 @@ class CartModel {
   ValueWithId event;
   CouponModel coupon;
 
-  double get total {
+  String from;
+  String to;
+  String customPhrase;
+
+  double deliveryFees = 50;
+
+  double get totalWithoutDiscount => subtotalWithDelivery * 1.15;
+  double get total => discountedSubtotal * 1.15;
+
+  double get subtotal {
     double value = 0;
     for (final item in cartItems) {
       value += item.total;
     }
+    return value;
+  }
+
+  double get subtotalWithDelivery => subtotal + deliveryFees;
+
+  double get discountedSubtotal {
+    double value = subtotalWithDelivery;
     if (coupon != null) {
       switch (coupon.type) {
         case CouponType.fixed:
@@ -36,13 +52,7 @@ class CartModel {
     return value >= 0 ? value : 0;
   }
 
-  double get totalBeforeCoupon {
-    double value = 0;
-    for (final item in cartItems) {
-      value += item.total;
-    }
-    return value;
-  }
+  double get discountAmount => subtotalWithDelivery - discountedSubtotal;
 
   bool get validate => paymentMethod != null && address != null;
 
@@ -50,8 +60,10 @@ class CartModel {
     return {
       // 'note': note ?? '',
       if (isGift) ...{
-        'event_id': event.id,
-        'phrases_id': phrase.id,
+        'from': from,
+        'to': to,
+        'event': event.name,
+        'phrases': customPhrase ?? phrase.name,
       },
       'address_id': address.id,
       'payment_method_id': paymentMethod.id,

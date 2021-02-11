@@ -102,29 +102,22 @@ class AuthCardState extends State<AuthCard> with TickerProviderStateMixin {
       duration: const Duration(milliseconds: 1100),
     );
 
-    _cardSizeAnimation = Tween<double>(begin: 1.0, end: cardSizeScaleEnd)
-        .animate(CurvedAnimation(
+    _cardSizeAnimation = Tween<double>(begin: 1.0, end: cardSizeScaleEnd).animate(CurvedAnimation(
       parent: _routeTransitionController,
       curve: const Interval(0, .27272727, curve: Curves.easeInOutCirc),
     ));
 
-    _cardOverlayHeightFactorAnimation =
-        Tween<double>(begin: double.minPositive, end: 1.0)
-            .animate(CurvedAnimation(
+    _cardOverlayHeightFactorAnimation = Tween<double>(begin: double.minPositive, end: 1.0).animate(CurvedAnimation(
       parent: _routeTransitionController,
       curve: const Interval(.27272727, .5),
     ));
-    _cardOverlaySizeAndOpacityAnimation =
-        Tween<double>(begin: 1.0, end: 0).animate(CurvedAnimation(
+    _cardOverlaySizeAndOpacityAnimation = Tween<double>(begin: 1.0, end: 0).animate(CurvedAnimation(
       parent: _routeTransitionController,
       curve: const Interval(.5, .72727272, curve: Curves.easeInOut),
     ));
-    _cardSize2AnimationX =
-        Tween<double>(begin: 1, end: 1).animate(_routeTransitionController);
-    _cardSize2AnimationY =
-        Tween<double>(begin: 1, end: 1).animate(_routeTransitionController);
-    _cardRotationAnimation =
-        Tween<double>(begin: 0, end: pi / 2).animate(CurvedAnimation(
+    _cardSize2AnimationX = Tween<double>(begin: 1, end: 1).animate(_routeTransitionController);
+    _cardSize2AnimationY = Tween<double>(begin: 1, end: 1).animate(_routeTransitionController);
+    _cardRotationAnimation = Tween<double>(begin: 0, end: pi / 2).animate(CurvedAnimation(
       parent: _routeTransitionController,
       curve: const Interval(.72727272, 1, curve: Curves.easeInOutCubic),
     ));
@@ -166,9 +159,7 @@ class AuthCardState extends State<AuthCard> with TickerProviderStateMixin {
         }
       });
     } else if (widget.loadingController.isCompleted) {
-      return _formLoadingController
-          .reverse()
-          .then((_) => widget.loadingController.reverse());
+      return _formLoadingController.reverse().then((_) => widget.loadingController.reverse());
     }
     return Future(() => null);
   }
@@ -178,34 +169,25 @@ class AuthCardState extends State<AuthCard> with TickerProviderStateMixin {
     final deviceSize = MediaQuery.of(context).size;
     final cardSize = Helpers.getWidgetSize(_cardKey);
 
-    final widthRatio =
-        deviceSize.width / cardSize.height + (isLogin ? .25 : .65);
+    final widthRatio = deviceSize.width / cardSize.height + (isLogin ? .25 : .65);
     final heightRatio = deviceSize.height / cardSize.width + .25;
 
-    _cardSize2AnimationX =
-        Tween<double>(begin: 1.0, end: heightRatio / cardSizeScaleEnd)
-            .animate(CurvedAnimation(
+    _cardSize2AnimationX = Tween<double>(begin: 1.0, end: heightRatio / cardSizeScaleEnd).animate(CurvedAnimation(
       parent: _routeTransitionController,
       curve: const Interval(.72727272, 1, curve: Curves.easeInOutCubic),
     ));
-    _cardSize2AnimationY =
-        Tween<double>(begin: 1.0, end: widthRatio / cardSizeScaleEnd)
-            .animate(CurvedAnimation(
+    _cardSize2AnimationY = Tween<double>(begin: 1.0, end: widthRatio / cardSizeScaleEnd).animate(CurvedAnimation(
       parent: _routeTransitionController,
       curve: const Interval(.72727272, 1, curve: Curves.easeInOutCubic),
     ));
 
     widget?.onSubmit();
 
-    return _formLoadingController
-        .reverse()
-        .then((_) => _routeTransitionController.forward());
+    return _formLoadingController.reverse().then((_) => _routeTransitionController.forward());
   }
 
   void _reverseChangeRouteAnimation() {
-    _routeTransitionController
-        .reverse()
-        .then((_) => _formLoadingController.forward());
+    _routeTransitionController.reverse().then((_) => _formLoadingController.forward());
   }
 
   void runChangeRouteAnimation() {
@@ -291,9 +273,7 @@ class AuthCardState extends State<AuthCard> with TickerProviderStateMixin {
                   child: _LoginCard(
                     key: _cardKey,
                     signupFields: widget.signupFields,
-                    loadingController: _isLoadingFirstTime
-                        ? _formLoadingController
-                        : (_formLoadingController..value = 1.0),
+                    loadingController: _isLoadingFirstTime ? _formLoadingController : (_formLoadingController..value = 1.0),
                     emailValidator: widget.emailValidator,
                     passwordValidator: widget.passwordValidator,
                     onSwitchRecoveryPassword: () => _switchRecovery(true),
@@ -417,10 +397,8 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
 
     _nameTextFieldLoadingAnimationInterval = const Interval(0, .85);
     _passTextFieldLoadingAnimationInterval = const Interval(.15, 1.0);
-    _textButtonLoadingAnimationInterval =
-        const Interval(.6, 1.0, curve: Curves.easeOut);
-    _buttonScaleAnimation =
-        Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+    _textButtonLoadingAnimationInterval = const Interval(.6, 1.0, curve: Curves.easeOut);
+    _buttonScaleAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
       parent: _loadingController,
       curve: const Interval(.4, 1.0, curve: Curves.easeOutBack),
     ));
@@ -534,8 +512,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
       interval: _passTextFieldLoadingAnimationInterval,
       labelText: S.current.password,
       controller: _passController,
-      textInputAction:
-          auth.isLogin ? TextInputAction.done : TextInputAction.next,
+      textInputAction: auth.isLogin ? TextInputAction.done : TextInputAction.next,
       focusNode: _passwordFocusNode,
       onFieldSubmitted: (value) {
         if (auth.isLogin) {
@@ -590,12 +567,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
       curve: _textButtonLoadingAnimationInterval,
       fadeDirection: FadeDirection.topToBottom,
       child: TextButton(
-        style: TextButton.styleFrom(
-            padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 10),
-            textStyle: Theme.of(context)
-                .textTheme
-                .button
-                .copyWith(color: theme.primaryColor)),
+        style: TextButton.styleFrom(padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 10), textStyle: Theme.of(context).textTheme.button.copyWith(color: theme.primaryColor)),
         onPressed: buttonEnabled ? _switchAuthMode : null,
         child: AnimatedText(
           text: auth.isSignup ? S.current.login : S.current.register,
@@ -633,6 +605,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
                       child: AnimatedButton(
                         controller: _submitController,
                         text: e.localName,
+                        
                         onPressed: () async {
                           await cubit.setLanguageCode(e.code);
                           AppRouter.sailor.navigate(
@@ -678,9 +651,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
           ExpandableContainer(
             backgroundColor: theme.accentColor,
             controller: _switchAuthController,
-            initialState: isLogin
-                ? ExpandableContainerState.shrunk
-                : ExpandableContainerState.expanded,
+            initialState: isLogin ? ExpandableContainerState.shrunk : ExpandableContainerState.expanded,
             alignment: Alignment.topLeft,
             color: theme.cardTheme.color,
             width: cardWidth,
@@ -718,8 +689,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
       clipBehavior: Clip.hardEdge,
       margin: EdgeInsets.symmetric(horizontal: deviceSize.width * .1),
       elevation: _showShadow ? theme.cardTheme.elevation : 0,
-      child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(), child: authForm),
+      child: SingleChildScrollView(physics: const BouncingScrollPhysics(), child: authForm),
     );
   }
 }
@@ -738,8 +708,7 @@ class _RecoverCard extends StatefulWidget {
   _RecoverCardState createState() => _RecoverCardState();
 }
 
-class _RecoverCardState extends State<_RecoverCard>
-    with SingleTickerProviderStateMixin {
+class _RecoverCardState extends State<_RecoverCard> with SingleTickerProviderStateMixin {
   final GlobalKey<FormState> _formRecoverKey = GlobalKey();
 
   TextEditingController _nameController;
@@ -829,12 +798,7 @@ ${auth.email}''',
               widget.onSwitchLogin();
             }
           : null,
-      style: TextButton.styleFrom(
-          padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 10),
-          textStyle: Theme.of(context)
-              .textTheme
-              .button
-              .copyWith(color: theme.primaryColor)),
+      style: TextButton.styleFrom(padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 10), textStyle: Theme.of(context).textTheme.button.copyWith(color: theme.primaryColor)),
       child: Text(S.current.back),
     );
   }

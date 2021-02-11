@@ -13,7 +13,7 @@ class CartItemPreview extends StatelessWidget {
       elevation: 10,
       clipBehavior: Clip.hardEdge,
       margin: EdgeInsets.zero,
-      color: Colors.white70,
+      color: Colors.white,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(25),
       ),
@@ -41,7 +41,7 @@ class CartItemPreview extends StatelessWidget {
             ),
             ListTile(
               title: Text(S.current.total),
-              subtitle: Text('${cartItem.total} ${S.current.rial}'),
+              subtitle: Text('${cartItem.total} ﷼'),
             ),
           ],
         ),
