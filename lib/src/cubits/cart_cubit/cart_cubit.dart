@@ -37,10 +37,10 @@ class CartCubit extends Cubit<CartState> {
     state.cart
       ..address = null
       ..coupon = null
-      ..paymentMethod = null
-      ..isGift = false
-      ..event = null
-      ..phrase = null;
+      ..paymentMethod = null;
+    // ..isGift = false
+    // ..event = null
+    // ..phrase = null;
   }
 }
 

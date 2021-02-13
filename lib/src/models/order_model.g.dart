@@ -67,6 +67,7 @@ PaymentMethodModel _$PaymentMethodModelFromJson(Map<String, dynamic> json) {
     id: json['id'] as int,
     name: json['name'] as String,
     type: json['type'] as String,
+    icon: json['icon'] as String,
   );
 }
 
@@ -75,6 +76,7 @@ Map<String, dynamic> _$PaymentMethodModelToJson(PaymentMethodModel instance) =>
       'id': instance.id,
       'name': instance.name,
       'type': instance.type,
+      'icon': instance.icon,
     };
 
 StatusModel _$StatusModelFromJson(Map<String, dynamic> json) {

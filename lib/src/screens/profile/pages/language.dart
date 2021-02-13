@@ -2,6 +2,7 @@ import 'package:division/division.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sailor/sailor.dart';
+import 'package:sehool/src/screens/home/home.dart';
 
 import '../../../../generated/l10n.dart';
 import '../../../../init_injectable.dart';
@@ -65,9 +66,10 @@ class _LanguageScreenState extends State<LanguageScreen> {
             span: List.generate(_Hello.hellos.length, (e) => _Hello.fromJson(_Hello.hellos[e]).hello),
           ),
           Scaffold(
+            floatingActionButton: WhatsappFloatingActionButton(),
             backgroundColor: Colors.white70,
             appBar: AppBar(
-              backgroundColor: Colors.transparent,
+              backgroundColor: Colors.black54,
               elevation: 0,
               title: Text(
                 S.current.languages,

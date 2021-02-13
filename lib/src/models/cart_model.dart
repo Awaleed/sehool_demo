@@ -12,14 +12,8 @@ class CartModel {
   AddressModel address;
   PaymentMethodModel paymentMethod;
   // String note;
-  bool isGift = false;
-  ValueWithId phrase;
-  ValueWithId event;
-  CouponModel coupon;
 
-  String from;
-  String to;
-  String customPhrase;
+  CouponModel coupon;
 
   double deliveryFees = 50;
 
@@ -59,18 +53,24 @@ class CartModel {
   Map<String, dynamic> toJson() {
     return {
       // 'note': note ?? '',
-      if (isGift) ...{
-        'from': from,
-        'to': to,
-        'event': event.name,
-        'phrases': customPhrase ?? phrase.name,
-      },
+
       'address_id': address.id,
       'payment_method_id': paymentMethod.id,
       'coupon_id': coupon?.id,
       'products': cartItems
           .map(
-            (e) => {'product_id': e.product.id, 'qyt': e.quantity, 'note': e.note ?? '', 'slicer_type_id': e.slicingMethod.id},
+            (e) => {
+              'product_id': e.product.id,
+              'qyt': e.quantity,
+              'note': e.note ?? '',
+              'slicer_type_id': e.slicingMethod.id,
+              // if (e.isGift) ...{
+              'from': e.from,
+              'to': e.to,
+              'event': e.event?.name,
+              'phrases': e.customPhrase ?? e.phrase?.name,
+              // },
+            },
           )
           .toList(),
     };
@@ -96,6 +96,13 @@ class CartItemModel {
   ProductModel product;
   SlicingMethodModel slicingMethod;
   String note;
+
+  // bool isGift = false;
+  ValueWithId phrase;
+  ValueWithId event;
+  String from;
+  String to;
+  String customPhrase;
 
   double get total => product.price * quantity;
 

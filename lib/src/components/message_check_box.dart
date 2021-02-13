@@ -20,7 +20,7 @@ class MessageCheckBox extends StatefulWidget {
     @required this.formKey,
   }) : super(key: key);
   final ValueChanged onValueChanged;
-  final CartModel cart;
+  final CartItemModel cart;
   final GlobalKey<FormState> formKey;
 
   @override
@@ -98,19 +98,19 @@ class _MessageCheckBoxState extends State<MessageCheckBox> {
     }
     return Column(
       children: [
-        Row(
-          children: [
-            Switch(
-              value: widget.cart.isGift,
-              onChanged: (value) {
-                setState(() {
-                  widget.cart.isGift = !widget.cart.isGift;
-                });
-              },
-            ),
-            Text(S.current.is_gift),
-          ],
-        ),
+        // Row(
+        //   children: [
+        //     Switch(
+        //       value: widget.cart.isGift,
+        //       onChanged: (value) {
+        //         setState(() {
+        //           widget.cart.isGift = !widget.cart.isGift;
+        //         });
+        //       },
+        //     ),
+        //     Text(S.current.is_gift),
+        //   ],
+        // ),
         // CheckboxListTile(
         //   value: widget.cart.isGift,
         //   onChanged: (value) {
@@ -120,55 +120,55 @@ class _MessageCheckBoxState extends State<MessageCheckBox> {
         //   },
         //   title: Text(S.current.is_gift),
         // ),
-        if (widget.cart.isGift)
-          Form(
-            key: widget.formKey,
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            child: Column(
-              children: [
-                TextFormField(
-                  validator: Validators.shortStringValidator,
-                  decoration: InputDecoration(
-                    hintText: S.current.from,
-                    filled: true,
-                    fillColor: Colors.white,
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 15),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(25),
-                    ),
+        // if (widget.cart.isGift)
+        Form(
+          key: widget.formKey,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          child: Column(
+            children: [
+              TextFormField(
+                validator: Validators.shortStringValidator,
+                decoration: InputDecoration(
+                  hintText: S.current.from,
+                  filled: true,
+                  fillColor: Colors.white,
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 15),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(25),
                   ),
-                  onSaved: (value) => widget.cart.from = value,
-                  keyboardType: TextInputType.text,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
-                const SizedBox(height: 20),
-                TextFormField(
-                  validator: Validators.shortStringValidator,
-                  decoration: InputDecoration(
-                    hintText: S.current.to,
-                    filled: true,
-                    fillColor: Colors.white,
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 15),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(25),
-                    ),
+                onSaved: (value) => widget.cart.from = value,
+                keyboardType: TextInputType.text,
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 20),
+              TextFormField(
+                validator: Validators.shortStringValidator,
+                decoration: InputDecoration(
+                  hintText: S.current.to,
+                  filled: true,
+                  fillColor: Colors.white,
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 15),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(25),
                   ),
-                  onSaved: (value) => widget.cart.to = value,
-                  keyboardType: TextInputType.text,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
-                const SizedBox(height: 20),
-                _buildDropdown(value.event, widget.cart.event, (value) => widget.cart.event = value, S.current.occasion),
-                const SizedBox(height: 20),
-                _buildDropdown(value.phrases, widget.cart.phrase, (value) => widget.cart.phrase = value, S.current.message),
-                const SizedBox(height: 20),
-                _buildTextInput(),
-                const SizedBox(height: 20),
-              ],
-            ),
+                onSaved: (value) => widget.cart.to = value,
+                keyboardType: TextInputType.text,
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 20),
+              _buildDropdown(value.event, widget.cart.event, (value) => widget.cart.event = value, S.current.occasion),
+              const SizedBox(height: 20),
+              _buildDropdown(value.phrases, widget.cart.phrase, (value) => widget.cart.phrase = value, S.current.message),
+              const SizedBox(height: 20),
+              _buildTextInput(),
+              const SizedBox(height: 20),
+            ],
           ),
+        ),
       ],
     );
   }

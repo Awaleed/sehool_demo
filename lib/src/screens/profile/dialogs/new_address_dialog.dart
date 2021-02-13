@@ -3,6 +3,7 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:sehool/src/screens/home/home.dart';
 
 import '../../../../generated/l10n.dart';
 import '../../../../init_injectable.dart';
@@ -108,7 +109,7 @@ class _NewAddressDialogState extends State<NewAddressDialog> {
           backgroundColor: Colors.white70,
           appBar: AppBar(
             elevation: 0,
-            backgroundColor: Colors.transparent,
+            backgroundColor: Colors.black54,
             title: Text(
               S.of(context).address,
               style: Theme.of(context).textTheme.headline6.copyWith(color: Colors.white),
@@ -170,15 +171,34 @@ class _NewAddressDialogState extends State<NewAddressDialog> {
             ),
           ),
           floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-          floatingActionButton: FloatingActionButton(
-            onPressed: () async {
-              Helpers.dismissFauces(context);
-              if (formKey.currentState.validate()) {
-                formKey.currentState.save();
-                cubit.addAddress(data);
-              }
-            },
-            child: const Icon(FluentIcons.save_24_regular, color: Colors.white),
+          floatingActionButton: Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              const Spacer(),
+              Expanded(
+                child: FloatingActionButton(
+                  onPressed: () async {
+                    Helpers.dismissFauces(context);
+                    if (formKey.currentState.validate()) {
+                      formKey.currentState.save();
+                      cubit.addAddress(data);
+                    }
+                  },
+                  child: const Icon(FluentIcons.save_24_regular, color: Colors.white),
+                ),
+              ),
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: const [
+                    Padding(
+                      padding: EdgeInsets.all(10),
+                      child: WhatsappFloatingActionButton(),
+                    )
+                  ],
+                ),
+              ),
+            ],
           ),
         ),
       ),

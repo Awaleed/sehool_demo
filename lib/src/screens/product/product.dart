@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sailor/sailor.dart';
 import 'package:sehool/src/cubits/cart_cubit/cart_cubit.dart';
 import 'package:sehool/src/screens/checkout/checkout.dart';
+import 'package:sehool/src/screens/home/home.dart';
 import 'package:simple_animations/simple_animations.dart';
 import 'package:supercharged/supercharged.dart';
 
@@ -100,258 +101,263 @@ class _ProductScreenState extends State<ProductScreen> {
           // ),
           ..background.color(Colors.white)
           ..background.image(path: 'assets/images/black.png', fit: BoxFit.contain),
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            CustomScrollView(
-              slivers: [
-                SliverAppBar(
-                  pinned: true,
-                  expandedHeight: 400,
-                  elevation: 0,
-                  backgroundColor: Colors.black54,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.vertical(
-                      bottom: Radius.circular(25),
-                    ),
+        child: Scaffold(
+          // fit: StackFit.expand,
+          floatingActionButton: WhatsappFloatingActionButton(),
+          bottomNavigationBar: NewReviewField(
+            productId: widget.product.id,
+            cubit: cubit,
+            textEditingController: textEditingController,
+            isLoading: isLoading,
+          ),
+          body: CustomScrollView(
+            slivers: [
+              SliverAppBar(
+                pinned: true,
+                expandedHeight: 400,
+                elevation: 0,
+                backgroundColor: Colors.black54,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.vertical(
+                    bottom: Radius.circular(25),
                   ),
-                  flexibleSpace: Stack(
-                    fit: StackFit.expand,
-                    clipBehavior: Clip.none,
-                    children: [
-                      ClipRRect(
-                        borderRadius: const BorderRadius.vertical(
-                          bottom: Radius.circular(25),
-                        ),
-                        child: FlexibleSpaceBar(
-                          title: PlayAnimation(
-                            tween: 0.0.tweenTo(1.0),
-                            curve: Curves.easeInOut,
-                            duration: 1700.milliseconds,
-                            builder: (context, child, value) => Opacity(
-                              opacity: value,
-                              child: child,
-                            ),
-                            child: Text(
-                              widget.product.name,
-                              maxLines: 1,
-                              style: Theme.of(context).textTheme.headline6.copyWith(color: Colors.white),
-                            ),
+                ),
+                flexibleSpace: Stack(
+                  fit: StackFit.expand,
+                  clipBehavior: Clip.none,
+                  children: [
+                    ClipRRect(
+                      borderRadius: const BorderRadius.vertical(
+                        bottom: Radius.circular(25),
+                      ),
+                      child: FlexibleSpaceBar(
+                        title: PlayAnimation(
+                          tween: 0.0.tweenTo(1.0),
+                          curve: Curves.easeInOut,
+                          duration: 1700.milliseconds,
+                          builder: (context, child, value) => Opacity(
+                            opacity: value,
+                            child: child,
                           ),
-                          background: Stack(
-                            fit: StackFit.expand,
-                            children: [
-                              CachedNetworkImage(
-                                imageUrl: widget.product.image,
-                                fit: BoxFit.cover,
+                          child: Text(
+                            widget.product.name,
+                            maxLines: 1,
+                            style: Theme.of(context).textTheme.headline6.copyWith(color: Colors.white),
+                          ),
+                        ),
+                        background: Stack(
+                          fit: StackFit.expand,
+                          children: [
+                            CachedNetworkImage(
+                              imageUrl: widget.product.image,
+                              fit: BoxFit.cover,
+                            ),
+                            PlayAnimation(
+                              tween: 0.0.tweenTo(1.0),
+                              curve: Curves.easeInOut,
+                              duration: 1700.milliseconds,
+                              builder: (context, child, value) => Opacity(
+                                opacity: value,
+                                child: child,
                               ),
-                              PlayAnimation(
-                                tween: 0.0.tweenTo(1.0),
-                                curve: Curves.easeInOut,
-                                duration: 1700.milliseconds,
-                                builder: (context, child, value) => Opacity(
-                                  opacity: value,
-                                  child: child,
-                                ),
-                                child: Container(
-                                  padding: const EdgeInsets.only(bottom: 50, top: 20),
-                                  decoration: const BoxDecoration(
-                                    gradient: LinearGradient(
-                                      begin: Alignment.bottomCenter,
-                                      end: Alignment.topCenter,
-                                      colors: [
-                                        Colors.black,
-                                        Colors.transparent,
-                                        Colors.transparent,
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                top: kToolbarHeight,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                        alignment: Alignment.center,
-                                        padding: const EdgeInsets.symmetric(
-                                          horizontal: 20,
-                                          vertical: 10,
-                                        ),
-                                        decoration: BoxDecoration(
-                                          color: Colors.black,
-                                          borderRadius: BorderRadius.circular(25),
-                                        ),
-                                        child: Text(
-                                          '${widget.product.price} ﷼ / ${S.current.piece}',
-                                          style: Theme.of(context).textTheme.headline5.copyWith(color: Colors.amber),
-                                        ),
-                                      ),
+                              child: Container(
+                                padding: const EdgeInsets.only(bottom: 50, top: 20),
+                                decoration: const BoxDecoration(
+                                  gradient: LinearGradient(
+                                    begin: Alignment.bottomCenter,
+                                    end: Alignment.topCenter,
+                                    colors: [
+                                      Colors.black,
+                                      Colors.transparent,
+                                      Colors.transparent,
                                     ],
                                   ),
                                 ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        left: 30,
-                        right: 30,
-                        bottom: -20,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            BlocBuilder<CartCubit, CartState>(
-                              cubit: getIt<CartCubit>(),
-                              builder: (context, state) {
-                                final cartItem = getIt<CartCubit>().getItem(widget.product.id);
-                                return FloatingActionButton(
-                                  heroTag: 'btn${widget.product.id}',
-                                  onPressed: () {
-                                    if (cartItem != null) {
-                                      final action = CupertinoActionSheet(
-                                        title: Text(
-                                          S.current.remove_from_cart,
-                                          style: Theme.of(context).textTheme.headline3,
-                                        ),
-                                        message: Theme(
-                                          data: Theme.of(context),
-                                          child: Row(
-                                            children: [
-                                              Expanded(
-                                                child: Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      cartItem?.product?.name ?? '',
-                                                      style: Theme.of(context).textTheme.headline6,
-                                                    ),
-                                                    Text(
-                                                      '${cartItem.quantity} ${S.current.piece}, ${cartItem.slicingMethod?.name}',
-                                                      style: Theme.of(context).textTheme.bodyText2,
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              Text('${cartItem.total} ﷼'),
-                                            ],
-                                          ),
-                                        ),
-                                        actions: <Widget>[
-                                          CupertinoActionSheetAction(
-                                            isDestructiveAction: true,
-                                            onPressed: () {
-                                              getIt<CartCubit>().removeItem(widget.product.id);
-                                              AppRouter.sailor.navigate(
-                                                CheckoutScreen.routeName,
-                                                navigationType: NavigationType.pushReplace,
-                                              );
-                                            },
-                                            child: Text(
-                                              S.current.confirmation,
-                                              style: Theme.of(context).textTheme.button.copyWith(color: Colors.red),
-                                            ),
-                                          ),
-                                        ],
-                                        cancelButton: CupertinoActionSheetAction(
-                                          onPressed: () {
-                                            Navigator.pop(context, false);
-                                          },
-                                          child: Text(
-                                            S.current.cancel,
-                                            style: Theme.of(context).textTheme.button,
-                                          ),
-                                        ),
-                                      );
-                                      showCupertinoModalPopup(context: context, builder: (context) => action);
-                                    } else {
-                                      AppRouter.sailor.navigate(
-                                        AddToCartScreen.routeName,
-                                        params: {'product': widget.product},
-                                      );
-                                    }
-                                  },
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(25),
-                                  ),
-                                  backgroundColor: Colors.black,
-                                  hoverColor: Colors.amber.withOpacity(.3),
-                                  splashColor: Colors.amber.withOpacity(.3),
-                                  child: Icon(
-                                    cartItem != null ? FluentIcons.delete_24_regular : FluentIcons.cart_24_regular,
-                                    color: Colors.amber,
-                                  ),
-                                );
-                              },
+                              ),
                             ),
+                            Positioned(
+                              top: kToolbarHeight,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      alignment: Alignment.center,
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 20,
+                                        vertical: 10,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: Colors.black,
+                                        borderRadius: BorderRadius.circular(25),
+                                      ),
+                                      child: Text(
+                                        '${widget.product.price} ﷼ / ${S.current.piece}',
+                                        style: Theme.of(context).textTheme.headline5.copyWith(color: Colors.amber),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            )
                           ],
                         ),
                       ),
-                    ],
-                  ),
-                ),
-                const SliverToBoxAdapter(child: SizedBox(height: 20)),
-                SliverToBoxAdapter(
-                  child: Card(
-                    elevation: 10,
-                    clipBehavior: Clip.hardEdge,
-                    color: Colors.white70,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25),
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                    Positioned(
+                      left: 30,
+                      right: 30,
+                      bottom: -20,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Text(
-                            S.current.description,
-                            style: Theme.of(context).textTheme.headline5,
+                          BlocBuilder<CartCubit, CartState>(
+                            cubit: getIt<CartCubit>(),
+                            builder: (context, state) {
+                              final cartItem = getIt<CartCubit>().getItem(widget.product.id);
+                              return FloatingActionButton(
+                                heroTag: 'btn${widget.product.id}',
+                                onPressed: () {
+                                  if (cartItem != null) {
+                                    final action = CupertinoActionSheet(
+                                      title: Text(
+                                        S.current.remove_from_cart,
+                                        style: Theme.of(context).textTheme.headline3,
+                                      ),
+                                      message: Theme(
+                                        data: Theme.of(context),
+                                        child: Row(
+                                          children: [
+                                            Expanded(
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    cartItem?.product?.name ?? '',
+                                                    style: Theme.of(context).textTheme.headline6,
+                                                  ),
+                                                  Text(
+                                                    '${cartItem.quantity} ${S.current.piece}, ${cartItem.slicingMethod?.name}',
+                                                    style: Theme.of(context).textTheme.bodyText2,
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            Text('${cartItem.total} ﷼'),
+                                          ],
+                                        ),
+                                      ),
+                                      actions: <Widget>[
+                                        CupertinoActionSheetAction(
+                                          isDestructiveAction: true,
+                                          onPressed: () {
+                                            getIt<CartCubit>().removeItem(widget.product.id);
+                                            AppRouter.sailor.navigate(
+                                              CheckoutScreen.routeName,
+                                              navigationType: NavigationType.pushReplace,
+                                            );
+                                          },
+                                          child: Text(
+                                            S.current.confirmation,
+                                            style: Theme.of(context).textTheme.button.copyWith(color: Colors.red),
+                                          ),
+                                        ),
+                                      ],
+                                      cancelButton: CupertinoActionSheetAction(
+                                        onPressed: () {
+                                          Navigator.pop(context, false);
+                                        },
+                                        child: Text(
+                                          S.current.cancel,
+                                          style: Theme.of(context).textTheme.button,
+                                        ),
+                                      ),
+                                    );
+                                    showCupertinoModalPopup(context: context, builder: (context) => action);
+                                  } else {
+                                    AppRouter.sailor.navigate(
+                                      AddToCartScreen.routeName,
+                                      params: {'product': widget.product},
+                                    );
+                                  }
+                                },
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(25),
+                                ),
+                                backgroundColor: Colors.black,
+                                hoverColor: Colors.amber.withOpacity(.3),
+                                splashColor: Colors.amber.withOpacity(.3),
+                                child: Icon(
+                                  cartItem != null ? FluentIcons.delete_24_regular : FluentIcons.cart_24_regular,
+                                  color: Colors.amber,
+                                ),
+                              );
+                            },
                           ),
-                          const Divider(),
-                          Text(widget.product.description),
                         ],
                       ),
                     ),
-                  ),
+                  ],
                 ),
-                const SliverToBoxAdapter(child: SizedBox(height: 20)),
-                SliverToBoxAdapter(
-                  child: Card(
-                    elevation: 10,
-                    clipBehavior: Clip.hardEdge,
-                    color: Colors.white70,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ListTile(title: Text(S.current.comments)),
-                    ),
-                  ),
-                ),
-                CommentsListSliver(
-                  isLoading: isLoading,
-                  reviews: values.reversed.toList(),
-                ),
-                const SliverToBoxAdapter(child: SizedBox(height: 100)),
-              ],
-            ),
-            Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: NewReviewField(
-                productId: widget.product.id,
-                cubit: cubit,
-                textEditingController: textEditingController,
-                isLoading: isLoading,
               ),
-            ),
-          ],
+              const SliverToBoxAdapter(child: SizedBox(height: 20)),
+              SliverToBoxAdapter(
+                child: Card(
+                  elevation: 10,
+                  clipBehavior: Clip.hardEdge,
+                  color: Colors.white70,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Text(
+                          S.current.description,
+                          style: Theme.of(context).textTheme.headline5,
+                        ),
+                        const Divider(),
+                        Text(widget.product.description),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              const SliverToBoxAdapter(child: SizedBox(height: 20)),
+              SliverToBoxAdapter(
+                child: Card(
+                  elevation: 10,
+                  clipBehavior: Clip.hardEdge,
+                  color: Colors.white70,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ListTile(title: Text(S.current.comments)),
+                  ),
+                ),
+              ),
+              CommentsListSliver(
+                isLoading: isLoading,
+                reviews: values.reversed.toList(),
+              ),
+              const SliverToBoxAdapter(child: SizedBox(height: 100)),
+            ],
+          ),
+          // Positioned(
+          //   bottom: 0,
+          //   left: 0,
+          //   right: 0,
+          //   child: NewReviewField(
+          //     productId: widget.product.id,
+          //     cubit: cubit,
+          //     textEditingController: textEditingController,
+          //     isLoading: isLoading,
+          //   ),
+          // ),
         ),
       ),
     );

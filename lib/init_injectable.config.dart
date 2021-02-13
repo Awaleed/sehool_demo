@@ -77,10 +77,10 @@ GetIt $initGetIt(
       registerFor: {_test});
   gh.singleton<IDropdownRepository>(
       DropdownRepositoryImpl(get<IDropdownRemoteDataSource>()));
-  gh.singleton<ILazyListRemoteDataSource>(LazyListRemoteDataSource(),
-      registerFor: {_prod});
   gh.singleton<ILazyListRemoteDataSource>(FakeLazyListRemoteDataSource(),
       registerFor: {_test});
+  gh.singleton<ILazyListRemoteDataSource>(LazyListRemoteDataSource(),
+      registerFor: {_prod});
   gh.singleton<ILazyListRepository>(
       LazyListRepositoryImpl(get<ILazyListRemoteDataSource>()));
   gh.singleton<IOrderRemoteDataSource>(OrderRemoteDataSource());

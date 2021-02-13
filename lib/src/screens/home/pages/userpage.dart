@@ -31,7 +31,7 @@ class UserPage extends StatelessWidget {
   final titleStyle = TxtStyle()
     ..bold()
     ..fontSize(32)
-    ..textColor(Colors.white)
+    ..textColor(Colors.black)
     ..margin(bottom: 20);
 
   @override

@@ -3,6 +3,7 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sehool/src/screens/home/home.dart';
 
 import '../../../../generated/l10n.dart';
 import '../../../../init_injectable.dart';
@@ -60,7 +61,7 @@ class _AddressesScreenState extends State<AddressesScreen> {
           backgroundColor: Colors.white70,
           appBar: AppBar(
             elevation: 0,
-            backgroundColor: Colors.transparent,
+            backgroundColor: Colors.black54,
             title: Row(
               children: [
                 Parent(
@@ -94,17 +95,36 @@ class _AddressesScreenState extends State<AddressesScreen> {
               );
             },
           ),
-          floatingActionButton: RipplesAnimation(
-            onPressed: () => AppRouter.sailor.navigate(
-              NewAddressDialog.routeName,
-              params: {'address_cubit': cubit},
-            ),
-            color: Colors.amberAccent,
-            size: 30,
-            child: const Icon(
-              FluentIcons.add_28_filled,
-              color: Colors.white,
-            ),
+          floatingActionButton: Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              const Spacer(),
+              Expanded(
+                child: RipplesAnimation(
+                  onPressed: () => AppRouter.sailor.navigate(
+                    NewAddressDialog.routeName,
+                    params: {'address_cubit': cubit},
+                  ),
+                  color: Colors.amberAccent,
+                  size: 30,
+                  child: const Icon(
+                    FluentIcons.add_28_filled,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: const [
+                    Padding(
+                      padding: EdgeInsets.all(10),
+                      child: WhatsappFloatingActionButton(),
+                    )
+                  ],
+                ),
+              ),
+            ],
           ),
           floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         ),

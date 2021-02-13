@@ -4,8 +4,7 @@ import 'address_model.dart';
 
 part 'order_model.g.dart';
 
-@JsonSerializable(
-    fieldRename: FieldRename.snake, explicitToJson: true, nullable: true)
+@JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true, nullable: true)
 class OrderModel {
   const OrderModel({
     this.payment,
@@ -24,13 +23,11 @@ class OrderModel {
   final StatusModel status;
   final List<OrderItemModel> products;
 
-  factory OrderModel.fromJson(Map<String, dynamic> json) =>
-      _$OrderModelFromJson(json);
+  factory OrderModel.fromJson(Map<String, dynamic> json) => _$OrderModelFromJson(json);
   Map<String, dynamic> toJson() => _$OrderModelToJson(this);
 }
 
-@JsonSerializable(
-    fieldRename: FieldRename.snake, explicitToJson: true, nullable: true)
+@JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true, nullable: true)
 class OrderItemModel {
   const OrderItemModel({
     this.image,
@@ -55,47 +52,37 @@ class OrderItemModel {
   @override
   String toString() => name;
 
-  factory OrderItemModel.fromJson(Map<String, dynamic> json) =>
-      _$OrderItemModelFromJson(json);
+  factory OrderItemModel.fromJson(Map<String, dynamic> json) => _$OrderItemModelFromJson(json);
   Map<String, dynamic> toJson() => _$OrderItemModelToJson(this);
 }
 
-@JsonSerializable(
-    fieldRename: FieldRename.snake, explicitToJson: true, nullable: true)
+@JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true, nullable: true)
 class PaymentMethodModel {
-  const PaymentMethodModel({
-    this.id,
-    this.name,
-    this.type,
-  });
+  const PaymentMethodModel({this.id, this.name, this.type, this.icon});
 
   final int id;
   final String name;
   final String type;
+  final String icon;
 
   @override
   String toString() => name;
 
-  factory PaymentMethodModel.fromJson(Map<String, dynamic> json) =>
-      _$PaymentMethodModelFromJson(json);
+  factory PaymentMethodModel.fromJson(Map<String, dynamic> json) => _$PaymentMethodModelFromJson(json);
   Map<String, dynamic> toJson() => _$PaymentMethodModelToJson(this);
 
   @override
   bool operator ==(Object o) {
     if (identical(this, o)) return true;
 
-    return o is PaymentMethodModel &&
-        o.id == id &&
-        o.name == name &&
-        o.type == type;
+    return o is PaymentMethodModel && o.id == id && o.name == name && o.type == type;
   }
 
   @override
   int get hashCode => id.hashCode ^ name.hashCode ^ type.hashCode;
 }
 
-@JsonSerializable(
-    fieldRename: FieldRename.snake, explicitToJson: true, nullable: true)
+@JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true, nullable: true)
 class StatusModel {
   const StatusModel({
     this.id,
@@ -108,7 +95,6 @@ class StatusModel {
   @override
   String toString() => name;
 
-  factory StatusModel.fromJson(Map<String, dynamic> json) =>
-      _$StatusModelFromJson(json);
+  factory StatusModel.fromJson(Map<String, dynamic> json) => _$StatusModelFromJson(json);
   Map<String, dynamic> toJson() => _$StatusModelToJson(this);
 }

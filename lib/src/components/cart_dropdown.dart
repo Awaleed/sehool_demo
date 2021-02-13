@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:sehool/src/components/message_check_box.dart';
+import 'package:sehool/src/models/product_model.dart';
+import 'package:supercharged/supercharged.dart';
 import '../../generated/l10n.dart';
 import '../../init_injectable.dart';
 import '../cubits/address_cubit/address_cubit.dart';
@@ -22,6 +24,8 @@ class CartDropdown extends StatefulWidget {
     @required this.initialValue,
     @required this.onValueChanged,
     this.cart,
+    this.messageFormKey,
+    this.cartItem,
     this.isRadio = false,
     this.itemAsString,
   }) : super(key: key);
@@ -30,7 +34,9 @@ class CartDropdown extends StatefulWidget {
   final String Function(dynamic value) itemAsString;
   final dynamic initialValue;
   final CartModel cart;
+  final CartItemModel cartItem;
   final bool isRadio;
+  final GlobalKey<FormState> messageFormKey;
 
   @override
   _CartDropdownState createState() => _CartDropdownState();
@@ -112,40 +118,87 @@ class _CartDropdownState extends State<CartDropdown> {
     }
 
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         ...values.map(
-          (e) => Card(
-            elevation: 0,
-            color: Colors.transparent,
-            // shape: OutlineInputBorder(
-            //   borderRadius: BorderRadius.circular(25),
-            // ),
-            child: RadioListTile(
-              value: e,
-              groupValue: selectedValue,
-              title: Text(
-                widget.itemAsString?.call(e) ?? '$e',
-                style: Theme.of(context).textTheme.headline5.copyWith(color: Colors.black),
-              ),
-              onChanged: (value) async {
-                if (value is PaymentMethodModel && value.type == 'wallet') {
-                  if (kUser.wallet <= widget.cart.total) {
-                    Helpers.showErrorOverlay(
-                      context,
-                      error: S.current.sorry_your_balance_is_not_enough,
-                    );
-                  } else {
-                    widget.onValueChanged?.call(value);
-                    setState(() => selectedValue = value);
-                  }
+          (e) => InkWell(
+            onTap: () {
+              if (e is SlicingMethodModel && e.id == 3) {
+                // widget.cartItem.isGift = false;
+                widget.cartItem.event = null;
+                widget.cartItem.phrase = null;
+              }
+              if (e is PaymentMethodModel && e.type == 'wallet') {
+                if (kUser.wallet <= widget.cart.total) {
+                  Helpers.showErrorOverlay(
+                    context,
+                    error: S.current.sorry_your_balance_is_not_enough,
+                  );
                 } else {
-                  widget.onValueChanged?.call(value);
-                  setState(() => selectedValue = value);
+                  widget.onValueChanged?.call(e);
+                  setState(() => selectedValue = e);
                 }
-              },
+              } else {
+                widget.onValueChanged?.call(e);
+                setState(() => selectedValue = e);
+              }
+            },
+            child: AnimatedContainer(
+              padding: const EdgeInsets.all(12),
+              margin: const EdgeInsets.all(3),
+              duration: 300.milliseconds,
+              decoration: BoxDecoration(
+                color: e == selectedValue ? Theme.of(context).primaryColor.withOpacity(.9) : Colors.transparent,
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: Text(
+                widget.itemAsString?.call(e) ?? '$e',
+                style: Theme.of(context).textTheme.headline6.copyWith(color: Colors.black, fontWeight: FontWeight.normal),
+              ),
             ),
           ),
         ),
+        // ...values.map(
+        //   (e) => Card(
+        //     elevation: 0,
+        //     color: Colors.transparent,
+        //     // shape: OutlineInputBorder(
+        //     //   borderRadius: BorderRadius.circular(25),
+        //     // ),
+        //     child: RadioListTile(
+        //       value: e,
+        //       groupValue: selectedValue,
+        //       title: Text(
+        //         widget.itemAsString?.call(e) ?? '$e',
+        //         style: Theme.of(context).textTheme.headline6.copyWith(color: Colors.black, fontWeight: FontWeight.normal),
+        //       ),
+        //       onChanged: (value) async {
+        //         if (value is PaymentMethodModel && value.type == 'wallet') {
+        //           if (kUser.wallet <= widget.cart.total) {
+        //             Helpers.showErrorOverlay(
+        //               context,
+        //               error: S.current.sorry_your_balance_is_not_enough,
+        //             );
+        //           } else {
+        //             widget.onValueChanged?.call(value);
+        //             setState(() => selectedValue = value);
+        //           }
+        //         } else {
+        //           widget.onValueChanged?.call(value);
+        //           setState(() => selectedValue = value);
+        //         }
+        //       },
+        //     ),
+        //   ),
+        // ),
+
+        if (widget.dropdownType == DropdownValueType.slicingMethods && selectedValue.id == 3) ...[
+          const SizedBox(height: 10),
+          MessageCheckBox(
+            cart: widget.cartItem,
+            formKey: widget.messageFormKey,
+          ),
+        ],
         if (widget.dropdownType == DropdownValueType.addresses)
           Card(
             color: Colors.white70,
@@ -155,7 +208,7 @@ class _CartDropdownState extends State<CartDropdown> {
             child: ListTile(
               title: Text(
                 S.current.add_a_new_address,
-                style: Theme.of(context).textTheme.headline5.copyWith(color: Colors.black),
+                style: Theme.of(context).textTheme.headline6.copyWith(color: Colors.black, fontWeight: FontWeight.normal),
               ),
               onTap: () async {
                 final _cubit = getIt<AddressCubit>();

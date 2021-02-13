@@ -30,6 +30,7 @@ class _CouponCubit extends Cubit<_CouponState> with ApiCaller {
       emit(_CouponState.success);
     } catch (e) {
       emit(_CouponState.failure);
+      addError(e);
     }
   }
 }
@@ -81,12 +82,11 @@ class _CartCouponFieldState extends State<CartCouponField> with ApiCaller {
       },
       builder: (context, state) {
         final isLoading = state == _CouponState.loading;
-        final color =
-            widget.cart.coupon != null || state == _CouponState.success
-                ? Colors.green.withOpacity(0.7)
-                : state == _CouponState.failure
-                    ? Colors.red.withOpacity(0.7)
-                    : Colors.white70;
+        final color = widget.cart.coupon != null || state == _CouponState.success
+            ? Colors.green.withOpacity(0.7)
+            : state == _CouponState.failure
+                ? Colors.red.withOpacity(0.7)
+                : Colors.white70;
         return Padding(
           padding: const EdgeInsets.all(20.0),
           child: Column(
@@ -115,24 +115,26 @@ class _CartCouponFieldState extends State<CartCouponField> with ApiCaller {
                   });
                 },
               ),
-              const SizedBox(height: 10),
-              _buildButton(
-                label: isLoading
-                    ? const FittedBox(
-                        fit: BoxFit.fitHeight,
-                        child: Padding(
-                          padding: EdgeInsets.all(5.0),
-                          child: CircularProgressIndicator(),
-                        ),
-                      )
-                    : Text(S.current.add_coupon),
-                onTap: isLoading
-                    ? null
-                    : () async {
-                        Helpers.dismissFauces(context);
-                        cubit.validateCoupon(couponController.text);
-                      },
-              ),
+              if (widget.cart.coupon == null && state != _CouponState.success) ...[
+                const SizedBox(height: 10),
+                _buildButton(
+                  label: isLoading
+                      ? const FittedBox(
+                          fit: BoxFit.fitHeight,
+                          child: Padding(
+                            padding: EdgeInsets.all(5.0),
+                            child: CircularProgressIndicator(),
+                          ),
+                        )
+                      : Text(S.current.add_coupon),
+                  onTap: isLoading
+                      ? null
+                      : () async {
+                          Helpers.dismissFauces(context);
+                          cubit.validateCoupon(couponController.text);
+                        },
+                ),
+              ]
             ],
           ),
         );

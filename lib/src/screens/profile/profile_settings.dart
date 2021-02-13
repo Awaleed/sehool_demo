@@ -1,6 +1,7 @@
 import 'package:division/division.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sehool/src/screens/home/home.dart';
 
 import '../../../generated/l10n.dart';
 import '../../../init_injectable.dart';
@@ -76,13 +77,14 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
             ],
           ),
           Scaffold(
+            floatingActionButton: WhatsappFloatingActionButton(),
             backgroundColor: Colors.white70,
             appBar: AppBar(
               title: Text(
                 S.current.profile_settings,
                 style: Theme.of(context).textTheme.headline5.copyWith(color: Colors.white),
               ),
-              backgroundColor: Colors.transparent,
+              backgroundColor: Colors.black54,
               elevation: 0,
             ),
             body: BlocBuilder<ProfileCubit, ProfileState>(

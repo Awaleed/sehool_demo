@@ -33,6 +33,7 @@ class _NewReviewFieldState extends State<NewReviewField> {
       color: Colors.black54,
       padding: const EdgeInsets.all(5),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           if (canSend)
             RatingBar.builder(

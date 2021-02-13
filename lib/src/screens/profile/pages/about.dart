@@ -2,6 +2,7 @@ import 'package:animations/animations.dart';
 import 'package:division/division.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:sehool/src/screens/home/home.dart';
 import 'package:supercharged/supercharged.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -31,9 +32,10 @@ class _AboutState extends State<About> {
           ..background.color(Colors.white)
           ..background.image(path: 'assets/images/black.png', fit: BoxFit.contain),
         child: Scaffold(
+          floatingActionButton: WhatsappFloatingActionButton(),
           backgroundColor: Colors.white70,
           appBar: AppBar(
-            backgroundColor: Colors.transparent,
+            backgroundColor: Colors.black54,
             elevation: 0,
             title: Text(
               S.current.about,
@@ -56,7 +58,7 @@ class _AboutState extends State<About> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(25),
                             ),
-                            backgroundColor: Colors.transparent,
+                            backgroundColor: Colors.black54,
                             child: Image.asset('assets/images/snapchat.jpeg'),
                           ),
                         );
@@ -66,19 +68,19 @@ class _AboutState extends State<About> {
                     AboutItem(
                       icon: FontAwesomeIcons.instagram,
                       title: 'Instagram',
-                      onTap: () => lanuch('https://www.instagram.com/sehoool/'),
+                      onTap: () => launchUrl('https://www.instagram.com/sehoool/'),
                       description: 'Instagram',
                     ),
                     AboutItem(
                       icon: FontAwesomeIcons.facebook,
                       title: 'Facebook',
-                      onTap: () => lanuch('https://www.facebook.com/sehoool/'),
+                      onTap: () => launchUrl('https://www.facebook.com/sehoool/'),
                       description: 'Facebook',
                     ),
                     AboutItem(
                       icon: FontAwesomeIcons.twitter,
                       title: 'Twitter',
-                      onTap: () => lanuch('https://twitter.com/sehoool/'),
+                      onTap: () => launchUrl('https://twitter.com/sehoool/'),
                       description: 'Twitter',
                     ),
                   ],
@@ -95,7 +97,7 @@ class _AboutState extends State<About> {
         ));
   }
 
-  Future<void> lanuch(String url) async {
+  Future<void> launchUrl(String url) async {
     if (await canLaunch(url)) {
       await launch(url);
     }

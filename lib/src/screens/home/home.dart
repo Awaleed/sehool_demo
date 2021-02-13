@@ -88,6 +88,31 @@ class _HomeScreenState extends State<HomeScreen> {
             ..background.image(path: 'assets/images/black.png', fit: BoxFit.contain),
           child: Scaffold(
             backgroundColor: Colors.white70,
+            floatingActionButton: WhatsappFloatingActionButton(),
+            bottomNavigationBar: Container(
+              decoration: const BoxDecoration(
+                color: Colors.black45,
+                gradient: LinearGradient(
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                  colors: [
+                    Colors.black,
+                    Colors.transparent,
+                  ],
+                ),
+              ),
+              child: FittedBox(
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    _buildRange(0, 2),
+                    _buildCartButton(),
+                    _buildRange(3, 5),
+                  ],
+                ),
+              ),
+            ),
             body: Stack(
               fit: StackFit.expand,
               children: [
@@ -120,56 +145,30 @@ class _HomeScreenState extends State<HomeScreen> {
                             ...pages.map((e) => e.page),
                           ],
                         ),
-                      ),
-                      Container(
-                        decoration: const BoxDecoration(
-                          color: Colors.black45,
-                          gradient: LinearGradient(
-                            begin: Alignment.bottomCenter,
-                            end: Alignment.topCenter,
-                            colors: [
-                              Colors.black,
-                              Colors.transparent,
-                            ],
-                          ),
-                        ),
-                        child: Column(
-                          children: [
-                            FittedBox(
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                children: [
-                                  _buildRange(0, 2),
-                                  _buildCartButton(),
-                                  _buildRange(3, 5),
-                                ],
-                              ),
-                            ),
-                            if (false)
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  IconButton(
-                                    icon: Icon(FontAwesomeIcons.facebook),
-                                    onPressed: () {},
-                                  ),
-                                  IconButton(
-                                    icon: Icon(FontAwesomeIcons.facebook),
-                                    onPressed: () {},
-                                  ),
-                                  IconButton(
-                                    icon: Icon(FontAwesomeIcons.facebook),
-                                    onPressed: () {},
-                                  ),
-                                  IconButton(
-                                    icon: Icon(FontAwesomeIcons.facebook),
-                                    onPressed: () {},
-                                  ),
-                                ],
-                              ),
-                          ],
-                        ),
+                        // ),
+                        // Container(
+                        //   decoration: const BoxDecoration(
+                        //     color: Colors.black45,
+                        //     gradient: LinearGradient(
+                        //       begin: Alignment.bottomCenter,
+                        //       end: Alignment.topCenter,
+                        //       colors: [
+                        //         Colors.black,
+                        //         Colors.transparent,
+                        //       ],
+                        //     ),
+                        //   ),
+                        //   child: FittedBox(
+                        //     child: Row(
+                        //       mainAxisSize: MainAxisSize.min,
+                        //       mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        //       children: [
+                        //         _buildRange(0, 2),
+                        //         _buildCartButton(),
+                        //         _buildRange(3, 5),
+                        //       ],
+                        //     ),
+                        //   ),
                       )
                     ],
                   ),
@@ -262,7 +261,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ListTile(
                       leading: const Icon(FontAwesomeIcons.facebook),
                       title: const Text('Facebook'),
-                      onTap: () => lanuch('https://www.facebook.com/sehoool/'),
+                      onTap: () => launchUrl('https://www.facebook.com/sehoool/'),
                     ),
                     ListTile(
                       leading: const Icon(FontAwesomeIcons.snapchat),
@@ -284,12 +283,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     ListTile(
                       leading: const Icon(FontAwesomeIcons.instagram),
                       title: const Text('Instagram'),
-                      onTap: () => lanuch('https://www.instagram.com/sehoool/'),
+                      onTap: () => launchUrl('https://www.instagram.com/sehoool/'),
                     ),
                     ListTile(
                       leading: const Icon(FontAwesomeIcons.twitter),
                       title: const Text('Twitter'),
-                      onTap: () => lanuch('https://twitter.com/sehoool/'),
+                      onTap: () => launchUrl('https://twitter.com/sehoool/'),
                     ),
                   ],
                 ),
@@ -310,9 +309,9 @@ class _HomeScreenState extends State<HomeScreen> {
           )
           ..borderRadius(all: 50)
           ..alignmentContent.center(),
-        child: const Icon(FontAwesomeIcons.commentDots, color: Colors.white),
+        child: const Icon(FontAwesomeIcons.shareAlt, color: Colors.white),
       );
-  Future<void> lanuch(String url) async {
+  Future<void> launchUrl(String url) async {
     if (await canLaunch(url)) {
       await launch(url);
     }
@@ -368,6 +367,32 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       );
+}
+
+class WhatsappFloatingActionButton extends StatelessWidget {
+  const WhatsappFloatingActionButton({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return FloatingActionButton(
+      heroTag: 'WhatsappFloatingActionButton',
+      onPressed: () {
+        // WhatsappFloatingActionButton
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: SvgPicture.asset('assets/images/whatsapp.svg'),
+      ),
+      // child: const Icon(
+      //   FontAwesomeIcons.whatsapp,
+      //   color: Color(
+      //     0xFF20b038,
+      //   ),
+      // ),
+    );
+  }
 }
 
 class _TabBarItem {

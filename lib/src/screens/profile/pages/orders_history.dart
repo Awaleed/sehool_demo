@@ -1,6 +1,7 @@
 import 'package:division/division.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sehool/src/screens/home/home.dart';
 
 import '../../../../generated/l10n.dart';
 import '../../../../init_injectable.dart';
@@ -71,10 +72,11 @@ class _OrdersHistoryState extends State<OrdersHistory> {
           ..background.color(Colors.white)
           ..background.image(path: 'assets/images/black.png', fit: BoxFit.contain),
         child: Scaffold(
+          floatingActionButton: WhatsappFloatingActionButton(),
           backgroundColor: Colors.white70,
           appBar: AppBar(
             elevation: 0,
-            backgroundColor: Colors.transparent,
+            backgroundColor: Colors.black54,
             title: Text(
               S.current.my_orders,
               style: Theme.of(context).textTheme.headline6.copyWith(color: Colors.white),

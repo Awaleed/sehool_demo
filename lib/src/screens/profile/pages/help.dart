@@ -29,7 +29,7 @@ class _HelpAndSupportState extends State<HelpAndSupport> {
       child: Scaffold(
         backgroundColor: Colors.white70,
         appBar: AppBar(
-          backgroundColor: Colors.transparent,
+          backgroundColor: Colors.black54,
           elevation: 0,
           title: Text(
             S.current.help_support,

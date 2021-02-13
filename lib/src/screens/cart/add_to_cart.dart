@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sailor/sailor.dart';
 import 'package:sehool/src/components/my_error_widget.dart';
+import 'package:sehool/src/screens/home/home.dart';
 import 'package:supercharged/supercharged.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../../generated/l10n.dart';
@@ -54,6 +55,7 @@ class AddToCartScreen extends StatelessWidget {
       child: Scaffold(
         backgroundColor: Colors.white70,
         extendBodyBehindAppBar: true,
+        floatingActionButton: WhatsappFloatingActionButton(),
         appBar: AppBar(
           title: Text(
             S.current.add_to_cart,
@@ -116,6 +118,8 @@ class CartScroll extends StatefulWidget {
 
 class _CartScrollState extends State<CartScroll> {
   final slicingMethodKey = GlobalKey();
+  final messageFormKey = GlobalKey<FormState>();
+
   List<_StepItem> get steps => [
         _StepItem(
           label: S.current.quantity,
@@ -139,6 +143,8 @@ class _CartScrollState extends State<CartScroll> {
               dropdownType: DropdownValueType.slicingMethods,
               initialValue: widget.cartItem.slicingMethod,
               isRadio: true,
+              cartItem: widget.cartItem,
+              messageFormKey: messageFormKey,
               onValueChanged: (value) {
                 widget.cartItem.slicingMethod = value;
                 setState(() {});
@@ -168,19 +174,20 @@ class _CartScrollState extends State<CartScroll> {
           header: FluentIcons.note_24_regular,
         ),
         _StepItem(
-            hideLabel: true,
-            label: S.current.finish,
-            child: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: CartItemPreview(cartItem: widget.cartItem),
-            ),
-            state: widget.cartItem.validate ? CustomStepState.indexed : CustomStepState.disabled,
-            icon: const Icon(
-              FluentIcons.checkmark_48_regular,
-              size: 50,
-              color: Colors.amber,
-            ),
-            header: FluentIcons.checkmark_48_regular),
+          hideLabel: true,
+          label: S.current.finish,
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: CartItemPreview(cartItem: widget.cartItem),
+          ),
+          state: widget.cartItem.validate ? CustomStepState.indexed : CustomStepState.disabled,
+          icon: const Icon(
+            FluentIcons.checkmark_48_regular,
+            size: 50,
+            color: Colors.amber,
+          ),
+          header: FluentIcons.checkmark_48_regular,
+        ),
       ];
 
   List<Widget> get stepsWidget {
@@ -206,13 +213,7 @@ class _CartScrollState extends State<CartScroll> {
                     children: [
                       steps[i].icon,
                       const SizedBox(width: 10),
-                      Text(
-                        steps[i].label,
-                        style: Theme.of(context).textTheme.headline5.copyWith(
-                              fontWeight: FontWeight.w600,
-                              // color: Colors.black,
-                            ),
-                      ),
+                      Text(steps[i].label, style: Theme.of(context).textTheme.headline5),
                     ],
                   ),
                 ),
@@ -263,11 +264,16 @@ class _CartScrollState extends State<CartScroll> {
                 label: Text(S.current.continue_to_checkout),
                 onTap: () {
                   Helpers.dismissFauces(context);
-                  getIt<CartCubit>().addItem(widget.cartItem);
-                  AppRouter.sailor.navigate(
-                    CheckoutScreen.routeName,
-                    navigationType: NavigationType.pushReplace,
-                  );
+                  if (messageFormKey?.currentState?.validate() ?? true) {
+                    messageFormKey?.currentState?.save();
+                    getIt<CartCubit>().addItem(widget.cartItem);
+                    AppRouter.sailor.navigate(
+                      CheckoutScreen.routeName,
+                      navigationType: NavigationType.pushReplace,
+                    );
+                  } else {
+                    Helpers.showErrorOverlay(context, error: S.current.check_that_you_filled_all_fields_correctly);
+                  }
                 },
               ),
               _buildButton(
@@ -275,8 +281,13 @@ class _CartScrollState extends State<CartScroll> {
                 label: Text(S.current.continue_shopping),
                 onTap: () {
                   Helpers.dismissFauces(context);
-                  getIt<CartCubit>().addItem(widget.cartItem);
-                  AppRouter.sailor.pop();
+                  if (messageFormKey?.currentState?.validate() ?? true) {
+                    messageFormKey?.currentState?.save();
+                    getIt<CartCubit>().addItem(widget.cartItem);
+                    AppRouter.sailor.pop();
+                  } else {
+                    Helpers.showErrorOverlay(context, error: S.current.check_that_you_filled_all_fields_correctly);
+                  }
                 },
               ),
             ],

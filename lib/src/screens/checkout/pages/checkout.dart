@@ -87,203 +87,201 @@ class SummeryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 75),
-      child: Stack(
-        clipBehavior: Clip.none,
-        children: [
-          Card(
-            elevation: 10,
-            clipBehavior: Clip.hardEdge,
-            margin: EdgeInsets.zero,
-            color: Colors.white70,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(25),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text(
-                    '',
-                    style: Theme.of(context).textTheme.headline5,
-                  ),
-                  ...cart.cartItems.map(
-                    (e) => ListTile(
-                      leading: IconButton(
-                        icon: const Icon(
-                          FluentIcons.delete_24_regular,
-                          color: Colors.red,
-                        ),
-                        onPressed: () {
-                          final action = CupertinoActionSheet(
-                            title: Text(
-                              S.current.remove_from_cart,
-                              style: Theme.of(context).textTheme.headline3,
-                            ),
-                            message: Theme(
-                              data: Theme.of(context),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          e?.product?.name ?? '',
-                                          style: Theme.of(context).textTheme.headline6,
-                                        ),
-                                        Text(
-                                          '${e.quantity} ${S.current.piece}, ${e.slicingMethod?.name}',
-                                          style: Theme.of(context).textTheme.bodyText2,
-                                        ),
-                                      ],
-                                    ),
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        Card(
+          elevation: 10,
+          clipBehavior: Clip.hardEdge,
+          margin: EdgeInsets.zero,
+          color: Colors.white70,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(25),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(
+                  S.current.summery,
+                  style: Theme.of(context).textTheme.headline5,
+                ),
+                const Divider(),
+                ...cart.cartItems.map(
+                  (e) => ListTile(
+                    leading: IconButton(
+                      icon: const Icon(
+                        FluentIcons.delete_24_regular,
+                        color: Colors.red,
+                      ),
+                      onPressed: () {
+                        final action = CupertinoActionSheet(
+                          title: Text(
+                            S.current.remove_from_cart,
+                            style: Theme.of(context).textTheme.headline3,
+                          ),
+                          message: Theme(
+                            data: Theme.of(context),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        e?.product?.name ?? '',
+                                        style: Theme.of(context).textTheme.headline6,
+                                      ),
+                                      Text(
+                                        '${e.quantity} ${S.current.piece}, ${e.slicingMethod?.name}',
+                                        style: Theme.of(context).textTheme.bodyText2,
+                                      ),
+                                    ],
                                   ),
-                                  Text('${e.total} ﷼'),
-                                ],
-                              ),
-                            ),
-                            actions: <Widget>[
-                              CupertinoActionSheetAction(
-                                isDestructiveAction: true,
-                                onPressed: () {
-                                  getIt<CartCubit>().removeItem(e.product.id);
-                                  onChanged(e);
-                                  AppRouter.sailor.navigate(
-                                    CheckoutScreen.routeName,
-                                    navigationType: NavigationType.pushReplace,
-                                  );
-                                },
-                                child: Text(
-                                  S.current.confirmation,
-                                  style: Theme.of(context).textTheme.button.copyWith(color: Colors.red),
                                 ),
-                              ),
-                            ],
-                            cancelButton: CupertinoActionSheetAction(
+                                Text('${e.total} ﷼'),
+                              ],
+                            ),
+                          ),
+                          actions: <Widget>[
+                            CupertinoActionSheetAction(
+                              isDestructiveAction: true,
                               onPressed: () {
-                                Navigator.pop(context, false);
+                                getIt<CartCubit>().removeItem(e.product.id);
+                                onChanged(e);
+                                AppRouter.sailor.navigate(
+                                  CheckoutScreen.routeName,
+                                  navigationType: NavigationType.pushReplace,
+                                );
                               },
                               child: Text(
-                                S.current.cancel,
-                                style: Theme.of(context).textTheme.button,
+                                S.current.confirmation,
+                                style: Theme.of(context).textTheme.button.copyWith(color: Colors.red),
                               ),
                             ),
-                          );
-                          showCupertinoModalPopup(context: context, builder: (context) => action);
-                        },
-                      ),
-                      onTap: () async {
-                        await AppRouter.sailor.navigate(
-                          AddToCartScreen.routeName,
-                          params: {
-                            'cart_item': e,
-                            'editing': true,
-                          },
+                          ],
+                          cancelButton: CupertinoActionSheetAction(
+                            onPressed: () {
+                              Navigator.pop(context, false);
+                            },
+                            child: Text(
+                              S.current.cancel,
+                              style: Theme.of(context).textTheme.button,
+                            ),
+                          ),
                         );
-                        onChanged(e);
+                        showCupertinoModalPopup(context: context, builder: (context) => action);
                       },
-                      title: Text(e?.product?.name ?? ''),
-                      subtitle: Text(
-                        '${e.quantity} ${S.current.piece}, ${e.slicingMethod?.name}',
-                      ),
-                      trailing: Text('${e.total} ﷼'),
                     ),
-                  ),
-                  const Divider(),
-                  ListTile(
-                    title: Text(S.current.subtotal),
-                    trailing: Text('${cart.subtotal} ﷼'),
-                  ),
-                  ListTile(
-                    title: Text(S.current.delivery_price),
-                    trailing: Text('${cart.deliveryFees}  ﷼'),
-                  ),
-                  ListTile(
-                    title: Text(S.current.total),
-                    trailing: Text('${cart.subtotalWithDelivery}  ﷼'),
-                  ),
-                  const Divider(),
-                  if (cart.discountAmount > 0)
-                    ListTile(
-                      tileColor: Colors.amber.withOpacity(.8),
-                      title: Text(S.current.discount),
-                      trailing: Text('${cart.discountAmount} ﷼'),
+                    onTap: () async {
+                      await AppRouter.sailor.navigate(
+                        AddToCartScreen.routeName,
+                        params: {
+                          'cart_item': e,
+                          'editing': true,
+                        },
+                      );
+                      onChanged(e);
+                    },
+                    title: Text(e?.product?.name ?? ''),
+                    subtitle: Text(
+                      '${e.quantity} ${S.current.piece}, ${e.slicingMethod?.name}',
                     ),
-                  ListTile(
-                    title: Text(S.current.tax),
-                    trailing: Text('15%'),
-                  ),
-                  ListTile(
-                    title: Text(S.current.total),
-                    trailing: Text('${cart.total} ﷼'),
-                  ),
-
-                  // Text(
-                  //   S.current.total,
-                  //   style: Theme.of(context).textTheme.headline5,
-                  // ),
-                  // const Divider(),
-                  // Card(
-                  //   elevation: 2,
-                  //   clipBehavior: Clip.hardEdge,
-                  //   margin: EdgeInsets.zero,
-                  //   color: Colors.white70,
-                  //   shape: RoundedRectangleBorder(
-                  //     borderRadius: BorderRadius.circular(25),
-                  //   ),
-                  //   child: ListTile(
-                  //     title: Text('${cart.total} ﷼'),
-                  //   ),
-                  // ),
-                  // const Divider(),
-                  // Text(
-                  //   S.current.payment_mode,
-                  //   style: Theme.of(context).textTheme.headline5,
-                  // ),
-                  // const Divider(),
-                  // Card(
-                  //   elevation: 2,
-                  //   clipBehavior: Clip.hardEdge,
-                  //   margin: EdgeInsets.zero,
-                  //   color: Colors.white70,
-                  //   shape: RoundedRectangleBorder(
-                  //     borderRadius: BorderRadius.circular(25),
-                  //   ),
-                  //   child: ListTile(title: Text(cart.paymentMethod.name)),
-                  // ),
-                ],
-              ),
-            ),
-          ),
-          Positioned(
-            top: -75,
-            left: 15,
-            right: 15,
-            height: 120,
-            child: Card(
-              elevation: 2,
-              clipBehavior: Clip.hardEdge,
-              color: Colors.amber.withOpacity(.8),
-              margin: EdgeInsets.zero,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(25),
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(25),
-                child: FittedBox(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(S.current.summery),
+                    trailing: Text('${e.total} ﷼'),
                   ),
                 ),
-              ),
+                const Divider(),
+                ListTile(
+                  title: Text(S.current.subtotal),
+                  trailing: Text('${cart.subtotal} ﷼'),
+                ),
+                ListTile(
+                  title: Text(S.current.delivery_price),
+                  trailing: Text('${cart.deliveryFees}  ﷼'),
+                ),
+                ListTile(
+                  title: Text(S.current.total),
+                  trailing: Text('${cart.subtotalWithDelivery}  ﷼'),
+                ),
+                const Divider(),
+                if (cart.discountAmount > 0)
+                  ListTile(
+                    tileColor: Colors.amber.withOpacity(.8),
+                    title: Text(S.current.discount),
+                    trailing: Text('${cart.discountAmount} ﷼'),
+                  ),
+                ListTile(
+                  title: Text(S.current.tax),
+                  trailing: Text('15%'),
+                ),
+                ListTile(
+                  title: Text(S.current.total),
+                  trailing: Text('${cart.total} ﷼'),
+                ),
+
+                // Text(
+                //   S.current.total,
+                //   style: Theme.of(context).textTheme.headline5,
+                // ),
+                // const Divider(),
+                // Card(
+                //   elevation: 2,
+                //   clipBehavior: Clip.hardEdge,
+                //   margin: EdgeInsets.zero,
+                //   color: Colors.white70,
+                //   shape: RoundedRectangleBorder(
+                //     borderRadius: BorderRadius.circular(25),
+                //   ),
+                //   child: ListTile(
+                //     title: Text('${cart.total} ﷼'),
+                //   ),
+                // ),
+                // const Divider(),
+                // Text(
+                //   S.current.payment_mode,
+                //   style: Theme.of(context).textTheme.headline5,
+                // ),
+                // const Divider(),
+                // Card(
+                //   elevation: 2,
+                //   clipBehavior: Clip.hardEdge,
+                //   margin: EdgeInsets.zero,
+                //   color: Colors.white70,
+                //   shape: RoundedRectangleBorder(
+                //     borderRadius: BorderRadius.circular(25),
+                //   ),
+                //   child: ListTile(title: Text(cart.paymentMethod.name)),
+                // ),
+              ],
             ),
           ),
-        ],
-      ),
+        ),
+        // Positioned(
+        //   top: -75,
+        //   left: 15,
+        //   right: 15,
+        //   height: 120,
+        //   child: Card(
+        //     elevation: 2,
+        //     clipBehavior: Clip.hardEdge,
+        //     color: Colors.amber.withOpacity(.8),
+        //     margin: EdgeInsets.zero,
+        //     shape: RoundedRectangleBorder(
+        //       borderRadius: BorderRadius.circular(25),
+        //     ),
+        //     child: ClipRRect(
+        //       borderRadius: BorderRadius.circular(25),
+        //       child: FittedBox(
+        //         child: Padding(
+        //           padding: const EdgeInsets.all(8.0),
+        //           child: Text(S.current.summery),
+        //         ),
+        //       ),
+        //     ),
+        //   ),
+        // ),
+      ],
     );
   }
 }

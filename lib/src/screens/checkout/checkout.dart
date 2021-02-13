@@ -53,6 +53,7 @@ class CheckoutScreen extends StatelessWidget {
       child: Scaffold(
         backgroundColor: Colors.white70,
         extendBodyBehindAppBar: true,
+        floatingActionButton: WhatsappFloatingActionButton(),
         appBar: AppBar(
           title: Text(
             S.current.checkout,
@@ -212,13 +213,6 @@ class _CheckoutScrollState extends State<CheckoutScroll> {
           header: FluentIcons.location_48_regular,
         ),
         _StepItem(
-          hideLabel: true,
-          child: SummeryCard(
-            cart: widget.cart,
-            onChanged: onChange,
-          ),
-        ),
-        _StepItem(
           label: S.current.add_coupon,
           child: CartCouponField(
             cart: widget.cart,
@@ -230,6 +224,13 @@ class _CheckoutScrollState extends State<CheckoutScroll> {
             color: Colors.amber,
           ),
           header: FluentIcons.plug_disconnected_28_regular,
+        ),
+        _StepItem(
+          hideLabel: true,
+          child: SummeryCard(
+            cart: widget.cart,
+            onChanged: onChange,
+          ),
         ),
         _StepItem(
           key: paymentMethodKey,
@@ -245,25 +246,25 @@ class _CheckoutScrollState extends State<CheckoutScroll> {
           ),
           header: FluentIcons.payment_28_regular,
         ),
-        _StepItem(
-          label: S.current.is_gift,
-          icon: const Icon(
-            FluentIcons.gift_24_regular,
-            size: 50,
-            color: Colors.amber,
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: MessageCheckBox(
-              cart: widget.cart,
-              formKey: messageFormKey,
-              onValueChanged: (value) {
-                setState(() {});
-              },
-            ),
-          ),
-          header: FluentIcons.gift_24_regular,
-        ),
+        // _StepItem(
+        //   label: S.current.is_gift,
+        //   icon: const Icon(
+        //     FluentIcons.gift_24_regular,
+        //     size: 50,
+        //     color: Colors.amber,
+        //   ),
+        //   child: Padding(
+        //     padding: const EdgeInsets.symmetric(horizontal: 20),
+        //     child: MessageCheckBox(
+        //       cart: widget.cart,
+        //       formKey: messageFormKey,
+        //       onValueChanged: (value) {
+        //         setState(() {});
+        //       },
+        //     ),
+        //   ),
+        //   header: FluentIcons.gift_24_regular,
+        // ),
       ];
 
   List<Widget> get stepsWidget {
@@ -290,10 +291,7 @@ class _CheckoutScrollState extends State<CheckoutScroll> {
                       const SizedBox(width: 10),
                       Text(
                         steps[i].label,
-                        style: Theme.of(context).textTheme.headline5.copyWith(
-                              fontWeight: FontWeight.w600,
-                              // color: Colors.black,
-                            ),
+                        style: Theme.of(context).textTheme.headline5,
                       ),
                     ],
                   ),
@@ -339,13 +337,13 @@ class _CheckoutScrollState extends State<CheckoutScroll> {
           label: Text(S.current.checkout),
           onTap: widget.cart.validate
               ? () {
-                  Helpers.dismissFauces(context);
-                  if (messageFormKey?.currentState?.validate() ?? true) {
-                    messageFormKey?.currentState?.save();
-                    cubit.placeOrder(widget.cart);
-                  } else {
-                    Helpers.showErrorOverlay(context, error: S.current.check_that_you_filled_all_fields_correctly);
-                  }
+                  // Helpers.dismissFauces(context);
+                  // if (messageFormKey?.currentState?.validate() ?? true) {
+                  // messageFormKey?.currentState?.save();
+                  cubit.placeOrder(widget.cart);
+                  // } else {
+                  //   Helpers.showErrorOverlay(context, error: S.current.check_that_you_filled_all_fields_correctly);
+                  // }
                 }
               : null,
         ),
@@ -393,83 +391,96 @@ class OnlinePay extends StatefulWidget {
 
 class _OnlinePayState extends State<OnlinePay> with ApiCaller {
   WebViewController controller;
-
+  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
+        if (isLoading) return false;
+
         if (await Helpers.onWillPop(context)) {
           try {
-            post(
+            setState(() {
+              isLoading = true;
+            });
+            await post(
               path: '/payments_order_callback',
               data: {'order_id': widget.orderId, 'status': 'failed'},
             );
-          } catch (e) {}
-          widget.cubit.orderFailure(S.current.cancel_the_request);
-          return true;
+            return true;
+          } catch (e) {
+            return true;
+          } finally {
+            setState(() {
+              isLoading = false;
+            });
+          }
         }
         return false;
       },
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            S.current.confirm_payment,
-            style: Theme.of(context).textTheme.headline6.copyWith(color: Colors.white),
+      child: MyLoadingOverLay(
+        isLoading: isLoading,
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text(
+              S.current.confirm_payment,
+              style: Theme.of(context).textTheme.headline6.copyWith(color: Colors.white),
+            ),
           ),
-        ),
-        body: WebView(
-          javascriptMode: JavascriptMode.unrestricted,
-          onPageFinished: (str) async {
-            Helpers.dismissFauces(context);
-            final res = await controller.evaluateJavascript('document.documentElement.innerText');
+          body: WebView(
+            javascriptMode: JavascriptMode.unrestricted,
+            onPageFinished: (str) async {
+              Helpers.dismissFauces(context);
+              final res = await controller.evaluateJavascript('document.documentElement.innerText');
 
-            try {
-              final json = jsonDecode(jsonDecode(res));
+              try {
+                final json = jsonDecode(jsonDecode(res));
 
-              if (json['errors'] != null) {
-                controller.goBack();
+                if (json['errors'] != null) {
+                  controller.goBack();
+                }
+
+                Helpers.showErrorDialog(context, error: json);
+              } catch (e) {
+                // Helpers.showErrorOverlay(context, error: e);
               }
-
-              Helpers.showErrorDialog(context, error: json);
-            } catch (e) {
-              // Helpers.showErrorOverlay(context, error: e);
-            }
-          },
-          onWebViewCreated: (_controller) async {
-            Helpers.dismissFauces(context);
-            await _controller.loadUrl(widget.url, headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json',
-              'Accept-Language': 'ar',
-            });
-            setState(() {
-              controller = _controller;
-            });
-          },
-          navigationDelegate: (NavigationRequest request) {
-            Helpers.dismissFauces(context);
-            try {
-              final uri = Uri.tryParse(request.url);
-              if (uri != null && uri.queryParameters['status'] == 'paid') {
-                post(
-                  path: '/payments_order_callback',
-                  data: {'order_id': widget.orderId, 'status': 'paid'},
-                );
-                AppRouter.sailor.pop();
-                widget.cubit.orderSuccess();
-              } else if (uri != null && uri.queryParameters['status'] == 'failed') {
-                post(
-                  path: '/payments_order_callback',
-                  data: {'order_id': widget.orderId, 'status': 'failed'},
-                );
-                AppRouter.sailor.pop();
-                widget.cubit.orderFailure(uri.queryParameters['message']);
+            },
+            onWebViewCreated: (_controller) async {
+              Helpers.dismissFauces(context);
+              await _controller.loadUrl(widget.url, headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Accept-Language': 'ar',
+              });
+              setState(() {
+                controller = _controller;
+              });
+            },
+            navigationDelegate: (NavigationRequest request) {
+              Helpers.dismissFauces(context);
+              try {
+                final uri = Uri.tryParse(request.url);
+                if (uri != null && uri.queryParameters['status'] == 'paid') {
+                  post(
+                    path: '/payments_order_callback',
+                    data: {'order_id': widget.orderId, 'status': 'paid'},
+                  );
+                  AppRouter.sailor.pop();
+                  widget.cubit.orderSuccess();
+                } else if (uri != null && uri.queryParameters['status'] == 'failed') {
+                  post(
+                    path: '/payments_order_callback',
+                    data: {'order_id': widget.orderId, 'status': 'failed'},
+                  );
+                  AppRouter.sailor.pop();
+                  widget.cubit.orderFailure(uri.queryParameters['message']);
+                }
+              } catch (e) {
+                return NavigationDecision.navigate;
               }
-            } catch (e) {
               return NavigationDecision.navigate;
-            }
-            return NavigationDecision.navigate;
-          },
+            },
+          ),
         ),
       ),
     );
