@@ -60,22 +60,23 @@ class VideosCarouselItemWidget extends StatelessWidget {
             ),
           ),
         ),
-        Positioned(
-          left: 0,
-          right: 0,
-          bottom: 35,
-          child: IgnorePointer(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  video.description,
-                  style: Theme.of(context).textTheme.subtitle2.copyWith(color: Colors.white),
-                )
-              ],
+        if (video.description != null)
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 35,
+            child: IgnorePointer(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    video.description,
+                    style: Theme.of(context).textTheme.subtitle2.copyWith(color: Colors.white),
+                  )
+                ],
+              ),
             ),
           ),
-        ),
 
         // Positioned(
         //   bottom: -30,
