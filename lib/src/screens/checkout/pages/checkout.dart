@@ -104,7 +104,7 @@ class SummeryCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Text(
-                  S.current.summery,
+                  S.current.bill,
                   style: Theme.of(context).textTheme.headline5,
                 ),
                 const Divider(),
@@ -140,7 +140,7 @@ class SummeryCard extends StatelessWidget {
                                     ],
                                   ),
                                 ),
-                                Text('${e.total} ﷼'),
+                                Text('${e.total.format()} ﷼'),
                               ],
                             ),
                           ),
@@ -148,7 +148,7 @@ class SummeryCard extends StatelessWidget {
                             CupertinoActionSheetAction(
                               isDestructiveAction: true,
                               onPressed: () {
-                                getIt<CartCubit>().removeItem(e.product.id);
+                                getIt<CartCubit>().removeItem(e);
                                 onChanged(e);
                                 AppRouter.sailor.navigate(
                                   CheckoutScreen.routeName,
@@ -188,36 +188,36 @@ class SummeryCard extends StatelessWidget {
                     subtitle: Text(
                       '${e.quantity} ${S.current.piece}, ${e.slicingMethod?.name}',
                     ),
-                    trailing: Text('${e.total} ﷼'),
+                    trailing: Text('${e.total.format()} ﷼'),
                   ),
                 ),
                 const Divider(),
                 ListTile(
                   title: Text(S.current.subtotal),
-                  trailing: Text('${cart.subtotal} ﷼'),
+                  trailing: Text('${cart.subtotal.format()} ﷼'),
                 ),
                 ListTile(
                   title: Text(S.current.delivery_price),
-                  trailing: Text('${cart.deliveryFees}  ﷼'),
+                  trailing: Text('${cart.deliveryFees.format()} ﷼'),
                 ),
                 ListTile(
                   title: Text(S.current.total),
-                  trailing: Text('${cart.subtotalWithDelivery}  ﷼'),
+                  trailing: Text('${cart.subtotalWithDelivery.format()} ﷼'),
                 ),
                 const Divider(),
                 if (cart.discountAmount > 0)
                   ListTile(
                     tileColor: Colors.amber.withOpacity(.8),
                     title: Text(S.current.discount),
-                    trailing: Text('${cart.discountAmount} ﷼'),
+                    trailing: Text('${cart.discountAmount.format()} ﷼'),
                   ),
                 ListTile(
                   title: Text(S.current.tax),
-                  trailing: Text('15%'),
+                  trailing: Text('${cart.tax.format()} ﷼'),
                 ),
                 ListTile(
                   title: Text(S.current.total),
-                  trailing: Text('${cart.total} ﷼'),
+                  trailing: Text('${cart.total.format()} ﷼'),
                 ),
 
                 // Text(
@@ -234,7 +234,7 @@ class SummeryCard extends StatelessWidget {
                 //     borderRadius: BorderRadius.circular(25),
                 //   ),
                 //   child: ListTile(
-                //     title: Text('${cart.total} ﷼'),
+                //     title: Text('${cart.total.format()} ﷼'),
                 //   ),
                 // ),
                 // const Divider(),
@@ -283,5 +283,11 @@ class SummeryCard extends StatelessWidget {
         // ),
       ],
     );
+  }
+}
+
+extension on double {
+  String format() {
+    return toStringAsFixed(truncateToDouble() == this ? 0 : 2);
   }
 }

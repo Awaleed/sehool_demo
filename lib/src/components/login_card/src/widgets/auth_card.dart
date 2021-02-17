@@ -1,7 +1,11 @@
 import 'dart:math';
+import 'package:sehool/src/data/user_datasource.dart';
+import 'package:supercharged/supercharged.dart';
 
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:sailor/sailor.dart';
 import 'package:transformer_page_view/transformer_page_view.dart';
@@ -592,44 +596,108 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
         mainAxisSize: MainAxisSize.min,
         children: [
           const SizedBox(height: 20),
-
-          Directionality(
-            textDirection: TextDirection.ltr,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ...LanguageModel.languages.map(
-                  (e) {
-                    return ScaleTransition(
-                      scale: _buttonScaleAnimation,
-                      child: AnimatedButton(
-                        controller: _submitController,
-                        text: e.localName,
-                        
-                        onPressed: () async {
-                          await cubit.setLanguageCode(e.code);
-                          AppRouter.sailor.navigate(
-                            SplashScreen.routeName,
-                            navigationType: NavigationType.pushAndRemoveUntil,
-                            removeUntilPredicate: (_) => false,
-                          );
-                        },
+          AnimatedOpacity(
+            opacity: buttonEnabled ? 1 : 0,
+            duration: 300.milliseconds,
+            child: Directionality(
+              textDirection: TextDirection.rtl,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: SwitchListTile(
+                      contentPadding: EdgeInsets.zero,
+                      dense: true,
+                      title: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          if (!Helpers.isArabic(context)) const Text('عربي') else const Text('English'),
+                        ],
                       ),
-                    );
-                  },
-                ),
-              ],
+                      value: !Helpers.isArabic(context),
+                      onChanged: (value) async {
+                        if (value) {
+                          await cubit.setLanguageCode('en');
+                        } else {
+                          await cubit.setLanguageCode('ar');
+                        }
+                        AppRouter.sailor.navigate(
+                          SplashScreen.routeName,
+                          navigationType: NavigationType.pushAndRemoveUntil,
+                          removeUntilPredicate: (_) => false,
+                        );
+                      },
+                    ),
+                  ),
+                  const Icon(FontAwesomeIcons.globe),
+                  const SizedBox(width: 10),
+                ],
+              ),
             ),
           ),
-          // BlocBuilder<SettingsCubit, SettingsState>(
-          //   cubit: cubit,
-          //   builder: (context, state) {
-          //     return state.maybeWhen(
-          //       loaded: (value) => ,
-          //       orElse: () => const SizedBox.shrink(),
-          //     );
-          //   },
+          // Directionality(
+          //   textDirection: TextDirection.ltr,
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          //     children: [
+          //       ...LanguageModel.languages.map(
+          //         (e) {
+          //           return Expanded(
+          //             child: Padding(
+          //               padding: const EdgeInsets.symmetric(horizontal: 30),
+          //               child: ScaleTransition(
+          //                 scale: _buttonScaleAnimation,
+          //                 child: RaisedButton(
+          //                   color: Colors.amber,
+          //                   shape: RoundedRectangleBorder(
+          //                     borderRadius: BorderRadius.circular(20),
+          //                   ),
+          //                   onPressed: () async {
+          //                     await cubit.setLanguageCode(e.code);
+          //                     AppRouter.sailor.navigate(
+          //                       SplashScreen.routeName,
+          //                       navigationType: NavigationType.pushAndRemoveUntil,
+          //                       removeUntilPredicate: (_) => false,
+          //                     );
+          //                   },
+          //                   // controller: _submitController,
+
+          //                   // icon: e.flag,
+          //                   child: Padding(
+          //                     padding: const EdgeInsets.all(8.0),
+          //                     child: Column(
+          //                       mainAxisSize: MainAxisSize.min,
+          //                       children: [
+          //                         Text(e.localName, style: const TextStyle(color: Colors.white)),
+          //                         const SizedBox(height: 10),
+          //                         ClipRRect(
+          //                           borderRadius: BorderRadius.circular(20),
+          //                           child: SvgPicture.asset(
+          //                             e.flag,
+          //                             height: 40,
+          //                             width: 40,
+          //                           ),
+          //                         ),
+          //                       ],
+          //                     ),
+          //                   ),
+          //                 ),
+          //               ),
+          //             ),
+          //           );
+          //         },
+          //       ),
+          //     ],
+          //   ),
           // ),
+          // // BlocBuilder<SettingsCubit, SettingsState>(
+          // //   cubit: cubit,
+          // //   builder: (context, state) {
+          // //     return state.maybeWhen(
+          // //       loaded: (value) => ,
+          // //       orElse: () => const SizedBox.shrink(),
+          // //     );
+          // //   },
+          // // ),
           Container(
             padding: const EdgeInsets.only(
               left: cardPadding,
@@ -644,6 +712,24 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
                 _buildNameField(textFieldWidth, auth),
                 const SizedBox(height: 20),
                 _buildPasswordField(textFieldWidth, auth),
+                const SizedBox(height: 10),
+                AnimatedOpacity(
+                  opacity: buttonEnabled ? 1 : 0,
+                  duration: 300.milliseconds,
+                  child: Row(
+                    children: [
+                      Switch(
+                        value: rememberMe,
+                        onChanged: (value) {
+                          setState(() {
+                            rememberMe = value;
+                          });
+                        },
+                      ),
+                      Text(S.current.remember_me),
+                    ],
+                  ),
+                ),
                 const SizedBox(height: 10),
               ],
             ),

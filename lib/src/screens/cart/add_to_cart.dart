@@ -4,8 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sailor/sailor.dart';
-import 'package:sehool/src/components/my_error_widget.dart';
-import 'package:sehool/src/screens/home/home.dart';
+import '../../components/my_error_widget.dart';
+import '../home/home.dart';
 import 'package:supercharged/supercharged.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../../generated/l10n.dart';
@@ -55,7 +55,10 @@ class AddToCartScreen extends StatelessWidget {
       child: Scaffold(
         backgroundColor: Colors.white70,
         extendBodyBehindAppBar: true,
-        floatingActionButton: WhatsappFloatingActionButton(),
+        floatingActionButton: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: const [WhatsappFloatingActionButton(), SizedBox(height: 50)],
+        ),
         appBar: AppBar(
           title: Text(
             S.current.add_to_cart,
@@ -130,7 +133,7 @@ class _CartScrollState extends State<CartScroll> {
           icon: const Icon(
             FluentIcons.re_order_dots_24_regular,
             size: 50,
-            color: Colors.amber,
+            color: Colors.black,
           ),
           header: FluentIcons.re_order_dots_24_regular,
         ),
@@ -155,7 +158,7 @@ class _CartScrollState extends State<CartScroll> {
             'assets/images/cleaver.svg',
             width: 50,
             height: 50,
-            color: Colors.amber,
+            color: Colors.black,
           ),
           header: Icons.kitchen_outlined,
         ),
@@ -169,7 +172,7 @@ class _CartScrollState extends State<CartScroll> {
           icon: const Icon(
             FluentIcons.note_24_regular,
             size: 50,
-            color: Colors.amber,
+            color: Colors.black,
           ),
           header: FluentIcons.note_24_regular,
         ),
@@ -184,7 +187,7 @@ class _CartScrollState extends State<CartScroll> {
           icon: const Icon(
             FluentIcons.checkmark_48_regular,
             size: 50,
-            color: Colors.amber,
+            color: Colors.black,
           ),
           header: FluentIcons.checkmark_48_regular,
         ),
@@ -213,7 +216,7 @@ class _CartScrollState extends State<CartScroll> {
                     children: [
                       steps[i].icon,
                       const SizedBox(width: 10),
-                      Text(steps[i].label, style: Theme.of(context).textTheme.headline5),
+                      Text(steps[i].label, style: Theme.of(context).textTheme.headline5.copyWith(fontWeight: FontWeight.bold)),
                     ],
                   ),
                 ),
@@ -254,12 +257,14 @@ class _CartScrollState extends State<CartScroll> {
       else
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-          child: Wrap(
-            crossAxisAlignment: WrapCrossAlignment.center,
-            alignment: WrapAlignment.spaceBetween,
-            runAlignment: WrapAlignment.center,
+          child: Column(
+            // crossAxisAlignment: WrapCrossAlignment.center,
+            // alignment: WrapAlignment.spaceBetween,
+            // runAlignment: WrapAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               _buildButton(
+                icon: 'assets/images/carduse_card_payment.svg',
                 enabled: widget.cartItem.validate,
                 label: Text(S.current.continue_to_checkout),
                 onTap: () {
@@ -276,9 +281,11 @@ class _CartScrollState extends State<CartScroll> {
                   }
                 },
               ),
+              const SizedBox(height: 10),
               _buildButton(
+                icon: 'assets/images/shopping-cart.svg',
                 enabled: widget.cartItem.validate,
-                label: Text(S.current.continue_shopping),
+                label: Text(S.current.back_to_shopping),
                 onTap: () {
                   Helpers.dismissFauces(context);
                   if (messageFormKey?.currentState?.validate() ?? true) {
@@ -298,10 +305,11 @@ class _CartScrollState extends State<CartScroll> {
 
   Widget _buildButton({
     Widget label,
+    String icon,
     bool enabled = true,
     VoidCallback onTap,
   }) {
-    return ElevatedButton(
+    return ElevatedButton.icon(
       style: ButtonStyle(
         minimumSize: MaterialStateProperty.all(
           const Size.fromRadius(25),
@@ -313,7 +321,14 @@ class _CartScrollState extends State<CartScroll> {
         ),
       ),
       onPressed: enabled ? onTap : null,
-      child: label,
+      icon: icon == null
+          ? const Icon(Icons.arrow_back)
+          : SvgPicture.asset(
+              icon,
+              height: 40,
+              width: 40,
+            ),
+      label: label,
     );
   }
 

@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:sehool/src/data/user_datasource.dart';
+import 'package:sehool/src/models/user_model.dart';
 
 import 'address_model.dart';
 import 'order_model.dart';
@@ -11,7 +13,14 @@ class CartModel {
   List<CartItemModel> cartItems = [];
   AddressModel address;
   PaymentMethodModel paymentMethod;
+  bool hasCoupon = false;
+  bool organization = false;
+  bool fromWallet = false;
   // String note;
+  String associationName;
+  String associationOfficial;
+  String officialNumber;
+  String applicantName;
 
   CouponModel coupon;
 
@@ -19,6 +28,7 @@ class CartModel {
 
   double get totalWithoutDiscount => subtotalWithDelivery * 1.15;
   double get total => discountedSubtotal * 1.15;
+  double get tax => discountedSubtotal * 0.15;
 
   double get subtotal {
     double value = 0;
@@ -53,10 +63,14 @@ class CartModel {
   Map<String, dynamic> toJson() {
     return {
       // 'note': note ?? '',
-
+      'association_name': associationName,
+      'association_official': associationOfficial,
+      'official_number': officialNumber,
+      'applicant_name': applicantName,
       'address_id': address.id,
       'payment_method_id': paymentMethod.id,
       'coupon_id': coupon?.id,
+      'from_wallet': fromWallet,
       'products': cartItems
           .map(
             (e) => {
@@ -91,7 +105,7 @@ class CartModel {
 }
 
 class CartItemModel {
-  int quantity = 1;
+  int quantity = kUser.level == UserLevel.merchant ? 10 : 1;
 
   ProductModel product;
   SlicingMethodModel slicingMethod;
@@ -107,7 +121,7 @@ class CartItemModel {
   double get total => product.price * quantity;
 
   void incrementCart() => quantity++;
-  void decrementCart() => quantity > 1 ? quantity-- : quantity;
+  void decrementCart() => quantity > (kUser.level == UserLevel.merchant ? 10 : 1) ? quantity-- : quantity;
 
   bool get validate => product != null && slicingMethod != null && quantity > 0;
 

@@ -74,11 +74,9 @@ class _MainPageState extends State<MainPage> {
   Widget _buildBanner(List<BannerModel> values, {bool isLoading = false}) {
     return Container(
       clipBehavior: Clip.hardEdge,
-      margin: const EdgeInsets.all(8.0),
+      margin: const EdgeInsets.symmetric(horizontal: 40, vertical: 8),
       height: 250,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(25),
-      ),
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(25)),
       child: values.isEmpty && isLoading
           ? const Center(child: CircularProgressIndicator())
           : CarouselSlider.builder(

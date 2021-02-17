@@ -42,7 +42,8 @@ dependencies:
   fluentui_system_icons: ^1.1.91
   flutter_bloc: ^6.1.1
   flutter_rating_bar: ^3.2.0+1
-  flutter_svg:
+  flutter_staggered_grid_view: ^0.3.4
+  flutter_svg: null
   font_awesome_flutter: ^8.11.0
   freezed_annotation: ^0.12.0
   geolocator: ^6.1.14

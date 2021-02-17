@@ -2,7 +2,7 @@ import 'package:division/division.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sailor/sailor.dart';
-import 'package:sehool/src/screens/home/home.dart';
+import '../../home/home.dart';
 
 import '../../../../generated/l10n.dart';
 import '../../../../init_injectable.dart';

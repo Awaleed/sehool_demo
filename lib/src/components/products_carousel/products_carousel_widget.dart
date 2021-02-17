@@ -42,21 +42,28 @@ class ProductsCarouselWidget extends StatelessWidget {
     if (productsList.isEmpty && !isLoading) {
       return const EmptyProductsCarousel();
     }
-    return CarouselSlider.builder(
-      itemCount: isLoading ? productsList.length + 5 : productsList.length,
-      itemBuilder: (context, index) {
-        if (index >= productsList.length) {
-          return const ProductsCarouselLoadingItemWidget();
-        } else {
-          return ProductsCarouselItemWidget(
-            product: productsList.elementAt(index),
-          );
-        }
-      },
-      options: CarouselOptions(
-        enableInfiniteScroll: false,
-        height: 400,
-        enlargeCenterPage: true,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      child: CarouselSlider.builder(
+        itemCount: isLoading ? productsList.length + 5 : productsList.length,
+        itemBuilder: (context, index) {
+          if (index >= productsList.length) {
+            return const ProductsCarouselLoadingItemWidget();
+          } else {
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 40),
+              child: ProductsCarouselItemWidget(
+                product: productsList.elementAt(index),
+              ),
+            );
+          }
+        },
+        options: CarouselOptions(
+          enableInfiniteScroll: false,
+          height: 400,
+          enlargeCenterPage: true,
+          scrollDirection: Axis.vertical,
+        ),
       ),
     );
   }

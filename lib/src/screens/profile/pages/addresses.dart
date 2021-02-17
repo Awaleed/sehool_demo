@@ -3,7 +3,7 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sehool/src/screens/home/home.dart';
+import '../../home/home.dart';
 
 import '../../../../generated/l10n.dart';
 import '../../../../init_injectable.dart';

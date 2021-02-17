@@ -14,7 +14,7 @@ import '../models/user_model.dart';
 
 const String userBoxName = 'UserBox';
 const String currentUserKey = 'currentUser';
-
+bool rememberMe = true;
 UserModel get kUser => getIt<IUserLocalDataSource>().readUser();
 
 abstract class IUserLocalDataSource {
@@ -30,9 +30,13 @@ class UserLocalDataSource extends IUserLocalDataSource {
   UserLocalDataSource() : box = Hive.box(userBoxName);
 
   final Box box;
+  UserWithTokenModel _user;
 
   @override
   UserModel readUser() {
+    if (!rememberMe) {
+      return _user?.user;
+    }
     final userEncodedJson = box.get(currentUserKey);
     if (userEncodedJson == null) return null;
     final user = UserWithTokenModel.fromJson(jsonDecode(userEncodedJson));
@@ -41,6 +45,11 @@ class UserLocalDataSource extends IUserLocalDataSource {
 
   @override
   Future<void> saveUser(UserWithTokenModel user) async {
+    if (!rememberMe) {
+      _user = user;
+      return;
+    }
+
     try {
       await OneSignal.shared.setExternalUserId(
         user.user.id.toString(),
@@ -52,13 +61,21 @@ class UserLocalDataSource extends IUserLocalDataSource {
 
   @override
   Future<void> updateUser(UserModel user) async {
+    if (!rememberMe) {
+      return;
+    }
+
     final _user = UserWithTokenModel.fromJson(jsonDecode(box.get(currentUserKey)));
     final userEncodedJson = jsonEncode(_user.copyWith(user: user).toJson());
     await box.put(currentUserKey, userEncodedJson);
   }
 
   @override
-  Future<void> removeUser() {
+  Future<void> removeUser() async {
+    if (!rememberMe) {
+      return;
+    }
+
     try {
       OneSignal.shared.removeExternalUserId();
     } catch (e) {}
@@ -67,6 +84,10 @@ class UserLocalDataSource extends IUserLocalDataSource {
 
   @override
   String readAuthToken() {
+    if (!rememberMe) {
+      return _user?.accessToken?.token?.trim();
+    }
+
     final userEncodedJson = box.get(currentUserKey);
     if (userEncodedJson == null) return null;
     final user = UserWithTokenModel.fromJson(jsonDecode(userEncodedJson));

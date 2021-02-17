@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:sehool/src/routes/config_routes.dart';
 import 'package:supercharged/supercharged.dart';
 
 import '../../generated/l10n.dart';
@@ -18,8 +20,7 @@ abstract class Helpers {
     return renderBox?.size;
   }
 
-  static bool isArabic(BuildContext context) =>
-      Localizations.localeOf(context).languageCode == 'ar';
+  static bool isArabic(BuildContext context) => Localizations.localeOf(context).languageCode == 'ar';
 
   static void showErrorOverlay(
     BuildContext context, {
@@ -30,25 +31,25 @@ abstract class Helpers {
     if (context == null) return;
 
     dismissFauces(context);
-    final okButton = FlatButton(
-      onPressed: () => Navigator.of(context).pop(),
-      child: Text(S.current.back),
-    );
-
-    final alert = AlertDialog(
-      title: Text(
-        '${S.current.an_error_occurred}...',
-      ),
-      content: Text(message),
-      actions: [okButton],
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(25),
-      ),
-    );
 
     showDialog(
       context: context,
-      builder: (context) => alert,
+      useRootNavigator: true,
+      builder: (context) => AlertDialog(
+        title: Text(
+          '${S.current.an_error_occurred}...',
+        ),
+        content: Text(message),
+        actions: [
+          FlatButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text(S.current.back),
+          ),
+        ],
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(25),
+        ),
+      ),
     );
   }
 
@@ -59,10 +60,6 @@ abstract class Helpers {
     if (context == null) return;
 
     dismissFauces(context);
-    final okButton = FlatButton(
-      onPressed: () => Navigator.of(context).pop(),
-      child: Text(S.current.back),
-    );
 
     final messageWidget = <Widget>[];
 
@@ -90,31 +87,26 @@ abstract class Helpers {
     } else {
       messageWidget.add(Text('$error'));
     }
-
-    final alert = AlertDialog(
-      title: Text(
-        '${S.current.an_error_occurred}...',
-        locale: const Locale('en', ''),
-      ),
-      content: SingleChildScrollView(
-        child: Directionality(
-          textDirection: TextDirection.ltr,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: messageWidget,
-          ),
-        ),
-      ),
-      actions: [okButton],
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(25),
-      ),
-    );
-
     showDialog(
       context: context,
-      builder: (context) => alert,
+      useRootNavigator: true,
+      builder: (context) => AlertDialog(
+        title: Text(
+          '${S.current.an_error_occurred}...',
+        ),
+        content: Column(
+          children: messageWidget,
+        ),
+        actions: [
+          FlatButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text(S.current.back),
+          ),
+        ],
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(25),
+        ),
+      ),
     );
   }
 
@@ -154,8 +146,7 @@ abstract class Helpers {
 
   static Future<bool> onWillPop(BuildContext context) {
     final now = DateTime.now();
-    if (_currentBackPressTime == null ||
-        now.difference(_currentBackPressTime) > const Duration(seconds: 2)) {
+    if (_currentBackPressTime == null || now.difference(_currentBackPressTime) > const Duration(seconds: 2)) {
       _currentBackPressTime = now;
       Helpers.showMessageOverlay(
         context,
@@ -190,8 +181,7 @@ abstract class Helpers {
 
   static String _mapDioError(DioError error) {
     final message = StringBuffer();
-    if (error.response?.data['errors'] != null &&
-        error.response?.data['errors'] is Map) {
+    if (error.response?.data['errors'] != null && error.response?.data['errors'] is Map) {
       final map = error.response?.data['errors'] as Map;
       for (final value in map.values) {
         if (value is List) {

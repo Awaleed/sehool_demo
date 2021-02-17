@@ -14,13 +14,16 @@ class OrderModel {
     this.total,
     this.address,
     this.products,
+    this.createdAt,
   });
+
   final int id;
   final String note;
   final String payment;
   final double total;
   final AddressModel address;
   final StatusModel status;
+  final DateTime createdAt;
   final List<OrderItemModel> products;
 
   factory OrderModel.fromJson(Map<String, dynamic> json) => _$OrderModelFromJson(json);
@@ -97,4 +100,35 @@ class StatusModel {
 
   factory StatusModel.fromJson(Map<String, dynamic> json) => _$StatusModelFromJson(json);
   Map<String, dynamic> toJson() => _$StatusModelToJson(this);
+
+  static const statuses = [
+    StatusModel(
+      id: 1,
+      name: 'تم استلام الطلب',
+    ),
+    StatusModel(
+      id: 2,
+      name: 'قيد المعالجه',
+    ),
+    StatusModel(
+      id: 3,
+      name: 'التجهيز',
+    ),
+    StatusModel(
+      id: 4,
+      name: 'التوصيل',
+    ),
+    StatusModel(
+      id: 5,
+      name: 'تم',
+    ),
+    // StatusModel(
+    //   id: 6,
+    //   name: 'ملغى',
+    // ),
+    // StatusModel(
+    //   id: 7,
+    //   name: 'في انتظار الموافقه من الاداره',
+    // ),
+  ];
 }

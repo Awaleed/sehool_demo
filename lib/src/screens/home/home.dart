@@ -4,6 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:sehool/main.dart';
+import '../../components/orders_list/orders_list_sliver.dart';
+import '../../core/api_caller.dart';
+import '../../models/order_model.dart';
+import '../checkout/pages/payment_method_review.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../generated/l10n.dart';
@@ -71,6 +76,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (!added) WidgetsBinding.instance.addPostFrameCallback((_) => insertOverlay(context));
+
     return WillPopScope(
         onWillPop: () => Helpers.onWillPop(context),
         child: Parent(
@@ -212,7 +219,7 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             Icon(
               item.icon,
-              color: isSelected ? Colors.amber : Colors.white,
+              color: Colors.amber,
             ),
             if (isSelected)
               Flexible(
@@ -309,7 +316,7 @@ class _HomeScreenState extends State<HomeScreen> {
           )
           ..borderRadius(all: 50)
           ..alignmentContent.center(),
-        child: const Icon(FontAwesomeIcons.shareAlt, color: Colors.white),
+        child: const Icon(FontAwesomeIcons.shareAlt, color: Colors.amber),
       );
   Future<void> launchUrl(String url) async {
     if (await canLaunch(url)) {
@@ -322,6 +329,9 @@ class _HomeScreenState extends State<HomeScreen> {
         child: BlocBuilder<CartCubit, CartState>(
           cubit: getIt<CartCubit>(),
           builder: (context, state) => FloatingActionButton(
+            elevation: 0,
+            backgroundColor: Colors.transparent,
+            // foregroundColor: Colors.transparent,
             onPressed: () {
               if (state.cart.cartItems.isNotEmpty) {
                 AppRouter.sailor.navigate(CheckoutScreen.routeName);
@@ -335,7 +345,10 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Stack(
               clipBehavior: Clip.none,
               children: [
-                const Icon(FluentIcons.cart_24_filled),
+                const Icon(
+                  FluentIcons.cart_24_filled,
+                  color: Colors.amber,
+                ),
                 if (state.cart.cartItems.isNotEmpty)
                   Positioned(
                     top: -20,
@@ -376,21 +389,29 @@ class WhatsappFloatingActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FloatingActionButton(
-      heroTag: 'WhatsappFloatingActionButton',
-      onPressed: () {
-        // WhatsappFloatingActionButton
-      },
-      child: Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: SvgPicture.asset('assets/images/whatsapp.svg'),
+    return SizedBox(
+      width: MediaQuery.of(context).size.width * .9,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          // FloatingActionButton(
+          //   heroTag: 'WhatsappFloatingActionButton',
+          //   onPressed: () {
+          //     // WhatsappFloatingActionButton
+          //   },
+          //   backgroundColor: Colors.transparent,
+          //   foregroundColor: Colors.transparent,
+          //   child: SvgPicture.asset('assets/images/whatsapp.svg'),
+          //   // child: const Icon(
+          //   //   FontAwesomeIcons.whatsapp,
+          //   //   color: Color(
+          //   //     0xFF20b038,
+          //   //   ),
+          //   // ),
+          // ),
+          const PinnedOrders(),
+        ],
       ),
-      // child: const Icon(
-      //   FontAwesomeIcons.whatsapp,
-      //   color: Color(
-      //     0xFF20b038,
-      //   ),
-      // ),
     );
   }
 }
@@ -401,4 +422,131 @@ class _TabBarItem {
   final String label;
 
   const _TabBarItem({this.page, this.icon, this.label});
+}
+
+class PinnedOrders extends StatefulWidget {
+  const PinnedOrders({Key key}) : super(key: key);
+
+  @override
+  PinnedOrdersState createState() => PinnedOrdersState();
+}
+
+class PinnedOrdersState extends State<PinnedOrders> with ApiCaller {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        FutureBuilder<List<OrderModel>>(
+          future: () async {
+            final List res = await get(path: '/pending/orders');
+            return ApiCaller.listParser(res, (data) {
+              data['total'] = double.tryParse('${data['total']}' ?? '');
+              // data['lat'] = double.tryParse('${data['lat']}' ?? '');
+              data['items'] = data['products'];
+              // data['address'] = data['description'];
+              if (data['address'] != null) {
+                data['address']['lang'] = double.tryParse('${data['address']['lang']}' ?? '');
+                data['address']['lat'] = double.tryParse('${data['address']['lat']}' ?? '');
+                data['address']['note'] = data['address']['description'];
+                data['address']['address'] = data['address']['description'];
+              }
+              return OrderModel.fromJson(data);
+            });
+          }(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              // if (snapshot.data.isEmpty) {
+              //   return const SizedBox.shrink();
+              // }
+              return Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  FloatingActionButton(
+                    heroTag: 'PinnedOrdersFloatingActionButton',
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          clipBehavior: Clip.hardEdge,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+                          backgroundColor: Colors.white,
+                          contentPadding: EdgeInsets.zero,
+                          insetPadding: EdgeInsets.zero,
+                          title: Row(
+                            children: [
+                              Text(S.current.pinned_orders),
+                              const Spacer(),
+                              ElevatedButton(
+                                onPressed: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => BankInfoWidget(),
+                                  );
+                                },
+                                child: Text(S.current.bank_info),
+                              ),
+                            ],
+                          ),
+                          content: SizedBox(
+                            width: MediaQuery.of(context).size.width * .9,
+                            height: MediaQuery.of(context).size.height * .9,
+                            child: OrdersListWidget(
+                              orders: snapshot.data,
+                              isLoading: false,
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                    child: const Icon(FontAwesomeIcons.history),
+                  ),
+                  Positioned(
+                    bottom: -10,
+                    left: -10,
+                    right: -10,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        SizedBox.fromSize(
+                          size: const Size.fromRadius(14),
+                          child: Container(
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              color: Colors.black,
+                              borderRadius: BorderRadius.circular(2),
+                            ),
+                            child: Text(
+                              '${snapshot?.data?.length}',
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(color: Colors.amber),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              );
+            } else if (snapshot.connectionState == ConnectionState.waiting) {
+              return FloatingActionButton(
+                heroTag: 'PinnedOrdersFloatingActionButton',
+                onPressed: () {
+                  // WhatsappFloatingActionButton
+                },
+                child: const Center(
+                  child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
+                  ),
+                ),
+              );
+            } else {
+              return const SizedBox.shrink();
+            }
+          },
+        ),
+        const SizedBox(height: 10),
+      ],
+    );
+  }
 }

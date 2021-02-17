@@ -24,7 +24,7 @@ class LanguageModel {
           'ar',
           'Arabic',
           'العربية',
-          'assets/images/ksa.png',
+          'assets/images/ksa.svg',
         ),
       ];
 }

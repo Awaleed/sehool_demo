@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sehool/src/components/message_check_box.dart';
-import 'package:sehool/src/models/product_model.dart';
+import 'message_check_box.dart';
+import '../models/product_model.dart';
 import 'package:supercharged/supercharged.dart';
 import '../../generated/l10n.dart';
 import '../../init_injectable.dart';
@@ -153,7 +153,7 @@ class _CartDropdownState extends State<CartDropdown> {
               ),
               child: Text(
                 widget.itemAsString?.call(e) ?? '$e',
-                style: Theme.of(context).textTheme.headline6.copyWith(color: Colors.black, fontWeight: FontWeight.normal),
+                style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.black, fontWeight: FontWeight.normal),
               ),
             ),
           ),
@@ -170,7 +170,7 @@ class _CartDropdownState extends State<CartDropdown> {
         //       groupValue: selectedValue,
         //       title: Text(
         //         widget.itemAsString?.call(e) ?? '$e',
-        //         style: Theme.of(context).textTheme.headline6.copyWith(color: Colors.black, fontWeight: FontWeight.normal),
+        //         style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.black, fontWeight: FontWeight.normal),
         //       ),
         //       onChanged: (value) async {
         //         if (value is PaymentMethodModel && value.type == 'wallet') {
@@ -195,6 +195,9 @@ class _CartDropdownState extends State<CartDropdown> {
         if (widget.dropdownType == DropdownValueType.slicingMethods && selectedValue.id == 3) ...[
           const SizedBox(height: 10),
           MessageCheckBox(
+            onValueChanged: (value) {
+              setState(() {});
+            },
             cart: widget.cartItem,
             formKey: widget.messageFormKey,
           ),
@@ -208,7 +211,7 @@ class _CartDropdownState extends State<CartDropdown> {
             child: ListTile(
               title: Text(
                 S.current.add_a_new_address,
-                style: Theme.of(context).textTheme.headline6.copyWith(color: Colors.black, fontWeight: FontWeight.normal),
+                style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.black, fontWeight: FontWeight.normal),
               ),
               onTap: () async {
                 final _cubit = getIt<AddressCubit>();
@@ -278,7 +281,7 @@ class _CartDropdownState extends State<CartDropdown> {
                       return S.current.address;
                   }
                 }(),
-                style: Theme.of(context).textTheme.headline5.copyWith(color: Colors.black),
+                style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.black),
               ),
             ),
           ),
@@ -289,7 +292,7 @@ class _CartDropdownState extends State<CartDropdown> {
                 child: Center(
                   child: Text(
                     widget.itemAsString?.call(e) ?? '$e',
-                    style: Theme.of(context).textTheme.headline5.copyWith(color: Colors.black),
+                    style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.black),
                   ),
                 ),
               ),
@@ -300,7 +303,7 @@ class _CartDropdownState extends State<CartDropdown> {
                 child: Center(
                   child: Text(
                     '${S.current.add_a_new_address} +',
-                    style: Theme.of(context).textTheme.headline5.copyWith(color: Colors.black),
+                    style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.black),
                   ),
                 ),
               ),

@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sehool/generated/l10n.dart';
-import 'package:sehool/src/helpers/helper.dart';
-import 'package:sehool/src/models/form_data_model.dart';
+import '../../generated/l10n.dart';
+import '../helpers/helper.dart';
+import '../models/form_data_model.dart';
 
 import '../../init_injectable.dart';
 import '../cubits/cart_message_cubit/cart_messages_cubit.dart';
@@ -130,6 +130,7 @@ class _MessageCheckBoxState extends State<MessageCheckBox> {
                 validator: Validators.shortStringValidator,
                 decoration: InputDecoration(
                   hintText: S.current.from,
+                  hintStyle: const TextStyle(color: Colors.black26),
                   filled: true,
                   fillColor: Colors.white,
                   contentPadding: const EdgeInsets.symmetric(horizontal: 15),
@@ -147,6 +148,7 @@ class _MessageCheckBoxState extends State<MessageCheckBox> {
                 validator: Validators.shortStringValidator,
                 decoration: InputDecoration(
                   hintText: S.current.to,
+                  hintStyle: const TextStyle(color: Colors.black26),
                   filled: true,
                   fillColor: Colors.white,
                   contentPadding: const EdgeInsets.symmetric(horizontal: 15),
@@ -187,6 +189,7 @@ class _MessageCheckBoxState extends State<MessageCheckBox> {
         hintText: S.current.or_write_custom_message,
         filled: true,
         fillColor: Colors.white,
+        hintStyle: const TextStyle(color: Colors.black26),
         suffixIcon: IconButton(
           icon: const Icon(Icons.clear),
           onPressed: () {
@@ -210,7 +213,7 @@ class _MessageCheckBoxState extends State<MessageCheckBox> {
       textAlign: TextAlign.center,
       maxLines: 5,
       minLines: 1,
-      style: const TextStyle(fontWeight: FontWeight.bold),
+      // style: const TextStyle(fontWeight: FontWeight.bold),
       onChanged: (value) {
         // sendTimer?.cancel();
         // sendTimer = Timer(700.milliseconds, () {
@@ -257,7 +260,7 @@ class _MessageCheckBoxState extends State<MessageCheckBox> {
                   child: Text(
                     '$e',
                     overflow: TextOverflow.visible,
-                    style: Theme.of(context).textTheme.headline5.copyWith(color: Colors.black),
+                    style: Theme.of(context).textTheme.bodyText2.copyWith(color: Colors.black),
                   ),
                 ),
               ),

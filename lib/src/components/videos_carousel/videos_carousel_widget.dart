@@ -149,9 +149,9 @@ class _VideosCarouselWidgetState extends State<VideosCarouselWidget> {
       options: CarouselOptions(
         enableInfiniteScroll: false,
         enlargeCenterPage: true,
-        scrollDirection: Axis.vertical,
+        // scrollDirection: Axis.vertical,
         aspectRatio: 1,
-        viewportFraction: .6,
+        viewportFraction: 1,
         onPageChanged: (index, reason) {
           setState(() {
             currentItem = index;

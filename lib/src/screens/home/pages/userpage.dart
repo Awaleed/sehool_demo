@@ -296,13 +296,13 @@ class _SettingsState extends State<Settings> {
           // onTap: () => AppRouter.sailor.navigate(AddressesScreen.routeName),
           // description: S.current.your_addresses_that_you_want_us_to_reach_you,
         ),
-        SettingsItem(
-          onRefresh: widget.onRefresh,
-          icon: FluentIcons.local_language_16_regular,
-          title: S.current.languages,
-          target: const LanguageScreen(),
-          // description: S.current.we_speak_more_than_one_language,
-        ),
+        // SettingsItem(
+        //   onRefresh: widget.onRefresh,
+        //   icon: FluentIcons.local_language_16_regular,
+        //   title: S.current.languages,
+        //   target: const LanguageScreen(),
+        //   // description: S.current.we_speak_more_than_one_language,
+        // ),
         SettingsItem(
           onRefresh: widget.onRefresh,
           icon: FluentIcons.settings_28_regular,

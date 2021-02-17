@@ -6,8 +6,10 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/parser.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:sailor/sailor.dart';
-import 'package:sehool/src/components/message_check_box.dart';
+import '../../components/message_check_box.dart';
 import 'package:supercharged/supercharged.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -125,7 +127,7 @@ class _CheckoutScrollState extends State<CheckoutScroll> {
   CheckoutCubit cubit;
   final addressKey = GlobalKey();
   final paymentMethodKey = GlobalKey();
-  final messageFormKey = GlobalKey<FormState>();
+  final organizationFormKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -163,6 +165,11 @@ class _CheckoutScrollState extends State<CheckoutScroll> {
               message: S.current.your_order_has_been_successfully_submitted,
             );
             getIt<CartCubit>().clear();
+            AppRouter.sailor.navigate(
+              HomeScreen.routeName,
+              navigationType: NavigationType.pushAndRemoveUntil,
+              removeUntilPredicate: (_) => false,
+            );
           },
           failure: (message) {
             Helpers.showErrorOverlay(context, error: message);
@@ -199,6 +206,21 @@ class _CheckoutScrollState extends State<CheckoutScroll> {
 
   List<_StepItem> get steps => [
         _StepItem(
+          label: S.current.discounts,
+          child: CartCouponField(
+            cart: widget.cart,
+            onChanged: onChange,
+            organizationFormKey: organizationFormKey,
+          ),
+          icon: SvgPicture.asset(
+            'assets/images/discount.svg',
+            height: 50,
+            width: 50,
+            color: Colors.amber,
+          ),
+          // header: FluentIcons.plug_disconnected_28_regular,
+        ),
+        _StepItem(
           key: addressKey,
           label: S.current.shipping_address,
           child: AddressReviewPage(
@@ -213,20 +235,9 @@ class _CheckoutScrollState extends State<CheckoutScroll> {
           header: FluentIcons.location_48_regular,
         ),
         _StepItem(
-          label: S.current.add_coupon,
-          child: CartCouponField(
-            cart: widget.cart,
-            onChanged: onChange,
-          ),
-          icon: const Icon(
-            FluentIcons.plug_disconnected_28_regular,
-            size: 50,
-            color: Colors.amber,
-          ),
-          header: FluentIcons.plug_disconnected_28_regular,
-        ),
-        _StepItem(
           hideLabel: true,
+          // label: S.current.bill,
+          // icon: Icon(Icons.add_circle_outline_sharp),
           child: SummeryCard(
             cart: widget.cart,
             onChanged: onChange,
@@ -257,7 +268,7 @@ class _CheckoutScrollState extends State<CheckoutScroll> {
         //     padding: const EdgeInsets.symmetric(horizontal: 20),
         //     child: MessageCheckBox(
         //       cart: widget.cart,
-        //       formKey: messageFormKey,
+        //       formKey: organizationFormKey,
         //       onValueChanged: (value) {
         //         setState(() {});
         //       },
@@ -291,7 +302,7 @@ class _CheckoutScrollState extends State<CheckoutScroll> {
                       const SizedBox(width: 10),
                       Text(
                         steps[i].label,
-                        style: Theme.of(context).textTheme.headline5,
+                        style: Theme.of(context).textTheme.headline5.copyWith(fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
@@ -337,13 +348,13 @@ class _CheckoutScrollState extends State<CheckoutScroll> {
           label: Text(S.current.checkout),
           onTap: widget.cart.validate
               ? () {
-                  // Helpers.dismissFauces(context);
-                  // if (messageFormKey?.currentState?.validate() ?? true) {
-                  // messageFormKey?.currentState?.save();
-                  cubit.placeOrder(widget.cart);
-                  // } else {
-                  //   Helpers.showErrorOverlay(context, error: S.current.check_that_you_filled_all_fields_correctly);
-                  // }
+                  Helpers.dismissFauces(context);
+                  if (organizationFormKey?.currentState?.validate() ?? true) {
+                    organizationFormKey?.currentState?.save();
+                    cubit.placeOrder(widget.cart);
+                  } else {
+                    Helpers.showErrorOverlay(context, error: S.current.check_that_you_filled_all_fields_correctly);
+                  }
                 }
               : null,
         ),

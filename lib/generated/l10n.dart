@@ -35,6 +35,156 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
+  /// `Association name`
+  String get association_name {
+    return Intl.message(
+      'Association name',
+      name: 'association_name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Association official`
+  String get association_official {
+    return Intl.message(
+      'Association official',
+      name: 'association_official',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Official number`
+  String get official_number {
+    return Intl.message(
+      'Official number',
+      name: 'official_number',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Applicant name`
+  String get applicant_name {
+    return Intl.message(
+      'Applicant name',
+      name: 'applicant_name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Charities discount`
+  String get charities_discount {
+    return Intl.message(
+      'Charities discount',
+      name: 'charities_discount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Bill`
+  String get bill {
+    return Intl.message(
+      'Bill',
+      name: 'bill',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Remember me`
+  String get remember_me {
+    return Intl.message(
+      'Remember me',
+      name: 'remember_me',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Back to shopping`
+  String get back_to_shopping {
+    return Intl.message(
+      'Back to shopping',
+      name: 'back_to_shopping',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Discounts`
+  String get discounts {
+    return Intl.message(
+      'Discounts',
+      name: 'discounts',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Bank name`
+  String get bank_name {
+    return Intl.message(
+      'Bank name',
+      name: 'bank_name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Account number`
+  String get account_number {
+    return Intl.message(
+      'Account number',
+      name: 'account_number',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `I-ban number`
+  String get iban_number {
+    return Intl.message(
+      'I-ban number',
+      name: 'iban_number',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Bank info`
+  String get bank_info {
+    return Intl.message(
+      'Bank info',
+      name: 'bank_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pinned orders`
+  String get pinned_orders {
+    return Intl.message(
+      'Pinned orders',
+      name: 'pinned_orders',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Deduction from wallet balance`
+  String get deduction_from_wallet_balance {
+    return Intl.message(
+      'Deduction from wallet balance',
+      name: 'deduction_from_wallet_balance',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Contact us`
   String get contact_us {
     return Intl.message(

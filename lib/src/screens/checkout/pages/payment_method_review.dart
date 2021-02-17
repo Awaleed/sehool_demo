@@ -1,11 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sehool/init_injectable.dart';
-import 'package:sehool/src/components/my_error_widget.dart';
-import 'package:sehool/src/cubits/dropdown_cubit/dropdown_cubit.dart';
-import 'package:sehool/src/helpers/helper.dart';
-import 'package:sehool/src/models/order_model.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import '../../../../init_injectable.dart';
+import '../../../components/my_error_widget.dart';
+import '../../../core/api_caller.dart';
+import '../../../cubits/dropdown_cubit/dropdown_cubit.dart';
+import '../../../helpers/helper.dart';
+import '../../../models/bank_model.dart';
+import '../../../models/order_model.dart';
 import 'package:supercharged/supercharged.dart';
 import '../../../../generated/l10n.dart';
 import '../../../data/user_datasource.dart';
@@ -31,11 +34,11 @@ class _PaymentMethodReviewPageState extends State<PaymentMethodReviewPage> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const SizedBox(height: 20),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: _TotalCard(cart: widget.cart),
-        ),
+        // const SizedBox(height: 20),
+        // Padding(
+        //   padding: const EdgeInsets.symmetric(horizontal: 20),
+        //   child: _TotalCard(cart: widget.cart),
+        // ),
         const SizedBox(height: 20),
         Center(
           child: Padding(
@@ -239,9 +242,18 @@ class _CartDropdownState extends State<CartDropdown> {
       );
     }
 
-    return GridView.count(
+    return StaggeredGridView.count(
       shrinkWrap: true,
-      crossAxisCount: 2,
+      crossAxisCount: 4,
+      // maxCrossAxisExtent: 150,
+      staggeredTiles: [
+        ...values.map((e) {
+          if (e.type == 'transfer') {
+            return const StaggeredTile.count(4, 1);
+          }
+          return const StaggeredTile.count(2, 1);
+        }),
+      ],
       physics: NeverScrollableScrollPhysics(),
       children: [
         ...values.map(
@@ -262,6 +274,13 @@ class _CartDropdownState extends State<CartDropdown> {
                 } else {
                   widget.onValueChanged?.call(e);
                   setState(() => selectedValue = e);
+                }
+                if (e is PaymentMethodModel && e.type == 'transfer') {
+                  showDialog(
+                    context: context,
+                    useRootNavigator: true,
+                    builder: (context) => BankInfoWidget(),
+                  );
                 }
               },
               child: Container(
@@ -323,7 +342,7 @@ class _CartDropdownState extends State<CartDropdown> {
                             child: Text(
                               widget.itemAsString?.call(e) ?? '$e',
                               textAlign: TextAlign.center,
-                              style: Theme.of(context).textTheme.headline6.copyWith(color: Colors.white, fontWeight: FontWeight.normal),
+                              style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.white, fontWeight: FontWeight.normal),
                             ),
                           ),
                         ),
@@ -377,6 +396,72 @@ class _CartDropdownState extends State<CartDropdown> {
         //   ),
         // ),
       ],
+    );
+  }
+}
+
+class BankInfoWidget extends StatelessWidget with ApiCaller {
+  BankInfoWidget({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      clipBehavior: Clip.hardEdge,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+      backgroundColor: Colors.white70,
+      title: Text(S.current.bank_info),
+      content: FutureBuilder<List<BankModel>>(
+        future: () async {
+          final List res = await get(path: '/account/banks');
+          return ApiCaller.listParser(res, (data) => BankModel.fromJson(data));
+        }(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ...snapshot.data.map(
+                  (e) => Card(
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+                    child: Column(
+                      children: [
+                        ListTile(
+                          title: Text(S.current.bank_name),
+                          subtitle: Text(e.name),
+                        ),
+                        ListTile(
+                          title: Text(S.current.account_number),
+                          subtitle: Text(e.accountNumber),
+                        ),
+                        ListTile(
+                          title: Text(S.current.iban_number),
+                          subtitle: Text(e.ibanNumber),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            );
+          } else if (snapshot.connectionState == ConnectionState.waiting) {
+            return FittedBox(
+              child: Container(
+                margin: const EdgeInsets.only(left: 40.0, right: 40.0),
+                decoration: const BoxDecoration(
+                  color: Colors.black87,
+                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                ),
+                child: const Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: CircularProgressIndicator(strokeWidth: 2.0),
+                ),
+              ),
+            );
+          } else {
+            return const SizedBox.shrink();
+          }
+        },
+      ),
     );
   }
 }
