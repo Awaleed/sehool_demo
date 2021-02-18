@@ -14,6 +14,7 @@ import '../models/user_model.dart';
 
 const String userBoxName = 'UserBox';
 const String currentUserKey = 'currentUser';
+const String rememberedUserKey = 'rememberedUserKey';
 bool rememberMe = true;
 UserModel get kUser => getIt<IUserLocalDataSource>().readUser();
 
@@ -23,6 +24,10 @@ abstract class IUserLocalDataSource {
   Future<void> removeUser();
   String readAuthToken();
   UserModel readUser();
+
+  Future<void> saveCredentials(Map<String, dynamic> credentials);
+  Map<String, dynamic> readCredentials();
+  Future<void> removeCredentials();
 }
 
 @Singleton(as: IUserLocalDataSource)
@@ -34,9 +39,6 @@ class UserLocalDataSource extends IUserLocalDataSource {
 
   @override
   UserModel readUser() {
-    if (!rememberMe) {
-      return _user?.user;
-    }
     final userEncodedJson = box.get(currentUserKey);
     if (userEncodedJson == null) return null;
     final user = UserWithTokenModel.fromJson(jsonDecode(userEncodedJson));
@@ -45,11 +47,6 @@ class UserLocalDataSource extends IUserLocalDataSource {
 
   @override
   Future<void> saveUser(UserWithTokenModel user) async {
-    if (!rememberMe) {
-      _user = user;
-      return;
-    }
-
     try {
       await OneSignal.shared.setExternalUserId(
         user.user.id.toString(),
@@ -61,10 +58,6 @@ class UserLocalDataSource extends IUserLocalDataSource {
 
   @override
   Future<void> updateUser(UserModel user) async {
-    if (!rememberMe) {
-      return;
-    }
-
     final _user = UserWithTokenModel.fromJson(jsonDecode(box.get(currentUserKey)));
     final userEncodedJson = jsonEncode(_user.copyWith(user: user).toJson());
     await box.put(currentUserKey, userEncodedJson);
@@ -72,10 +65,6 @@ class UserLocalDataSource extends IUserLocalDataSource {
 
   @override
   Future<void> removeUser() async {
-    if (!rememberMe) {
-      return;
-    }
-
     try {
       OneSignal.shared.removeExternalUserId();
     } catch (e) {}
@@ -84,14 +73,34 @@ class UserLocalDataSource extends IUserLocalDataSource {
 
   @override
   String readAuthToken() {
-    if (!rememberMe) {
-      return _user?.accessToken?.token?.trim();
-    }
-
     final userEncodedJson = box.get(currentUserKey);
     if (userEncodedJson == null) return null;
     final user = UserWithTokenModel.fromJson(jsonDecode(userEncodedJson));
     return user.accessToken.token.trim();
+  }
+
+  @override
+  Map<String, dynamic> readCredentials() {
+    try {
+      final String credentialsEncodedJson = box.get(rememberedUserKey);
+      if (credentialsEncodedJson == null) return null;
+      final credentials = jsonDecode(credentialsEncodedJson);
+      return credentials;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  @override
+  Future<void> saveCredentials(Map<String, dynamic> credentials) async {
+    final credentialsEncodedJson = jsonEncode(credentials);
+    await box.put(rememberedUserKey, credentialsEncodedJson);
+  }
+
+  @override
+  Future<void> removeCredentials() async {
+    return box.delete(rememberedUserKey);
   }
 }
 
@@ -99,7 +108,7 @@ abstract class IUserRemoteDataSource {
   Future<Map<String, dynamic>> login(Map<String, dynamic> credentials);
   Future<Map<String, dynamic>> logout();
   Future<Map<String, dynamic>> me();
-  Future<Map<String, dynamic>> register(Map<String, dynamic> credentials);
+  Future<Map<String, dynamic>> register(FormData credentials);
 
   Future<Map<String, dynamic>> forgotPassword(Map<String, dynamic> credentials);
   Future<Map<String, dynamic>> resetPassword(Map<String, dynamic> credentials);
@@ -132,7 +141,7 @@ class UserRemoteDataSource extends IUserRemoteDataSource with ApiCaller {
   Future<Map<String, dynamic>> me() => post(path: '/auth/me');
 
   @override
-  Future<Map<String, dynamic>> register(Map<String, dynamic> credentials) => post(path: '/auth/registration', data: credentials);
+  Future<Map<String, dynamic>> register(FormData credentials) => post(path: '/auth/registration', data: credentials);
 
   @override
   Future<Map<String, dynamic>> forgotPassword(
@@ -243,7 +252,7 @@ class FakeUserRemoteDataSource extends IUserRemoteDataSource {
   }
 
   @override
-  Future<Map<String, dynamic>> register(Map<String, dynamic> credentials) async {
+  Future<Map<String, dynamic>> register(FormData credentials) async {
     await Future.delayed(random.integer(1000).milliseconds);
     return FakeDataGenerator.userWithTokenModel.toJson();
   }

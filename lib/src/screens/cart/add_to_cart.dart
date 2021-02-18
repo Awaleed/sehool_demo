@@ -2,18 +2,17 @@ import 'package:division/division.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:sailor/sailor.dart';
-import '../../components/my_error_widget.dart';
-import '../home/home.dart';
-import 'package:supercharged/supercharged.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sailor/sailor.dart';
+import 'package:supercharged/supercharged.dart';
+
 import '../../../generated/l10n.dart';
 import '../../../init_injectable.dart';
 import '../../components/cart_dropdown.dart';
 import '../../components/cart_item_preview.dart';
 import '../../components/cart_quantity_card.dart';
 import '../../components/cart_text_field.dart';
+import '../../components/my_error_widget.dart';
 import '../../cubits/cart_cubit/cart_cubit.dart';
 import '../../helpers/helper.dart';
 import '../../models/cart_model.dart';
@@ -22,6 +21,7 @@ import '../../models/product_model.dart';
 import '../../patched_components/custom_stepper.dart';
 import '../../routes/config_routes.dart';
 import '../checkout/checkout.dart';
+import '../home/home.dart';
 
 class AddToCartScreen extends StatelessWidget {
   static const routeName = '/add_to_cart';
@@ -61,7 +61,7 @@ class AddToCartScreen extends StatelessWidget {
         ),
         appBar: AppBar(
           title: Text(
-            S.current.add_to_cart,
+            '${S.current.add} ${product.name}',
             style: Theme.of(context).textTheme.headline6.copyWith(color: Colors.white),
           ),
           elevation: 0,
@@ -162,20 +162,20 @@ class _CartScrollState extends State<CartScroll> {
           ),
           header: Icons.kitchen_outlined,
         ),
-        _StepItem(
-          hideLabel: true,
-          label: S.current.notes,
-          child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: CartTextField(cartItem: widget.cartItem),
-          ),
-          icon: const Icon(
-            FluentIcons.note_24_regular,
-            size: 50,
-            color: Colors.black,
-          ),
-          header: FluentIcons.note_24_regular,
-        ),
+        // _StepItem(
+        //   hideLabel: true,
+        //   label: S.current.notes,
+        //   child: Padding(
+        //     padding: const EdgeInsets.all(20),
+        //     child: CartTextField(cartItem: widget.cartItem),
+        //   ),
+        //   icon: const Icon(
+        //     FluentIcons.note_24_regular,
+        //     size: 50,
+        //     color: Colors.black,
+        //   ),
+        //   header: FluentIcons.note_24_regular,
+        // ),
         _StepItem(
           hideLabel: true,
           label: S.current.finish,
@@ -216,7 +216,7 @@ class _CartScrollState extends State<CartScroll> {
                     children: [
                       steps[i].icon,
                       const SizedBox(width: 10),
-                      Text(steps[i].label, style: Theme.of(context).textTheme.headline5.copyWith(fontWeight: FontWeight.bold)),
+                      Text(steps[i].label, style: Theme.of(context).textTheme.button.copyWith(fontWeight: FontWeight.bold)),
                     ],
                   ),
                 ),
@@ -247,7 +247,11 @@ class _CartScrollState extends State<CartScroll> {
           padding: const EdgeInsets.all(20),
           child: _buildButton(
             enabled: widget.cartItem.validate,
-            label: Text(S.current.back),
+            label: Text(S.current.back,
+                style: Theme.of(context).textTheme.bodyText1.copyWith(
+                      color: Colors.black,
+                      fontWeight: FontWeight.normal,
+                    )),
             onTap: () {
               Helpers.dismissFauces(context);
               AppRouter.sailor.pop();
@@ -266,7 +270,11 @@ class _CartScrollState extends State<CartScroll> {
               _buildButton(
                 icon: 'assets/images/carduse_card_payment.svg',
                 enabled: widget.cartItem.validate,
-                label: Text(S.current.continue_to_checkout),
+                label: Text(S.current.continue_to_checkout,
+                    style: Theme.of(context).textTheme.bodyText1.copyWith(
+                          color: Colors.black,
+                          fontWeight: FontWeight.normal,
+                        )),
                 onTap: () {
                   Helpers.dismissFauces(context);
                   if (messageFormKey?.currentState?.validate() ?? true) {
@@ -281,11 +289,15 @@ class _CartScrollState extends State<CartScroll> {
                   }
                 },
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 15),
               _buildButton(
                 icon: 'assets/images/shopping-cart.svg',
                 enabled: widget.cartItem.validate,
-                label: Text(S.current.back_to_shopping),
+                label: Text(S.current.back_to_shopping,
+                    style: Theme.of(context).textTheme.bodyText1.copyWith(
+                          color: Colors.black,
+                          fontWeight: FontWeight.normal,
+                        )),
                 onTap: () {
                   Helpers.dismissFauces(context);
                   if (messageFormKey?.currentState?.validate() ?? true) {
@@ -309,7 +321,7 @@ class _CartScrollState extends State<CartScroll> {
     bool enabled = true,
     VoidCallback onTap,
   }) {
-    return ElevatedButton.icon(
+    return ElevatedButton(
       style: ButtonStyle(
         minimumSize: MaterialStateProperty.all(
           const Size.fromRadius(25),
@@ -321,14 +333,21 @@ class _CartScrollState extends State<CartScroll> {
         ),
       ),
       onPressed: enabled ? onTap : null,
-      icon: icon == null
-          ? const Icon(Icons.arrow_back)
-          : SvgPicture.asset(
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (icon == null)
+            const Icon(Icons.arrow_back)
+          else
+            SvgPicture.asset(
               icon,
               height: 40,
               width: 40,
             ),
-      label: label,
+          const SizedBox(width: 10),
+          label,
+        ],
+      ),
     );
   }
 

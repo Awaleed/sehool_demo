@@ -1,22 +1,20 @@
 import 'dart:math';
-import 'package:sehool/src/data/user_datasource.dart';
-import 'package:supercharged/supercharged.dart';
 
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:sailor/sailor.dart';
+import 'package:supercharged/supercharged.dart';
 import 'package:transformer_page_view/transformer_page_view.dart';
 import 'package:validators/validators.dart';
 
 import '../../../../../generated/l10n.dart';
 import '../../../../../init_injectable.dart';
 import '../../../../cubits/settings_cubit/settings_cubit.dart';
+import '../../../../data/user_datasource.dart';
 import '../../../../helpers/helper.dart';
 import '../../../../models/form_data_model.dart';
-import '../../../../models/language_model.dart';
 import '../../../../routes/config_routes.dart';
 import '../../../../screens/splash.dart';
 import '../constants.dart';
@@ -374,8 +372,13 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
     cubit = getIt<SettingsCubit>();
 
     final auth = Provider.of<Auth>(context, listen: false);
-    _nameController = TextEditingController(text: auth.email);
-    _passController = TextEditingController(text: auth.password);
+    String _email, _password;
+    if (getIt<IUserLocalDataSource>().readCredentials() != null) {
+      _email = getIt<IUserLocalDataSource>().readCredentials()['email'];
+      _password = getIt<IUserLocalDataSource>().readCredentials()['password'];
+    }
+    _nameController = TextEditingController(text: _email ?? auth.email);
+    _passController = TextEditingController(text: _password ?? auth.password);
 
     _loadingController = widget.loadingController ??
         (AnimationController(

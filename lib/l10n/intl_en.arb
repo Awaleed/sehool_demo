@@ -1,5 +1,13 @@
 {
   "@@locale": "en",
+  "coupon_name": "Coupon name",
+  "@coupon_name": {},
+  "sorry_we_can_not_deliver_to_this_area": "Sorry we can not deliver to this area",
+  "@sorry_we_can_not_deliver_to_this_area": {},
+  "choose_an_image": "Choose an image",
+  "@choose_an_image": {},
+  "commercial_register": "Commercial register",
+  "@commercial_register": {},
   "association_name": "Association name",
   "@association_name": {},
   "association_official": "Association official",

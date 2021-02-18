@@ -283,81 +283,92 @@ class _CartDropdownState extends State<CartDropdown> {
                   );
                 }
               },
-              child: Container(
-                // padding: const EdgeInsets.all(12),
-                clipBehavior: Clip.hardEdge,
+              child: Card(
+                // margin: EdgeInsets.zero,
                 margin: const EdgeInsets.all(5),
-                // duration: 300.milliseconds,
+                child: Container(
+                  // padding: const EdgeInsets.all(12),
+                  clipBehavior: Clip.hardEdge,
+                  // duration: 300.milliseconds,
 
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    width: 3,
-                    color: e == selectedValue ? Theme.of(context).primaryColor : Colors.transparent,
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      width: 3,
+                      color: e == selectedValue ? Theme.of(context).primaryColor : Colors.transparent,
+                    ),
+                    // borderRadius: BorderRadius.circular(15),
                   ),
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
-                  child: Stack(
-                    fit: StackFit.expand,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(15),
+                  child: ClipRRect(
+                    // borderRadius: BorderRadius.circular(12),
+                    child: Stack(
+                      fit: StackFit.expand,
+                      children: [
+                        ClipRRect(
+                          // borderRadius: BorderRadius.circular(15),
                           child: CachedNetworkImage(
                             imageUrl: e.icon,
                             fit: BoxFit.contain,
                           ),
                         ),
-                      ),
-                      if (e == selectedValue)
-                        Positioned(
-                          top: 0,
-                          left: 0,
-                          right: 0,
-                          child: Row(
-                            children: [
-                              Container(
-                                color: Theme.of(context).primaryColor,
-                                padding: const EdgeInsets.all(5),
-                                child: const Icon(Icons.check),
-                              ),
-                            ],
-                          ),
-                        ),
-                      Positioned(
-                        bottom: 0,
-                        left: 0,
-                        right: 0,
-                        child: Container(
-                          color: Colors.black54,
-                          // decoration: BoxDecoration(
-                          //   // borderRadius: BorderRadius.vertical(
-                          //   //   bottom: Radius.circular(15),
-                          //   // ),
-                          // ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(5),
-                            child: Text(
-                              widget.itemAsString?.call(e) ?? '$e',
-                              textAlign: TextAlign.center,
-                              style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.white, fontWeight: FontWeight.normal),
+                        if (e == selectedValue)
+                          Positioned(
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            child: Row(
+                              children: [
+                                Container(
+                                  decoration: BoxDecoration(
+                                    color: Theme.of(context).primaryColor,
+                                    borderRadius: const BorderRadius.only(
+                                      bottomLeft: Radius.circular(50),
+                                    ),
+                                  ),
+                                  child: const Padding(
+                                    padding: EdgeInsets.only(left: 8, bottom: 8),
+                                    // padding: const EdgeInsets.all(8.0),
+                                    child: Icon(
+                                      Icons.check,
+                                      size: 15,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                        ),
-                      ),
-                    ],
+                        // Positioned(
+                        //   bottom: 0,
+                        //   left: 0,
+                        //   right: 0,
+                        //   child: Container(
+                        //     color: Colors.black54,
+                        //     // decoration: BoxDecoration(
+                        //     //   // borderRadius: BorderRadius.vertical(
+                        //     //   //   bottom: Radius.circular(15),
+                        //     //   // ),
+                        //     // ),
+                        //     child: Padding(
+                        //       padding: const EdgeInsets.all(5),
+                        //       child: Text(
+                        //         widget.itemAsString?.call(e) ?? '$e',
+                        //         textAlign: TextAlign.center,
+                        //         style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.white, fontWeight: FontWeight.normal),
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
+                      ],
+                    ),
                   ),
+                  // Column(
+                  //   children: [
+                  //     // Text(
+                  //     //   widget.itemAsString?.call(e) ?? '$e',
+                  //     //   style: Theme.of(context).textTheme.headline6.copyWith(color: Colors.black, fontWeight: FontWeight.normal),
+                  //     // ),
+                  //   ],
+                  // ),
                 ),
-                // Column(
-                //   children: [
-                //     // Text(
-                //     //   widget.itemAsString?.call(e) ?? '$e',
-                //     //   style: Theme.of(context).textTheme.headline6.copyWith(color: Colors.black, fontWeight: FontWeight.normal),
-                //     // ),
-                //   ],
-                // ),
               ),
             ),
           ),

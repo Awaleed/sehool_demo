@@ -1,8 +1,14 @@
+import 'dart:io';
 import 'dart:math';
 
+import 'package:dio/dio.dart';
 import 'package:division/division.dart';
 import 'package:enum_to_string/enum_to_string.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../../generated/l10n.dart';
 import '../../../init_injectable.dart';
@@ -31,6 +37,9 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final credentials = <String, dynamic>{};
   final formKey = GlobalKey<FormState>();
+
+  TextEditingController vatNumberController, commercialRegisterController;
+
   LoginCubit cubit;
   UserLevel userLevel;
   bool passwordVisible = false;
@@ -39,11 +48,15 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     super.initState();
     cubit = getIt<LoginCubit>();
+    vatNumberController = TextEditingController();
+    commercialRegisterController = TextEditingController();
   }
 
   @override
   void dispose() {
     cubit.close();
+    vatNumberController.dispose();
+    commercialRegisterController.dispose();
     super.dispose();
   }
 
@@ -133,7 +146,9 @@ class _LoginScreenState extends State<LoginScreen> {
         Helpers.dismissFauces(context);
         credentials['email'] = val.name.trim();
         credentials['password'] = val.password.trim();
-        await cubit.registration(credentials);
+        if (credentials['vat_number'] != null) credentials['vat_number'] = await MultipartFile.fromFile(credentials['vat_number']);
+        if (credentials['commercial_register'] != null) credentials['commercial_register'] = await MultipartFile.fromFile(credentials['commercial_register']);
+        await cubit.registration(FormData.fromMap(credentials));
         return cubit.state.maybeWhen(
           failure: (message) => message,
           orElse: () => null,
@@ -173,13 +188,52 @@ class _LoginScreenState extends State<LoginScreen> {
             map: credentials,
           ),
           const SizedBox(height: 15),
-          _builsCustomTextFromField(
+          _buildCustomFileFromField(
             type: FormFieldType.vatNumber,
+            controller: vatNumberController,
+            map: credentials,
+          ),
+          const SizedBox(height: 15),
+          _buildCustomFileFromField(
+            type: FormFieldType.commercialRegister,
+            controller: commercialRegisterController,
             map: credentials,
           ),
         ],
         const Divider(height: 30),
       ],
+    );
+  }
+
+  Widget _buildCustomFileFromField({
+    @required Map<String, dynamic> map,
+    @required FormFieldType type,
+    @required TextEditingController controller,
+    Widget suffixIcon,
+    bool enabled = true,
+    // bool obscureText = false,
+  }) {
+    final cardWidth = min(MediaQuery.of(context).size.width * 0.75, 360.0);
+    const cardPadding = 16.0;
+    final _model = FormFieldModel.mapType(type, map);
+    return AnimatedTextFormField(
+      controller: controller,
+      prefixIcon: suffixIcon ?? Icon(_model.iconData),
+      labelText: _model.labelText,
+      enabled: enabled,
+      keyboardType: _model.keyboardType,
+      // onSaved: _model.onSave,
+      validator: _model.validator,
+      // obscureText: obscureText,
+      width: cardWidth - cardPadding * 2,
+      onTap: () async {
+        final file = await _filePick();
+        if (file == null) return;
+        // setState(() {
+        controller.text = file.path.split('/').reversed.elementAt(0);
+        // });
+        _model.onSave(file.path);
+      },
     );
   }
 
@@ -203,5 +257,15 @@ class _LoginScreenState extends State<LoginScreen> {
       obscureText: obscureText,
       width: cardWidth - cardPadding * 2,
     );
+  }
+
+  static Future<File> _filePick() async {
+    final result = await FilePicker.platform.pickFiles(allowedExtensions: ['pdf'], type: FileType.custom);
+
+    if (result != null) {
+      return File(result.files.single.path);
+    } else {
+      return null;
+    }
   }
 }

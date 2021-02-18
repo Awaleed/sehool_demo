@@ -49,10 +49,7 @@ class CheckoutItemPreview extends StatelessWidget {
                       title: Text(S.current.slicing_method),
                       subtitle: Text(cartItem?.slicingMethod?.name ?? ''),
                     ),
-                    ListTile(
-                      title: Text(S.current.notes),
-                      subtitle: Text(cartItem.note ?? S.current.none),
-                    ),
+                    // Lis
                     ListTile(
                       title: Text(S.current.total),
                       subtitle: Text('${cartItem.total} ﷼'),

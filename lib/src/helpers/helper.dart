@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:sehool/src/routes/config_routes.dart';
+import '../routes/config_routes.dart';
 import 'package:supercharged/supercharged.dart';
 
 import '../../generated/l10n.dart';

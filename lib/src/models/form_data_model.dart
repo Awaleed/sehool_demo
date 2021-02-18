@@ -17,6 +17,7 @@ enum FormFieldType {
   level,
   storeName,
   vatNumber,
+  commercialRegister,
 }
 
 class FormFieldModel {
@@ -157,13 +158,24 @@ class FormFieldModel {
         );
       case FormFieldType.vatNumber:
         return FormFieldModel(
-          hintText: '123456789123456',
+          hintText: S.current.choose_an_image,
           labelText: S.current.vat_number,
           iconData: FluentIcons.money_24_regular,
           keyboardType: TextInputType.number,
           validator: Validators.notEmptyStringValidator,
           onSave: (value) {
-            map['vat_number'] = _toInt(value);
+            map['vat_number'] = _toString(value);
+          },
+        );
+      case FormFieldType.commercialRegister:
+        return FormFieldModel(
+          hintText: S.current.choose_an_image,
+          labelText: S.current.commercial_register,
+          iconData: FluentIcons.connector_24_regular,
+          keyboardType: TextInputType.number,
+          validator: Validators.notEmptyStringValidator,
+          onSave: (value) {
+            map['commercial_register'] = _toString(value);
           },
         );
       default:

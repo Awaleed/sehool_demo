@@ -102,6 +102,7 @@ class _PlacePickerState extends State<PlacePicker> {
           provider.currentPosition.longitude,
         ),
       ),
+      
       onMyLocation: () async {
         // Prevent to click many times in short period.
         if (provider.isOnUpdateLocationCooldown == false) {

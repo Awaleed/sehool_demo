@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
 import '../data/user_datasource.dart';
@@ -6,7 +7,7 @@ import '../models/user_model.dart';
 abstract class IAuthRepository {
   Future<UserModel> login(Map<String, dynamic> credentials);
 
-  Future<UserModel> register(Map<String, dynamic> credentials);
+  Future<UserModel> register(FormData credentials);
 
   Future<UserModel> me();
 
@@ -46,12 +47,19 @@ class AuthRepositoryImpl implements IAuthRepository {
     // final user = UserWithTokenModel.fromJson(res);
 
     // await _localSource.saveUser(user);
-
+    if (rememberMe) {
+      _localSource.saveCredentials({
+        'email': credentials['email'],
+        'password': credentials['password'],
+      });
+    } else {
+      _localSource.removeCredentials();
+    }
     return user;
   }
 
   @override
-  Future<UserModel> register(Map<String, dynamic> credentials) async {
+  Future<UserModel> register(FormData credentials) async {
     final res = await _remoteSource.register(credentials);
     final token = AccessTokenModel(
       expiresIn: res['expires_in'],
@@ -69,6 +77,14 @@ class AuthRepositoryImpl implements IAuthRepository {
       user: user,
       accessToken: token,
     ));
+    if (rememberMe) {
+      _localSource.saveCredentials({
+        'email': credentials.fields.firstWhere((e) => e.key == 'email').value,
+        'password': credentials.fields.firstWhere((e) => e.key == 'password').value,
+      });
+    } else {
+      _localSource.removeCredentials();
+    }
     return user;
   }
 

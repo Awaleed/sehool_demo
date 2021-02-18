@@ -168,10 +168,10 @@ class MyApp extends StatelessWidget {
             ,
             navigatorObservers: [
               _State(),
-              if (kDebugMode) ...[
-                SailorLoggingObserver(),
-                AppRouter.sailor.navigationStackObserver,
-              ],
+              // if (kDebugMode) ...[
+              SailorLoggingObserver(),
+              AppRouter.sailor.navigationStackObserver,
+              // ],
             ],
           ),
         );

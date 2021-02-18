@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:sehool/main.dart';
+import '../../../main.dart';
 import '../../components/orders_list/orders_list_sliver.dart';
 import '../../core/api_caller.dart';
 import '../../models/order_model.dart';

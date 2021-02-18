@@ -20,10 +20,10 @@ class NotesPage extends StatelessWidget {
             height: 300,
             child: CartProductPreview(product: cartItem.product),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: CartTextField(cartItem: cartItem),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.symmetric(horizontal: 20),
+          //   child: CartTextField(cartItem: cartItem),
+          // ),
         ],
       ),
     );

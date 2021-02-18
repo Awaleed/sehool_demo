@@ -171,33 +171,20 @@ class _NewAddressDialogState extends State<NewAddressDialog> {
             ),
           ),
           floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-          floatingActionButton: Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
+          floatingActionButton: Stack(
+            alignment: Alignment.bottomCenter,
             children: [
-              const Spacer(),
-              Expanded(
-                child: FloatingActionButton(
-                  onPressed: () async {
-                    Helpers.dismissFauces(context);
-                    if (formKey.currentState.validate()) {
-                      formKey.currentState.save();
-                      cubit.addAddress(data);
-                    }
-                  },
-                  child: const Icon(FluentIcons.save_24_regular, color: Colors.white),
-                ),
+              FloatingActionButton(
+                onPressed: () async {
+                  Helpers.dismissFauces(context);
+                  if (formKey.currentState.validate()) {
+                    formKey.currentState.save();
+                    cubit.addAddress(data);
+                  }
+                },
+                child: const Icon(FluentIcons.save_24_regular, color: Colors.white),
               ),
-              Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: const [
-                    Padding(
-                      padding: EdgeInsets.all(10),
-                      child: WhatsappFloatingActionButton(),
-                    )
-                  ],
-                ),
-              ),
+              WhatsappFloatingActionButton(),
             ],
           ),
         ),
@@ -231,8 +218,9 @@ class _NewAddressDialogState extends State<NewAddressDialog> {
             MaterialPageRoute(
               builder: (context) => PlacePicker(
                 initialPosition: const LatLng(
-                  15.591851764538097,
-                  32.520090490579605,
+                  24.860667, 46.674167,
+                  // 15.591851764538097,
+                  // 32.520090490579605,
                 ),
                 onSave: (newValue) {
                   if (newValue != null) {

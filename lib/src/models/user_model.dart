@@ -2,8 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'user_model.g.dart';
 
-@JsonSerializable(
-    fieldRename: FieldRename.snake, explicitToJson: true, nullable: true)
+@JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true, nullable: true)
 class UserWithTokenModel {
   const UserWithTokenModel({
     this.user,
@@ -13,8 +12,7 @@ class UserWithTokenModel {
   final UserModel user;
   final AccessTokenModel accessToken;
 
-  factory UserWithTokenModel.fromJson(Map<String, dynamic> json) =>
-      _$UserWithTokenModelFromJson(json);
+  factory UserWithTokenModel.fromJson(Map<String, dynamic> json) => _$UserWithTokenModelFromJson(json);
   Map<String, dynamic> toJson() => _$UserWithTokenModelToJson(this);
 
   UserWithTokenModel copyWith({
@@ -28,8 +26,7 @@ class UserWithTokenModel {
   }
 }
 
-@JsonSerializable(
-    fieldRename: FieldRename.snake, explicitToJson: true, nullable: true)
+@JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true, nullable: true)
 class UserModel {
   const UserModel({
     this.storeName,
@@ -57,8 +54,7 @@ class UserModel {
   final UserLevel level;
   final String email;
 
-  factory UserModel.fromJson(Map<String, dynamic> json) =>
-      _$UserModelFromJson(json);
+  factory UserModel.fromJson(Map<String, dynamic> json) => _$UserModelFromJson(json);
   Map<String, dynamic> toJson() => _$UserModelToJson(this);
 
   UserModel copyWith({
@@ -93,40 +89,18 @@ class UserModel {
   bool operator ==(Object o) {
     if (identical(this, o)) return true;
 
-    return o is UserModel &&
-        o.id == id &&
-        o.name == name &&
-        o.phone == phone &&
-        o.storeName == storeName &&
-        o.vatNumber == vatNumber &&
-        o.settings == settings &&
-        o.password == password &&
-        o.image == image &&
-        o.wallet == wallet &&
-        o.level == level &&
-        o.email == email;
+    return o is UserModel && o.id == id && o.name == name && o.phone == phone && o.storeName == storeName && o.vatNumber == vatNumber && o.settings == settings && o.password == password && o.image == image && o.wallet == wallet && o.level == level && o.email == email;
   }
 
   @override
   int get hashCode {
-    return id.hashCode ^
-        name.hashCode ^
-        phone.hashCode ^
-        storeName.hashCode ^
-        vatNumber.hashCode ^
-        settings.hashCode ^
-        password.hashCode ^
-        image.hashCode ^
-        wallet.hashCode ^
-        level.hashCode ^
-        email.hashCode;
+    return id.hashCode ^ name.hashCode ^ phone.hashCode ^ storeName.hashCode ^ vatNumber.hashCode ^ settings.hashCode ^ password.hashCode ^ image.hashCode ^ wallet.hashCode ^ level.hashCode ^ email.hashCode;
   }
 }
 
 enum UserLevel { customer, merchant, delivery }
 
-@JsonSerializable(
-    fieldRename: FieldRename.snake, explicitToJson: true, nullable: true)
+@JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true, nullable: true)
 class AccessTokenModel {
   const AccessTokenModel({
     this.token,
@@ -138,8 +112,7 @@ class AccessTokenModel {
   final String tokenType;
   final int expiresIn;
 
-  factory AccessTokenModel.fromJson(Map<String, dynamic> json) =>
-      _$AccessTokenModelFromJson(json);
+  factory AccessTokenModel.fromJson(Map<String, dynamic> json) => _$AccessTokenModelFromJson(json);
   Map<String, dynamic> toJson() => _$AccessTokenModelToJson(this);
 
   AccessTokenModel copyWith({

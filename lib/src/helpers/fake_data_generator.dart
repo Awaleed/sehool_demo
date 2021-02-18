@@ -118,7 +118,7 @@ abstract class FakeDataGenerator {
   //       notes: faker.lorem.sentence(),
   //     );
   static CartItemModel get cartItemModel => CartItemModel()
-    ..note = faker.lorem.sentence()
+    // ..note = faker.lorem.sentence()
     ..product = productModel
     ..slicingMethod = slicingMethodsModel;
 

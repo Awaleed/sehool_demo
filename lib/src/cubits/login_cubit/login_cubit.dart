@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
@@ -24,7 +25,7 @@ class LoginCubit extends Cubit<LoginState> {
     }
   }
 
-  Future<void> registration(Map<String, dynamic> credentials) async {
+  Future<void> registration(FormData credentials) async {
     emit(const LoginState.loading());
     try {
       await _authRepository.register(credentials);

@@ -95,35 +95,23 @@ class _AddressesScreenState extends State<AddressesScreen> {
               );
             },
           ),
-          floatingActionButton: Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
+          floatingActionButton: Stack(
+            // crossAxisAlignment: CrossAxisAlignment.end,
+            alignment: Alignment.bottomCenter,
             children: [
-              const Spacer(),
-              Expanded(
-                child: RipplesAnimation(
-                  onPressed: () => AppRouter.sailor.navigate(
-                    NewAddressDialog.routeName,
-                    params: {'address_cubit': cubit},
-                  ),
-                  color: Colors.amberAccent,
-                  size: 30,
-                  child: const Icon(
-                    FluentIcons.add_28_filled,
-                    color: Colors.white,
-                  ),
+              RipplesAnimation(
+                onPressed: () => AppRouter.sailor.navigate(
+                  NewAddressDialog.routeName,
+                  params: {'address_cubit': cubit},
+                ),
+                color: Colors.amberAccent,
+                size: 30,
+                child: const Icon(
+                  FluentIcons.add_28_filled,
+                  color: Colors.white,
                 ),
               ),
-              Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: const [
-                    Padding(
-                      padding: EdgeInsets.all(10),
-                      child: WhatsappFloatingActionButton(),
-                    )
-                  ],
-                ),
-              ),
+              WhatsappFloatingActionButton(),
             ],
           ),
           floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,

@@ -6,10 +6,9 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/parser.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sailor/sailor.dart';
-import '../../components/message_check_box.dart';
+import 'package:sehool/src/components/cart_text_field.dart';
 import 'package:supercharged/supercharged.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -216,7 +215,7 @@ class _CheckoutScrollState extends State<CheckoutScroll> {
             'assets/images/discount.svg',
             height: 50,
             width: 50,
-            color: Colors.amber,
+            color: Colors.black,
           ),
           // header: FluentIcons.plug_disconnected_28_regular,
         ),
@@ -230,7 +229,7 @@ class _CheckoutScrollState extends State<CheckoutScroll> {
           icon: const Icon(
             FluentIcons.location_48_regular,
             size: 50,
-            color: Colors.amber,
+            color: Colors.black,
           ),
           header: FluentIcons.location_48_regular,
         ),
@@ -244,6 +243,20 @@ class _CheckoutScrollState extends State<CheckoutScroll> {
           ),
         ),
         _StepItem(
+          hideLabel: true,
+          label: S.current.notes,
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: CartTextField(cart: widget.cart),
+          ),
+          icon: const Icon(
+            FluentIcons.note_24_regular,
+            size: 50,
+            color: Colors.black,
+          ),
+          header: FluentIcons.note_24_regular,
+        ),
+        _StepItem(
           key: paymentMethodKey,
           label: S.current.payment_mode,
           child: PaymentMethodReviewPage(
@@ -253,7 +266,7 @@ class _CheckoutScrollState extends State<CheckoutScroll> {
           icon: const Icon(
             FluentIcons.payment_28_regular,
             size: 50,
-            color: Colors.amber,
+            color: Colors.black,
           ),
           header: FluentIcons.payment_28_regular,
         ),
@@ -262,7 +275,7 @@ class _CheckoutScrollState extends State<CheckoutScroll> {
         //   icon: const Icon(
         //     FluentIcons.gift_24_regular,
         //     size: 50,
-        //     color: Colors.amber,
+        //     color: Colors.black,
         //   ),
         //   child: Padding(
         //     padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -302,7 +315,7 @@ class _CheckoutScrollState extends State<CheckoutScroll> {
                       const SizedBox(width: 10),
                       Text(
                         steps[i].label,
-                        style: Theme.of(context).textTheme.headline5.copyWith(fontWeight: FontWeight.bold),
+                        style: Theme.of(context).textTheme.button.copyWith(fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),

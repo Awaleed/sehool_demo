@@ -56,13 +56,9 @@ class AvatarSection extends FormField<File> {
                         child: CircleAvatar(
                           radius: 95,
                           backgroundImage: () {
-                            if (state.value == null &&
-                                (remoteImageUrl == null ||
-                                    remoteImageUrl.isEmpty)) {
+                            if (state.value == null && (remoteImageUrl == null || remoteImageUrl.isEmpty)) {
                               return const AssetImage('assets/img/user.png');
-                            } else if (state.value == null &&
-                                remoteImageUrl != null &&
-                                remoteImageUrl.isNotEmpty) {
+                            } else if (state.value == null && remoteImageUrl != null && remoteImageUrl.isNotEmpty) {
                               if (isURL(remoteImageUrl)) {
                                 return CachedNetworkImageProvider(
                                   remoteImageUrl,
@@ -73,8 +69,7 @@ class AvatarSection extends FormField<File> {
                             }
                             return FileImage(state.value);
                           }() as ImageProvider,
-                          onBackgroundImageError: (exception, stackTrace) =>
-                              const Center(
+                          onBackgroundImageError: (exception, stackTrace) => const Center(
                             child: Icon(Icons.not_interested),
                           ),
                           child: Stack(
@@ -104,8 +99,7 @@ class AvatarSection extends FormField<File> {
         source: ImageSource.gallery,
       );
 
-  static Future<File> _imageCrop(PickedFile imageFile) =>
-      ImageCropper.cropImage(
+  static Future<File> _imageCrop(PickedFile imageFile) => ImageCropper.cropImage(
         sourcePath: imageFile.path,
         cropStyle: CropStyle.circle,
         aspectRatioPresets: [CropAspectRatioPreset.square],

@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
@@ -12,12 +13,11 @@ part 'registration_state.dart';
 
 @injectable
 class RegistrationCubit extends Cubit<RegistrationState> {
-  RegistrationCubit(this._authRepository)
-      : super(const RegistrationState.initial());
+  RegistrationCubit(this._authRepository) : super(const RegistrationState.initial());
 
   final IAuthRepository _authRepository;
 
-  Future<void> registration(Map<String, dynamic> credentials) async {
+  Future<void> registration(FormData credentials) async {
     emit(const RegistrationState.loading());
     try {
       await _authRepository.register(credentials);

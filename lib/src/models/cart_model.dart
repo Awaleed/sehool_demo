@@ -1,11 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:sehool/src/data/user_datasource.dart';
-import 'package:sehool/src/models/user_model.dart';
 
+import '../data/user_datasource.dart';
 import 'address_model.dart';
 import 'order_model.dart';
 import 'product_model.dart';
+import 'user_model.dart';
 
 part 'cart_model.g.dart';
 
@@ -16,7 +16,7 @@ class CartModel {
   bool hasCoupon = false;
   bool organization = false;
   bool fromWallet = false;
-  // String note;
+  String note;
   String associationName;
   String associationOfficial;
   String officialNumber;
@@ -62,7 +62,8 @@ class CartModel {
 
   Map<String, dynamic> toJson() {
     return {
-      // 'note': note ?? '',
+      'note': note ?? '',
+      'type': organization ? 'association' : null,
       'association_name': associationName,
       'association_official': associationOfficial,
       'official_number': officialNumber,
@@ -76,7 +77,7 @@ class CartModel {
             (e) => {
               'product_id': e.product.id,
               'qyt': e.quantity,
-              'note': e.note ?? '',
+              // 'note': e.note ?? '',
               'slicer_type_id': e.slicingMethod.id,
               // if (e.isGift) ...{
               'from': e.from,
@@ -94,13 +95,12 @@ class CartModel {
   bool operator ==(Object o) {
     if (identical(this, o)) return true;
 
-    return o is CartModel && listEquals(o.cartItems, cartItems) && o.address == address && o.paymentMethod == paymentMethod; // &&
-    // o.note == note;
+    return o is CartModel && listEquals(o.cartItems, cartItems) && o.address == address && o.paymentMethod == paymentMethod && o.hasCoupon == hasCoupon && o.organization == organization && o.fromWallet == fromWallet && o.note == note && o.associationName == associationName && o.associationOfficial == associationOfficial && o.officialNumber == officialNumber && o.applicantName == applicantName && o.coupon == coupon && o.deliveryFees == deliveryFees;
   }
 
   @override
   int get hashCode {
-    return cartItems.hashCode ^ address.hashCode ^ paymentMethod.hashCode; //^ note.hashCode;
+    return cartItems.hashCode ^ address.hashCode ^ paymentMethod.hashCode ^ hasCoupon.hashCode ^ organization.hashCode ^ fromWallet.hashCode ^ note.hashCode ^ associationName.hashCode ^ associationOfficial.hashCode ^ officialNumber.hashCode ^ applicantName.hashCode ^ coupon.hashCode ^ deliveryFees.hashCode;
   }
 }
 
@@ -109,7 +109,7 @@ class CartItemModel {
 
   ProductModel product;
   SlicingMethodModel slicingMethod;
-  String note;
+  // String note;
 
   // bool isGift = false;
   ValueWithId phrase;
@@ -129,11 +129,13 @@ class CartItemModel {
   bool operator ==(Object o) {
     if (identical(this, o)) return true;
 
-    return o is CartItemModel && o.quantity == quantity && o.slicingMethod == slicingMethod && o.note == note;
+    return o is CartItemModel && o.quantity == quantity && o.product == product && o.slicingMethod == slicingMethod && o.phrase == phrase && o.event == event && o.from == from && o.to == to && o.customPhrase == customPhrase;
   }
 
   @override
-  int get hashCode => quantity.hashCode ^ slicingMethod.hashCode ^ note.hashCode;
+  int get hashCode {
+    return quantity.hashCode ^ product.hashCode ^ slicingMethod.hashCode ^ phrase.hashCode ^ event.hashCode ^ from.hashCode ^ to.hashCode ^ customPhrase.hashCode;
+  }
 }
 
 @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true, nullable: true)

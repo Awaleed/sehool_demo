@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -31,6 +32,8 @@ class GoogleMapPlacePicker extends StatefulWidget {
 
 class _GoogleMapPlacePickerState extends State<GoogleMapPlacePicker> {
   bool showPickBtn = true;
+  bool canChoose = true;
+  final distance = 50000.0;
 
   @override
   Widget build(BuildContext context) {
@@ -47,21 +50,36 @@ class _GoogleMapPlacePickerState extends State<GoogleMapPlacePicker> {
         _buildPin(),
         Positioned(
           bottom: 10,
+          left: 0,
+          right: 0,
           child: SafeArea(
-            child: IgnorePointer(
-              ignoring: !showPickBtn,
-              child: AnimatedOpacity(
-                opacity: showPickBtn ? 1 : 0,
-                duration: const Duration(milliseconds: 150),
-                child: ElevatedButton(
-                  onPressed: () => widget.onSaveLocation(),
-                  child: Text(
-                    S.current.save,
-                    style: const TextStyle(color: Colors.white),
+            child: canChoose
+                ? IgnorePointer(
+                    ignoring: !showPickBtn,
+                    child: AnimatedOpacity(
+                      opacity: showPickBtn ? 1 : 0,
+                      duration: const Duration(milliseconds: 150),
+                      child: Center(
+                        child: ElevatedButton(
+                          onPressed: () => widget.onSaveLocation(),
+                          child: Text(
+                            S.current.save,
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                : Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Text(
+                        S.current.sorry_we_can_not_deliver_to_this_area,
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.headline4,
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            ),
           ),
         ),
       ],
@@ -71,12 +89,20 @@ class _GoogleMapPlacePickerState extends State<GoogleMapPlacePicker> {
   Widget _buildGoogleMap(BuildContext context) {
     final PlaceProvider provider = PlaceProvider.of(context, listen: false);
 
-    final CameraPosition initialCameraPosition =
-        CameraPosition(target: widget.initialTarget, zoom: 15);
+    final CameraPosition initialCameraPosition = CameraPosition(target: widget.initialTarget, zoom: 15);
 
     return GoogleMap(
       initialCameraPosition: initialCameraPosition,
       myLocationEnabled: true,
+      circles: {
+        Circle(
+          center: widget.initialTarget,
+          radius: distance,
+          strokeWidth: 0,
+          fillColor: Colors.amber.withOpacity(.15),
+          circleId: CircleId('id'),
+        )
+      },
       onMapCreated: (GoogleMapController controller) {
         provider.mapController = controller;
         provider.pinState = PinState.idle;
@@ -94,6 +120,21 @@ class _GoogleMapPlacePickerState extends State<GoogleMapPlacePicker> {
       },
       onCameraMove: (CameraPosition position) {
         provider.setCameraPosition(position);
+        setState(() {
+          canChoose = Geolocator.distanceBetween(
+                widget.initialTarget.latitude,
+                widget.initialTarget.longitude,
+                position.target.latitude,
+                position.target.longitude,
+              ) <=
+              distance;
+        });
+        print('distance ${Geolocator.distanceBetween(
+          widget.initialTarget.latitude,
+          widget.initialTarget.longitude,
+          position.target.latitude,
+          position.target.longitude,
+        )}');
       },
     );
   }
@@ -141,8 +182,7 @@ class _GoogleMapPlacePickerState extends State<GoogleMapPlacePicker> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: const <Widget>[
-                AnimatedPin(
-                    child: Icon(Icons.place, size: 36, color: Colors.red)),
+                AnimatedPin(child: Icon(Icons.place, size: 36, color: Colors.red)),
                 SizedBox(height: 42),
               ],
             ),

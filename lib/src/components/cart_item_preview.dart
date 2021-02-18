@@ -24,7 +24,7 @@ class CartItemPreview extends StatelessWidget {
           children: [
             Text(
               S.current.summery,
-              style: Theme.of(context).textTheme.headline5,
+              style: Theme.of(context).textTheme.button,
             ),
             const Divider(),
             ListTile(
@@ -35,10 +35,10 @@ class CartItemPreview extends StatelessWidget {
               title: Text(S.current.slicing_method),
               subtitle: Text(cartItem.slicingMethod?.name ?? S.current.none),
             ),
-            ListTile(
-              title: Text(S.current.notes),
-              subtitle: Text(cartItem.note ?? S.current.none),
-            ),
+            // ListTile(
+            //   title: Text(S.current.notes),
+            //   subtitle: Text(cartItem.note ?? S.current.none),
+            // ),
             ListTile(
               title: Text(S.current.total),
               subtitle: Text('${cartItem.total} ﷼'),

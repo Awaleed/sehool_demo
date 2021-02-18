@@ -5,10 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supercharged/supercharged.dart';
 
-import 'package:sehool/src/data/user_datasource.dart';
-
 import '../../generated/l10n.dart';
 import '../core/api_caller.dart';
+import '../data/user_datasource.dart';
 import '../helpers/helper.dart';
 import '../models/cart_model.dart';
 import 'organization_form.dart';
@@ -120,6 +119,8 @@ class _CartCouponFieldState extends State<CartCouponField> with ApiCaller {
                     value: widget.cart.hasCoupon,
                     onChanged: (value) {
                       setState(() {
+                        widget.cart.hasCoupon = false;
+                        widget.cart.organization = false;
                         widget.cart.hasCoupon = value;
                       });
                     },
@@ -132,7 +133,7 @@ class _CartCouponFieldState extends State<CartCouponField> with ApiCaller {
                 TextField(
                   controller: couponController,
                   decoration: InputDecoration(
-                    hintText: S.current.add_coupon,
+                    hintText: S.current.coupon_name,
                     filled: true,
                     fillColor: color,
                     contentPadding: const EdgeInsets.symmetric(horizontal: 15),
@@ -180,6 +181,8 @@ class _CartCouponFieldState extends State<CartCouponField> with ApiCaller {
                     value: widget.cart.organization,
                     onChanged: (value) {
                       setState(() {
+                        widget.cart.hasCoupon = false;
+                        widget.cart.organization = false;
                         widget.cart.organization = value;
                       });
                     },

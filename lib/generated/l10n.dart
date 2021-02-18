@@ -35,6 +35,46 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
+  /// `Coupon name`
+  String get coupon_name {
+    return Intl.message(
+      'Coupon name',
+      name: 'coupon_name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sorry we can not deliver to this area`
+  String get sorry_we_can_not_deliver_to_this_area {
+    return Intl.message(
+      'Sorry we can not deliver to this area',
+      name: 'sorry_we_can_not_deliver_to_this_area',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Choose an image`
+  String get choose_an_image {
+    return Intl.message(
+      'Choose an image',
+      name: 'choose_an_image',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Commercial register`
+  String get commercial_register {
+    return Intl.message(
+      'Commercial register',
+      name: 'commercial_register',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Association name`
   String get association_name {
     return Intl.message(

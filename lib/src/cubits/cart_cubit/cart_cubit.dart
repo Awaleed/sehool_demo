@@ -39,7 +39,8 @@ class CartCubit extends Cubit<CartState> {
       ..coupon = null
       ..paymentMethod = null
       ..fromWallet = false
-      ..hasCoupon = false;
+      ..hasCoupon = false
+      ..organization = false;
     // ..isGift = false
     // ..event = null
     // ..phrase = null;
