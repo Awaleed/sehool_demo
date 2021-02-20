@@ -290,7 +290,7 @@ class _CartScrollState extends State<CartScroll> {
               _buildButton(
                 icon: 'assets/images/carduse_card_payment.svg',
                 enabled: widget.cartItem.validate,
-                label: Text(S.current.checkout,
+                label: Text(S.current.continue_to_checkout,
                     style: Theme.of(context).textTheme.bodyText1.copyWith(
                           color: Colors.black,
                           fontWeight: FontWeight.normal,
