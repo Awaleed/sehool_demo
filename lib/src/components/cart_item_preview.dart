@@ -28,6 +28,10 @@ class CartItemPreview extends StatelessWidget {
             ),
             const Divider(),
             ListTile(
+              title: Text(S.current.item),
+              subtitle: Text(cartItem.product.name ?? S.current.none),
+            ),
+            ListTile(
               title: Text(S.current.quantity),
               subtitle: Text('${cartItem.quantity}'),
             ),

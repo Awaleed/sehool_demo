@@ -1,5 +1,7 @@
 {
   "@@locale": "ar",
+  "item": "الصنف",
+  "@item": {},
   "sorry_we_can_not_deliver_to_this_area": "عذرا لا يمكننا التوصيل لهذه المنطقة",
   "@sorry_we_can_not_deliver_to_this_area": {},
   "choose_an_image": "اختر صورة",
