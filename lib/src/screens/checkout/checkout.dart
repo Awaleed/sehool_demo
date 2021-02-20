@@ -359,7 +359,10 @@ class _CheckoutScrollState extends State<CheckoutScroll> {
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
         child: _buildButton(
           enabled: widget.cart.validate,
-          label: Text(S.current.checkout),
+          label: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Text(S.current.checkout),
+          ),
           onTap: widget.cart.validate
               ? () {
                   Helpers.dismissFauces(context);

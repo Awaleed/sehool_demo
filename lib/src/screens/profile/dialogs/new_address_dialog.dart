@@ -217,8 +217,8 @@ class _NewAddressDialogState extends State<NewAddressDialog> {
             context,
             MaterialPageRoute(
               builder: (context) => PlacePicker(
-                initialPosition: const LatLng(
-                  24.860667, 46.674167,
+                initialPosition: LatLng(
+                  location?.latitude ?? 24.860667, location?.longitude ?? 46.674167,
                   // 15.591851764538097,
                   // 32.520090490579605,
                 ),

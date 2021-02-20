@@ -68,7 +68,7 @@ class _CartCouponFieldState extends State<CartCouponField> with ApiCaller {
   void dispose() {
     cubit.close();
     couponController.dispose();
-    sendTimer.cancel();
+    sendTimer?.cancel();
     super.dispose();
   }
 

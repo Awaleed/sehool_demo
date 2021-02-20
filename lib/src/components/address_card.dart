@@ -94,6 +94,7 @@ class _HomeCard extends StatelessWidget {
                         fit: BoxFit.cover,
                       )
                     : GoogleMap(
+                        key: ValueKey('${address.latLng.latitude},${address.latLng.longitude}'),
                         onMapCreated: (controller) async {
                           await controller.animateCamera(
                             CameraUpdate.newCameraPosition(
@@ -104,8 +105,7 @@ class _HomeCard extends StatelessWidget {
                             ),
                           );
                         },
-                        initialCameraPosition:
-                            const CameraPosition(target: LatLng(0, 0)),
+                        initialCameraPosition: const CameraPosition(target: LatLng(0, 0)),
                         markers: {
                           Marker(
                             markerId: MarkerId(''),

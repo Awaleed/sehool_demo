@@ -33,6 +33,11 @@ class GoogleMapPlacePicker extends StatefulWidget {
 class _GoogleMapPlacePickerState extends State<GoogleMapPlacePicker> {
   bool showPickBtn = true;
   bool canChoose = true;
+
+  final center = const LatLng(
+    24.860667,
+    46.674167,
+  );
   final distance = 50000.0;
 
   @override
@@ -50,8 +55,8 @@ class _GoogleMapPlacePickerState extends State<GoogleMapPlacePicker> {
         _buildPin(),
         Positioned(
           bottom: 10,
-          left: 0,
-          right: 0,
+          left: 60,
+          right: 60,
           child: SafeArea(
             child: canChoose
                 ? IgnorePointer(
@@ -96,7 +101,7 @@ class _GoogleMapPlacePickerState extends State<GoogleMapPlacePicker> {
       myLocationEnabled: true,
       circles: {
         Circle(
-          center: widget.initialTarget,
+          center: center,
           radius: distance,
           strokeWidth: 0,
           fillColor: Colors.amber.withOpacity(.15),
@@ -120,10 +125,12 @@ class _GoogleMapPlacePickerState extends State<GoogleMapPlacePicker> {
       },
       onCameraMove: (CameraPosition position) {
         provider.setCameraPosition(position);
+        provider.currentPosition = Position(latitude: position.target.latitude, longitude: position.target.longitude);
+
         setState(() {
           canChoose = Geolocator.distanceBetween(
-                widget.initialTarget.latitude,
-                widget.initialTarget.longitude,
+                center.latitude,
+                center.longitude,
                 position.target.latitude,
                 position.target.longitude,
               ) <=

@@ -70,8 +70,7 @@ class _PlacePickerState extends State<PlacePicker> {
 
   Future<void> _moveToCurrentPosition() async {
     if (provider.currentPosition != null) {
-      await _moveTo(provider.currentPosition.latitude,
-          provider.currentPosition.longitude);
+      await _moveTo(provider.currentPosition.latitude, provider.currentPosition.longitude);
     }
   }
 
@@ -102,7 +101,6 @@ class _PlacePickerState extends State<PlacePicker> {
           provider.currentPosition.longitude,
         ),
       ),
-      
       onMyLocation: () async {
         // Prevent to click many times in short period.
         if (provider.isOnUpdateLocationCooldown == false) {
