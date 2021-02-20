@@ -263,7 +263,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                       title: const Text('Whatsapp'),
-                      onTap: () {},
+                      onTap: () {
+                        launch('https://api.whatsapp.com/send?phone=966508808940');
+                      },
                     ),
                     ListTile(
                       leading: const Icon(FontAwesomeIcons.facebook),
@@ -397,7 +399,7 @@ class WhatsappFloatingActionButton extends StatelessWidget {
           // FloatingActionButton(
           //   heroTag: 'WhatsappFloatingActionButton',
           //   onPressed: () {
-          //     // WhatsappFloatingActionButton
+          // WhatsappFloatingActionButton
           //   },
           //   backgroundColor: Colors.transparent,
           //   foregroundColor: Colors.transparent,

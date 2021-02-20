@@ -54,8 +54,6 @@ class CartCouponField extends StatefulWidget {
 
 class _CartCouponFieldState extends State<CartCouponField> with ApiCaller {
   TextEditingController couponController;
-  TextEditingController otherNameController;
-  TextEditingController otherPhoneController;
   _CouponCubit cubit;
   Timer sendTimer;
 
@@ -64,14 +62,13 @@ class _CartCouponFieldState extends State<CartCouponField> with ApiCaller {
     super.initState();
     cubit = _CouponCubit();
     couponController = TextEditingController(text: widget.cart?.coupon?.name);
-    otherNameController = TextEditingController(text: widget.cart?.otherName);
-    otherPhoneController = TextEditingController(text: widget.cart?.otherPhone);
   }
 
   @override
   void dispose() {
     cubit.close();
     couponController.dispose();
+    sendTimer.cancel();
     super.dispose();
   }
 
@@ -205,59 +202,6 @@ class _CartCouponFieldState extends State<CartCouponField> with ApiCaller {
                   cart: widget.cart,
                   formKey: widget.organizationFormKey,
                   onValueChanged: widget.onChanged,
-                ),
-              ],
-              Row(
-                children: [
-                  Switch(
-                    value: widget.cart.hasOtherName,
-                    onChanged: (value) {
-                      widget.cart.otherName = null;
-                      setState(() {
-                        
-                        widget.cart.hasOtherName = value;
-                      });
-                    },
-                  ),
-                  const SizedBox(width: 10),
-                  Text(S.current.other_person),
-                ],
-              ),
-              if (widget.cart.hasOtherName) ...[
-                TextField(
-                  controller: otherNameController,
-                  decoration: InputDecoration(
-                    hintText: S.current.full_name,
-                    fillColor: Colors.white,
-                    filled: true,
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 15),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(25),
-                    ),
-                  ),
-                  keyboardType: TextInputType.text,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                  onChanged: (value) {
-                    widget.cart.otherName = value;
-                  },
-                ), TextField(
-                  controller: otherPhoneController,
-                  decoration: InputDecoration(
-                    hintText: S.current.phone,
-                    fillColor: Colors.white,
-                    filled: true,
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 15),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(25),
-                    ),
-                  ),
-                  keyboardType: TextInputType.number,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                  onChanged: (value) {
-                    widget.cart.otherPhone = value;
-                  },
                 ),
               ],
             ],

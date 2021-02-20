@@ -9,6 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:sailor/sailor.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'generated/l10n.dart';
 import 'init_hive.dart';
@@ -137,6 +138,7 @@ class MyApp extends StatelessWidget {
 
             //     // floatingActionButton: FloatingActionButton(
             //     //   onPressed: () {},
+
             //     // ),
             //   );
             //   return Stack(
@@ -158,6 +160,7 @@ class MyApp extends StatelessWidget {
             //                 child: Icon(FontAwesomeIcons.facebook),
             //               ),
             //             // onPressed: () {},
+
             //             // ),
             //           ],
             //         ),
@@ -280,7 +283,7 @@ class DraggableWhatsAppIconState extends State<DraggableWhatsAppIcon> {
               feedback: FloatingActionButton(
                 heroTag: 'WhatsappFloatingActionButton',
                 onPressed: () {
-                  // WhatsappFloatingActionButton
+                  launch('https://api.whatsapp.com/send?phone=966508808940'); // WhatsappFloatingActionButton
                 },
                 backgroundColor: Colors.transparent,
                 foregroundColor: Colors.transparent,
@@ -295,6 +298,7 @@ class DraggableWhatsAppIconState extends State<DraggableWhatsAppIcon> {
               child: FloatingActionButton(
                 heroTag: 'WhatsappFloatingActionButton',
                 onPressed: () {
+                  launch('https://api.whatsapp.com/send?phone=966508808940');
                   // WhatsappFloatingActionButton
                 },
                 backgroundColor: Colors.transparent,

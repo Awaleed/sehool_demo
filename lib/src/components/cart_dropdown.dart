@@ -26,6 +26,7 @@ class CartDropdown extends StatefulWidget {
     this.cart,
     this.messageFormKey,
     this.cartItem,
+    this.cubit,
     this.isRadio = false,
     this.itemAsString,
   }) : super(key: key);
@@ -37,6 +38,7 @@ class CartDropdown extends StatefulWidget {
   final CartItemModel cartItem;
   final bool isRadio;
   final GlobalKey<FormState> messageFormKey;
+  final DropdownCubit cubit;
 
   @override
   _CartDropdownState createState() => _CartDropdownState();
@@ -49,7 +51,7 @@ class _CartDropdownState extends State<CartDropdown> {
   @override
   void initState() {
     super.initState();
-    cubit = getIt<DropdownCubit>();
+    cubit = widget.cubit ?? getIt<DropdownCubit>();
     cubit.getDropdownValues(widget.dropdownType);
     selectedValue = widget.initialValue;
   }
@@ -120,29 +122,6 @@ class _CartDropdownState extends State<CartDropdown> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        if (widget.dropdownType == DropdownValueType.addresses)
-          Card(
-            color: Colors.white70,
-            // shape: OutlineInputBorder(
-            //   borderRadius: BorderRadius.circular(25),
-            // ),
-            child: ListTile(
-              title: Text(
-                S.current.add_a_new_address,
-                style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.black, fontWeight: FontWeight.normal),
-              ),
-              onTap: () async {
-                final _cubit = getIt<AddressCubit>();
-                await AppRouter.sailor.navigate(
-                  NewAddressDialog.routeName,
-                  params: {'address_cubit': _cubit},
-                );
-                await _cubit.close();
-                cubit.getDropdownValues(widget.dropdownType);
-              },
-            ),
-          ),
-
         ...values.map(
           (e) => InkWell(
             onTap: () {

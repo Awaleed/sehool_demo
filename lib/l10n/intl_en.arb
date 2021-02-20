@@ -1,5 +1,7 @@
 {
   "@@locale": "en",
+  "customer_address": "Customer address",
+  "@customer_address": {},
   "request_received": "Request received",
   "@request_received": {},
   "under_treatment": "Under treatment",
@@ -8,8 +10,8 @@
   "@processing": {},
   "done": "Done",
   "@done": {},
-  "other_person": "Other person",
-  "@other_person": {},
+  "the_recipient_is_someone_else": "The recipient is someone else",
+  "@the_recipient_is_someone_else": {},
   "association": "Association",
   "@association": {},
   "item": "Item",

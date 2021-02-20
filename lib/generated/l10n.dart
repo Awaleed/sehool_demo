@@ -14,24 +14,95 @@ import 'intl/messages_all.dart';
 
 class S {
   S();
-
+  
   static S current;
-
-  static const AppLocalizationDelegate delegate = AppLocalizationDelegate();
+  
+  static const AppLocalizationDelegate delegate =
+    AppLocalizationDelegate();
 
   static Future<S> load(Locale locale) {
     final name = (locale.countryCode?.isEmpty ?? false) ? locale.languageCode : locale.toString();
-    final localeName = Intl.canonicalizedLocale(name);
+    final localeName = Intl.canonicalizedLocale(name); 
     return initializeMessages(localeName).then((_) {
       Intl.defaultLocale = localeName;
       S.current = S();
-
+      
       return S.current;
     });
-  }
+  } 
 
   static S of(BuildContext context) {
     return Localizations.of<S>(context, S);
+  }
+
+  /// `Customer address`
+  String get customer_address {
+    return Intl.message(
+      'Customer address',
+      name: 'customer_address',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Request received`
+  String get request_received {
+    return Intl.message(
+      'Request received',
+      name: 'request_received',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Under treatment`
+  String get under_treatment {
+    return Intl.message(
+      'Under treatment',
+      name: 'under_treatment',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Processing`
+  String get processing {
+    return Intl.message(
+      'Processing',
+      name: 'processing',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Done`
+  String get done {
+    return Intl.message(
+      'Done',
+      name: 'done',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The recipient is someone else`
+  String get the_recipient_is_someone_else {
+    return Intl.message(
+      'The recipient is someone else',
+      name: 'the_recipient_is_someone_else',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Association`
+  String get association {
+    return Intl.message(
+      'Association',
+      name: 'association',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `Item`

@@ -219,20 +219,7 @@ class _CheckoutScrollState extends State<CheckoutScroll> {
           ),
           // header: FluentIcons.plug_disconnected_28_regular,
         ),
-        _StepItem(
-          key: addressKey,
-          label: S.current.shipping_address,
-          child: AddressReviewPage(
-            cart: widget.cart,
-            onChanged: onChange,
-          ),
-          icon: const Icon(
-            FluentIcons.location_48_regular,
-            size: 50,
-            color: Colors.black,
-          ),
-          header: FluentIcons.location_48_regular,
-        ),
+
         _StepItem(
           hideLabel: true,
           // label: S.current.bill,
@@ -255,6 +242,20 @@ class _CheckoutScrollState extends State<CheckoutScroll> {
             color: Colors.black,
           ),
           header: FluentIcons.note_24_regular,
+        ),
+        _StepItem(
+          key: addressKey,
+          label: S.current.shipping_address,
+          child: AddressReviewPage(
+            cart: widget.cart,
+            onChanged: onChange,
+          ),
+          icon: const Icon(
+            FluentIcons.location_48_regular,
+            size: 50,
+            color: Colors.black,
+          ),
+          header: FluentIcons.location_48_regular,
         ),
         _StepItem(
           key: paymentMethodKey,
