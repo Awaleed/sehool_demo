@@ -382,14 +382,15 @@ class _CheckoutScrollState extends State<CheckoutScroll> {
   }) {
     return ElevatedButton(
       style: ButtonStyle(
-        minimumSize: MaterialStateProperty.all(
-          const Size.fromRadius(25),
-        ),
-        shape: MaterialStateProperty.all(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(25),
-          ),
-        ),
+        //   minimumSize: MaterialStateProperty.all(
+        //     const Size.fromRadius(25),
+        //   ),
+        //   shape: MaterialStateProperty.all(
+        //     RoundedRectangleBorder(
+        //       borderRadius: BorderRadius.circular(25),
+        //     ),
+        //   ),
+        backgroundColor: MaterialStateProperty.all(Colors.white70),
       ),
       onPressed: enabled ? onTap : null,
       child: label,

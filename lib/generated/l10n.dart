@@ -14,82 +14,31 @@ import 'intl/messages_all.dart';
 
 class S {
   S();
-  
+
   static S current;
-  
-  static const AppLocalizationDelegate delegate =
-    AppLocalizationDelegate();
+
+  static const AppLocalizationDelegate delegate = AppLocalizationDelegate();
 
   static Future<S> load(Locale locale) {
     final name = (locale.countryCode?.isEmpty ?? false) ? locale.languageCode : locale.toString();
-    final localeName = Intl.canonicalizedLocale(name); 
+    final localeName = Intl.canonicalizedLocale(name);
     return initializeMessages(localeName).then((_) {
       Intl.defaultLocale = localeName;
       S.current = S();
-      
+
       return S.current;
     });
-  } 
+  }
 
   static S of(BuildContext context) {
     return Localizations.of<S>(context, S);
   }
 
-  /// `Request received`
-  String get request_received {
+  /// `Item`
+  String get item {
     return Intl.message(
-      'Request received',
-      name: 'request_received',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Under treatment`
-  String get under_treatment {
-    return Intl.message(
-      'Under treatment',
-      name: 'under_treatment',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Processing`
-  String get processing {
-    return Intl.message(
-      'Processing',
-      name: 'processing',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Done`
-  String get done {
-    return Intl.message(
-      'Done',
-      name: 'done',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Other person`
-  String get other_person {
-    return Intl.message(
-      'Other person',
-      name: 'other_person',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Association`
-  String get association {
-    return Intl.message(
-      'Association',
-      name: 'association',
+      'Item',
+      name: 'item',
       desc: '',
       args: [],
     );

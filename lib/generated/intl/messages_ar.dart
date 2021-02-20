@@ -148,6 +148,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "ingredients" : MessageLookupByLibrary.simpleMessage("المكونات"),
     "is_gift" : MessageLookupByLibrary.simpleMessage("هدية؟"),
     "it_can_not_be_undone_at_this_stage" : MessageLookupByLibrary.simpleMessage("لايمكن التراجع في هذه المرحلة"),
+    "item" : MessageLookupByLibrary.simpleMessage("الصنف"),
     "john_doe" : MessageLookupByLibrary.simpleMessage("محمد احمد"),
     "koshstore" : MessageLookupByLibrary.simpleMessage("كووش ستور"),
     "languages" : MessageLookupByLibrary.simpleMessage("اللغات"),

@@ -268,6 +268,26 @@ class _CartScrollState extends State<CartScroll> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               _buildButton(
+                icon: 'assets/images/shopping-cart.svg',
+                enabled: widget.cartItem.validate,
+                label: Text(S.current.back_to_shopping,
+                    style: Theme.of(context).textTheme.bodyText1.copyWith(
+                          color: Colors.black,
+                          fontWeight: FontWeight.normal,
+                        )),
+                onTap: () {
+                  Helpers.dismissFauces(context);
+                  if (messageFormKey?.currentState?.validate() ?? true) {
+                    messageFormKey?.currentState?.save();
+                    getIt<CartCubit>().addItem(widget.cartItem);
+                    AppRouter.sailor.pop();
+                  } else {
+                    Helpers.showErrorOverlay(context, error: S.current.check_that_you_filled_all_fields_correctly);
+                  }
+                },
+              ),
+              const SizedBox(height: 15),
+              _buildButton(
                 icon: 'assets/images/carduse_card_payment.svg',
                 enabled: widget.cartItem.validate,
                 label: Text(S.current.continue_to_checkout,
@@ -289,26 +309,6 @@ class _CartScrollState extends State<CartScroll> {
                   }
                 },
               ),
-              const SizedBox(height: 15),
-              _buildButton(
-                icon: 'assets/images/shopping-cart.svg',
-                enabled: widget.cartItem.validate,
-                label: Text(S.current.back_to_shopping,
-                    style: Theme.of(context).textTheme.bodyText1.copyWith(
-                          color: Colors.black,
-                          fontWeight: FontWeight.normal,
-                        )),
-                onTap: () {
-                  Helpers.dismissFauces(context);
-                  if (messageFormKey?.currentState?.validate() ?? true) {
-                    messageFormKey?.currentState?.save();
-                    getIt<CartCubit>().addItem(widget.cartItem);
-                    AppRouter.sailor.pop();
-                  } else {
-                    Helpers.showErrorOverlay(context, error: S.current.check_that_you_filled_all_fields_correctly);
-                  }
-                },
-              ),
             ],
           ),
         )
@@ -323,30 +323,34 @@ class _CartScrollState extends State<CartScroll> {
   }) {
     return ElevatedButton(
       style: ButtonStyle(
-        minimumSize: MaterialStateProperty.all(
-          const Size.fromRadius(25),
-        ),
-        shape: MaterialStateProperty.all(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(25),
-          ),
-        ),
+        //   minimumSize: MaterialStateProperty.all(
+        //     const Size.fromRadius(25),
+        //   ),
+        //   shape: MaterialStateProperty.all(
+        //     RoundedRectangleBorder(
+        //       borderRadius: BorderRadius.circular(25),
+        //     ),
+        //   ),
+        backgroundColor: MaterialStateProperty.all(Colors.white70),
       ),
       onPressed: enabled ? onTap : null,
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (icon == null)
-            const Icon(Icons.arrow_back)
-          else
-            SvgPicture.asset(
-              icon,
-              height: 40,
-              width: 40,
-            ),
-          const SizedBox(width: 10),
-          label,
-        ],
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (icon == null)
+              const Icon(Icons.arrow_back)
+            else
+              SvgPicture.asset(
+                icon,
+                height: 40,
+                width: 40,
+              ),
+            const SizedBox(width: 10),
+            label,
+          ],
+        ),
       ),
     );
   }

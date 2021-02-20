@@ -12,6 +12,8 @@
   "@other_person": {},
   "association": "Association",
   "@association": {},
+  "item": "Item",
+  "@item": {},
   "coupon_name": "Coupon name",
   "@coupon_name": {},
   "sorry_we_can_not_deliver_to_this_area": "Sorry we can not deliver to this area",
