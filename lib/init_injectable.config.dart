@@ -8,6 +8,7 @@ import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 
 import 'src/cubits/address_cubit/address_cubit.dart';
+import 'src/cubits/associations_cubit/associations_cubit.dart';
 import 'src/cubits/auth_cubit/auth_cubit.dart';
 import 'src/cubits/product_cubits/banner_cubit/banner_cubit.dart';
 import 'src/cubits/cart_cubit/cart_cubit.dart';
@@ -51,6 +52,7 @@ GetIt $initGetIt(
   EnvironmentFilter environmentFilter,
 }) {
   final gh = GetItHelper(get, environment, environmentFilter);
+  gh.factory<AssociationsCubit>(() => AssociationsCubit());
   gh.factory<CartMessagesCubit>(() => CartMessagesCubit());
   gh.factory<CheckoutCubit>(() => CheckoutCubit());
   gh.factory<OrderCubit>(() => OrderCubit(get<IOrderRepository>()));
@@ -77,10 +79,10 @@ GetIt $initGetIt(
       registerFor: {_test});
   gh.singleton<IDropdownRepository>(
       DropdownRepositoryImpl(get<IDropdownRemoteDataSource>()));
-  gh.singleton<ILazyListRemoteDataSource>(FakeLazyListRemoteDataSource(),
-      registerFor: {_test});
   gh.singleton<ILazyListRemoteDataSource>(LazyListRemoteDataSource(),
       registerFor: {_prod});
+  gh.singleton<ILazyListRemoteDataSource>(FakeLazyListRemoteDataSource(),
+      registerFor: {_test});
   gh.singleton<ILazyListRepository>(
       LazyListRepositoryImpl(get<ILazyListRemoteDataSource>()));
   gh.singleton<IOrderRemoteDataSource>(OrderRemoteDataSource());

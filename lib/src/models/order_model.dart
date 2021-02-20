@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:sehool/generated/l10n.dart';
 
 import 'address_model.dart';
 
@@ -101,26 +102,26 @@ class StatusModel {
   factory StatusModel.fromJson(Map<String, dynamic> json) => _$StatusModelFromJson(json);
   Map<String, dynamic> toJson() => _$StatusModelToJson(this);
 
-  static const statuses = [
+  static final statuses = [
     StatusModel(
       id: 1,
-      name: 'تم استلام الطلب',
+      name: S.current.request_received,
     ),
     StatusModel(
       id: 2,
-      name: 'قيد المعالجه',
+      name: S.current.under_treatment,
     ),
     StatusModel(
       id: 3,
-      name: 'التجهيز',
+      name: S.current.processing,
     ),
     StatusModel(
       id: 4,
-      name: 'التوصيل',
+      name: S.current.delivery,
     ),
     StatusModel(
       id: 5,
-      name: 'تم',
+      name: S.current.done,
     ),
     // StatusModel(
     //   id: 6,

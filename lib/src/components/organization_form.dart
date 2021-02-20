@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sehool/src/cubits/associations_cubit/associations_cubit.dart';
+import 'package:sehool/src/models/association_model.dart';
 import '../../generated/l10n.dart';
 import '../helpers/helper.dart';
 import '../models/form_data_model.dart';
@@ -28,27 +30,24 @@ class OrganizationForm extends StatefulWidget {
 }
 
 class _OrganizationFormState extends State<OrganizationForm> {
-  CartMessagesCubit cubit;
-  TextEditingController messageController;
+  AssociationsCubit cubit;
 
   @override
   void initState() {
     super.initState();
-    messageController = TextEditingController();
-    cubit = getIt<CartMessagesCubit>();
+    cubit = getIt<AssociationsCubit>();
     cubit.getMessagesValues();
   }
 
   @override
   void dispose() {
-    messageController.dispose();
     cubit.close();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<CartMessagesCubit, CartMessagesState>(
+    return BlocConsumer<AssociationsCubit, AssociationsState>(
       cubit: cubit,
       listener: (context, state) {},
       builder: (context, state) {
@@ -67,7 +66,7 @@ class _OrganizationFormState extends State<OrganizationForm> {
     );
   }
 
-  Widget _buildUI(CartMessageModel value, {bool isLoading = false}) {
+  Widget _buildUI(AssociationModel value, {bool isLoading = false}) {
     if (isLoading) {
       return FittedBox(
         child: Container(
@@ -85,86 +84,144 @@ class _OrganizationFormState extends State<OrganizationForm> {
     }
     return Column(
       children: [
-        Form(
-          key: widget.formKey,
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          child: Column(
-            children: [
-              TextFormField(
-                validator: Validators.shortStringValidator,
-                decoration: InputDecoration(
-                  hintText: S.current.association_name,
-                  hintStyle: const TextStyle(color: Colors.black26),
-                  filled: true,
-                  fillColor: Colors.white,
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 15),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(25),
-                  ),
-                ),
-                onSaved: (value) => widget.cart.associationName = value,
-                keyboardType: TextInputType.text,
-                textAlign: TextAlign.center,
-                style: const TextStyle(fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 20),
-              TextFormField(
-                validator: Validators.shortStringValidator,
-                decoration: InputDecoration(
-                  hintText: S.current.association_official,
-                  hintStyle: const TextStyle(color: Colors.black26),
-                  filled: true,
-                  fillColor: Colors.white,
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 15),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(25),
-                  ),
-                ),
-                onSaved: (value) => widget.cart.associationOfficial = value,
-                keyboardType: TextInputType.text,
-                textAlign: TextAlign.center,
-                style: const TextStyle(fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 20),
-              TextFormField(
-                validator: Validators.numericValidator,
-                decoration: InputDecoration(
-                  hintText: S.current.official_number,
-                  hintStyle: const TextStyle(color: Colors.black26),
-                  filled: true,
-                  fillColor: Colors.white,
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 15),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(25),
-                  ),
-                ),
-                onSaved: (value) => widget.cart.officialNumber = value,
-                keyboardType: TextInputType.number,
-                textAlign: TextAlign.center,
-                style: const TextStyle(fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 20),
-              TextFormField(
-                validator: Validators.shortStringValidator,
-                decoration: InputDecoration(
-                  hintText: S.current.applicant_name,
-                  hintStyle: const TextStyle(color: Colors.black26),
-                  filled: true,
-                  fillColor: Colors.white,
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 15),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(25),
-                  ),
-                ),
-                onSaved: (value) => widget.cart.applicantName = value,
-                keyboardType: TextInputType.text,
-                textAlign: TextAlign.center,
-                style: const TextStyle(fontWeight: FontWeight.bold),
-              ),
-            ],
-          ),
+        _buildDropdown(
+          value.association,
+          widget.cart.association,
+          (_value) {
+            widget.cart.association = _value;
+            widget.cart.associationDiscount = value.discount;
+          },
+          S.current.association,
         ),
+
+        // Form(
+        //   key: widget.formKey,
+        //   autovalidateMode: AutovalidateMode.onUserInteraction,
+        //   child: Column(
+        //     children: [
+        //       TextFormField(
+        //         validator: Validators.shortStringValidator,
+        //         decoration: InputDecoration(
+        //           hintText: S.current.association_name,
+        //           hintStyle: const TextStyle(color: Colors.black26),
+        //           filled: true,
+        //           fillColor: Colors.white,
+        //           contentPadding: const EdgeInsets.symmetric(horizontal: 15),
+        //           border: OutlineInputBorder(
+        //             borderRadius: BorderRadius.circular(25),
+        //           ),
+        //         ),
+        //         onSaved: (value) => widget.cart.associationName = value,
+        //         keyboardType: TextInputType.text,
+        //         textAlign: TextAlign.center,
+        //         style: const TextStyle(fontWeight: FontWeight.bold),
+        //       ),
+        //       const SizedBox(height: 20),
+        //       TextFormField(
+        //         validator: Validators.shortStringValidator,
+        //         decoration: InputDecoration(
+        //           hintText: S.current.association_official,
+        //           hintStyle: const TextStyle(color: Colors.black26),
+        //           filled: true,
+        //           fillColor: Colors.white,
+        //           contentPadding: const EdgeInsets.symmetric(horizontal: 15),
+        //           border: OutlineInputBorder(
+        //             borderRadius: BorderRadius.circular(25),
+        //           ),
+        //         ),
+        //         onSaved: (value) => widget.cart.associationOfficial = value,
+        //         keyboardType: TextInputType.text,
+        //         textAlign: TextAlign.center,
+        //         style: const TextStyle(fontWeight: FontWeight.bold),
+        //       ),
+        //       const SizedBox(height: 20),
+        //       TextFormField(
+        //         validator: Validators.numericValidator,
+        //         decoration: InputDecoration(
+        //           hintText: S.current.official_number,
+        //           hintStyle: const TextStyle(color: Colors.black26),
+        //           filled: true,
+        //           fillColor: Colors.white,
+        //           contentPadding: const EdgeInsets.symmetric(horizontal: 15),
+        //           border: OutlineInputBorder(
+        //             borderRadius: BorderRadius.circular(25),
+        //           ),
+        //         ),
+        //         onSaved: (value) => widget.cart.officialNumber = value,
+        //         keyboardType: TextInputType.number,
+        //         textAlign: TextAlign.center,
+        //         style: const TextStyle(fontWeight: FontWeight.bold),
+        //       ),
+        //       const SizedBox(height: 20),
+        //       TextFormField(
+        //         validator: Validators.shortStringValidator,
+        //         decoration: InputDecoration(
+        //           hintText: S.current.applicant_name,
+        //           hintStyle: const TextStyle(color: Colors.black26),
+        //           filled: true,
+        //           fillColor: Colors.white,
+        //           contentPadding: const EdgeInsets.symmetric(horizontal: 15),
+        //           border: OutlineInputBorder(
+        //             borderRadius: BorderRadius.circular(25),
+        //           ),
+        //         ),
+        //         onSaved: (value) => widget.cart.applicantName = value,
+        //         keyboardType: TextInputType.text,
+        //         textAlign: TextAlign.center,
+        //         style: const TextStyle(fontWeight: FontWeight.bold),
+        //       ),
+        //     ],
+        //   ),
+        // ),
       ],
+    );
+  }
+
+  Widget _buildDropdown(List<Association> values, Association value, ValueChanged onChange, String label) {
+    if (value == null) {
+      Timer.run(() {
+        setState(() {
+          onChange(values.first);
+        });
+      });
+    }
+    return InputDecorator(
+      decoration: InputDecoration(
+        filled: true,
+        fillColor: Colors.white70,
+        contentPadding: EdgeInsets.zero,
+        labelText: label,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(25),
+        ),
+      ),
+      child: DropdownButtonHideUnderline(
+        child: DropdownButton(
+          value: value,
+          isDense: true,
+          dropdownColor: Colors.amber.withOpacity(.8),
+          onChanged: (value) {
+            if (value == null) return;
+            setState(() => onChange(value));
+            widget.onValueChanged?.call(value);
+          },
+          isExpanded: true,
+          items: [
+            ...values.map(
+              (e) => DropdownMenuItem(
+                value: e,
+                child: Center(
+                  child: Text(
+                    '$e',
+                    overflow: TextOverflow.visible,
+                    style: Theme.of(context).textTheme.bodyText2.copyWith(color: Colors.black),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

@@ -1,6 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import 'package:sehool/src/components/organization_form.dart';
+import 'package:sehool/src/models/association_model.dart';
+
 import '../data/user_datasource.dart';
 import 'address_model.dart';
 import 'order_model.dart';
@@ -16,11 +19,16 @@ class CartModel {
   bool hasCoupon = false;
   bool organization = false;
   bool fromWallet = false;
+  bool hasOtherName = false;
   String note;
-  String associationName;
-  String associationOfficial;
-  String officialNumber;
-  String applicantName;
+  String otherName;
+  String otherPhone;
+  Association association;
+  double associationDiscount;
+  // String associationName;
+  // String associationOfficial;
+  // String officialNumber;
+  // String applicantName;
 
   CouponModel coupon;
 
@@ -42,6 +50,10 @@ class CartModel {
 
   double get discountedSubtotal {
     double value = subtotalWithDelivery;
+    if (associationDiscount != null) {
+      value *= (100 - associationDiscount) / 100;
+      return value >= 0 ? value : 0;
+    }
     if (coupon != null) {
       switch (coupon.type) {
         case CouponType.fixed:
@@ -64,10 +76,14 @@ class CartModel {
     return {
       'note': note ?? '',
       'type': organization ? 'association' : null,
-      'association_name': associationName,
-      'association_official': associationOfficial,
-      'official_number': officialNumber,
-      'applicant_name': applicantName,
+      'association_id': association?.id,
+      if (hasOtherName) ...{
+        'other_name': otherName,
+        'other_phone': otherPhone,
+      },
+      // 'association_official': associationOfficial,
+      // 'official_number': officialNumber,
+      // 'applicant_name': applicantName,
       'address_id': address.id,
       'payment_method_id': paymentMethod.id,
       'coupon_id': coupon?.id,
@@ -95,12 +111,12 @@ class CartModel {
   bool operator ==(Object o) {
     if (identical(this, o)) return true;
 
-    return o is CartModel && listEquals(o.cartItems, cartItems) && o.address == address && o.paymentMethod == paymentMethod && o.hasCoupon == hasCoupon && o.organization == organization && o.fromWallet == fromWallet && o.note == note && o.associationName == associationName && o.associationOfficial == associationOfficial && o.officialNumber == officialNumber && o.applicantName == applicantName && o.coupon == coupon && o.deliveryFees == deliveryFees;
+    return o is CartModel && listEquals(o.cartItems, cartItems) && o.address == address && o.paymentMethod == paymentMethod && o.hasCoupon == hasCoupon && o.organization == organization && o.fromWallet == fromWallet && o.note == note && o.association == association && o.coupon == coupon && o.deliveryFees == deliveryFees;
   }
 
   @override
   int get hashCode {
-    return cartItems.hashCode ^ address.hashCode ^ paymentMethod.hashCode ^ hasCoupon.hashCode ^ organization.hashCode ^ fromWallet.hashCode ^ note.hashCode ^ associationName.hashCode ^ associationOfficial.hashCode ^ officialNumber.hashCode ^ applicantName.hashCode ^ coupon.hashCode ^ deliveryFees.hashCode;
+    return cartItems.hashCode ^ address.hashCode ^ paymentMethod.hashCode ^ hasCoupon.hashCode ^ organization.hashCode ^ fromWallet.hashCode ^ note.hashCode ^ association.hashCode ^ coupon.hashCode ^ deliveryFees.hashCode;
   }
 }
 
