@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:sehool/src/screens/orders/orders.dart';
+import 'package:sehool/src/screens/profile/pages/orders_history.dart';
 import '../../../main.dart';
 import '../../components/orders_list/orders_list_sliver.dart';
 import '../../core/api_caller.dart';
@@ -436,6 +438,49 @@ class PinnedOrders extends StatefulWidget {
 class PinnedOrdersState extends State<PinnedOrders> with ApiCaller {
   @override
   Widget build(BuildContext context) {
+    return FloatingActionButton(
+      heroTag: 'PinnedOrdersFloatingActionButton',
+      onPressed: () {
+        AppRouter.sailor.navigate(OrdersHistory.routeName);
+        // showDialog(
+        //   context: context,
+        //   builder: (context) => AlertDialog(
+        //     clipBehavior: Clip.hardEdge,
+        //     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+        //     backgroundColor: Colors.white,
+        //     contentPadding: EdgeInsets.zero,
+        //     insetPadding: EdgeInsets.zero,
+        //     title: Row(
+        //       children: [
+        //         Text(S.current.pinned_orders),
+        //         const Spacer(),
+        //         ElevatedButton(
+        //           onPressed: () {
+        //             showDialog(
+        //               context: context,
+        //               builder: (context) => BankInfoWidget(),
+        //             );
+        //           },
+        //           child: Text(S.current.bank_info),
+        //         ),
+        //       ],
+        //     ),
+        //     content: SizedBox(
+        //       width: MediaQuery.of(context).size.width * .9,
+        //       height: MediaQuery.of(context).size.height * .9,
+        //       child: OrdersListWidget(
+        //         orders: snapshot.data,
+        //         isLoading: false,
+        //       ),
+        //     ),
+        //   ),
+        // );
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Image.asset('assets/images/delivery.png'),
+      ),
+    );
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [

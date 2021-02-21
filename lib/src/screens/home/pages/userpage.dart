@@ -318,6 +318,7 @@ class _SettingsState extends State<Settings> {
           target: const OrdersHistory(),
           // description: S.current.your_journey_with_us,
         ),
+        // if (kUser.level != UserLevel.merchant)
         SettingsItem(
           // onRefresh: ,
           icon: FluentIcons.money_24_regular,

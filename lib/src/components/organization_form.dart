@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -31,7 +32,6 @@ class OrganizationForm extends StatefulWidget {
 
 class _OrganizationFormState extends State<OrganizationForm> {
   AssociationsCubit cubit;
-
   @override
   void initState() {
     super.initState();
@@ -49,7 +49,17 @@ class _OrganizationFormState extends State<OrganizationForm> {
   Widget build(BuildContext context) {
     return BlocConsumer<AssociationsCubit, AssociationsState>(
       cubit: cubit,
-      listener: (context, state) {},
+      listener: (context, state) {
+        setState(() {
+          final value = state.maybeWhen(
+                success: (values) => values?.association?.isNotEmpty ?? false ? values?.association?.first : null,
+                orElse: () => null,
+              ) ??
+              widget.cart.association;
+          widget.cart.association = value;
+          widget.onValueChanged?.call(value);
+        });
+      },
       builder: (context, state) {
         return state.when(
           initial: () => _buildUI(null, isLoading: true),
@@ -186,42 +196,31 @@ class _OrganizationFormState extends State<OrganizationForm> {
     //     });
     //   });
     // }
-    return InputDecorator(
-      decoration: InputDecoration(
-        filled: true,
-        fillColor: Colors.white70,
-        contentPadding: EdgeInsets.zero,
-        labelText: label,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(25),
+    return DropdownButtonHideUnderline(
+      child: DropdownSearch<Association>(
+        selectedItem: widget.cart.association,
+        dropdownSearchDecoration: InputDecoration(
+          filled: true,
+          fillColor: Colors.white70,
+          contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+          labelText: label,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(25),
+          ),
         ),
-      ),
-      child: DropdownButtonHideUnderline(
-        child: DropdownButton(
-          value: value,
-          isDense: true,
-          dropdownColor: Colors.amber.withOpacity(.8),
-          onChanged: (value) {
-            if (value == null) return;
-            setState(() => onChange(value));
-            widget.onValueChanged?.call(value);
-          },
-          isExpanded: true,
-          items: [
-            ...values.map(
-              (e) => DropdownMenuItem(
-                value: e,
-                child: Center(
-                  child: Text(
-                    '$e',
-                    overflow: TextOverflow.visible,
-                    style: Theme.of(context).textTheme.bodyText2.copyWith(color: Colors.black),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
+        // value: value,
+        // isDense: true,
+        // dropdownColor: Colors.amber.withOpacity(.8),
+        showSearchBox: true,
+        autoFocusSearchBox: true,
+        itemAsString: (item) => item.name,
+        onChanged: (value) {
+          if (value == null) return;
+          setState(() => onChange(value));
+          widget.onValueChanged?.call(value);
+        },
+        // isExpanded: true,
+        items: [...values],
       ),
     );
   }

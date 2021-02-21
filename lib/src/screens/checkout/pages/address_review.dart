@@ -50,10 +50,57 @@ class _AddressReviewPageState extends State<AddressReviewPage> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.cart.organization) {
+      return SingleChildScrollView(
+        child: Column(
+          children: [
+            Card(
+              color: Colors.white70,
+              // shape: OutlineInputBorder(
+              //   borderRadius: BorderRadius.circular(25),
+              // ),
+              child: ListTile(
+                leading: Image.asset('assets/images/sign-warning.png'),
+                title: Text(
+                  '${S.current.org_delivery_msg_p1} ${widget.cart.association?.name ?? ''} ${S.current.org_delivery_msg_p2}',
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.black, fontWeight: FontWeight.normal),
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
     return SingleChildScrollView(
       child: Column(
         children: [
           const SizedBox(height: 20),
+          Card(
+            color: Colors.white70,
+            // shape: OutlineInputBorder(
+            //   borderRadius: BorderRadius.circular(25),
+            // ),
+            child: ListTile(
+              tileColor: widget.cart.hasOtherName ? Colors.grey.withOpacity(.7) : null,
+              title: Text(
+                S.current.add_a_new_address,
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.black, fontWeight: FontWeight.normal),
+              ),
+              onTap: widget.cart.hasOtherName
+                  ? null
+                  : () async {
+                      final _cubit = getIt<AddressCubit>();
+                      await AppRouter.sailor.navigate(
+                        NewAddressDialog.routeName,
+                        params: {'address_cubit': _cubit},
+                      );
+                      await _cubit.close();
+                      cubit.getDropdownValues(DropdownValueType.addresses);
+                    },
+            ),
+          ),
           Row(
             children: [
               Switch(
@@ -74,8 +121,9 @@ class _AddressReviewPageState extends State<AddressReviewPage> {
               controller: otherNameController,
               decoration: InputDecoration(
                 hintText: S.current.full_name,
-                fillColor: Colors.white,
+                hintStyle: const TextStyle(color: Colors.black26),
                 filled: true,
+                fillColor: Colors.white,
                 contentPadding: const EdgeInsets.symmetric(horizontal: 15),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(25),
@@ -93,8 +141,9 @@ class _AddressReviewPageState extends State<AddressReviewPage> {
               controller: otherPhoneController,
               decoration: InputDecoration(
                 hintText: S.current.phone,
-                fillColor: Colors.white,
+                hintStyle: const TextStyle(color: Colors.black26),
                 filled: true,
+                fillColor: Colors.white,
                 contentPadding: const EdgeInsets.symmetric(horizontal: 15),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(25),
@@ -107,29 +156,30 @@ class _AddressReviewPageState extends State<AddressReviewPage> {
                 widget.cart.otherPhone = value;
               },
             ),
-          ],
-          const SizedBox(height: 10),
-          Card(
-            color: Colors.white70,
-            // shape: OutlineInputBorder(
-            //   borderRadius: BorderRadius.circular(25),
-            // ),
-            child: ListTile(
-              title: Text(
-                S.current.add_a_new_address,
-                style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.black, fontWeight: FontWeight.normal),
+            const SizedBox(height: 10),
+            Card(
+              color: Colors.white70,
+              // shape: OutlineInputBorder(
+              //   borderRadius: BorderRadius.circular(25),
+              // ),
+              child: ListTile(
+                title: Text(
+                  S.current.add_recipient_address,
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.black, fontWeight: FontWeight.normal),
+                ),
+                onTap: () async {
+                  final _cubit = getIt<AddressCubit>();
+                  await AppRouter.sailor.navigate(
+                    NewAddressDialog.routeName,
+                    params: {'address_cubit': _cubit},
+                  );
+                  await _cubit.close();
+                  cubit.getDropdownValues(DropdownValueType.addresses);
+                },
               ),
-              onTap: () async {
-                final _cubit = getIt<AddressCubit>();
-                await AppRouter.sailor.navigate(
-                  NewAddressDialog.routeName,
-                  params: {'address_cubit': _cubit},
-                );
-                await _cubit.close();
-                cubit.getDropdownValues(DropdownValueType.addresses);
-              },
             ),
-          ),
+          ],
           const SizedBox(height: 10),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),

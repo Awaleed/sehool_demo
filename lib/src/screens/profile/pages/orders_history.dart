@@ -72,7 +72,7 @@ class _OrdersHistoryState extends State<OrdersHistory> {
           ..background.color(Colors.white)
           ..background.image(path: 'assets/images/black.png', fit: BoxFit.contain),
         child: Scaffold(
-          floatingActionButton: WhatsappFloatingActionButton(),
+          // floatingActionButton: WhatsappFloatingActionButton(),
           backgroundColor: Colors.white70,
           appBar: AppBar(
             elevation: 0,

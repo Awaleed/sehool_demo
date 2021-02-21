@@ -1,5 +1,11 @@
 {
   "@@locale": "en",
+  "org_delivery_msg_p2": "), and you will receive a letter from the association confirming receipt of the order after delivery",
+  "@org_delivery_msg_p2": {},
+  "org_delivery_msg_p1": "This request will be delivered with our knowledge of the association (",
+  "@org_delivery_msg_p1": {},
+  "add_recipient_address": "Add recipient address",
+  "@add_recipient_address": {},
   "my_points": "My points",
   "@my_points": {},
   "net_bill": "Net bill",

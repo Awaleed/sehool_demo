@@ -9,6 +9,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sailor/sailor.dart';
 import 'package:sehool/src/components/cart_text_field.dart';
+import 'package:sehool/src/data/user_datasource.dart';
+import 'package:sehool/src/models/user_model.dart';
 import 'package:supercharged/supercharged.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -204,26 +206,36 @@ class _CheckoutScrollState extends State<CheckoutScroll> {
   ValueChanged get onChange => (_) => setState(() {});
 
   List<_StepItem> get steps => [
-        _StepItem(
-          label: S.current.discounts,
-          child: CartCouponField(
-            cart: widget.cart,
-            onChanged: onChange,
-            organizationFormKey: organizationFormKey,
+        if (kUser.level != UserLevel.merchant)
+          _StepItem(
+            label: S.current.discounts,
+            child: CartCouponField(
+              cart: widget.cart,
+              onChanged: onChange,
+              organizationFormKey: organizationFormKey,
+            ),
+            icon: SvgPicture.asset(
+              'assets/images/discount.svg',
+              height: 50,
+              width: 50,
+              color: Colors.black,
+            ),
+            // header: FluentIcons.plug_disconnected_28_regular,
           ),
-          icon: SvgPicture.asset(
-            'assets/images/discount.svg',
-            height: 50,
-            width: 50,
-            color: Colors.black,
-          ),
-          // header: FluentIcons.plug_disconnected_28_regular,
-        ),
 
         _StepItem(
-          hideLabel: true,
-          // label: S.current.bill,
-          // icon: Icon(Icons.add_circle_outline_sharp),
+          // hideLabel: true,
+          label: S.current.bill,
+          icon: SizedBox(
+            height: 50,
+            width: 50,
+            child: Padding(
+              padding: const EdgeInsets.all(5),
+              child: Image.asset(
+                'assets/images/Invoice.png',
+              ),
+            ),
+          ),
           child: SummeryCard(
             cart: widget.cart,
             onChanged: onChange,
@@ -329,7 +341,7 @@ class _CheckoutScrollState extends State<CheckoutScroll> {
         ),
       Column(
         children: [
-          if (widget.cart.address == null)
+          if (widget.cart.address == null && !widget.cart.organization)
             MyErrorWidget(
               message: S.current.not_a_valid_address,
               buttonLabel: S.current.select_shipping_address,
@@ -385,17 +397,17 @@ class _CheckoutScrollState extends State<CheckoutScroll> {
     VoidCallback onTap,
   }) {
     return ElevatedButton(
-      style: ButtonStyle(
-        //   minimumSize: MaterialStateProperty.all(
-        //     const Size.fromRadius(25),
-        //   ),
-        //   shape: MaterialStateProperty.all(
-        //     RoundedRectangleBorder(
-        //       borderRadius: BorderRadius.circular(25),
-        //     ),
-        //   ),
-        // backgroundColor: MaterialStateProperty.all(Colors.white70),
-      ),
+      // style: ButtonStyle(
+      //   //   minimumSize: MaterialStateProperty.all(
+      //   //     const Size.fromRadius(25),
+      //   //   ),
+      //   //   shape: MaterialStateProperty.all(
+      //   //     RoundedRectangleBorder(
+      //   //       borderRadius: BorderRadius.circular(25),
+      //   //     ),
+      //   //   ),
+      //   // backgroundColor: MaterialStateProperty.all(Colors.white70),
+      // ),
       onPressed: enabled ? onTap : null,
       child: label,
     );

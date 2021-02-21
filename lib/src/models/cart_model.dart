@@ -70,7 +70,7 @@ class CartModel {
 
   double get discountAmount => subtotalWithDelivery - discountedSubtotal;
 
-  bool get validate => paymentMethod != null && address != null;
+  bool get validate => paymentMethod != null && (address != null || organization);
 
   Map<String, dynamic> toJson() {
     return {

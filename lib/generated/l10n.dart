@@ -35,6 +35,36 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
+  /// `), and you will receive a letter from the association confirming receipt of the order after delivery`
+  String get org_delivery_msg_p2 {
+    return Intl.message(
+      '), and you will receive a letter from the association confirming receipt of the order after delivery',
+      name: 'org_delivery_msg_p2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This request will be delivered with our knowledge of the association (`
+  String get org_delivery_msg_p1 {
+    return Intl.message(
+      'This request will be delivered with our knowledge of the association (',
+      name: 'org_delivery_msg_p1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add recipient address`
+  String get add_recipient_address {
+    return Intl.message(
+      'Add recipient address',
+      name: 'add_recipient_address',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `My points`
   String get my_points {
     return Intl.message(

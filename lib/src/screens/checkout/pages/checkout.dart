@@ -91,10 +91,10 @@ class SummeryCard extends StatelessWidget {
       clipBehavior: Clip.none,
       children: [
         Card(
-          elevation: 10,
+          elevation: 0,
           clipBehavior: Clip.hardEdge,
           margin: EdgeInsets.zero,
-          color: Colors.white70,
+          color: Colors.white.withOpacity(.8),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(25),
           ),
@@ -103,11 +103,11 @@ class SummeryCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Text(
-                  S.current.bill,
-                  style: Theme.of(context).textTheme.headline5,
-                ),
-                const Divider(),
+                // Text(
+                //   S.current.bill,
+                //   style: Theme.of(context).textTheme.headline5,
+                // ),
+                // const Divider(),
                 ...cart.cartItems.map(
                   (e) => ListTile(
                     leading: IconButton(
@@ -224,10 +224,6 @@ class SummeryCard extends StatelessWidget {
                 ),
                 ListTile(
                   tileColor: Colors.amber.withOpacity(.8),
-                  leading: Padding(
-                    padding: const EdgeInsets.all(5),
-                    child: Image.asset('assets/images/Invoice.png'),
-                  ),
                   title: Text(S.current.net_bill),
                   trailing: Text('${cart.total.format()} ﷼'),
                 ),

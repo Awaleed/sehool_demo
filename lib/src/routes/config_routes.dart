@@ -1,4 +1,5 @@
 import 'package:sailor/sailor.dart';
+import 'package:sehool/src/screens/profile/pages/orders_history.dart';
 import 'package:supercharged/supercharged.dart';
 
 import '../screens/auth/login.dart';
@@ -55,8 +56,7 @@ abstract class AppRouter {
         /// Product Screens
         SailorRoute(
           name: ProductScreen.routeName,
-          builder: (context, args, paramMap) =>
-              ProductScreen(product: paramMap.param('product')),
+          builder: (context, args, paramMap) => ProductScreen(product: paramMap.param('product')),
           params: [SailorParam(name: 'product', isRequired: true)],
         ),
 
@@ -108,6 +108,10 @@ abstract class AppRouter {
         SailorRoute(
           name: OrdersScreen.routeName,
           builder: (context, args, paramMap) => const OrdersScreen(),
+        ),
+        SailorRoute(
+          name: OrdersHistory.routeName,
+          builder: (context, args, paramMap) => const OrdersHistory(),
         ),
         SailorRoute(
           name: NewAddressDialog.routeName,

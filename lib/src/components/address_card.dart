@@ -80,40 +80,41 @@ class _HomeCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(25),
           ),
           child: ClipRRect(
-              borderRadius: BorderRadius.circular(25),
-              child: () {
-                if (address == null) {
-                  return Image.asset(
-                    'assets/images/map.png',
-                    fit: BoxFit.cover,
-                  );
-                }
-                return !address.hasLocation
-                    ? Image.asset(
-                        'assets/images/map.png',
-                        fit: BoxFit.cover,
-                      )
-                    : GoogleMap(
-                        key: ValueKey('${address.latLng.latitude},${address.latLng.longitude}'),
-                        onMapCreated: (controller) async {
-                          await controller.animateCamera(
-                            CameraUpdate.newCameraPosition(
-                              CameraPosition(
-                                target: address.latLng,
-                                zoom: 15,
-                              ),
+            borderRadius: BorderRadius.circular(25),
+            child: () {
+              if (address == null) {
+                return Image.asset(
+                  'assets/images/map.png',
+                  fit: BoxFit.cover,
+                );
+              }
+              return !address.hasLocation
+                  ? Image.asset(
+                      'assets/images/map.png',
+                      fit: BoxFit.cover,
+                    )
+                  : GoogleMap(
+                      key: ValueKey('${address.latLng.latitude},${address.latLng.longitude}'),
+                      onMapCreated: (controller) async {
+                        await controller.animateCamera(
+                          CameraUpdate.newCameraPosition(
+                            CameraPosition(
+                              target: address.latLng,
+                              zoom: 15,
                             ),
-                          );
-                        },
-                        initialCameraPosition: const CameraPosition(target: LatLng(0, 0)),
-                        markers: {
-                          Marker(
-                            markerId: MarkerId(''),
-                            position: address.latLng,
                           ),
-                        },
-                      );
-              }()),
+                        );
+                      },
+                      initialCameraPosition: const CameraPosition(target: LatLng(0, 0)),
+                      markers: {
+                        Marker(
+                          markerId: MarkerId(''),
+                          position: address.latLng,
+                        ),
+                      },
+                    );
+            }(),
+          ),
         ),
       ],
     );

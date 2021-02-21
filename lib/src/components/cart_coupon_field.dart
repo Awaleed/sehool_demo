@@ -187,6 +187,7 @@ class _CartCouponFieldState extends State<CartCouponField> with ApiCaller {
                         widget.cart.associationDiscount = null;
                         widget.cart.association = null;
                         widget.cart.hasCoupon = false;
+                        widget.cart.address = null;
                         widget.cart.organization = false;
                         widget.cart.organization = value;
                       });
