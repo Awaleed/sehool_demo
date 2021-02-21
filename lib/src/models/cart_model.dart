@@ -84,7 +84,7 @@ class CartModel {
       // 'association_official': associationOfficial,
       // 'official_number': officialNumber,
       // 'applicant_name': applicantName,
-      'address_id': address.id,
+      'address_id': address?.id,
       'payment_method_id': paymentMethod.id,
       'coupon_id': coupon?.id,
       'from_wallet': fromWallet,

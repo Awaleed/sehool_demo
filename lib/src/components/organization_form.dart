@@ -59,6 +59,25 @@ class _OrganizationFormState extends State<OrganizationForm> {
           widget.cart.association = value;
           widget.onValueChanged?.call(value);
         });
+        if (widget.cart.association != null) {
+          showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              clipBehavior: Clip.hardEdge,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+              backgroundColor: Colors.white70,
+              // title: Text(S.current.bank_info),
+              content: ListTile(
+                leading: Image.asset('assets/images/sign-warning.png'),
+                title: Text(
+                  '${S.current.org_delivery_msg_p1} ${widget.cart.association?.name ?? ''} ${S.current.org_delivery_msg_p2}',
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.black, fontWeight: FontWeight.normal),
+                ),
+              ),
+            ),
+          );
+        }
       },
       builder: (context, state) {
         return state.when(
