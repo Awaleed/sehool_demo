@@ -94,7 +94,7 @@ class UserCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
-              _buildUserStatsItem('${kUser.wallet} ﷼', FluentIcons.money_24_regular),
+              // _buildUserStatsItem('${kUser.wallet} ﷼', FluentIcons.money_24_regular),
               _buildUserStatsItem(kUser.email, FluentIcons.mail_24_regular),
               _buildUserStatsItem(kUser.phone, FluentIcons.phone_24_regular),
               // _buildUserStatsItem(
@@ -287,6 +287,7 @@ class _SettingsState extends State<Settings> {
             showCupertinoModalPopup(context: context, builder: (context) => action);
           },
         ),
+
         SettingsItem(
           onRefresh: widget.onRefresh,
           icon: FluentIcons.location_12_regular,
@@ -316,6 +317,12 @@ class _SettingsState extends State<Settings> {
           title: S.current.my_orders,
           target: const OrdersHistory(),
           // description: S.current.your_journey_with_us,
+        ),
+        SettingsItem(
+          // onRefresh: ,
+          icon: FluentIcons.money_24_regular,
+          title: '${S.current.my_points} ${kUser.wallet} ﷼',
+          // description: S.current.we_speak_more_than_one_language,
         ),
         SettingsItem(
           onRefresh: widget.onRefresh,

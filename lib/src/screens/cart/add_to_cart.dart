@@ -335,19 +335,19 @@ class _CartScrollState extends State<CartScroll> {
       ),
       onPressed: enabled ? onTap : null,
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(15.0),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            if (icon == null)
-              const Icon(Icons.arrow_back)
-            else
-              SvgPicture.asset(
-                icon,
-                height: 40,
-                width: 40,
-              ),
-            const SizedBox(width: 10),
+            // if (icon == null)
+            //   const Icon(Icons.arrow_back)
+            // else
+            //   SvgPicture.asset(
+            //     icon,
+            //     height: 40,
+            //     width: 40,
+            //   ),
+            // const SizedBox(width: 10),
             label,
           ],
         ),

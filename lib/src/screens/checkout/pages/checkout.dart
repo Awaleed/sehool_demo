@@ -207,24 +207,28 @@ class SummeryCard extends StatelessWidget {
                 const Divider(),
                 if (cart.discountAmount > 0) ...[
                   ListTile(
-                    tileColor: Colors.amber.withOpacity(.8),
+                    // tileColor: Colors.amber.withOpacity(.8),
                     title: Text(S.current.discount),
                     trailing: Text('${cart.discountAmount.format()} ﷼'),
                   ),
                   ListTile(
-                    tileColor: Colors.amber.withOpacity(.8),
+                    // tileColor: Colors.amber.withOpacity(.8),
                     title: Text(S.current.discounted_total),
                     trailing: Text('${cart.discountedSubtotal.format()} ﷼'),
                   ),
-                                  const Divider(),
-
+                  const Divider(),
                 ],
                 ListTile(
                   title: Text(S.current.tax),
                   trailing: Text('${cart.tax.format()} ﷼'),
                 ),
                 ListTile(
-                  title: Text(S.current.total),
+                  tileColor: Colors.amber.withOpacity(.8),
+                  leading: Padding(
+                    padding: const EdgeInsets.all(5),
+                    child: Image.asset('assets/images/Invoice.png'),
+                  ),
+                  title: Text(S.current.net_bill),
                   trailing: Text('${cart.total.format()} ﷼'),
                 ),
 

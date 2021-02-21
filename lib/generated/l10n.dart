@@ -35,6 +35,26 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
+  /// `My points`
+  String get my_points {
+    return Intl.message(
+      'My points',
+      name: 'my_points',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Net bill`
+  String get net_bill {
+    return Intl.message(
+      'Net bill',
+      name: 'net_bill',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Discounted total`
   String get discounted_total {
     return Intl.message(

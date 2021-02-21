@@ -1,5 +1,9 @@
 {
   "@@locale": "en",
+  "my_points": "My points",
+  "@my_points": {},
+  "net_bill": "Net bill",
+  "@net_bill": {},
   "discounted_total": "Discounted total",
   "@discounted_total": {},
   "customer_address": "Customer address",

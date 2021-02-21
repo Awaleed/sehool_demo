@@ -394,7 +394,7 @@ class _CheckoutScrollState extends State<CheckoutScroll> {
         //       borderRadius: BorderRadius.circular(25),
         //     ),
         //   ),
-        backgroundColor: MaterialStateProperty.all(Colors.white70),
+        // backgroundColor: MaterialStateProperty.all(Colors.white70),
       ),
       onPressed: enabled ? onTap : null,
       child: label,

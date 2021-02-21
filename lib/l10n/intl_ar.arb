@@ -1,5 +1,9 @@
 {
   "@@locale": "ar",
+  "my_points": "نقاطي",
+  "@my_points": {},
+  "net_bill": "صافي الفاتورة",
+  "@net_bill": {},
   "discounted_total": "المجموع بعد الخصم",
   "@discounted_total": {},
   "customer_address": "عنوان العميل",
