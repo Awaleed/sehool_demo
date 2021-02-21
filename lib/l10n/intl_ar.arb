@@ -1,5 +1,7 @@
 {
   "@@locale": "ar",
+  "discounted_total": "المجموع بعد الخصم",
+  "@discounted_total": {},
   "customer_address": "عنوان العميل",
   "@customer_address": {},
   "request_received": "تم استلام الطلب",
@@ -74,7 +76,7 @@
   "@active_offers": {},
   "add": "أضافة",
   "@add": {},
-  "add_a_new_address": "أضف عنوان جديد",
+  "add_a_new_address": "أضف عنوان",
   "@add_a_new_address": {},
   "coupon_name": "اسم الكوبون",
   "@coupon_name": {},

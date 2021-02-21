@@ -54,28 +54,6 @@ class _AddressReviewPageState extends State<AddressReviewPage> {
       child: Column(
         children: [
           const SizedBox(height: 20),
-          Card(
-            color: Colors.white70,
-            // shape: OutlineInputBorder(
-            //   borderRadius: BorderRadius.circular(25),
-            // ),
-            child: ListTile(
-              title: Text(
-                S.current.add_a_new_address,
-                style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.black, fontWeight: FontWeight.normal),
-              ),
-              onTap: () async {
-                final _cubit = getIt<AddressCubit>();
-                await AppRouter.sailor.navigate(
-                  NewAddressDialog.routeName,
-                  params: {'address_cubit': _cubit},
-                );
-                await _cubit.close();
-                cubit.getDropdownValues(DropdownValueType.addresses);
-              },
-            ),
-          ),
-          const SizedBox(height: 10),
           Row(
             children: [
               Switch(
@@ -130,6 +108,28 @@ class _AddressReviewPageState extends State<AddressReviewPage> {
               },
             ),
           ],
+          const SizedBox(height: 10),
+          Card(
+            color: Colors.white70,
+            // shape: OutlineInputBorder(
+            //   borderRadius: BorderRadius.circular(25),
+            // ),
+            child: ListTile(
+              title: Text(
+                S.current.add_a_new_address,
+                style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.black, fontWeight: FontWeight.normal),
+              ),
+              onTap: () async {
+                final _cubit = getIt<AddressCubit>();
+                await AppRouter.sailor.navigate(
+                  NewAddressDialog.routeName,
+                  params: {'address_cubit': _cubit},
+                );
+                await _cubit.close();
+                cubit.getDropdownValues(DropdownValueType.addresses);
+              },
+            ),
+          ),
           const SizedBox(height: 10),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),

@@ -227,7 +227,8 @@ class _MessageCheckBoxState extends State<MessageCheckBox> {
     if (value == null) {
       Timer.run(() {
         setState(() {
-          onChange(values.first);
+            setState(() => onChange(value));
+            widget.onValueChanged?.call(value);
         });
       });
     }

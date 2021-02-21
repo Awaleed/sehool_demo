@@ -35,6 +35,16 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
+  /// `Discounted total`
+  String get discounted_total {
+    return Intl.message(
+      'Discounted total',
+      name: 'discounted_total',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Customer address`
   String get customer_address {
     return Intl.message(

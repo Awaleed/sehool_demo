@@ -105,6 +105,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "disable" : MessageLookupByLibrary.simpleMessage("Disable"),
     "discount" : MessageLookupByLibrary.simpleMessage("Discount"),
     "discounted" : MessageLookupByLibrary.simpleMessage("Discounted"),
+    "discounted_total" : MessageLookupByLibrary.simpleMessage("Discounted total"),
     "discounts" : MessageLookupByLibrary.simpleMessage("Discounts"),
     "discover__explorer" : MessageLookupByLibrary.simpleMessage("Discover & Explorer"),
     "do_you_want_to_log_out_and_switch_account" : MessageLookupByLibrary.simpleMessage("Do you want to log out and switch account?"),

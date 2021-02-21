@@ -178,13 +178,14 @@ class _OrganizationFormState extends State<OrganizationForm> {
   }
 
   Widget _buildDropdown(List<Association> values, Association value, ValueChanged onChange, String label) {
-    if (value == null) {
-      Timer.run(() {
-        setState(() {
-          onChange(values.first);
-        });
-      });
-    }
+    // if (value == null) {
+    //   Timer.run(() {
+    //     setState(() {
+    //       // setState(() => onChange(value));
+    //       widget.onValueChanged?.call(value);
+    //     });
+    //   });
+    // }
     return InputDecorator(
       decoration: InputDecoration(
         filled: true,

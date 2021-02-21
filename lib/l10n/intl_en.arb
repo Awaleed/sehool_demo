@@ -1,5 +1,7 @@
 {
   "@@locale": "en",
+  "discounted_total": "Discounted total",
+  "@discounted_total": {},
   "customer_address": "Customer address",
   "@customer_address": {},
   "request_received": "Request received",
