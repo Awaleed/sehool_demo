@@ -287,7 +287,7 @@ class DraggableWhatsAppIconState extends State<DraggableWhatsAppIcon> {
                 },
                 backgroundColor: Colors.transparent,
                 foregroundColor: Colors.transparent,
-                child: SvgPicture.asset('assets/images/whatsapp.svg'),
+                child: SvgPicture.asset('assets/images/iconfinder-whatsapp-4550867_121343.svg'),
                 // child: const Icon(
                 //   FontAwesomeIcons.whatsapp,
                 //   color: Color(
@@ -303,7 +303,8 @@ class DraggableWhatsAppIconState extends State<DraggableWhatsAppIcon> {
                 },
                 backgroundColor: Colors.transparent,
                 foregroundColor: Colors.transparent,
-                child: SvgPicture.asset('assets/images/whatsapp.svg'),
+
+                child: SvgPicture.asset('assets/images/iconfinder-whatsapp-4550867_121343.svg'),
                 // child: const Icon(
                 //   FontAwesomeIcons.whatsapp,
                 //   color: Color(

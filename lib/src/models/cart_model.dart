@@ -137,7 +137,9 @@ class CartItemModel {
   double get total => product.price * quantity;
 
   void incrementCart() => quantity++;
-  void decrementCart() => quantity > (kUser.level == UserLevel.merchant ? 10 : 1) ? quantity-- : quantity;
+  void decrementCart() => canDecrement ? quantity-- : quantity;
+
+  bool get canDecrement => quantity > (kUser.level == UserLevel.merchant ? 10 : 1);
 
   bool get validate => product != null && slicingMethod != null && quantity > 0;
 

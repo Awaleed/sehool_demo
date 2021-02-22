@@ -192,10 +192,10 @@ class SummeryCard extends StatelessWidget {
                   ),
                 ),
                 const Divider(),
-                ListTile(
-                  title: Text(S.current.subtotal),
-                  trailing: Text('${cart.subtotal.format()} ﷼'),
-                ),
+                // ListTile(
+                //   title: Text(S.current.subtotal),
+                //   trailing: Text('${cart.subtotal.format()} ﷼'),
+                // ),
                 ListTile(
                   title: Text(S.current.delivery_price),
                   trailing: Text('${cart.deliveryFees.format()} ﷼'),

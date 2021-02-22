@@ -35,6 +35,26 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
+  /// `Choose another item`
+  String get choose_another_item {
+    return Intl.message(
+      'Choose another item',
+      name: 'choose_another_item',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You cannot order less than this quantity. Contact your administrator for more information`
+  String get delivery_qyt_msg {
+    return Intl.message(
+      'You cannot order less than this quantity. Contact your administrator for more information',
+      name: 'delivery_qyt_msg',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `), and you will receive a letter from the association confirming receipt of the order after delivery`
   String get org_delivery_msg_p2 {
     return Intl.message(

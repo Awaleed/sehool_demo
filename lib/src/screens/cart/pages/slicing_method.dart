@@ -6,10 +6,10 @@ import '../../../models/cart_model.dart';
 import '../../../models/dropdown_value_model.dart';
 
 class SlicingMethodPage extends StatelessWidget {
-  const SlicingMethodPage({Key key, @required this.cartItem, this.onChanged}) : super(key: key);
+  const SlicingMethodPage({Key key, @required this.cartItem, this.onChanged, @required this.addItemButton}) : super(key: key);
   final CartItemModel cartItem;
   final ValueChanged onChanged;
-
+  final Widget addItemButton;
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(

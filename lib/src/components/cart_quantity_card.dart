@@ -1,6 +1,8 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sehool/src/data/user_datasource.dart';
+import 'package:sehool/src/models/user_model.dart';
 import 'package:validators/validators.dart';
 
 import '../../generated/l10n.dart';
@@ -21,13 +23,24 @@ class _CartQuantityCardState extends State<CartQuantityCard> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
+        const Spacer(),
         _buildButton(
-            onTap: widget.cartItem.quantity <= 1
-                ? () {}
-                : () {
-                    widget.onChanged();
-                    widget.cartItem.decrementCart();
+            onTap: () {
+              widget.onChanged();
+              widget.cartItem.decrementCart();
+              if (kUser.level == UserLevel.merchant && !widget.cartItem.canDecrement) {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    final key = GlobalKey<FormState>();
+                    return AlertDialog(
+                      backgroundColor: Colors.white70,
+                      content: Text(S.current.delivery_qyt_msg),
+                    );
                   },
+                );
+              }
+            },
             child: const Icon(Icons.remove_rounded)),
         TextButton(
           style: ButtonStyle(
@@ -124,18 +137,17 @@ class _CartQuantityCardState extends State<CartQuantityCard> {
           },
           child: Text(
             '${widget.cartItem.quantity}',
-            style: Theme.of(context).textTheme.headline1.copyWith(color: Colors.black87),
+            style: Theme.of(context).textTheme.headline5.copyWith(color: Colors.black87),
           ),
         ),
         _buildButton(
-          onTap: widget.cartItem.quantity >= 100
-              ? () {}
-              : () {
-                  widget.onChanged();
-                  widget.cartItem.incrementCart();
-                },
+          onTap: () {
+            widget.onChanged();
+            widget.cartItem.incrementCart();
+          },
           child: const Icon(FluentIcons.add_24_regular),
         ),
+        const Spacer(),
       ],
     );
   }
@@ -147,11 +159,11 @@ class _CartQuantityCardState extends State<CartQuantityCard> {
       ElevatedButton(
         style: ButtonStyle(
           minimumSize: MaterialStateProperty.all(
-            const Size.fromRadius(50),
+            const Size.fromRadius(20),
           ),
           shape: MaterialStateProperty.all(
             RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(25),
+              borderRadius: BorderRadius.circular(10),
             ),
           ),
         ),

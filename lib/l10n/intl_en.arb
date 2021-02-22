@@ -1,5 +1,9 @@
 {
   "@@locale": "en",
+  "choose_another_item": "Choose another item",
+  "@choose_another_item": {},
+  "delivery_qyt_msg": "You cannot order less than this quantity. Contact your administrator for more information",
+  "@delivery_qyt_msg": {},
   "org_delivery_msg_p2": "), and you will receive a letter from the association confirming receipt of the order after delivery",
   "@org_delivery_msg_p2": {},
   "org_delivery_msg_p1": "This request will be delivered with our knowledge of the association (",

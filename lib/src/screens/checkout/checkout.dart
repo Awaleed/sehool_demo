@@ -94,7 +94,6 @@ class _StepItem {
   final bool hideLabel;
   final Widget child;
   final Widget icon;
-  final IconData header;
   final CustomStepState state;
   final Key key;
   _StepItem({
@@ -102,7 +101,6 @@ class _StepItem {
     this.label,
     this.hideLabel = false,
     this.child,
-    this.header,
     this.icon = const Icon(
       Icons.track_changes,
       color: Colors.amber,
@@ -253,7 +251,6 @@ class _CheckoutScrollState extends State<CheckoutScroll> {
             size: 50,
             color: Colors.black,
           ),
-          header: FluentIcons.note_24_regular,
         ),
         _StepItem(
           key: addressKey,
@@ -262,27 +259,29 @@ class _CheckoutScrollState extends State<CheckoutScroll> {
             cart: widget.cart,
             onChanged: onChange,
           ),
-          icon: const Icon(
-            FluentIcons.location_48_regular,
-            size: 50,
-            color: Colors.black,
+          icon: Image.asset(
+            'assets/images/x-office-address-book.png',
+            height: 50,
+            width: 50,
           ),
-          header: FluentIcons.location_48_regular,
+          // const Icon(
+          //   FluentIcons.location_48_regular,
+          //   size: 50,
+          //   color: Colors.black,
+          // ),
         ),
         _StepItem(
-          key: paymentMethodKey,
-          label: S.current.payment_mode,
-          child: PaymentMethodReviewPage(
-            cart: widget.cart,
-            onChanged: onChange,
-          ),
-          icon: const Icon(
-            FluentIcons.payment_28_regular,
-            size: 50,
-            color: Colors.black,
-          ),
-          header: FluentIcons.payment_28_regular,
-        ),
+            key: paymentMethodKey,
+            label: S.current.payment_mode,
+            child: PaymentMethodReviewPage(
+              cart: widget.cart,
+              onChanged: onChange,
+            ),
+            icon: Image.asset(
+              'assets/images/1495815224-jd15_84582.png',
+              height: 50,
+              width: 50,
+            )),
         // _StepItem(
         //   label: S.current.is_gift,
         //   icon: const Icon(

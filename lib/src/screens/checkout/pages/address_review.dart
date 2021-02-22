@@ -192,6 +192,10 @@ class _AddressReviewPageState extends State<AddressReviewPage> {
             //   borderRadius: BorderRadius.circular(25),
             // ),
             child: ListTile(
+              leading: Padding(
+                padding: const EdgeInsets.all(3),
+                child: Image.asset('assets/images/1-46.png'),
+              ),
               title: Text(
                 S.current.customer_address,
                 style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.black, fontWeight: FontWeight.normal),

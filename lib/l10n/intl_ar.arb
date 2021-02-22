@@ -1,8 +1,12 @@
 {
   "@@locale": "ar",
+  "choose_another_item": "اختر صنف اخر",
+  "@choose_another_item": {},
+  "delivery_qyt_msg": "لا يمكنك طلب أقل من هذه الكمية. اتصل بالمسؤول لمزيد من المعلومات",
+  "@delivery_qyt_msg": {},
   "org_delivery_msg_p2": ")، وستصلك رسالة من الجمعية بتأكيد استلام الطلب بعد التوصيل",
   "@org_delivery_msg_p2": {},
-  "org_delivery_msg_p1": "سوف يتم توصيل هذا الطلب بمعرفتنا الي الجميعة (",
+  "org_delivery_msg_p1": "سوف يتم توصيل هذا الطلب بمعرفتنا الي (",
   "@org_delivery_msg_p1": {},
   "my_points": "نقاطي",
   "@my_points": {},

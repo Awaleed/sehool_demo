@@ -87,7 +87,6 @@ class _StepItem {
   final bool hideLabel;
   final Widget child;
   final Widget icon;
-  final IconData header;
   final CustomStepState state;
 
   _StepItem({
@@ -101,7 +100,6 @@ class _StepItem {
       size: 100,
     ),
     this.state = CustomStepState.indexed,
-    this.header,
   });
 }
 
@@ -130,12 +128,12 @@ class _CartScrollState extends State<CartScroll> {
             cartItem: widget.cartItem,
             onChanged: () => setState(() {}),
           ),
-          icon: const Icon(
-            FluentIcons.re_order_dots_24_regular,
-            size: 50,
-            color: Colors.black,
+          icon: SvgPicture.asset(
+            'assets/images/1455739809_Kitchen_Bold_Line_Color_Mix-30_icon-icons.com_53387.svg',
+            height: 50,
+            width: 50,
+            // color: Colors.black,
           ),
-          header: FluentIcons.re_order_dots_24_regular,
         ),
         _StepItem(
           key: slicingMethodKey,
@@ -155,12 +153,11 @@ class _CartScrollState extends State<CartScroll> {
             ),
           ),
           icon: SvgPicture.asset(
-            'assets/images/cleaver.svg',
+            'assets/images/3808368-bloody-butcher-knife-knife-weapon_109095.svg',
             width: 50,
             height: 50,
-            color: Colors.black,
+            // color: Colors.black,
           ),
-          header: Icons.kitchen_outlined,
         ),
         // _StepItem(
         //   hideLabel: true,
@@ -174,7 +171,6 @@ class _CartScrollState extends State<CartScroll> {
         //     size: 50,
         //     color: Colors.black,
         //   ),
-        //   header: FluentIcons.note_24_regular,
         // ),
         _StepItem(
           hideLabel: true,
@@ -189,13 +185,12 @@ class _CartScrollState extends State<CartScroll> {
             size: 50,
             color: Colors.black,
           ),
-          header: FluentIcons.checkmark_48_regular,
         ),
       ];
 
   List<Widget> get stepsWidget {
     return <Widget>[
-      for (var i = 0; i < steps.length; i++)
+      for (var i = 0; i < steps.length; i++) ...[
         Card(
           key: steps[i].key,
           elevation: 2,
@@ -226,6 +221,30 @@ class _CartScrollState extends State<CartScroll> {
             ],
           ),
         ),
+        if (steps[i].key == slicingMethodKey) ...[
+          const SizedBox(height: 15),
+          _buildButton(
+            icon: 'assets/images/shopping-cart.svg',
+            enabled: widget.cartItem.validate,
+            label: Text(S.current.choose_another_item,
+                style: Theme.of(context).textTheme.bodyText1.copyWith(
+                      color: Colors.black,
+                      fontWeight: FontWeight.normal,
+                    )),
+            onTap: () {
+              Helpers.dismissFauces(context);
+              if (messageFormKey?.currentState?.validate() ?? true) {
+                messageFormKey?.currentState?.save();
+                getIt<CartCubit>().addItem(widget.cartItem);
+                AppRouter.sailor.pop();
+              } else {
+                Helpers.showErrorOverlay(context, error: S.current.check_that_you_filled_all_fields_correctly);
+              }
+            },
+          ),
+          const SizedBox(height: 15),
+        ]
+      ],
       Column(
         children: [
           if (widget.cartItem.slicingMethod == null)
@@ -267,26 +286,26 @@ class _CartScrollState extends State<CartScroll> {
             // runAlignment: WrapAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              _buildButton(
-                icon: 'assets/images/shopping-cart.svg',
-                enabled: widget.cartItem.validate,
-                label: Text(S.current.back_to_shopping,
-                    style: Theme.of(context).textTheme.bodyText1.copyWith(
-                          color: Colors.black,
-                          fontWeight: FontWeight.normal,
-                        )),
-                onTap: () {
-                  Helpers.dismissFauces(context);
-                  if (messageFormKey?.currentState?.validate() ?? true) {
-                    messageFormKey?.currentState?.save();
-                    getIt<CartCubit>().addItem(widget.cartItem);
-                    AppRouter.sailor.pop();
-                  } else {
-                    Helpers.showErrorOverlay(context, error: S.current.check_that_you_filled_all_fields_correctly);
-                  }
-                },
-              ),
-              const SizedBox(height: 15),
+              // _buildButton(
+              //   icon: 'assets/images/shopping-cart.svg',
+              //   enabled: widget.cartItem.validate,
+              //   label: Text(S.current.choose_another_item,
+              //       style: Theme.of(context).textTheme.bodyText1.copyWith(
+              //             color: Colors.black,
+              //             fontWeight: FontWeight.normal,
+              //           )),
+              //   onTap: () {
+              //     Helpers.dismissFauces(context);
+              //     if (messageFormKey?.currentState?.validate() ?? true) {
+              //       messageFormKey?.currentState?.save();
+              //       getIt<CartCubit>().addItem(widget.cartItem);
+              //       AppRouter.sailor.pop();
+              //     } else {
+              //       Helpers.showErrorOverlay(context, error: S.current.check_that_you_filled_all_fields_correctly);
+              //     }
+              //   },
+              // ),
+              // const SizedBox(height: 15),
               _buildButton(
                 icon: 'assets/images/carduse_card_payment.svg',
                 enabled: widget.cartItem.validate,
