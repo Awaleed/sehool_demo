@@ -35,6 +35,16 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
+  /// `the driver`
+  String get driver {
+    return Intl.message(
+      'the driver',
+      name: 'driver',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Choose another item`
   String get choose_another_item {
     return Intl.message(

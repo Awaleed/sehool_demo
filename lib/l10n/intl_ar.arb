@@ -1,5 +1,7 @@
 {
   "@@locale": "ar",
+  "driver": "السائق",
+  "@driver": {},
   "choose_another_item": "اختر صنف اخر",
   "@choose_another_item": {},
   "delivery_qyt_msg": "لا يمكنك طلب أقل من هذه الكمية. اتصل بالمسؤول لمزيد من المعلومات",

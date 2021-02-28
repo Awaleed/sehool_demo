@@ -67,16 +67,8 @@ class OrdersListItemWidget extends StatelessWidget {
               ...cart.products.map(
                 (e) => ListTile(
                   title: Text(e.name),
-                  subtitle: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Text(
-                        '${e.qyt} ${S.current.piece}, ${e.slicerType}',
-                      ),
-                      Text(
-                        '${S.current.notes}: ${e.note ?? S.current.none}',
-                      ),
-                    ],
+                  subtitle: Text(
+                    '${e.qyt} ${S.current.piece}, ${e.slicerType}',
                   ),
                   trailing: Text('${e.subtotal.format()} ﷼'),
                 ),
@@ -90,6 +82,18 @@ class OrdersListItemWidget extends StatelessWidget {
               title: Text(S.current.notes),
               subtitle: Text(cart.note ?? S.current.none),
             ),
+            if (cart.status.id == 4) ...[
+              ListTile(
+                title: Text(S.current.driver),
+                subtitle: Text(cart.delivery.name),
+              ),
+              ListTile(
+                title: Text(S.current.phone),
+                subtitle: Text(cart.delivery.phone),
+                onTap: () {},
+              ),
+            ],
+
             // const Divider(),
             // Card(
             //   elevation: 2,
@@ -191,15 +195,30 @@ class OrderStatusWidget extends StatelessWidget with ApiCaller {
 
   @override
   Widget build(BuildContext context) {
-    if (order.status.id > 5) {
+    if (order.status.id >= 5) {
+      Color color;
+      IconData icon;
+      switch (order.status.id) {
+        case 5:
+          icon = Icons.check;
+          break;
+        case 6:
+          icon = Icons.cancel_outlined;
+          color = Colors.red.withOpacity(.8);
+          break;
+        case 7:
+          icon = Icons.access_time;
+          color = Colors.amber.withOpacity(.8);
+          break;
+      }
       return Column(
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(12),
             child: ListTile(
-              trailing: Icon(order.status.id == 7 ? Icons.access_time : Icons.cancel_outlined),
+              trailing: Icon(icon),
               title: Text('${S.current.order_status}: ${order.status.name}'),
-              tileColor: order.status.id == 7 ? Colors.amber.withOpacity(.8) : Colors.red.withOpacity(.8),
+              tileColor: color,
             ),
           ),
           if (order.status.id == 7)
@@ -211,7 +230,7 @@ class OrderStatusWidget extends StatelessWidget with ApiCaller {
                   final source = await showDialog<ImageSource>(
                     context: context,
                     useRootNavigator: true,
-                    child: SimpleDialog(
+                    builder: (context) => SimpleDialog(
                       children: [
                         SimpleDialogOption(
                           onPressed: () => Navigator.of(context).pop(ImageSource.camera),
@@ -283,15 +302,8 @@ class OrderStatusWidget extends StatelessWidget with ApiCaller {
     return CustomStepper(
       controlsBuilder: (context, {onStepCancel, onStepContinue}) => const SizedBox.shrink(),
       physics: const NeverScrollableScrollPhysics(),
-      currentCustomStep: order.status.id - 1,
-      steps: [
-        ...StatusModel.statuses.map(
-          (e) => CustomStep(
-            isActive: e.id == order.status.id,
-            title: Text(e.name),
-          ),
-        ),
-      ],
+      currentCustomStep: order.status.id - 2,
+      steps: buildSteps(),
     );
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -325,6 +337,23 @@ class OrderStatusWidget extends StatelessWidget with ApiCaller {
         ),
         iosUiSettings: const IOSUiSettings(minimumAspectRatio: 1.0),
       );
+
+  List<CustomStep> buildSteps() {
+    final steps = <CustomStep>[];
+    for (final status in StatusModel.statuses) {
+      if (status.id == 2) continue;
+
+      final bool isActive = (status.id == order.status.id) || (order.status.id == 2 && status.id == 1);
+
+      steps.add(
+        CustomStep(
+          isActive: isActive,
+          title: Text(status.name),
+        ),
+      );
+    }
+    return steps;
+  }
 }
 
 extension on double {

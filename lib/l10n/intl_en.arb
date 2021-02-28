@@ -1,5 +1,7 @@
 {
   "@@locale": "en",
+  "driver": "the driver",
+  "@driver": {},
   "choose_another_item": "Choose another item",
   "@choose_another_item": {},
   "delivery_qyt_msg": "You cannot order less than this quantity. Contact your administrator for more information",

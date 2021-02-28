@@ -8,12 +8,16 @@ part of 'association_model.dart';
 
 AssociationModel _$AssociationModelFromJson(Map<String, dynamic> json) {
   return AssociationModel(
-    association: (json['association'] as List)?.map((e) => e == null ? null : Association.fromJson(e as Map<String, dynamic>))?.toList(),
+    association: (json['association'] as List)
+        ?.map((e) =>
+            e == null ? null : Association.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
     discount: (json['discount'] as num)?.toDouble(),
   );
 }
 
-Map<String, dynamic> _$AssociationModelToJson(AssociationModel instance) => <String, dynamic>{
+Map<String, dynamic> _$AssociationModelToJson(AssociationModel instance) =>
+    <String, dynamic>{
       'association': instance.association?.map((e) => e?.toJson())?.toList(),
       'discount': instance.discount,
     };
@@ -28,7 +32,8 @@ Association _$AssociationFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$AssociationToJson(Association instance) => <String, dynamic>{
+Map<String, dynamic> _$AssociationToJson(Association instance) =>
+    <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
       'association_official': instance.associationOfficial,

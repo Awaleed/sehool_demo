@@ -118,6 +118,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "dont_have_any_item_in_the_orders_list" : MessageLookupByLibrary.simpleMessage("ليس لديك أي عنصر في قائمة الطلبات"),
     "dont_have_any_item_in_your_cart" : MessageLookupByLibrary.simpleMessage("ليس لديك أي عنصر في سلة التسوق الخاصة بك"),
     "double_click_on_the_food_to_add_it_to_the" : MessageLookupByLibrary.simpleMessage("انقر نقرًا مزدوجًا فوق الطعام لإضافته إلى عربة التسوق"),
+    "driver" : MessageLookupByLibrary.simpleMessage("السائق"),
     "driver_app" : MessageLookupByLibrary.simpleMessage("تطبيق السائق"),
     "edit" : MessageLookupByLibrary.simpleMessage("تعديل"),
     "email" : MessageLookupByLibrary.simpleMessage("البريد الإلكتروني"),

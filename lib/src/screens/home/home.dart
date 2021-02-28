@@ -280,7 +280,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       onTap: () {
                         showDialog(
                           context: context,
-                          child: Dialog(
+                          builder: (context) => Dialog(
                             clipBehavior: Clip.hardEdge,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(25),

@@ -53,7 +53,7 @@ class _AboutState extends State<About> {
                       onTap: () {
                         showDialog(
                           context: context,
-                          child: Dialog(
+                          builder: (context) => Dialog(
                             clipBehavior: Clip.hardEdge,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(25),

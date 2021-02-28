@@ -118,6 +118,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "dont_have_any_item_in_the_orders_list" : MessageLookupByLibrary.simpleMessage("You do not have any item in the request list"),
     "dont_have_any_item_in_your_cart" : MessageLookupByLibrary.simpleMessage("Don\'t have any item in your cart"),
     "double_click_on_the_food_to_add_it_to_the" : MessageLookupByLibrary.simpleMessage("Double click on the food to add it to the cart"),
+    "driver" : MessageLookupByLibrary.simpleMessage("the driver"),
     "driver_app" : MessageLookupByLibrary.simpleMessage("Driver App"),
     "edit" : MessageLookupByLibrary.simpleMessage("Edit"),
     "email" : MessageLookupByLibrary.simpleMessage("Email"),

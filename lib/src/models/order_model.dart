@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:sehool/generated/l10n.dart';
+import 'package:sehool/src/models/user_model.dart';
 
 import 'address_model.dart';
 
@@ -15,6 +16,7 @@ class OrderModel {
     this.total,
     this.address,
     this.products,
+    this.delivery,
     this.createdAt,
   });
 
@@ -24,6 +26,7 @@ class OrderModel {
   final double total;
   final AddressModel address;
   final StatusModel status;
+  final UserModel delivery;
   final DateTime createdAt;
   final List<OrderItemModel> products;
 

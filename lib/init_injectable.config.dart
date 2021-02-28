@@ -79,10 +79,10 @@ GetIt $initGetIt(
       registerFor: {_test});
   gh.singleton<IDropdownRepository>(
       DropdownRepositoryImpl(get<IDropdownRemoteDataSource>()));
-  gh.singleton<ILazyListRemoteDataSource>(LazyListRemoteDataSource(),
-      registerFor: {_prod});
   gh.singleton<ILazyListRemoteDataSource>(FakeLazyListRemoteDataSource(),
       registerFor: {_test});
+  gh.singleton<ILazyListRemoteDataSource>(LazyListRemoteDataSource(),
+      registerFor: {_prod});
   gh.singleton<ILazyListRepository>(
       LazyListRepositoryImpl(get<ILazyListRemoteDataSource>()));
   gh.singleton<IOrderRemoteDataSource>(OrderRemoteDataSource());
@@ -98,10 +98,10 @@ GetIt $initGetIt(
   gh.singleton<ISettingsRepository>(
       SettingsRepositoryImpl(get<ISettingsDataSource>()));
   gh.singleton<IUserLocalDataSource>(UserLocalDataSource());
-  gh.singleton<IUserRemoteDataSource>(UserRemoteDataSource(),
-      registerFor: {_prod});
   gh.singleton<IUserRemoteDataSource>(FakeUserRemoteDataSource(),
       registerFor: {_test});
+  gh.singleton<IUserRemoteDataSource>(UserRemoteDataSource(),
+      registerFor: {_prod});
   gh.singleton<IUserRepository>(UserRepositoryImpl(
       get<IUserLocalDataSource>(), get<IUserRemoteDataSource>()));
   gh.singleton<SettingsCubit>(SettingsCubit(get<ISettingsRepository>()));

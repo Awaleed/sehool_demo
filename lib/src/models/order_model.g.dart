@@ -23,6 +23,9 @@ OrderModel _$OrderModelFromJson(Map<String, dynamic> json) {
             ? null
             : OrderItemModel.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+    delivery: json['delivery'] == null
+        ? null
+        : UserModel.fromJson(json['delivery'] as Map<String, dynamic>),
     createdAt: json['created_at'] == null
         ? null
         : DateTime.parse(json['created_at'] as String),
@@ -37,6 +40,7 @@ Map<String, dynamic> _$OrderModelToJson(OrderModel instance) =>
       'total': instance.total,
       'address': instance.address?.toJson(),
       'status': instance.status?.toJson(),
+      'delivery': instance.delivery?.toJson(),
       'created_at': instance.createdAt?.toIso8601String(),
       'products': instance.products?.map((e) => e?.toJson())?.toList(),
     };
