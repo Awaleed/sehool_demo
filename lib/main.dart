@@ -106,8 +106,8 @@ class MyApp extends StatelessWidget {
             builder: (context, child) {
               return LayoutBuilder(
                 builder: (context, constraints) {
-                  if (!added) WidgetsBinding.instance.addPostFrameCallback((_) => insertOverlay(context));
                   return child;
+                  // if (!added) WidgetsBinding.instance.addPostFrameCallback((_) => insertOverlay(context));
                   // return Navigator(
                   //   key: AppRouter.sailor.navigatorKey,
                   //   onGenerateRoute: AppRouter.sailor.generator(),
@@ -170,7 +170,7 @@ class MyApp extends StatelessWidget {
             // },
             ,
             navigatorObservers: [
-              _State(),
+              // _State(),
               // if (kDebugMode) ...[
               SailorLoggingObserver(),
               AppRouter.sailor.navigationStackObserver,
@@ -183,139 +183,189 @@ class MyApp extends StatelessWidget {
   }
 }
 
-bool added = false;
-void insertOverlay(BuildContext context) {
-  return Overlay.of(context)?.insert(
-    OverlayEntry(builder: (context) {
-      added = true;
-      final size = MediaQuery.of(context).size;
-      print(size.width);
-      return DraggableWhatsAppIcon();
-    }),
-  );
-}
+// bool added = false;
+// void insertOverlay(BuildContext context) {
+//   return Overlay.of(context)?.insert(
+//     OverlayEntry(builder: (context) {
+//       added = true;
+//       final size = MediaQuery.of(context).size;
+//       print(size.width);
+//       return DraggableWhatsAppIcon();
+//     }),
+//   );
+// }
 
-class _State extends NavigatorObserver {
-  // _State(this.floatingKey);
+// class _State extends NavigatorObserver {
+//   // _State(this.floatingKey);
 
-  // final Key floatingKey;
+//   // final Key floatingKey;
 
-  // @override
-  // void didPop(Route route, Route previousRoute) {
-  //   floatingKey?.currentState?.setState(() {});
-  // }
+//   // @override
+//   // void didPop(Route route, Route previousRoute) {
+//   //   floatingKey?.currentState?.setState(() {});
+//   // }
 
-  @override
-  void didPush(Route route, Route previousRoute) {
-    setDraggableWhatsAppIconState?.call();
-    // floatingKey?.currentState?.setState(() {});
-  }
+//   // @override
+//   // void didPush(Route route, Route previousRoute) {
+//   //   setDraggableWhatsAppIconState?.call();
+//   //   // floatingKey?.currentState?.setState(() {});
+//   // }
 
-  // @override
-  // void didRemove(Route route, Route previousRoute) {
-  //   floatingKey?.currentState?.setState(() {});
-  // }
+//   // @override
+//   // void didRemove(Route route, Route previousRoute) {
+//   //   floatingKey?.currentState?.setState(() {});
+//   // }
 
-  // @override
-  // void didReplace({Route newRoute, Route oldRoute}) {
-  //   floatingKey?.currentState?.setState(() {});
-  // }
+//   // @override
+//   // void didReplace({Route newRoute, Route oldRoute}) {
+//   //   floatingKey?.currentState?.setState(() {});
+//   // }
 
-  // @override
-  // void didStartUserGesture(Route route, Route previousRoute) {
-  //   floatingKey?.currentState?.setState(() {});
-  // }
+//   // @override
+//   // void didStartUserGesture(Route route, Route previousRoute) {
+//   //   floatingKey?.currentState?.setState(() {});
+//   // }
 
-  // @override
-  // void didStopUserGesture() {
-  //   floatingKey?.currentState?.setState(() {});
-}
+//   // @override
+//   // void didStopUserGesture() {
+//   //   floatingKey?.currentState?.setState(() {});
+// }
 
 // }
-Function setDraggableWhatsAppIconState;
+// Function setDraggableWhatsAppIconState;
 
-class DraggableWhatsAppIcon extends StatefulWidget {
-  const DraggableWhatsAppIcon({
-    Key key,
-  }) : super(key: key);
+// class DraggableWhatsAppIcon extends StatefulWidget {
+//   const DraggableWhatsAppIcon({
+//     Key key,
+//   }) : super(key: key);
 
-  @override
-  DraggableWhatsAppIconState createState() => DraggableWhatsAppIconState();
-}
+//   @override
+//   DraggableWhatsAppIconState createState() => DraggableWhatsAppIconState();
+// }
 
-class DraggableWhatsAppIconState extends State<DraggableWhatsAppIcon> {
-  Offset position;
-  @override
-  void initState() {
-    super.initState();
-    setDraggableWhatsAppIconState = () {
-      setState(() {});
-    };
-    // position = Offset(20.0, 20.0);
-  }
+// class DraggableWhatsAppIconState extends State<DraggableWhatsAppIcon> {
+//   Offset whatsappPosition;
+//   Offset telegramPosition;
+//   @override
+//   void initState() {
+//     super.initState();
+//     setDraggableWhatsAppIconState = () {
+//       setState(() {});
+//     };
+//     // position = Offset(20.0, 20.0);
+//   }
 
-  @override
-  Widget build(BuildContext context) {
-    print('AppRouter.sailor: ${AppRouter.sailor.navigationStackObserver.getRouteNameStack()}');
-    if (AppRouter.sailor.navigationStackObserver.getRouteNameStack().isEmpty || AppRouter.sailor.navigationStackObserver.getRouteNameStack().contains('/') || AppRouter.sailor.navigationStackObserver.getRouteNameStack().contains('/login')) {
-      return Container();
-    }
-    return SafeArea(
-      child: Stack(
-        fit: StackFit.expand,
-        alignment: Alignment.bottomRight,
-        children: [
-          Positioned(
-            left: position?.dx,
-            top: position?.dy,
-            bottom: position == null ? 100 : null,
-            right: position == null ? 10 : null,
-            child: Draggable(
-              childWhenDragging: Container(),
-              onDragEnd: (details) {
-                setState(() {
-                  position = details.offset;
-                });
-                print(position);
-                print(position.dx);
-                print(position.dy);
-              },
-              feedback: FloatingActionButton(
-                heroTag: 'WhatsappFloatingActionButton',
-                onPressed: () {
-                  launch('https://api.whatsapp.com/send?phone=966508808940'); // WhatsappFloatingActionButton
-                },
-                backgroundColor: Colors.transparent,
-                foregroundColor: Colors.transparent,
-                child: SvgPicture.asset('assets/images/iconfinder-whatsapp-4550867_121343.svg'),
-                // child: const Icon(
-                //   FontAwesomeIcons.whatsapp,
-                //   color: Color(
-                //     0xFF20b038,
-                //   ),
-                // ),
-              ),
-              child: FloatingActionButton(
-                heroTag: 'WhatsappFloatingActionButton',
-                onPressed: () {
-                  launch('https://api.whatsapp.com/send?phone=966508808940');
-                  // WhatsappFloatingActionButton
-                },
-                backgroundColor: Colors.transparent,
-                foregroundColor: Colors.transparent,
+//   @override
+//   Widget build(BuildContext context) {
+//     print('AppRouter.sailor: ${AppRouter.sailor.navigationStackObserver.getRouteNameStack()}');
+//     if (AppRouter.sailor.navigationStackObserver.getRouteNameStack().isEmpty || AppRouter.sailor.navigationStackObserver.getRouteNameStack().contains('/') || AppRouter.sailor.navigationStackObserver.getRouteNameStack().contains('/login')) {
+//       return Container();
+//     }
+//     return SafeArea(
+//       child: Stack(
+//         fit: StackFit.expand,
+//         alignment: Alignment.bottomRight,
+//         children: [
+//           Positioned(
+//             left: whatsappPosition?.dx,
+//             top: whatsappPosition?.dy,
+//             bottom: whatsappPosition == null ? 100 : null,
+//             right: whatsappPosition == null ? 10 : null,
+//             child: Draggable(
+//               childWhenDragging: Container(),
+//               onDragEnd: (details) {
+//                 setState(() {
+//                   whatsappPosition = details.offset;
+//                 });
+//                 print(whatsappPosition);
+//                 print(whatsappPosition.dx);
+//                 print(whatsappPosition.dy);
+//               },
+//               feedback: FloatingActionButton(
+//                 heroTag: 'WhatsappFloatingActionButton',
+//                 onPressed: () {
+//                   launch('https://api.whatsapp.com/send?phone=966508808940'); // WhatsappFloatingActionButton
+//                 },
+//                 backgroundColor: Colors.transparent,
+//                 foregroundColor: Colors.transparent,
+//                 child: SvgPicture.asset('assets/images/iconfinder-whatsapp-4550867_121343.svg'),
+//                 // child: const Icon(
+//                 //   FontAwesomeIcons.whatsapp,
+//                 //   color: Color(
+//                 //     0xFF20b038,
+//                 //   ),
+//                 // ),
+//               ),
+//               child: FloatingActionButton(
+//                 heroTag: 'WhatsappFloatingActionButton',
+//                 onPressed: () {
+//                   launch('https://api.whatsapp.com/send?phone=966508808940');
+//                   // WhatsappFloatingActionButton
+//                 },
+//                 backgroundColor: Colors.transparent,
+//                 foregroundColor: Colors.transparent,
 
-                child: SvgPicture.asset('assets/images/iconfinder-whatsapp-4550867_121343.svg'),
-                // child: const Icon(
-                //   FontAwesomeIcons.whatsapp,
-                //   color: Color(
-                //     0xFF20b038,
-                //   ),
-                // ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
+//                 child: SvgPicture.asset('assets/images/iconfinder-whatsapp-4550867_121343.svg'),
+//                 // child: const Icon(
+//                 //   FontAwesomeIcons.whatsapp,
+//                 //   color: Color(
+//                 //     0xFF20b038,
+//                 //   ),
+//                 // ),
+//               ),
+//             ),
+//           ),
+//           Positioned(
+//             left: telegramPosition?.dx,
+//             top: telegramPosition?.dy,
+//             bottom: telegramPosition == null ? 160 : null,
+//             right: telegramPosition == null ? 10 : null,
+//             child: Draggable(
+//               childWhenDragging: Container(),
+//               onDragEnd: (details) {
+//                 setState(() {
+//                   telegramPosition = details.offset;
+//                 });
+//                 print(telegramPosition);
+//                 print(telegramPosition.dx);
+//                 print(telegramPosition.dy);
+//               },
+//               feedback: FloatingActionButton(
+//                 heroTag: 'TelegramFloatingActionButton',
+//                 onPressed: () {
+//                   launch('https://t.me/'); // TelegramFloatingActionButton
+//                 },
+//                 backgroundColor: Colors.transparent,
+//                 foregroundColor: Colors.transparent,
+//                 child: SvgPicture.asset('assets/images/telegram_104163.svg'),
+//                 // child: const Icon(
+//                 //   FontAwesomeIcons.whatsapp,
+//                 //   color: Color(
+//                 //     0xFF20b038,
+//                 //   ),
+//                 // ),
+//               ),
+//               child: FloatingActionButton(
+//                 heroTag: 'TelegramFloatingActionButton',
+//                 onPressed: () {
+//                   launch('https://t.me/');
+//                   // WhatsappFloatingActionButton
+//                 },
+//                 backgroundColor: Colors.transparent,
+//                 foregroundColor: Colors.transparent,
+
+//                 child: SvgPicture.asset('assets/images/telegram_104163.svg'),
+//                 // child: const Icon(
+//                 //   FontAwesomeIcons.whatsapp,
+//                 //   color: Color(
+//                 //     0xFF20b038,
+//                 //   ),
+//                 // ),
+//               ),
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
