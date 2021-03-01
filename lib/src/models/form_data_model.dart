@@ -67,7 +67,7 @@ class FormFieldModel {
       case FormFieldType.address:
         return FormFieldModel(
           hintText: S.current.address,
-          labelText: S.current.address,
+          labelText: S.current.address_title,
           iconData: FluentIcons.location_28_regular,
           keyboardType: TextInputType.text,
           validator: Validators.notEmptyStringValidator,

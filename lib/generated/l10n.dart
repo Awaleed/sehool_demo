@@ -35,20 +35,40 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
-  /// `the driver`
+  /// `Name of the address of the home, rest .. etc.`
+  String get address_title {
+    return Intl.message(
+      'Name of the address of the home, rest .. etc.',
+      name: 'address_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Saved addresses`
+  String get saved_addresses {
+    return Intl.message(
+      'Saved addresses',
+      name: 'saved_addresses',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The driver`
   String get driver {
     return Intl.message(
-      'the driver',
+      'The driver',
       name: 'driver',
       desc: '',
       args: [],
     );
   }
 
-  /// `Choose another item`
+  /// `Buy another item`
   String get choose_another_item {
     return Intl.message(
-      'Choose another item',
+      'Buy another item',
       name: 'choose_another_item',
       desc: '',
       args: [],

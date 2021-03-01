@@ -298,67 +298,64 @@ class _CartDropdownState extends State<CartDropdown> {
                     ),
                     // borderRadius: BorderRadius.circular(15),
                   ),
-                  child: ClipRRect(
-                    // borderRadius: BorderRadius.circular(12),
-                    child: Stack(
-                      fit: StackFit.expand,
-                      children: [
-                        ClipRRect(
-                          // borderRadius: BorderRadius.circular(15),
-                          child: CachedNetworkImage(
-                            imageUrl: e.icon,
-                            fit: BoxFit.contain,
-                          ),
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 60),
+                        child: CachedNetworkImage(
+                          imageUrl: e.icon,
+                          fit: BoxFit.contain,
                         ),
-                        if (e == selectedValue)
-                          Positioned(
-                            top: 0,
-                            left: 0,
-                            right: 0,
-                            child: Row(
-                              children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                    color: Theme.of(context).primaryColor,
-                                    borderRadius: const BorderRadius.only(
-                                      bottomLeft: Radius.circular(50),
-                                    ),
-                                  ),
-                                  child: const Padding(
-                                    padding: EdgeInsets.only(left: 8, bottom: 8),
-                                    // padding: const EdgeInsets.all(8.0),
-                                    child: Icon(
-                                      Icons.check,
-                                      size: 15,
-                                    ),
+                      ),
+                      if (e == selectedValue)
+                        Positioned(
+                          top: 0,
+                          left: 0,
+                          right: 0,
+                          child: Row(
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context).primaryColor,
+                                  borderRadius: const BorderRadius.only(
+                                    bottomLeft: Radius.circular(50),
                                   ),
                                 ),
-                              ],
-                            ),
+                                child: const Padding(
+                                  padding: EdgeInsets.only(left: 8, bottom: 8),
+                                  // padding: const EdgeInsets.all(8.0),
+                                  child: Icon(
+                                    Icons.check,
+                                    size: 15,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                        // Positioned(
-                        //   bottom: 0,
-                        //   left: 0,
-                        //   right: 0,
-                        //   child: Container(
-                        //     color: Colors.black54,
-                        //     // decoration: BoxDecoration(
-                        //     //   // borderRadius: BorderRadius.vertical(
-                        //     //   //   bottom: Radius.circular(15),
-                        //     //   // ),
-                        //     // ),
-                        //     child: Padding(
-                        //       padding: const EdgeInsets.all(5),
-                        //       child: Text(
-                        //         widget.itemAsString?.call(e) ?? '$e',
-                        //         textAlign: TextAlign.center,
-                        //         style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.white, fontWeight: FontWeight.normal),
-                        //       ),
-                        //     ),
-                        //   ),
-                        // ),
-                      ],
-                    ),
+                        ),
+                      // Positioned(
+                      //   bottom: 0,
+                      //   left: 0,
+                      //   right: 0,
+                      //   child: Container(
+                      //     color: Colors.black54,
+                      //     // decoration: BoxDecoration(
+                      //     //   // borderRadius: BorderRadius.vertical(
+                      //     //   //   bottom: Radius.circular(15),
+                      //     //   // ),
+                      //     // ),
+                      //     child: Padding(
+                      //       padding: const EdgeInsets.all(5),
+                      //       child: Text(
+                      //         widget.itemAsString?.call(e) ?? '$e',
+                      //         textAlign: TextAlign.center,
+                      //         style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.white, fontWeight: FontWeight.normal),
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
+                    ],
                   ),
                   // Column(
                   //   children: [

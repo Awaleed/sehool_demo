@@ -222,10 +222,13 @@ class SummeryCard extends StatelessWidget {
                   title: Text(S.current.tax),
                   trailing: Text('${cart.tax.format()} ﷼'),
                 ),
-                ListTile(
-                  tileColor: Colors.amber.withOpacity(.8),
-                  title: Text(S.current.net_bill),
-                  trailing: Text('${cart.total.format()} ﷼'),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(25),
+                  child: ListTile(
+                    tileColor: Colors.cyan.withOpacity(.8),
+                    title: Text(S.current.net_bill),
+                    trailing: Text('${cart.total.format()} ﷼'),
+                  ),
                 ),
 
                 // Text(

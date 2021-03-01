@@ -259,7 +259,7 @@ class _NewAddressDialogState extends State<NewAddressDialog> {
       enabled: enabled,
       obscureText: obscureText,
       decoration: InputDecoration(
-        labelText: _model.hintText,
+        labelText: _model.labelText,
         labelStyle: TextStyle(color: Theme.of(context).accentColor),
         contentPadding: const EdgeInsets.all(12),
         hintText: _model.hintText,

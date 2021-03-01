@@ -61,7 +61,7 @@ class AddToCartScreen extends StatelessWidget {
         ),
         appBar: AppBar(
           title: Text(
-            '${S.current.add} ${product.name}',
+            cartItem != null ? '${S.current.edit}: ${cartItem.product.name}' : '${S.current.add} ${product.name}',
             style: Theme.of(context).textTheme.headline6.copyWith(color: Colors.white),
           ),
           elevation: 0,
@@ -210,8 +210,13 @@ class _CartScrollState extends State<CartScroll> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       steps[i].icon,
-                      const SizedBox(width: 10),
-                      Text(steps[i].label, style: Theme.of(context).textTheme.button.copyWith(fontWeight: FontWeight.bold)),
+                      // const SizedBox(width: 10),
+                      Expanded(
+                        child: ListTile(
+                          title: Text(steps[i].label, style: Theme.of(context).textTheme.button.copyWith(fontWeight: FontWeight.bold, color: Colors.black)),
+                          subtitle: steps[i].key == slicingMethodKey ? Text(S.current.please_choose_one) : null,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -221,28 +226,29 @@ class _CartScrollState extends State<CartScroll> {
             ],
           ),
         ),
-        if (steps[i].key == slicingMethodKey) ...[
-          const SizedBox(height: 15),
-          _buildButton(
-            icon: 'assets/images/shopping-cart.svg',
-            enabled: widget.cartItem.validate,
-            label: Text(S.current.choose_another_item,
-                style: Theme.of(context).textTheme.bodyText1.copyWith(
-                      color: Colors.black,
-                      fontWeight: FontWeight.normal,
-                    )),
-            onTap: () {
-              Helpers.dismissFauces(context);
-              if (messageFormKey?.currentState?.validate() ?? true) {
-                messageFormKey?.currentState?.save();
-                getIt<CartCubit>().addItem(widget.cartItem);
-                AppRouter.sailor.pop();
-              } else {
-                Helpers.showErrorOverlay(context, error: S.current.check_that_you_filled_all_fields_correctly);
-              }
-            },
+        if (steps[i].key == slicingMethodKey && !widget.editing) ...[
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: _buildButton(
+              icon: 'assets/images/shopping-cart.svg',
+              enabled: widget.cartItem.validate,
+              label: Text(S.current.choose_another_item,
+                  style: Theme.of(context).textTheme.bodyText1.copyWith(
+                        color: Colors.black,
+                        fontWeight: FontWeight.normal,
+                      )),
+              onTap: () {
+                Helpers.dismissFauces(context);
+                if (messageFormKey?.currentState?.validate() ?? true) {
+                  messageFormKey?.currentState?.save();
+                  getIt<CartCubit>().addItem(widget.cartItem);
+                  AppRouter.sailor.pop();
+                } else {
+                  Helpers.showErrorOverlay(context, error: S.current.check_that_you_filled_all_fields_correctly);
+                }
+              },
+            ),
           ),
-          const SizedBox(height: 15),
         ]
       ],
       Column(
@@ -263,7 +269,7 @@ class _CartScrollState extends State<CartScroll> {
       ),
       if (widget.editing)
         Padding(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
           child: _buildButton(
             enabled: widget.cartItem.validate,
             label: Text(S.current.back,
@@ -340,36 +346,36 @@ class _CartScrollState extends State<CartScroll> {
     bool enabled = true,
     VoidCallback onTap,
   }) {
-    return ElevatedButton(
-      style: ButtonStyle(
-        //   minimumSize: MaterialStateProperty.all(
-        //     const Size.fromRadius(25),
-        //   ),
-        //   shape: MaterialStateProperty.all(
-        //     RoundedRectangleBorder(
-        //       borderRadius: BorderRadius.circular(25),
-        //     ),
-        //   ),
-        backgroundColor: MaterialStateProperty.all(Colors.white70),
-      ),
-      onPressed: enabled ? onTap : null,
-      child: Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            // if (icon == null)
-            //   const Icon(Icons.arrow_back)
-            // else
-            //   SvgPicture.asset(
-            //     icon,
-            //     height: 40,
-            //     width: 40,
-            //   ),
-            // const SizedBox(width: 10),
-            label,
-          ],
+    // return FlatButton(
+    //   onPressed: enabled ? onTap : null,
+    //   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+    //   color: Theme.of(context).primaryColor.withOpacity(.9),
+    //   // child: Container(
+    //   //   alignment: Alignment.center,
+    //   //   padding: const EdgeInsets.all(12),
+    //   //   margin: const EdgeInsets.all(3),
+    //   //   decoration: BoxDecoration(
+    //   //     borderRadius: BorderRadius.circular(15),
+    //   //   ),
+    //   child: label,
+    //   // ),
+    // );
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 15),
+      child: ElevatedButton(
+        style: ButtonStyle(
+          minimumSize: MaterialStateProperty.all(
+            const Size.fromRadius(20),
+          ),
+          shape: MaterialStateProperty.all(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
+            ),
+          ),
+          backgroundColor: enabled ? MaterialStateProperty.all(Theme.of(context).primaryColor.withOpacity(.9)) : null,
         ),
+        onPressed: enabled ? onTap : null,
+        child: label,
       ),
     );
   }

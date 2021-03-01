@@ -78,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (!added) WidgetsBinding.instance.addPostFrameCallback((_) => insertOverlay(context));
+    // if (!added) WidgetsBinding.instance.addPostFrameCallback((_) => insertOverlay(context));
 
     return WillPopScope(
         onWillPop: () => Helpers.onWillPop(context),
@@ -438,48 +438,87 @@ class PinnedOrders extends StatefulWidget {
 class PinnedOrdersState extends State<PinnedOrders> with ApiCaller {
   @override
   Widget build(BuildContext context) {
-    return FloatingActionButton(
-      heroTag: 'PinnedOrdersFloatingActionButton',
-      onPressed: () {
-        AppRouter.sailor.navigate(OrdersHistory.routeName);
-        // showDialog(
-        //   context: context,
-        //   builder: (context) => AlertDialog(
-        //     clipBehavior: Clip.hardEdge,
-        //     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
-        //     backgroundColor: Colors.white,
-        //     contentPadding: EdgeInsets.zero,
-        //     insetPadding: EdgeInsets.zero,
-        //     title: Row(
-        //       children: [
-        //         Text(S.current.pinned_orders),
-        //         const Spacer(),
-        //         ElevatedButton(
-        //           onPressed: () {
-        //             showDialog(
-        //               context: context,
-        //               builder: (context) => BankInfoWidget(),
-        //             );
-        //           },
-        //           child: Text(S.current.bank_info),
-        //         ),
-        //       ],
-        //     ),
-        //     content: SizedBox(
-        //       width: MediaQuery.of(context).size.width * .9,
-        //       height: MediaQuery.of(context).size.height * .9,
-        //       child: OrdersListWidget(
-        //         orders: snapshot.data,
-        //         isLoading: false,
-        //       ),
-        //     ),
-        //   ),
-        // );
-      },
-      child: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Image.asset('assets/images/delivery.png'),
-      ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        FloatingActionButton(
+          heroTag: 'TelegramFloatingActionButton',
+          onPressed: () {
+            launch('https://t.me/'); // TelegramFloatingActionButton
+          },
+          backgroundColor: Colors.transparent,
+          foregroundColor: Colors.transparent,
+          child: SvgPicture.asset('assets/images/telegram_104163.svg'),
+          // child: const Icon(
+          //   FontAwesomeIcons.whatsapp,
+          //   color: Color(
+          //     0xFF20b038,
+          //   ),
+          // ),
+        ),
+        const SizedBox(height: 10),
+        FloatingActionButton(
+          heroTag: 'WhatsappFloatingActionButton',
+          onPressed: () {
+            launch('https://api.whatsapp.com/send?phone=966508808940');
+            // WhatsappFloatingActionButton
+          },
+          backgroundColor: Colors.transparent,
+          foregroundColor: Colors.transparent,
+
+          child: SvgPicture.asset('assets/images/iconfinder-whatsapp-4550867_121343.svg'),
+          // child: const Icon(
+          //   FontAwesomeIcons.whatsapp,
+          //   color: Color(
+          //     0xFF20b038,
+          //   ),
+          // ),
+        ),
+        const SizedBox(height: 10),
+        FloatingActionButton(
+          heroTag: 'PinnedOrdersFloatingActionButton',
+          onPressed: () {
+            AppRouter.sailor.navigate(OrdersHistory.routeName);
+            // showDialog(
+            //   context: context,
+            //   builder: (context) => AlertDialog(
+            //     clipBehavior: Clip.hardEdge,
+            //     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+            //     backgroundColor: Colors.white,
+            //     contentPadding: EdgeInsets.zero,
+            //     insetPadding: EdgeInsets.zero,
+            //     title: Row(
+            //       children: [
+            //         Text(S.current.pinned_orders),
+            //         const Spacer(),
+            //         ElevatedButton(
+            //           onPressed: () {
+            //             showDialog(
+            //               context: context,
+            //               builder: (context) => BankInfoWidget(),
+            //             );
+            //           },
+            //           child: Text(S.current.bank_info),
+            //         ),
+            //       ],
+            //     ),
+            //     content: SizedBox(
+            //       width: MediaQuery.of(context).size.width * .9,
+            //       height: MediaQuery.of(context).size.height * .9,
+            //       child: OrdersListWidget(
+            //         orders: snapshot.data,
+            //         isLoading: false,
+            //       ),
+            //     ),
+            //   ),
+            // );
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Image.asset('assets/images/delivery.png'),
+          ),
+        ),
+      ],
     );
     return Column(
       mainAxisSize: MainAxisSize.min,

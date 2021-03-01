@@ -213,10 +213,9 @@ class _CheckoutScrollState extends State<CheckoutScroll> {
               organizationFormKey: organizationFormKey,
             ),
             icon: SvgPicture.asset(
-              'assets/images/discount.svg',
+              'assets/images/if-advantage-sale-1034365_88851.svg',
               height: 50,
               width: 50,
-              color: Colors.black,
             ),
             // header: FluentIcons.plug_disconnected_28_regular,
           ),
@@ -260,7 +259,7 @@ class _CheckoutScrollState extends State<CheckoutScroll> {
             onChanged: onChange,
           ),
           icon: Image.asset(
-            'assets/images/x-office-address-book.png',
+            'assets/images/1-46.png',
             height: 50,
             width: 50,
           ),
@@ -395,6 +394,25 @@ class _CheckoutScrollState extends State<CheckoutScroll> {
     bool enabled = true,
     VoidCallback onTap,
   }) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 15),
+      child: ElevatedButton(
+        style: ButtonStyle(
+          minimumSize: MaterialStateProperty.all(
+            const Size.fromRadius(20),
+          ),
+          shape: MaterialStateProperty.all(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
+            ),
+          ),
+          backgroundColor: enabled ? MaterialStateProperty.all(Theme.of(context).primaryColor.withOpacity(.9)) : null,
+        ),
+        onPressed: enabled ? onTap : null,
+        child: label,
+      ),
+    );
+
     return ElevatedButton(
       // style: ButtonStyle(
       //   //   minimumSize: MaterialStateProperty.all(

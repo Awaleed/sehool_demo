@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:sehool/generated/l10n.dart';
 
 import '../../../../init_injectable.dart';
@@ -186,21 +187,16 @@ class _AddressReviewPageState extends State<AddressReviewPage> {
             child: AddressCard(address: widget.cart.address),
           ),
           const SizedBox(height: 10),
-          Card(
-            color: Colors.white70,
-            // shape: OutlineInputBorder(
-            //   borderRadius: BorderRadius.circular(25),
-            // ),
-            child: ListTile(
-              leading: Padding(
-                padding: const EdgeInsets.all(3),
-                child: Image.asset('assets/images/1-46.png'),
-              ),
-              title: Text(
-                S.current.customer_address,
-                style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.black, fontWeight: FontWeight.normal),
-              ),
+          ListTile(
+            leading: Padding(
+              padding: const EdgeInsets.all(3),
+              child: SvgPicture.asset('assets/images/31_104880.svg'),
             ),
+            title: Text(
+              S.current.saved_addresses,
+              style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.black, fontWeight: FontWeight.bold),
+            ),
+            subtitle: Text(S.current.please_choose_one),
           ),
           const SizedBox(height: 10),
           Center(
