@@ -1,5 +1,9 @@
 {
   "@@locale": "en",
+  "payment_not_active": "The selected payment method is not currently active, please choose another method.",
+  "@payment_not_active": {},
+  "select": "Select",
+  "@select": {},
   "address_title": "Name of the address of the home, rest .. etc.",
   "@address_title": {},
   "saved_addresses": "Saved addresses",

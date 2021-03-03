@@ -86,7 +86,7 @@ class _CartCouponFieldState extends State<CartCouponField> with ApiCaller {
         widget.onChanged?.call(widget.cart);
       },
       builder: (context, state) {
-        final isLoading = state == _CouponState.loading;
+        // final isLoading = state == _CouponState.loading;
         final color = widget.cart.coupon != null || state == _CouponState.success
             ? Colors.green.withOpacity(0.7)
             : state == _CouponState.failure
@@ -101,17 +101,20 @@ class _CartCouponFieldState extends State<CartCouponField> with ApiCaller {
                   Switch(
                     value: widget.cart.fromWallet,
                     onChanged: (value) {
-                      if (kUser.wallet <= widget.cart.total) {
+                      if (kUser.wallet < widget.cart.total) {
                         Helpers.showErrorOverlay(context, error: S.current.sorry_your_balance_is_not_enough);
                       } else {
                         setState(() {
                           widget.cart.fromWallet = value;
                         });
+                        widget.onChanged(value);
                       }
                     },
                   ),
                   const SizedBox(width: 10),
                   Text(S.current.deduction_from_wallet_balance),
+                  // const SizedBox(width: 10),
+                  // Text('${kUser.wallet}'),
                 ],
               ),
               Row(

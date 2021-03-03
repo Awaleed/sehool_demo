@@ -1,5 +1,9 @@
 {
   "@@locale": "ar",
+  "payment_not_active": "طريقة السداد المختارة غير مفعلة حاليا نرجو اختيار طريقة اخرى.",
+  "@payment_not_active": {},
+  "select": "حدد",
+  "@select": {},
   "address_title": "ضع اسم للعنوان البيت، الاستراحة .. الخ",
   "@address_title": {},
   "saved_addresses": "العناوين المحفوظة",

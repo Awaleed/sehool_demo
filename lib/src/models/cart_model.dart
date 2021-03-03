@@ -64,7 +64,9 @@ class CartModel {
           break;
       }
     }
-
+    if (fromWallet) {
+      value -= kUser.wallet;
+    }
     return value >= 0 ? value : 0;
   }
 

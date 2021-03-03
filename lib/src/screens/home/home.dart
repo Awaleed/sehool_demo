@@ -256,8 +256,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     ListTile(
-                      // leading: SvgPicture.asset('assets/images/whatsapp.svg', height: 15, width: 15),
-
                       leading: const Icon(
                         FontAwesomeIcons.whatsapp,
                         color: Color(
@@ -267,6 +265,18 @@ class _HomeScreenState extends State<HomeScreen> {
                       title: const Text('Whatsapp'),
                       onTap: () {
                         launch('https://api.whatsapp.com/send?phone=966508808940');
+                      },
+                    ),
+                    ListTile(
+                      leading: const Icon(
+                        FontAwesomeIcons.telegram,
+                        color: Color(
+                          0xFF289CDE,
+                        ),
+                      ),
+                      title: const Text('Telegram'),
+                      onTap: () {
+                        launch('https://t.me/'); // TelegramFloatingActionButton
                       },
                     ),
                     ListTile(

@@ -50,15 +50,23 @@ class _OrganizationFormState extends State<OrganizationForm> {
     return BlocConsumer<AssociationsCubit, AssociationsState>(
       cubit: cubit,
       listener: (context, state) {
+        final value = state.maybeWhen(
+              success: (values) => values?.association?.isNotEmpty ?? false ? values?.association?.first : null,
+              orElse: () => null,
+            ) ??
+            widget.cart.association;
+        final discount = state.maybeWhen(
+              success: (values) => values?.discount,
+              orElse: () => null,
+            ) ??
+            widget.cart.associationDiscount;
+
         setState(() {
-          final value = state.maybeWhen(
-                success: (values) => values?.association?.isNotEmpty ?? false ? values?.association?.first : null,
-                orElse: () => null,
-              ) ??
-              widget.cart.association;
           widget.cart.association = value;
+          widget.cart.associationDiscount = discount;
           widget.onValueChanged?.call(value);
         });
+
         if (widget.cart.association != null) {
           showDialog(
             context: context,
@@ -237,6 +245,26 @@ class _OrganizationFormState extends State<OrganizationForm> {
           if (value == null) return;
           setState(() => onChange(value));
           widget.onValueChanged?.call(value);
+
+          if (widget.cart.association != null) {
+            showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                clipBehavior: Clip.hardEdge,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+                backgroundColor: Colors.white70,
+                // title: Text(S.current.bank_info),
+                content: ListTile(
+                  leading: Image.asset('assets/images/sign-warning.png'),
+                  title: Text(
+                    '${S.current.org_delivery_msg_p1} ${widget.cart.association?.name ?? ''} ${S.current.org_delivery_msg_p2}',
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.black, fontWeight: FontWeight.normal),
+                  ),
+                ),
+              ),
+            );
+          }
         },
         // isExpanded: true,
         items: [...values],

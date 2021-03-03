@@ -41,10 +41,10 @@ class CartDropdown extends StatefulWidget {
   final DropdownCubit cubit;
 
   @override
-  _CartDropdownState createState() => _CartDropdownState();
+  CartDropdownState createState() => CartDropdownState();
 }
 
-class _CartDropdownState extends State<CartDropdown> {
+class CartDropdownState extends State<CartDropdown> {
   dynamic selectedValue;
   DropdownCubit cubit;
 
@@ -60,6 +60,11 @@ class _CartDropdownState extends State<CartDropdown> {
   void dispose() {
     cubit.close();
     super.dispose();
+  }
+
+  void setValue(value) {
+    widget.onValueChanged?.call(value);
+    setState(() => selectedValue = value);
   }
 
   @override
@@ -131,7 +136,7 @@ class _CartDropdownState extends State<CartDropdown> {
                 widget.cartItem.phrase = null;
               }
               if (e is PaymentMethodModel && e.type == 'wallet') {
-                if (kUser.wallet <= widget.cart.total) {
+                if (kUser.wallet < widget.cart.total) {
                   Helpers.showErrorOverlay(
                     context,
                     error: S.current.sorry_your_balance_is_not_enough,
@@ -176,7 +181,7 @@ class _CartDropdownState extends State<CartDropdown> {
         //       ),
         //       onChanged: (value) async {
         //         if (value is PaymentMethodModel && value.type == 'wallet') {
-        //           if (kUser.wallet <= widget.cart.total) {
+        //           if (kUser.wallet < widget.cart.total) {
         //             Helpers.showErrorOverlay(
         //               context,
         //               error: S.current.sorry_your_balance_is_not_enough,

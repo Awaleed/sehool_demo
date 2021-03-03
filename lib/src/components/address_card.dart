@@ -10,6 +10,10 @@ class AddressCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return SizedBox(
+      height: 150,
+      child: _HomeCard(address: address),
+    );
     return Padding(
       padding: const EdgeInsets.only(top: 80),
       child: Stack(

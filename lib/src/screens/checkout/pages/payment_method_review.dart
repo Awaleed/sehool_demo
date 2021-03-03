@@ -203,7 +203,7 @@ class _CartDropdownState extends State<CartDropdown> {
                 ) ??
                 selectedValue;
             selectedValue = value;
-            widget.onValueChanged?.call(value);
+            // widget.onValueChanged?.call(value);
           });
         }
       },
@@ -225,7 +225,7 @@ class _CartDropdownState extends State<CartDropdown> {
 
   Widget _buildUI(List values, {bool isLoading = false}) => _buildRadio(values, isLoading: isLoading);
 
-  Widget _buildRadio(List values, {bool isLoading = false}) {
+  Widget _buildRadio(List _values, {bool isLoading = false}) {
     if (isLoading) {
       return FittedBox(
         child: Container(
@@ -241,6 +241,15 @@ class _CartDropdownState extends State<CartDropdown> {
         ),
       );
     }
+    final canPayWithPoints = kUser.wallet >= widget.cart.total;
+    final disableOtherButton = (canPayWithPoints && widget.cart.fromWallet) || widget.cart.total == 0;
+    final values = [];
+    for (final e in _values) {
+      if (e.type == 'wallet' && !disableOtherButton) {
+      } else {
+        values.add(e);
+      }
+    }
 
     return StaggeredGridView.count(
       shrinkWrap: true,
@@ -248,162 +257,67 @@ class _CartDropdownState extends State<CartDropdown> {
       // maxCrossAxisExtent: 150,
       staggeredTiles: [
         ...values.map((e) {
-          if (e.type == 'transfer') {
+          if (e.type == 'cash on delivery' || e.type == 'wallet') {
             return const StaggeredTile.count(4, 1);
           }
           return const StaggeredTile.count(2, 1);
         }),
       ],
-      physics: NeverScrollableScrollPhysics(),
-      children: [
-        ...values.map(
-          (e) => GridTile(
-            child: InkWell(
-              borderRadius: BorderRadius.circular(15),
-              onTap: () {
-                if (e is PaymentMethodModel && e.type == 'wallet') {
-                  if (kUser.wallet <= widget.cart.total) {
-                    Helpers.showErrorOverlay(
-                      context,
-                      error: S.current.sorry_your_balance_is_not_enough,
-                    );
-                  } else {
-                    widget.onValueChanged?.call(e);
-                    setState(() => selectedValue = e);
-                  }
-                } else {
-                  widget.onValueChanged?.call(e);
-                  setState(() => selectedValue = e);
-                }
-                if (e is PaymentMethodModel && e.type == 'transfer') {
-                  showDialog(
-                    context: context,
-                    useRootNavigator: true,
-                    builder: (context) => BankInfoWidget(),
-                  );
-                }
-              },
-              child: Card(
-                // margin: EdgeInsets.zero,
-                margin: const EdgeInsets.all(5),
-                child: Container(
-                  // padding: const EdgeInsets.all(12),
-                  clipBehavior: Clip.hardEdge,
-                  // duration: 300.milliseconds,
-
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      width: 3,
-                      color: e == selectedValue ? Theme.of(context).primaryColor : Colors.transparent,
+      physics: const NeverScrollableScrollPhysics(),
+      children: values
+          .map(
+            (e) => GridTile(
+              child: InkWell(
+                borderRadius: BorderRadius.circular(15),
+                onTap: e.type != 'wallet' && disableOtherButton
+                    ? null
+                    : e.type == 'disabled'
+                        ? () {
+                            Helpers.showErrorOverlay(
+                              context,
+                              error: S.current.payment_not_active,
+                            );
+                          }
+                        : () async {
+                            if (e is PaymentMethodModel && e.type == 'wallet') {
+                              if (kUser.wallet < widget.cart.total) {
+                                Helpers.showErrorOverlay(
+                                  context,
+                                  error: S.current.sorry_your_balance_is_not_enough,
+                                );
+                              } else {
+                                // widget.onValueChanged?.call(e);
+                                setState(() => selectedValue = e);
+                              }
+                            } else {
+                              // widget.onValueChanged?.call(e);
+                              setState(() => selectedValue = e);
+                            }
+                            if (e is PaymentMethodModel && e.type == 'transfer') {
+                              await showDialog(
+                                context: context,
+                                useRootNavigator: true,
+                                builder: (context) => BankInfoWidget(),
+                              );
+                            }
+                            widget.onValueChanged?.call(e);
+                          },
+                child: Card(
+                  // margin: EdgeInsets.zero,
+                  margin: const EdgeInsets.all(5),
+                  color: e.type != 'wallet' && disableOtherButton ? Colors.grey : null,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                    child: CachedNetworkImage(
+                      imageUrl: e.icon,
+                      fit: BoxFit.contain,
                     ),
-                    // borderRadius: BorderRadius.circular(15),
                   ),
-                  child: Stack(
-                    fit: StackFit.expand,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 60),
-                        child: CachedNetworkImage(
-                          imageUrl: e.icon,
-                          fit: BoxFit.contain,
-                        ),
-                      ),
-                      if (e == selectedValue)
-                        Positioned(
-                          top: 0,
-                          left: 0,
-                          right: 0,
-                          child: Row(
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                  color: Theme.of(context).primaryColor,
-                                  borderRadius: const BorderRadius.only(
-                                    bottomLeft: Radius.circular(50),
-                                  ),
-                                ),
-                                child: const Padding(
-                                  padding: EdgeInsets.only(left: 8, bottom: 8),
-                                  // padding: const EdgeInsets.all(8.0),
-                                  child: Icon(
-                                    Icons.check,
-                                    size: 15,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      // Positioned(
-                      //   bottom: 0,
-                      //   left: 0,
-                      //   right: 0,
-                      //   child: Container(
-                      //     color: Colors.black54,
-                      //     // decoration: BoxDecoration(
-                      //     //   // borderRadius: BorderRadius.vertical(
-                      //     //   //   bottom: Radius.circular(15),
-                      //     //   // ),
-                      //     // ),
-                      //     child: Padding(
-                      //       padding: const EdgeInsets.all(5),
-                      //       child: Text(
-                      //         widget.itemAsString?.call(e) ?? '$e',
-                      //         textAlign: TextAlign.center,
-                      //         style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.white, fontWeight: FontWeight.normal),
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
-                    ],
-                  ),
-                  // Column(
-                  //   children: [
-                  //     // Text(
-                  //     //   widget.itemAsString?.call(e) ?? '$e',
-                  //     //   style: Theme.of(context).textTheme.headline6.copyWith(color: Colors.black, fontWeight: FontWeight.normal),
-                  //     // ),
-                  //   ],
-                  // ),
                 ),
               ),
             ),
-          ),
-        ),
-        // ...values.map(
-        //   (e) => Card(
-        //     elevation: 0,
-        //     color: Colors.transparent,
-        //     // shape: OutlineInputBorder(
-        //     //   borderRadius: BorderRadius.circular(25),
-        //     // ),
-        //     child: RadioListTile(
-        //       value: e,
-        //       groupValue: selectedValue,
-        //       title: Text(
-        //         widget.itemAsString?.call(e) ?? '$e',
-        //         style: Theme.of(context).textTheme.headline6.copyWith(color: Colors.black, fontWeight: FontWeight.normal),
-        //       ),
-        //       onChanged: (value) async {
-        //         if (value is PaymentMethodModel && value.type == 'wallet') {
-        //           if (kUser.wallet <= widget.cart.total) {
-        //             Helpers.showErrorOverlay(
-        //               context,
-        //               error: S.current.sorry_your_balance_is_not_enough,
-        //             );
-        //           } else {
-        //             widget.onValueChanged?.call(value);
-        //             setState(() => selectedValue = value);
-        //           }
-        //         } else {
-        //           widget.onValueChanged?.call(value);
-        //           setState(() => selectedValue = value);
-        //         }
-        //       },
-        //     ),
-        //   ),
-        // ),
-      ],
+          )
+          .toList(),
     );
   }
 }

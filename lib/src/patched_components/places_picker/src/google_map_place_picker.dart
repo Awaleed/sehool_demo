@@ -68,7 +68,7 @@ class _GoogleMapPlacePickerState extends State<GoogleMapPlacePicker> {
                         child: ElevatedButton(
                           onPressed: () => widget.onSaveLocation(),
                           child: Text(
-                            S.current.save,
+                            S.current.select,
                             style: const TextStyle(color: Colors.white),
                           ),
                         ),

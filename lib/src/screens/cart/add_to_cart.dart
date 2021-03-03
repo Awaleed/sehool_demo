@@ -272,7 +272,7 @@ class _CartScrollState extends State<CartScroll> {
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
           child: _buildButton(
             enabled: widget.cartItem.validate,
-            label: Text(S.current.back,
+            label: Text(S.current.next,
                 style: Theme.of(context).textTheme.bodyText1.copyWith(
                       color: Colors.black,
                       fontWeight: FontWeight.normal,

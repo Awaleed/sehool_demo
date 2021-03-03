@@ -35,6 +35,26 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
+  /// `The selected payment method is not currently active, please choose another method.`
+  String get payment_not_active {
+    return Intl.message(
+      'The selected payment method is not currently active, please choose another method.',
+      name: 'payment_not_active',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select`
+  String get select {
+    return Intl.message(
+      'Select',
+      name: 'select',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Name of the address of the home, rest .. etc.`
   String get address_title {
     return Intl.message(

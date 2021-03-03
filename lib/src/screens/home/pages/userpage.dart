@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:package_info/package_info.dart';
+import 'package:sehool/src/helpers/helper.dart';
+import 'package:sehool/src/repositories/auth_repository.dart';
 import 'package:supercharged/supercharged.dart';
 import 'package:validators/validators.dart';
 
@@ -320,7 +322,12 @@ class _SettingsState extends State<Settings> {
         ),
         // if (kUser.level != UserLevel.merchant)
         SettingsItem(
-          // onRefresh: ,
+          onTap: () async {
+            final completer = Helpers.showLoading(context);
+            await getIt<IAuthRepository>().me();
+            setState(() {});
+            completer.complete();
+          },
           icon: FluentIcons.money_24_regular,
           title: '${S.current.my_points} ${kUser.wallet} ﷼',
           // description: S.current.we_speak_more_than_one_language,

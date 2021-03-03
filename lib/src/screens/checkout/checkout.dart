@@ -274,7 +274,18 @@ class _CheckoutScrollState extends State<CheckoutScroll> {
             label: S.current.payment_mode,
             child: PaymentMethodReviewPage(
               cart: widget.cart,
-              onChanged: onChange,
+              onChanged: (value) {
+                onChange(value);
+                if (widget.cart.validate) {
+                  Helpers.dismissFauces(context);
+                  if (organizationFormKey?.currentState?.validate() ?? true) {
+                    organizationFormKey?.currentState?.save();
+                    cubit.placeOrder(widget.cart);
+                  } else {
+                    Helpers.showErrorOverlay(context, error: S.current.check_that_you_filled_all_fields_correctly);
+                  }
+                }
+              },
             ),
             icon: Image.asset(
               'assets/images/1495815224-jd15_84582.png',
@@ -351,41 +362,41 @@ class _CheckoutScrollState extends State<CheckoutScroll> {
                 );
               },
             ),
-          if (widget.cart.paymentMethod == null)
-            MyErrorWidget(
-              message: S.current.select_your_preferred_payment_mode,
-              buttonLabel: S.current.payments_settings,
-              onRetry: () {
-                Scrollable.ensureVisible(
-                  paymentMethodKey.currentContext,
-                  duration: 700.milliseconds,
-                  curve: Curves.easeOut,
-                );
-              },
-            ),
+          // if (widget.cart.paymentMethod == null)
+          //   MyErrorWidget(
+          //     message: S.current.select_your_preferred_payment_mode,
+          //     buttonLabel: S.current.payments_settings,
+          //     onRetry: () {
+          //       Scrollable.ensureVisible(
+          //         paymentMethodKey.currentContext,
+          //         duration: 700.milliseconds,
+          //         curve: Curves.easeOut,
+          //       );
+          //     },
+          //   ),
         ],
       ),
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-        child: _buildButton(
-          enabled: widget.cart.validate,
-          label: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Text(S.current.checkout),
-          ),
-          onTap: widget.cart.validate
-              ? () {
-                  Helpers.dismissFauces(context);
-                  if (organizationFormKey?.currentState?.validate() ?? true) {
-                    organizationFormKey?.currentState?.save();
-                    cubit.placeOrder(widget.cart);
-                  } else {
-                    Helpers.showErrorOverlay(context, error: S.current.check_that_you_filled_all_fields_correctly);
-                  }
-                }
-              : null,
-        ),
-      )
+      // Padding(
+      //   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+      //   child: _buildButton(
+      //     enabled: widget.cart.validate,
+      //     label: Padding(
+      //       padding: const EdgeInsets.all(20.0),
+      //       child: Text(S.current.checkout),
+      //     ),
+      //     onTap: widget.cart.validate
+      //         ? () {
+      //             Helpers.dismissFauces(context);
+      //             if (organizationFormKey?.currentState?.validate() ?? true) {
+      //               organizationFormKey?.currentState?.save();
+      //               cubit.placeOrder(widget.cart);
+      //             } else {
+      //               Helpers.showErrorOverlay(context, error: S.current.check_that_you_filled_all_fields_correctly);
+      //             }
+      //           }
+      //         : null,
+      //   ),
+      // )
     ];
   }
 

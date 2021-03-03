@@ -2,6 +2,8 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sailor/sailor.dart';
+import 'package:sehool/src/data/user_datasource.dart';
+import 'package:sehool/src/helpers/helper.dart';
 
 import '../../../../generated/l10n.dart';
 import '../../../../init_injectable.dart';
@@ -182,6 +184,10 @@ class SummeryCard extends StatelessWidget {
                           'editing': true,
                         },
                       );
+                      if (cart.fromWallet && kUser.wallet < cart.total) {
+                        Helpers.showErrorOverlay(context, error: S.current.sorry_your_balance_is_not_enough);
+                        cart.fromWallet = false;
+                      }
                       onChanged(e);
                     },
                     title: Text(e?.product?.name ?? ''),
@@ -226,8 +232,8 @@ class SummeryCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(25),
                   child: ListTile(
                     tileColor: Colors.cyan.withOpacity(.8),
-                    title: Text(S.current.net_bill),
-                    trailing: Text('${cart.total.format()} ﷼'),
+                    title: Text(S.current.net_bill, style: const TextStyle(fontWeight: FontWeight.bold)),
+                    trailing: Text('${cart.total.format()} ﷼', style: const TextStyle(fontWeight: FontWeight.bold)),
                   ),
                 ),
 

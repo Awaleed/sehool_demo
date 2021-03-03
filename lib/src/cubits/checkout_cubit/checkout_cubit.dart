@@ -1,7 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:sehool/src/repositories/auth_repository.dart';
 
+import '../../../init_injectable.dart';
 import '../../core/api_caller.dart';
 import '../../helpers/helper.dart';
 import '../../models/cart_model.dart';
@@ -23,9 +25,11 @@ class CheckoutCubit extends Cubit<CheckoutState> with ApiCaller {
         final url = res['url'];
         final orderId = res['order_id'];
         if (url != null) {
+          await getIt<IAuthRepository>().me();
           emit(CheckoutState.visaPayment(url, orderId));
         }
       } else {
+        await getIt<IAuthRepository>().me();
         emit(const CheckoutState.success());
       }
     } catch (e) {
@@ -36,6 +40,5 @@ class CheckoutCubit extends Cubit<CheckoutState> with ApiCaller {
 
   void orderSuccess() => emit(const CheckoutState.success());
 
-  void orderFailure(String message) =>
-      emit(CheckoutState.failure(message: message));
+  void orderFailure(String message) => emit(CheckoutState.failure(message: message));
 }

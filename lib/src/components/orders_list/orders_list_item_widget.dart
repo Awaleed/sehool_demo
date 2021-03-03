@@ -302,7 +302,7 @@ class OrderStatusWidget extends StatelessWidget with ApiCaller {
     return CustomStepper(
       controlsBuilder: (context, {onStepCancel, onStepContinue}) => const SizedBox.shrink(),
       physics: const NeverScrollableScrollPhysics(),
-      currentCustomStep: order.status.id - 2,
+      currentCustomStep: (order.status.id - 2 <= 0) ? 0 : order.status.id - 2,
       steps: buildSteps(),
     );
     return Column(
