@@ -193,6 +193,7 @@ class _CheckoutScrollState extends State<CheckoutScroll> {
       isLoading: isLoading,
       showSpinner: true,
       child: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 5),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: stepsWidget,
@@ -270,28 +271,29 @@ class _CheckoutScrollState extends State<CheckoutScroll> {
           // ),
         ),
         _StepItem(
-            key: paymentMethodKey,
-            label: S.current.payment_mode,
-            child: PaymentMethodReviewPage(
-              cart: widget.cart,
-              onChanged: (value) {
-                onChange(value);
-                if (widget.cart.validate) {
-                  Helpers.dismissFauces(context);
-                  if (organizationFormKey?.currentState?.validate() ?? true) {
-                    organizationFormKey?.currentState?.save();
-                    cubit.placeOrder(widget.cart);
-                  } else {
-                    Helpers.showErrorOverlay(context, error: S.current.check_that_you_filled_all_fields_correctly);
-                  }
+          key: paymentMethodKey,
+          label: S.current.payment,
+          child: PaymentMethodReviewPage(
+            cart: widget.cart,
+            onChanged: (value) {
+              onChange(value);
+              if (widget.cart.validate) {
+                Helpers.dismissFauces(context);
+                if (organizationFormKey?.currentState?.validate() ?? true) {
+                  organizationFormKey?.currentState?.save();
+                  cubit.placeOrder(widget.cart);
+                } else {
+                  Helpers.showErrorOverlay(context, error: S.current.check_that_you_filled_all_fields_correctly);
                 }
-              },
-            ),
-            icon: Image.asset(
-              'assets/images/1495815224-jd15_84582.png',
-              height: 50,
-              width: 50,
-            )),
+              }
+            },
+          ),
+          icon: Image.asset(
+            'assets/images/717moneybag_100438.png',
+            height: 50,
+            width: 50,
+          ),
+        ),
         // _StepItem(
         //   label: S.current.is_gift,
         //   icon: const Icon(

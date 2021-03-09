@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
@@ -180,6 +181,12 @@ abstract class Helpers {
   }
 
   static String _mapDioError(DioError error) {
+    final err = error.error;
+    if (err is SocketException) {
+      if (err?.osError?.errorCode == 7) {
+        return S.current.there_is_no_internet_connection;
+      }
+    }
     final message = StringBuffer();
     if (error.response?.data['errors'] != null && error.response?.data['errors'] is Map) {
       final map = error.response?.data['errors'] as Map;

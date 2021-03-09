@@ -267,18 +267,18 @@ class _HomeScreenState extends State<HomeScreen> {
                         launch('https://api.whatsapp.com/send?phone=966508808940');
                       },
                     ),
-                    ListTile(
-                      leading: const Icon(
-                        FontAwesomeIcons.telegram,
-                        color: Color(
-                          0xFF289CDE,
-                        ),
-                      ),
-                      title: const Text('Telegram'),
-                      onTap: () {
-                        launch('https://t.me/'); // TelegramFloatingActionButton
-                      },
-                    ),
+                    // ListTile(
+                    //   leading: const Icon(
+                    //     FontAwesomeIcons.telegram,
+                    //     color: Color(
+                    //       0xFF289CDE,
+                    //     ),
+                    //   ),
+                    //   title: const Text('Telegram'),
+                    //   onTap: () {
+                    //     launch('https://t.me/'); // TelegramFloatingActionButton
+                    //   },
+                    // ),
                     ListTile(
                       leading: const Icon(FontAwesomeIcons.facebook),
                       title: const Text('Facebook'),
@@ -451,27 +451,26 @@ class PinnedOrdersState extends State<PinnedOrders> with ApiCaller {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        FloatingActionButton(
-          heroTag: 'TelegramFloatingActionButton',
-          onPressed: () {
-            launch('https://t.me/'); // TelegramFloatingActionButton
-          },
-          backgroundColor: Colors.transparent,
-          foregroundColor: Colors.transparent,
-          child: SvgPicture.asset('assets/images/telegram_104163.svg'),
-          // child: const Icon(
-          //   FontAwesomeIcons.whatsapp,
-          //   color: Color(
-          //     0xFF20b038,
-          //   ),
-          // ),
-        ),
+        // FloatingActionButton(
+        //   heroTag: 'TelegramFloatingActionButton',
+        //   onPressed: () {
+        //     launch('https://t.me/'); // TelegramFloatingActionButton
+        //   },
+        //   backgroundColor: Colors.transparent,
+        //   foregroundColor: Colors.transparent,
+        //   child: SvgPicture.asset('assets/images/telegram_104163.svg'),
+        //   // child: const Icon(
+        //   //   FontAwesomeIcons.whatsapp,
+        //   //   color: Color(
+        //   //     0xFF20b038,
+        //   //   ),
+        //   // ),
+        // ),
         const SizedBox(height: 10),
         FloatingActionButton(
           heroTag: 'WhatsappFloatingActionButton',
           onPressed: () {
-            launch('https://api.whatsapp.com/send?phone=966508808940');
-            // WhatsappFloatingActionButton
+            launch('https://api.whatsapp.com/send?phone=966508808940'); // WhatsappFloatingActionButton
           },
           backgroundColor: Colors.transparent,
           foregroundColor: Colors.transparent,

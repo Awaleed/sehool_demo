@@ -17,8 +17,7 @@ ProductModel _$ProductModelFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$ProductModelToJson(ProductModel instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$ProductModelToJson(ProductModel instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
       'image': instance.image,
@@ -32,17 +31,12 @@ ReviewModel _$ReviewModelFromJson(Map<String, dynamic> json) {
     id: json['id'] as int,
     rating: (json['rating'] as num)?.toDouble(),
     comment: json['comment'] as String,
-    createdAt: json['created_at'] == null
-        ? null
-        : DateTime.parse(json['created_at'] as String),
-    user: json['user'] == null
-        ? null
-        : UserModel.fromJson(json['user'] as Map<String, dynamic>),
+    createdAt: json['created_at'] == null ? null : DateTime.parse(json['created_at'] as String),
+    user: json['user'] == null ? null : UserModel.fromJson(json['user'] as Map<String, dynamic>),
   );
 }
 
-Map<String, dynamic> _$ReviewModelToJson(ReviewModel instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$ReviewModelToJson(ReviewModel instance) => <String, dynamic>{
       'id': instance.id,
       'rating': instance.rating,
       'comment': instance.comment,
@@ -57,8 +51,7 @@ SlicingMethodModel _$SlicingMethodModelFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$SlicingMethodModelToJson(SlicingMethodModel instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$SlicingMethodModelToJson(SlicingMethodModel instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
     };

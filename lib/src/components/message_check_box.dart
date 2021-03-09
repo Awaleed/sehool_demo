@@ -28,74 +28,75 @@ class MessageCheckBox extends StatefulWidget {
 }
 
 class _MessageCheckBoxState extends State<MessageCheckBox> {
-  CartMessagesCubit cubit;
+  // CartMessagesCubit cubit;
   TextEditingController messageController;
 
   @override
   void initState() {
     super.initState();
     messageController = TextEditingController();
-    cubit = getIt<CartMessagesCubit>();
-    cubit.getMessagesValues();
+    // cubit = getIt<CartMessagesCubit>();
+    // cubit.getMessagesValues();
   }
 
   @override
   void dispose() {
     messageController.dispose();
-    cubit.close();
+    // cubit.close();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<CartMessagesCubit, CartMessagesState>(
-      cubit: cubit,
-      listener: (context, state) {
-        // if (widget.cart.message == null) {
-        //   setState(() {
-        //     final value = state.maybeWhen(
-        //       success: (value) => value,
-        //       orElse: () => null,
-        //     );
-        //     if (value != null) {
-        //       widget.cart.message = CartMessage(occasion: value.occasions.first, text: value.messages.first);
-        //       widget.onValueChanged?.call(value);
-        //     }
-        //   });
-        // }
-      },
-      builder: (context, state) {
-        return state.when(
-          initial: () => _buildUI(null, isLoading: true),
-          loading: () => _buildUI(null, isLoading: true),
-          success: (value) => _buildUI(value),
-          failure: (message) => MyErrorWidget(
-            onRetry: () {
-              cubit.getMessagesValues();
-            },
-            message: message,
-          ),
-        );
-      },
-    );
+    return _buildUI();
+    // return BlocConsumer<CartMessagesCubit, CartMessagesState>(
+    //   cubit: cubit,
+    //   listener: (context, state) {
+    //     // if (widget.cart.message == null) {
+    //     //   setState(() {
+    //     //     final value = state.maybeWhen(
+    //     //       success: (value) => value,
+    //     //       orElse: () => null,
+    //     //     );
+    //     //     if (value != null) {
+    //     //       widget.cart.message = CartMessage(occasion: value.occasions.first, text: value.messages.first);
+    //     //       widget.onValueChanged?.call(value);
+    //     //     }
+    //     //   });
+    //     // }
+    //   },
+    //   builder: (context, state) {
+    //     return state.when(
+    //       initial: () => _buildUI(null, isLoading: true),
+    //       loading: () => _buildUI(null, isLoading: true),
+    //       success: (value) => _buildUI(value),
+    //       failure: (message) => MyErrorWidget(
+    //         onRetry: () {
+    //           cubit.getMessagesValues();
+    //         },
+    //         message: message,
+    //       ),
+    //     );
+    //   },
+    // );
   }
 
-  Widget _buildUI(CartMessageModel value, {bool isLoading = false}) {
-    if (isLoading) {
-      return FittedBox(
-        child: Container(
-          margin: const EdgeInsets.only(left: 40.0, right: 40.0),
-          decoration: const BoxDecoration(
-            color: Colors.black87,
-            borderRadius: BorderRadius.all(Radius.circular(8.0)),
-          ),
-          child: const Padding(
-            padding: EdgeInsets.all(16.0),
-            child: CircularProgressIndicator(strokeWidth: 2.0),
-          ),
-        ),
-      );
-    }
+  Widget _buildUI(/* CartMessageModel value, {bool isLoading = false} */) {
+    // if (isLoading) {
+    //   return FittedBox(
+    //     child: Container(
+    //       margin: const EdgeInsets.only(left: 40.0, right: 40.0),
+    //       decoration: const BoxDecoration(
+    //         color: Colors.black87,
+    //         borderRadius: BorderRadius.all(Radius.circular(8.0)),
+    //       ),
+    //       child: const Padding(
+    //         padding: EdgeInsets.all(16.0),
+    //         child: CircularProgressIndicator(strokeWidth: 2.0),
+    //       ),
+    //     ),
+    //   );
+    // }
     return Column(
       children: [
         // Row(
@@ -127,7 +128,7 @@ class _MessageCheckBoxState extends State<MessageCheckBox> {
           child: Column(
             children: [
               TextFormField(
-                validator: Validators.shortStringValidator,
+                // validator: Validators.shortStringValidator,
                 decoration: InputDecoration(
                   hintText: S.current.from,
                   hintStyle: const TextStyle(color: Colors.black26),
@@ -145,7 +146,7 @@ class _MessageCheckBoxState extends State<MessageCheckBox> {
               ),
               const SizedBox(height: 20),
               TextFormField(
-                validator: Validators.shortStringValidator,
+                // validator: Validators.shortStringValidator,
                 decoration: InputDecoration(
                   hintText: S.current.to,
                   hintStyle: const TextStyle(color: Colors.black26),
@@ -161,10 +162,10 @@ class _MessageCheckBoxState extends State<MessageCheckBox> {
                 textAlign: TextAlign.center,
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
-              const SizedBox(height: 20),
-              _buildDropdown(value.event, widget.cart.event, (value) => widget.cart.event = value, S.current.occasion),
-              const SizedBox(height: 20),
-              _buildDropdown(value.phrases, widget.cart.phrase, (value) => widget.cart.phrase = value, S.current.message),
+              // const SizedBox(height: 20),
+              // _buildDropdown(value.event, widget.cart.event, (value) => widget.cart.event = value, S.current.occasion),
+              // const SizedBox(height: 20),
+              // _buildDropdown(value.phrases, widget.cart.phrase, (value) => widget.cart.phrase = value, S.current.message),
               const SizedBox(height: 20),
               _buildTextInput(),
               const SizedBox(height: 20),
@@ -186,7 +187,7 @@ class _MessageCheckBoxState extends State<MessageCheckBox> {
         }
       },
       decoration: InputDecoration(
-        hintText: S.current.or_write_custom_message,
+        hintText: S.current.write_custom_message,
         filled: true,
         fillColor: Colors.white,
         hintStyle: const TextStyle(color: Colors.black26),
@@ -227,8 +228,8 @@ class _MessageCheckBoxState extends State<MessageCheckBox> {
     if (value == null) {
       Timer.run(() {
         setState(() {
-            setState(() => onChange(value));
-            widget.onValueChanged?.call(value);
+          setState(() => onChange(value));
+          widget.onValueChanged?.call(value);
         });
       });
     }

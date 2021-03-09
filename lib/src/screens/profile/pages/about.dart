@@ -2,6 +2,7 @@ import 'package:animations/animations.dart';
 import 'package:division/division.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:sehool/src/helpers/helper.dart';
 import '../../home/home.dart';
 import 'package:supercharged/supercharged.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -16,6 +17,14 @@ class About extends StatefulWidget {
 }
 
 class _AboutState extends State<About> {
+  final aboutAr = '''شركة سهول شركة متخصصة في استيراد اللحوم السودانية من بيئتها الطبيعية بالسودان (سهول البطانة) الخضراء المترامية الاطراف حيث المراعي الطبيعية التي لا دخل ليد الإنسان فيها ..
+
+وتصل يوميا طازجة بالطيران السعودي معتمدة من هيئة الغذاء والدواء السعودية لمعاملنا بشمال الرياض حيث نقوم بتجهيزها بأحدث الوسائل واعلى معايير الجودة والسلامة المهنية ويتم توصليها اليكم عبر اسطولنا المنتشر بجميع احياء الرياض ..''';
+
+  final aboutEn = '''Sehool Company is a company specialized in importing Sudanese meat from its natural environment in Sudan (Butana Plains), the sprawling green pastures where the human hand has no control.
+
+And they arrive daily fresh by Saudi aviation approved by the Saudi Food and Drug Authority for our laboratories in the north of Riyadh, where we supply them with the latest means and the highest standards of quality and occupational safety, and they are delivered to you through our fleet spread all over Riyadh.''';
+
   @override
   Widget build(BuildContext context) {
     return Parent(
@@ -45,8 +54,38 @@ class _AboutState extends State<About> {
           body: Column(
             children: [
               Expanded(
-                child: Column(
+                child: ListView(
                   children: [
+                    Card(
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+                      elevation: 0,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          children: [
+                            const SizedBox(height: 5),
+                            Text(
+                              S.current.who_are_we,
+                              style: Theme.of(context).textTheme.headline6,
+                            ),
+                            const SizedBox(height: 5),
+                            Text(
+                              Helpers.isArabic(context) ? aboutAr : aboutEn,
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context).textTheme.bodyText2,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    AboutItem(
+                      icon: FontAwesomeIcons.whatsapp,
+                      title: 'Whatsapp',
+                      onTap: () {
+                        launch('https://api.whatsapp.com/send?phone=966508808940');
+                      },
+                      description: 'Whatsapp',
+                    ),
                     AboutItem(
                       icon: FontAwesomeIcons.snapchat,
                       title: 'SnapChat',
@@ -87,9 +126,9 @@ class _AboutState extends State<About> {
                 ),
               ),
               Txt(
-                '❤Made in Panda180 with love❤',
+                '❤ Made in Panda180 with love ❤',
                 style: TxtStyle()
-                  ..textColor(Colors.white)
+                  ..textColor(Colors.black)
                   ..alignment.center(),
               )
             ],

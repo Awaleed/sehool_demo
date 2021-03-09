@@ -99,7 +99,7 @@ abstract class FakeDataGenerator {
         image: images.random,
         description: faker.lorem.sentence(),
         price: ((random.decimal(scale: 100) * 100) + 100).toInt() / 100,
-        qyt: random.integer(1000),
+        //  : random.integer(1000),
       );
   static ReviewModel get reviewModel => ReviewModel(
         id: random.integer(1000),
@@ -184,7 +184,7 @@ abstract class FakeDataGenerator {
           image: images.random,
           description: faker.lorem.arabic(),
           price: 130,
-          qyt: 1000,
+          //  : 1000,
         ),
         ProductModel(
           id: 1,
@@ -192,7 +192,7 @@ abstract class FakeDataGenerator {
           image: images.random,
           description: faker.lorem.arabic(),
           price: 140,
-          qyt: 1000,
+          //  : 1000,
         ),
         ProductModel(
           id: 2,
@@ -200,7 +200,7 @@ abstract class FakeDataGenerator {
           image: images.random,
           description: faker.lorem.arabic(),
           price: 150,
-          qyt: 1000,
+          //  : 1000,
         ),
       ];
 }

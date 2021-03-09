@@ -72,6 +72,8 @@ class _CartQuantityCardState extends State<CartQuantityCard> {
                           validator: (value) {
                             if (!isNumeric(value) || int.tryParse(value) <= 0) {
                               return S.current.verify_your_quantity_and_click_checkout;
+                            } else if (int.tryParse(value) > widget.cartItem.product.qyt) {
+                              return S.current.qyt_not_enough_message;
                             }
                             return null;
                           },
@@ -142,8 +144,19 @@ class _CartQuantityCardState extends State<CartQuantityCard> {
         ),
         _buildButton(
           onTap: () {
+            // widget.cartItem.product.qyt = 5;
             widget.onChanged();
-            widget.cartItem.incrementCart();
+            if (widget.cartItem.quantity == widget.cartItem.product.qyt) {
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  backgroundColor: Colors.white70,
+                  content: Text(S.current.qyt_not_enough_message),
+                ),
+              );
+            } else {
+              widget.cartItem.incrementCart();
+            }
           },
           child: const Icon(FluentIcons.add_24_regular),
         ),

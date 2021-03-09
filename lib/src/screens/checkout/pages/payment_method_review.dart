@@ -244,80 +244,150 @@ class _CartDropdownState extends State<CartDropdown> {
     final canPayWithPoints = kUser.wallet >= widget.cart.total;
     final disableOtherButton = (canPayWithPoints && widget.cart.fromWallet) || widget.cart.total == 0;
     final values = [];
+    final otherValues = [];
     for (final e in _values) {
-      if (e.type == 'wallet' && !disableOtherButton) {
+      if (e.type == 'wallet' || e.type == 'cash on delivery') {
+        if (e.type == 'wallet' && !disableOtherButton) {
+        } else {
+          otherValues.add(e);
+        }
       } else {
         values.add(e);
       }
     }
 
-    return StaggeredGridView.count(
-      shrinkWrap: true,
-      crossAxisCount: 4,
-      // maxCrossAxisExtent: 150,
-      staggeredTiles: [
-        ...values.map((e) {
-          if (e.type == 'cash on delivery' || e.type == 'wallet') {
-            return const StaggeredTile.count(4, 1);
-          }
-          return const StaggeredTile.count(2, 1);
-        }),
-      ],
-      physics: const NeverScrollableScrollPhysics(),
-      children: values
-          .map(
-            (e) => GridTile(
-              child: InkWell(
-                borderRadius: BorderRadius.circular(15),
-                onTap: e.type != 'wallet' && disableOtherButton
-                    ? null
-                    : e.type == 'disabled'
-                        ? () {
-                            Helpers.showErrorOverlay(
-                              context,
-                              error: S.current.payment_not_active,
-                            );
-                          }
-                        : () async {
-                            if (e is PaymentMethodModel && e.type == 'wallet') {
-                              if (kUser.wallet < widget.cart.total) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        StaggeredGridView.count(
+          shrinkWrap: true,
+          crossAxisCount: 4,
+          // maxCrossAxisExtent: 150,
+          staggeredTiles: [
+            ...values.map((e) {
+              if (e.type == 'cash on delivery' || e.type == 'wallet') {
+                return const StaggeredTile.count(4, 1);
+              }
+              return const StaggeredTile.count(2, 1);
+            }),
+          ],
+          physics: const NeverScrollableScrollPhysics(),
+          children: values
+              .map(
+                (e) => GridTile(
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(15),
+                    onTap: e.type != 'wallet' && disableOtherButton
+                        ? null
+                        : e.type == 'disabled'
+                            ? () {
                                 Helpers.showErrorOverlay(
                                   context,
-                                  error: S.current.sorry_your_balance_is_not_enough,
+                                  error: S.current.payment_not_active,
                                 );
-                              } else {
-                                // widget.onValueChanged?.call(e);
-                                setState(() => selectedValue = e);
                               }
+                            : () async {
+                                if (e is PaymentMethodModel && e.type == 'wallet') {
+                                  if (kUser.wallet < widget.cart.total) {
+                                    Helpers.showErrorOverlay(
+                                      context,
+                                      error: S.current.sorry_your_balance_is_not_enough,
+                                    );
+                                  } else {
+                                    // widget.onValueChanged?.call(e);
+                                    setState(() => selectedValue = e);
+                                  }
+                                } else {
+                                  // widget.onValueChanged?.call(e);
+                                  setState(() => selectedValue = e);
+                                }
+                                if (e is PaymentMethodModel && e.type == 'transfer') {
+                                  await showDialog(
+                                    context: context,
+                                    useRootNavigator: true,
+                                    builder: (context) => BankInfoWidget(),
+                                  );
+                                }
+                                widget.onValueChanged?.call(e);
+                              },
+                    child: Card(
+                      // margin: EdgeInsets.zero,
+                      margin: const EdgeInsets.all(5),
+                      color: e.type != 'wallet' && disableOtherButton ? Colors.grey : null,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 50),
+                        child: CachedNetworkImage(
+                          imageUrl: e.icon,
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              )
+              .toList(),
+        ),
+        ...otherValues.map((e) => InkWell(
+              onTap: e.type != 'wallet' && disableOtherButton
+                  ? null
+                  : e.type == 'disabled'
+                      ? () {
+                          Helpers.showErrorOverlay(
+                            context,
+                            error: S.current.payment_not_active,
+                          );
+                        }
+                      : () async {
+                          if (e is PaymentMethodModel && e.type == 'wallet') {
+                            if (kUser.wallet < widget.cart.total) {
+                              Helpers.showErrorOverlay(
+                                context,
+                                error: S.current.sorry_your_balance_is_not_enough,
+                              );
                             } else {
                               // widget.onValueChanged?.call(e);
                               setState(() => selectedValue = e);
                             }
-                            if (e is PaymentMethodModel && e.type == 'transfer') {
-                              await showDialog(
-                                context: context,
-                                useRootNavigator: true,
-                                builder: (context) => BankInfoWidget(),
-                              );
-                            }
-                            widget.onValueChanged?.call(e);
-                          },
-                child: Card(
-                  // margin: EdgeInsets.zero,
-                  margin: const EdgeInsets.all(5),
-                  color: e.type != 'wallet' && disableOtherButton ? Colors.grey : null,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-                    child: CachedNetworkImage(
-                      imageUrl: e.icon,
-                      fit: BoxFit.contain,
+                          } else {
+                            // widget.onValueChanged?.call(e);
+                            setState(() => selectedValue = e);
+                          }
+                          if (e is PaymentMethodModel && e.type == 'transfer') {
+                            await showDialog(
+                              context: context,
+                              useRootNavigator: true,
+                              builder: (context) => BankInfoWidget(),
+                            );
+                          }
+                          widget.onValueChanged?.call(e);
+                        },
+              child: Row(
+                children: [
+                  SizedBox(
+                    height: 80,
+                    width: 80,
+                    child: Card(
+                      color: e.type != 'wallet' && disableOtherButton ? Colors.grey : null,
+                      child: CachedNetworkImage(
+                        imageUrl: e.icon,
+                        fit: BoxFit.contain,
+                      ),
                     ),
                   ),
-                ),
+                  Expanded(
+                    child: SizedBox(
+                      height: 80,
+                      child: Card(
+                        color: e.type != 'wallet' && disableOtherButton ? Colors.grey : null,
+                        child: Center(child: Text(e.name)),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ),
-          )
-          .toList(),
+            )),
+      ],
     );
   }
 }

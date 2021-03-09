@@ -174,7 +174,7 @@ class _AddressReviewPageState extends State<AddressReviewPage> {
               ),
               keyboardType: TextInputType.text,
               textAlign: TextAlign.center,
-              style: const TextStyle(fontWeight: FontWeight.bold),
+              style: Theme.of(context).textTheme.bodyText2,
               onChanged: (value) {
                 widget.cart.otherName = value;
               },
@@ -194,7 +194,7 @@ class _AddressReviewPageState extends State<AddressReviewPage> {
               ),
               keyboardType: TextInputType.number,
               textAlign: TextAlign.center,
-              style: const TextStyle(fontWeight: FontWeight.bold),
+              style: Theme.of(context).textTheme.bodyText2,
               onChanged: (value) {
                 widget.cart.otherPhone = value;
               },

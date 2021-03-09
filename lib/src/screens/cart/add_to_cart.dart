@@ -383,6 +383,7 @@ class _CartScrollState extends State<CartScroll> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
+      padding: const EdgeInsets.symmetric(horizontal: 5),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: stepsWidget,

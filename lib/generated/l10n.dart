@@ -35,6 +35,46 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
+  /// `Who are we`
+  String get who_are_we {
+    return Intl.message(
+      'Who are we',
+      name: 'who_are_we',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Payment`
+  String get payment {
+    return Intl.message(
+      'Payment',
+      name: 'payment',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sorry, the quantity is not enough`
+  String get qyt_not_enough_message {
+    return Intl.message(
+      'Sorry, the quantity is not enough',
+      name: 'qyt_not_enough_message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sorry, this product is not available`
+  String get not_available_message {
+    return Intl.message(
+      'Sorry, this product is not available',
+      name: 'not_available_message',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `The selected payment method is not currently active, please choose another method.`
   String get payment_not_active {
     return Intl.message(
@@ -455,11 +495,11 @@ class S {
     );
   }
 
-  /// `Or write custom message`
-  String get or_write_custom_message {
+  /// `Write custom message`
+  String get write_custom_message {
     return Intl.message(
-      'Or write custom message',
-      name: 'or_write_custom_message',
+      'Write custom message',
+      name: 'write_custom_message',
       desc: '',
       args: [],
     );
@@ -2623,6 +2663,16 @@ class S {
     return Intl.message(
       'Should be more than 3 letters',
       name: 'should_be_more_than_3_letters',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password should be 6 letters or more`
+  String get password_should_be_more_than_6_letters {
+    return Intl.message(
+      'Password should be 6 letters or more',
+      name: 'password_should_be_more_than_6_letters',
       desc: '',
       args: [],
     );

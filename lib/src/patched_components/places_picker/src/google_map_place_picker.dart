@@ -35,10 +35,10 @@ class _GoogleMapPlacePickerState extends State<GoogleMapPlacePicker> {
   bool canChoose = true;
 
   final center = const LatLng(
-    24.860667,
-    46.674167,
+    24.733721,
+    46.706886,
   );
-  final distance = 50000.0;
+  final distance = 30000.0;
 
   @override
   Widget build(BuildContext context) {
@@ -136,12 +136,20 @@ class _GoogleMapPlacePickerState extends State<GoogleMapPlacePicker> {
               ) <=
               distance;
         });
-        print('distance ${Geolocator.distanceBetween(
-          widget.initialTarget.latitude,
-          widget.initialTarget.longitude,
-          position.target.latitude,
-          position.target.longitude,
-        )}');
+        /*
+        24.733721,
+        46.706886,
+        */
+        final vertical = position.target.latitude > 24.733721 ? 'north' : 'south';
+        final horizontal = position.target.longitude > 46.706886 ? 'east' : 'west';
+        print('position.target.latitude: $horizontal');
+
+        // print('distance ${Geolocator.distanceBetween(
+        //   widget.initialTarget.latitude,
+        //   widget.initialTarget.longitude,
+        //   position.target.latitude,
+        //   position.target.longitude,
+        // )}');
       },
     );
   }

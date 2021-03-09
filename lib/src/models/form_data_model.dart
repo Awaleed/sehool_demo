@@ -91,7 +91,12 @@ class FormFieldModel {
           labelText: S.current.password,
           iconData: FluentIcons.eye_show_24_regular,
           keyboardType: TextInputType.visiblePassword,
-          validator: Validators.longStringValidator,
+          validator: (value) {
+            if (value.length < 6 || value == null) {
+              return S.current.password_should_be_more_than_6_letters;
+            }
+            return null;
+          },
           onSave: (value) => map['password'] = _toString(value),
         );
       case FormFieldType.email:
@@ -112,7 +117,12 @@ class FormFieldModel {
           labelText: S.current.phone,
           iconData: FluentIcons.call_28_regular,
           keyboardType: TextInputType.number,
-          validator: Validators.numericValidator,
+          validator: (value) {
+            if (!isNumeric(value.trim()) || value.isEmpty || value == null) {
+              return S.current.enter_a_valid_number;
+            }
+            return null;
+          },
           onSave: (value) => map['phone'] = _toString(value),
         );
       case FormFieldType.notes:

@@ -12,7 +12,6 @@ import 'src/cubits/associations_cubit/associations_cubit.dart';
 import 'src/cubits/auth_cubit/auth_cubit.dart';
 import 'src/cubits/product_cubits/banner_cubit/banner_cubit.dart';
 import 'src/cubits/cart_cubit/cart_cubit.dart';
-import 'src/cubits/cart_message_cubit/cart_messages_cubit.dart';
 import 'src/cubits/checkout_cubit/checkout_cubit.dart';
 import 'src/cubits/dropdown_cubit/dropdown_cubit.dart';
 import 'src/cubits/forgot_password_cubit/forgot_password_cubit.dart';
@@ -53,7 +52,6 @@ GetIt $initGetIt(
 }) {
   final gh = GetItHelper(get, environment, environmentFilter);
   gh.factory<AssociationsCubit>(() => AssociationsCubit());
-  gh.factory<CartMessagesCubit>(() => CartMessagesCubit());
   gh.factory<CheckoutCubit>(() => CheckoutCubit());
   gh.factory<OrderCubit>(() => OrderCubit(get<IOrderRepository>()));
   gh.factory<ProductCubit>(() => ProductCubit(get<IProductRepository>()));

@@ -149,10 +149,20 @@ class ProductsCarouselItemWidget extends StatelessWidget {
                     //   );
                     //   showCupertinoModalPopup(context: context, builder: (context) => action);
                     // } else {
-                    AppRouter.sailor.navigate(
-                      AddToCartScreen.routeName,
-                      params: {'product': product},
-                    );
+                    if (product.qyt <= 0) {
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          backgroundColor: Colors.white70,
+                          content: Text(S.current.not_available_message),
+                        ),
+                      );
+                    } else {
+                      AppRouter.sailor.navigate(
+                        AddToCartScreen.routeName,
+                        params: {'product': product},
+                      );
+                    }
                     // }
                   },
                   shape: RoundedRectangleBorder(

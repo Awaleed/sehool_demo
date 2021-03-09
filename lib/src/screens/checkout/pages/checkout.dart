@@ -199,41 +199,41 @@ class SummeryCard extends StatelessWidget {
                 ),
                 const Divider(),
                 // ListTile(
-                //   title: Text(S.current.subtotal),
-                //   trailing: Text('${cart.subtotal.format()} ﷼'),
+                //   title: Text(S.current.subtotal,style: Theme.of(context).textTheme.bodyText2),
+                //   trailing: Text('${cart.subtotal.format()} ﷼',style: Theme.of(context).textTheme.bodyText2),
                 // ),
                 ListTile(
-                  title: Text(S.current.delivery_price),
-                  trailing: Text('${cart.deliveryFees.format()} ﷼'),
+                  title: Text(S.current.delivery_price, style: Theme.of(context).textTheme.bodyText2),
+                  trailing: Text('${cart.deliveryFees.format()} ﷼', style: Theme.of(context).textTheme.bodyText2),
                 ),
                 ListTile(
-                  title: Text(S.current.total),
-                  trailing: Text('${cart.subtotalWithDelivery.format()} ﷼'),
+                  title: Text(S.current.total, style: Theme.of(context).textTheme.bodyText2),
+                  trailing: Text('${cart.subtotalWithDelivery.format()} ﷼', style: Theme.of(context).textTheme.bodyText2),
                 ),
                 const Divider(),
                 if (cart.discountAmount > 0) ...[
                   ListTile(
                     // tileColor: Colors.amber.withOpacity(.8),
-                    title: Text(S.current.discount),
-                    trailing: Text('${cart.discountAmount.format()} ﷼'),
+                    title: Text(S.current.discount, style: Theme.of(context).textTheme.bodyText2),
+                    trailing: Text('${cart.discountAmount.format()} ﷼', style: Theme.of(context).textTheme.bodyText2),
                   ),
                   ListTile(
                     // tileColor: Colors.amber.withOpacity(.8),
-                    title: Text(S.current.discounted_total),
-                    trailing: Text('${cart.discountedSubtotal.format()} ﷼'),
+                    title: Text(S.current.discounted_total, style: Theme.of(context).textTheme.bodyText2),
+                    trailing: Text('${cart.discountedSubtotal.format()} ﷼', style: Theme.of(context).textTheme.bodyText2),
                   ),
                   const Divider(),
                 ],
                 ListTile(
-                  title: Text(S.current.tax),
-                  trailing: Text('${cart.tax.format()} ﷼'),
+                  title: Text(S.current.tax, style: Theme.of(context).textTheme.bodyText2),
+                  trailing: Text('${cart.tax.format()} ﷼', style: Theme.of(context).textTheme.bodyText2),
                 ),
                 ClipRRect(
                   borderRadius: BorderRadius.circular(25),
                   child: ListTile(
-                    tileColor: Colors.cyan.withOpacity(.8),
-                    title: Text(S.current.net_bill, style: const TextStyle(fontWeight: FontWeight.bold)),
-                    trailing: Text('${cart.total.format()} ﷼', style: const TextStyle(fontWeight: FontWeight.bold)),
+                    // tileColor: Colors.cyan.withOpacity(.8),
+                    title: Text(S.current.net_bill, style: Theme.of(context).textTheme.bodyText1),
+                    trailing: Text('${cart.total.format()} ﷼', style: Theme.of(context).textTheme.bodyText1),
                   ),
                 ),
 

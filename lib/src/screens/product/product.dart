@@ -275,10 +275,20 @@ class _ProductScreenState extends State<ProductScreen> {
                                   // );
                                   // showCupertinoModalPopup(context: context, builder: (context) => action);
                                   // } else {
-                                  AppRouter.sailor.navigate(
-                                    AddToCartScreen.routeName,
-                                    params: {'product': widget.product},
-                                  );
+                                  if (widget.product.qyt <= 0) {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) => AlertDialog(
+                                        backgroundColor: Colors.white70,
+                                        content: Text(S.current.not_available_message),
+                                      ),
+                                    );
+                                  } else {
+                                    AppRouter.sailor.navigate(
+                                      AddToCartScreen.routeName,
+                                      params: {'product': widget.product},
+                                    );
+                                  }
                                   // }
                                 },
                                 shape: RoundedRectangleBorder(
