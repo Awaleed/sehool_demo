@@ -16,7 +16,6 @@ class ApiCaller {
   static const _baseUrl = 'https://sehoool.com/api';
   static Dio _dio;
   static final PrettyDioLogger _logger = PrettyDioLogger(
-    responseBody: true,
     requestHeader: true,
     requestBody: true,
   );

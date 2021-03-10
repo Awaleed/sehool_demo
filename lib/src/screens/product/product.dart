@@ -5,10 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sailor/sailor.dart';
-import '../../cubits/cart_cubit/cart_cubit.dart';
-import '../checkout/checkout.dart';
-import '../home/home.dart';
 import 'package:simple_animations/simple_animations.dart';
 import 'package:supercharged/supercharged.dart';
 
@@ -17,10 +13,12 @@ import '../../../init_injectable.dart';
 import '../../components/comments_list/comments_list_sliver.dart';
 import '../../components/my_error_widget.dart';
 import '../../components/new_review_field.dart';
+import '../../cubits/cart_cubit/cart_cubit.dart';
 import '../../cubits/product_cubits/review_cubit/review_cubit.dart';
 import '../../models/product_model.dart';
 import '../../routes/config_routes.dart';
 import '../cart/add_to_cart.dart';
+import '../home/home.dart';
 
 class ProductScreen extends StatefulWidget {
   static const routeName = '/product';

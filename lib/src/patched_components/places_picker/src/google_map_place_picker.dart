@@ -94,7 +94,8 @@ class _GoogleMapPlacePickerState extends State<GoogleMapPlacePicker> {
   Widget _buildGoogleMap(BuildContext context) {
     final PlaceProvider provider = PlaceProvider.of(context, listen: false);
 
-    final CameraPosition initialCameraPosition = CameraPosition(target: widget.initialTarget, zoom: 15);
+    final CameraPosition initialCameraPosition =
+        CameraPosition(target: widget.initialTarget, zoom: 15);
 
     return GoogleMap(
       initialCameraPosition: initialCameraPosition,
@@ -107,6 +108,56 @@ class _GoogleMapPlacePickerState extends State<GoogleMapPlacePicker> {
           fillColor: Colors.amber.withOpacity(.15),
           circleId: CircleId('id'),
         )
+      },
+      polygons: {
+        Polygon(
+          polygonId: PolygonId('north'),
+          fillColor: Colors.red.withOpacity(.2),
+          strokeWidth: 0,
+          points: [
+            LatLng(25.07068, 46.42402),
+            LatLng(24.66824, 46.40445),
+            LatLng(24.83084, 46.81454),
+            LatLng(24.88426, 47.03032),
+            LatLng(25.08203, 46.89402),
+          ],
+        ),
+        Polygon(
+          polygonId: PolygonId('west'),
+          fillColor: Colors.green.withOpacity(.2),
+          strokeWidth: 0,
+          points: [
+            LatLng(24.63704, 46.8003),
+            LatLng(24.79547, 46.72236),
+            LatLng(24.83084, 46.81454),
+            LatLng(24.88426, 47.03032),
+            LatLng(24.70832, 47.04371),
+          ],
+        ),
+        Polygon(
+          polygonId: PolygonId('east'),
+          fillColor: Colors.orange.withOpacity(.2),
+          strokeWidth: 0,
+          points: [
+            LatLng(24.63704, 46.8003),
+            LatLng(24.79547, 46.72236),
+            LatLng(24.65872, 46.40393),
+            LatLng(24.65857, 46.40342),
+            LatLng(24.5123, 46.45457),
+          ],
+        ),
+        Polygon(
+          polygonId: PolygonId('south'),
+          fillColor: Colors.teal.withOpacity(.2),
+          strokeWidth: 0,
+          points: [
+            LatLng(24.71939, 47.03444),
+            LatLng(24.54963, 47.16731),
+            LatLng(24.3582, 46.55362),
+            LatLng(24.42934, 46.49886),
+            LatLng(24.5123, 46.45457),
+          ],
+        ),
       },
       onMapCreated: (GoogleMapController controller) {
         provider.mapController = controller;
@@ -125,7 +176,9 @@ class _GoogleMapPlacePickerState extends State<GoogleMapPlacePicker> {
       },
       onCameraMove: (CameraPosition position) {
         provider.setCameraPosition(position);
-        provider.currentPosition = Position(latitude: position.target.latitude, longitude: position.target.longitude);
+        provider.currentPosition = Position(
+            latitude: position.target.latitude,
+            longitude: position.target.longitude);
 
         setState(() {
           canChoose = Geolocator.distanceBetween(
@@ -140,8 +193,10 @@ class _GoogleMapPlacePickerState extends State<GoogleMapPlacePicker> {
         24.733721,
         46.706886,
         */
-        final vertical = position.target.latitude > 24.733721 ? 'north' : 'south';
-        final horizontal = position.target.longitude > 46.706886 ? 'east' : 'west';
+        final vertical =
+            position.target.latitude > 24.733721 ? 'north' : 'south';
+        final horizontal =
+            position.target.longitude > 46.706886 ? 'east' : 'west';
         print('position.target.latitude: $horizontal');
 
         // print('distance ${Geolocator.distanceBetween(
@@ -197,7 +252,8 @@ class _GoogleMapPlacePickerState extends State<GoogleMapPlacePicker> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: const <Widget>[
-                AnimatedPin(child: Icon(Icons.place, size: 36, color: Colors.red)),
+                AnimatedPin(
+                    child: Icon(Icons.place, size: 36, color: Colors.red)),
                 SizedBox(height: 42),
               ],
             ),

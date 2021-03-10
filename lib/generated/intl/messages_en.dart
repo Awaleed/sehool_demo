@@ -200,6 +200,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "not_a_valid_slicing_method" : MessageLookupByLibrary.simpleMessage("Not a valid slicing method"),
     "not_available_message" : MessageLookupByLibrary.simpleMessage("Sorry, this product is not available"),
     "not_delivered" : MessageLookupByLibrary.simpleMessage("Not delivered"),
+    "not_in_my_points_program" : MessageLookupByLibrary.simpleMessage("The chosen method of payment is not counted under the Neqaty program"),
     "notes" : MessageLookupByLibrary.simpleMessage("Notes"),
     "notifications" : MessageLookupByLibrary.simpleMessage("Notifications"),
     "nutrition" : MessageLookupByLibrary.simpleMessage("Nutrition"),

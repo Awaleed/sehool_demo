@@ -1,16 +1,11 @@
-import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../generated/l10n.dart';
 import '../helpers/helper.dart';
-import '../models/form_data_model.dart';
-
-import '../../init_injectable.dart';
-import '../cubits/cart_message_cubit/cart_messages_cubit.dart';
 import '../models/cart_model.dart';
-import 'my_error_widget.dart';
+import '../models/form_data_model.dart';
 
 class MessageCheckBox extends StatefulWidget {
   const MessageCheckBox({
@@ -224,52 +219,53 @@ class _MessageCheckBoxState extends State<MessageCheckBox> {
     );
   }
 
-  Widget _buildDropdown(List<ValueWithId> values, ValueWithId value, ValueChanged onChange, String label) {
-    if (value == null) {
-      Timer.run(() {
-        setState(() {
-          setState(() => onChange(value));
-          widget.onValueChanged?.call(value);
-        });
-      });
-    }
-    return InputDecorator(
-      decoration: InputDecoration(
-        filled: true,
-        fillColor: Colors.white70,
-        contentPadding: EdgeInsets.zero,
-        labelText: label,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(25),
-        ),
-      ),
-      child: DropdownButtonHideUnderline(
-        child: DropdownButton(
-          value: value,
-          isDense: true,
-          dropdownColor: Colors.amber.withOpacity(.8),
-          onChanged: (value) {
-            if (value == null) return;
-            widget.onValueChanged?.call(value);
-            setState(() => onChange(value));
-          },
-          isExpanded: true,
-          items: [
-            ...values.map(
-              (e) => DropdownMenuItem(
-                value: e,
-                child: Center(
-                  child: Text(
-                    '$e',
-                    overflow: TextOverflow.visible,
-                    style: Theme.of(context).textTheme.bodyText2.copyWith(color: Colors.black),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+  // Widget _buildDropdown(List<ValueWithId> values, ValueWithId value, ValueChanged onChange, String label) {
+  //   if (value == null) {
+  //     Timer.run(() {
+  //       setState(() {
+  //         setState(() => onChange(value));
+  //         widget.onValueChanged?.call(value);
+  //       });
+  //     });
+  //   }
+  //   return InputDecorator(
+  //     decoration: InputDecoration(
+  //       filled: true,
+  //       fillColor: Colors.white70,
+  //       contentPadding: EdgeInsets.zero,
+  //       labelText: label,
+  //       border: OutlineInputBorder(
+  //         borderRadius: BorderRadius.circular(25),
+  //       ),
+  //     ),
+  //     child: DropdownButtonHideUnderline(
+  //       child: DropdownButton(
+  //         value: value,
+  //         isDense: true,
+  //         dropdownColor: Colors.amber.withOpacity(.8),
+  //         onChanged: (value) {
+  //           if (value == null) return;
+  //           widget.onValueChanged?.call(value);
+  //           setState(() => onChange(value));
+  //         },
+  //         isExpanded: true,
+  //         items: [
+  //           ...values.map(
+  //             (e) => DropdownMenuItem(
+  //               value: e,
+  //               child: Center(
+  //                 child: Text(
+  //                   '$e',
+  //                   overflow: TextOverflow.visible,
+  //                   style: Theme.of(context).textTheme.bodyText2.copyWith(color: Colors.black),
+  //                 ),
+  //               ),
+  //             ),
+  //           ),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
+
 }

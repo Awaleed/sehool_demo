@@ -11,7 +11,6 @@ import '../../../init_injectable.dart';
 import '../../components/cart_dropdown.dart';
 import '../../components/cart_item_preview.dart';
 import '../../components/cart_quantity_card.dart';
-import '../../components/cart_text_field.dart';
 import '../../components/my_error_widget.dart';
 import '../../cubits/cart_cubit/cart_cubit.dart';
 import '../../helpers/helper.dart';
@@ -346,7 +345,7 @@ class _CartScrollState extends State<CartScroll> {
     bool enabled = true,
     VoidCallback onTap,
   }) {
-    // return FlatButton(
+    // return TextButton (
     //   onPressed: enabled ? onTap : null,
     //   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
     //   color: Theme.of(context).primaryColor.withOpacity(.9),
@@ -383,7 +382,7 @@ class _CartScrollState extends State<CartScroll> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(horizontal: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: stepsWidget,

@@ -1,6 +1,7 @@
 import 'package:arabic_numbers/arabic_numbers.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+
 import '../../generated/l10n.dart';
 import '../helpers/helper.dart';
 import '../models/product_model.dart';

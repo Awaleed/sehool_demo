@@ -1,15 +1,11 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:sailor/sailor.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import 'generated/l10n.dart';
 import 'init_hive.dart';
@@ -50,7 +46,7 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
-  final floatingKey = ValueKey('DraggableWhatsAppIconState');
+  // final floatingKey = ValueKey('DraggableWhatsAppIconState');
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<Box>(

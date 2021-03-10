@@ -5,7 +5,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import '../routes/config_routes.dart';
 import 'package:supercharged/supercharged.dart';
 
 import '../../generated/l10n.dart';
@@ -21,7 +20,8 @@ abstract class Helpers {
     return renderBox?.size;
   }
 
-  static bool isArabic(BuildContext context) => Localizations.localeOf(context).languageCode == 'ar';
+  static bool isArabic(BuildContext context) =>
+      Localizations.localeOf(context).languageCode == 'ar';
 
   static void showErrorOverlay(
     BuildContext context, {
@@ -42,7 +42,7 @@ abstract class Helpers {
         ),
         content: Text(message),
         actions: [
-          FlatButton(
+          TextButton(
             onPressed: () => Navigator.of(context).pop(),
             child: Text(S.current.back),
           ),
@@ -99,7 +99,7 @@ abstract class Helpers {
           children: messageWidget,
         ),
         actions: [
-          FlatButton(
+          TextButton(
             onPressed: () => Navigator.of(context).pop(),
             child: Text(S.current.back),
           ),
@@ -147,7 +147,8 @@ abstract class Helpers {
 
   static Future<bool> onWillPop(BuildContext context) {
     final now = DateTime.now();
-    if (_currentBackPressTime == null || now.difference(_currentBackPressTime) > const Duration(seconds: 2)) {
+    if (_currentBackPressTime == null ||
+        now.difference(_currentBackPressTime) > const Duration(seconds: 2)) {
       _currentBackPressTime = now;
       Helpers.showMessageOverlay(
         context,
@@ -188,7 +189,8 @@ abstract class Helpers {
       }
     }
     final message = StringBuffer();
-    if (error.response?.data['errors'] != null && error.response?.data['errors'] is Map) {
+    if (error.response?.data['errors'] != null &&
+        error.response?.data['errors'] is Map) {
       final map = error.response?.data['errors'] as Map;
       for (final value in map.values) {
         if (value is List) {

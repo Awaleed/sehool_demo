@@ -3,7 +3,6 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../home/home.dart';
 
 import '../../../../generated/l10n.dart';
 import '../../../../init_injectable.dart';
@@ -14,6 +13,7 @@ import '../../../components/ripple_animation.dart';
 import '../../../cubits/address_cubit/address_cubit.dart';
 import '../../../models/address_model.dart';
 import '../../../routes/config_routes.dart';
+import '../../home/home.dart';
 import '../dialogs/new_address_dialog.dart';
 
 class AddressesScreen extends StatefulWidget {
@@ -138,7 +138,7 @@ class _AddressesScreenState extends State<AddressesScreen> {
             padding: const EdgeInsets.all(20.0),
             child: Stack(
               children: [
-                AddressCard(address: addresses[index]),
+                AddressCard(address: addresses[index],hideDetails: false),
                 Positioned(
                   bottom: 20,
                   left: 20,

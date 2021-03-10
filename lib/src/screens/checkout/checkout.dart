@@ -8,22 +8,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sailor/sailor.dart';
-import 'package:sehool/src/components/cart_text_field.dart';
-import 'package:sehool/src/data/user_datasource.dart';
-import 'package:sehool/src/models/user_model.dart';
 import 'package:supercharged/supercharged.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../../generated/l10n.dart';
 import '../../../init_injectable.dart';
 import '../../components/cart_coupon_field.dart';
+import '../../components/cart_text_field.dart';
 import '../../components/my_error_widget.dart';
 import '../../components/my_loading_overlay.dart';
 import '../../core/api_caller.dart';
 import '../../cubits/cart_cubit/cart_cubit.dart';
 import '../../cubits/checkout_cubit/checkout_cubit.dart';
+import '../../data/user_datasource.dart';
 import '../../helpers/helper.dart';
 import '../../models/cart_model.dart';
+import '../../models/user_model.dart';
 import '../../patched_components/custom_stepper.dart';
 import '../../routes/config_routes.dart';
 import '../home/home.dart';
@@ -193,7 +193,7 @@ class _CheckoutScrollState extends State<CheckoutScroll> {
       isLoading: isLoading,
       showSpinner: true,
       child: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 5),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: stepsWidget,
@@ -402,46 +402,47 @@ class _CheckoutScrollState extends State<CheckoutScroll> {
     ];
   }
 
-  Widget _buildButton({
-    Widget label,
-    bool enabled = true,
-    VoidCallback onTap,
-  }) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15),
-      child: ElevatedButton(
-        style: ButtonStyle(
-          minimumSize: MaterialStateProperty.all(
-            const Size.fromRadius(20),
-          ),
-          shape: MaterialStateProperty.all(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15),
-            ),
-          ),
-          backgroundColor: enabled ? MaterialStateProperty.all(Theme.of(context).primaryColor.withOpacity(.9)) : null,
-        ),
-        onPressed: enabled ? onTap : null,
-        child: label,
-      ),
-    );
+  // Widget _buildButton({
+  //   Widget label,
+  //   bool enabled = true,
+  //   VoidCallback onTap,
+  // }) {
+  //   return Padding(
+  //     padding: const EdgeInsets.symmetric(horizontal: 15),
+  //     child: ElevatedButton(
+  //       style: ButtonStyle(
+  //         minimumSize: MaterialStateProperty.all(
+  //           const Size.fromRadius(20),
+  //         ),
+  //         shape: MaterialStateProperty.all(
+  //           RoundedRectangleBorder(
+  //             borderRadius: BorderRadius.circular(15),
+  //           ),
+  //         ),
+  //         backgroundColor: enabled ? MaterialStateProperty.all(Theme.of(context).primaryColor.withOpacity(.9)) : null,
+  //       ),
+  //       onPressed: enabled ? onTap : null,
+  //       child: label,
+  //     ),
+  //   );
 
-    return ElevatedButton(
-      // style: ButtonStyle(
-      //   //   minimumSize: MaterialStateProperty.all(
-      //   //     const Size.fromRadius(25),
-      //   //   ),
-      //   //   shape: MaterialStateProperty.all(
-      //   //     RoundedRectangleBorder(
-      //   //       borderRadius: BorderRadius.circular(25),
-      //   //     ),
-      //   //   ),
-      //   // backgroundColor: MaterialStateProperty.all(Colors.white70),
-      // ),
-      onPressed: enabled ? onTap : null,
-      child: label,
-    );
-  }
+  //   return ElevatedButton(
+  //     // style: ButtonStyle(
+  //     //   //   minimumSize: MaterialStateProperty.all(
+  //     //   //     const Size.fromRadius(25),
+  //     //   //   ),
+  //     //   //   shape: MaterialStateProperty.all(
+  //     //   //     RoundedRectangleBorder(
+  //     //   //       borderRadius: BorderRadius.circular(25),
+  //     //   //     ),
+  //     //   //   ),
+  //     //   // backgroundColor: MaterialStateProperty.all(Colors.white70),
+  //     // ),
+  //     onPressed: enabled ? onTap : null,
+  //     child: label,
+  //   );
+  // }
+
 }
 
 class OnlinePay extends StatefulWidget {

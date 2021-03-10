@@ -2,19 +2,21 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:sailor/sailor.dart';
+
+import '../../../generated/l10n.dart';
 import '../../core/api_caller.dart';
 import '../../helpers/helper.dart';
+import '../../models/order_model.dart';
 import '../../patched_components/custom_stepper.dart';
 import '../../routes/config_routes.dart';
 import '../../screens/home/home.dart';
-
-import '../../../generated/l10n.dart';
-import '../../models/order_model.dart';
 
 class OrdersListItemWidget extends StatelessWidget {
   const OrdersListItemWidget({
@@ -56,6 +58,32 @@ class OrdersListItemWidget extends StatelessWidget {
               ),
             ),
             const Divider(),
+            if (cart.status.id >= 4 && cart.status.id <= 5) ...[
+              ListTile(
+                leading: Image.asset('assets/images/user-with-shirt-and-tie_icon-icons.com_68276.png'),
+                title: Text(cart.delivery.name),
+                subtitle: Text(cart.delivery.phone),
+                         onTap: cart.status.id == 4
+                    ? () {
+                        FlutterPhoneDirectCaller.directCall(
+                          cart.delivery.phone,
+                        );
+                      }
+                    : null,
+              ),
+              // ListTile(
+              //   title: Text(S.current.phone),
+              //   subtitle: Text(cart.delivery.phone),
+              //   onTap: cart.status.id == 4
+              //       ? () {
+              //           FlutterPhoneDirectCaller.directCall(
+              //             cart.delivery.phone,
+              //           );
+              //         }
+              //       : null,
+              // ),
+              const Divider(),
+            ],
             // Text(
             //   '${S.current.order_status}: ${cart.status.name}',
             //   // style: Theme.of(context).textTheme.headline5,
@@ -82,17 +110,6 @@ class OrdersListItemWidget extends StatelessWidget {
               title: Text(S.current.notes),
               subtitle: Text(cart.note ?? S.current.none),
             ),
-            if (cart.status.id == 4) ...[
-              ListTile(
-                title: Text(S.current.driver),
-                subtitle: Text(cart.delivery.name),
-              ),
-              ListTile(
-                title: Text(S.current.phone),
-                subtitle: Text(cart.delivery.phone),
-                onTap: () {},
-              ),
-            ],
 
             // const Divider(),
             // Card(
@@ -195,7 +212,7 @@ class OrderStatusWidget extends StatelessWidget with ApiCaller {
 
   @override
   Widget build(BuildContext context) {
-    if (order.status.id >= 5) {
+    if (order.status.id > 5) {
       Color color;
       IconData icon;
       switch (order.status.id) {
@@ -233,7 +250,8 @@ class OrderStatusWidget extends StatelessWidget with ApiCaller {
                     builder: (context) => SimpleDialog(
                       children: [
                         SimpleDialogOption(
-                          onPressed: () => Navigator.of(context).pop(ImageSource.camera),
+                          onPressed: () =>
+                              Navigator.of(context).pop(ImageSource.camera),
                           child: Row(
                             children: [
                               const Icon(Icons.camera_alt),
@@ -243,7 +261,8 @@ class OrderStatusWidget extends StatelessWidget with ApiCaller {
                           ),
                         ),
                         SimpleDialogOption(
-                          onPressed: () => Navigator.of(context).pop(ImageSource.gallery),
+                          onPressed: () =>
+                              Navigator.of(context).pop(ImageSource.gallery),
                           child: Row(
                             children: [
                               const Icon(FontAwesomeIcons.images),
@@ -268,7 +287,10 @@ class OrderStatusWidget extends StatelessWidget with ApiCaller {
                     await post(
                       path: '/attached/${order.id}',
                       data: FormData.fromMap(
-                        {'attached': await MultipartFile.fromFile(croppedImage.path)},
+                        {
+                          'attached':
+                              await MultipartFile.fromFile(croppedImage.path)
+                        },
                       ),
                     );
                     AppRouter.sailor.navigate(
@@ -276,7 +298,7 @@ class OrderStatusWidget extends StatelessWidget with ApiCaller {
                       navigationType: NavigationType.pushAndRemoveUntil,
                       removeUntilPredicate: (_) => false,
                     );
-                  } catch (e) {} finally {
+                  } finally {
                     c.complete();
                   } // showDialog(
                   //   context: context,
@@ -300,34 +322,37 @@ class OrderStatusWidget extends StatelessWidget with ApiCaller {
       );
     }
     return CustomStepper(
-      controlsBuilder: (context, {onStepCancel, onStepContinue}) => const SizedBox.shrink(),
+      controlsBuilder: (context, {onStepCancel, onStepContinue}) =>
+          const SizedBox.shrink(),
       physics: const NeverScrollableScrollPhysics(),
       currentCustomStep: (order.status.id - 2 <= 0) ? 0 : order.status.id - 2,
       steps: buildSteps(),
     );
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        for (final status in StatusModel.statuses)
-          ListTile(
-            title: Text(status.name),
-            leading: Container(
-              height: 30,
-              width: 30,
-              alignment: Alignment.center,
-              decoration: const BoxDecoration(color: Colors.amber),
-              child: Text('${status.id}'),
-            ),
-          ),
-      ],
-    );
+    // return Column(
+    //   mainAxisSize: MainAxisSize.min,
+    //   children: [
+    //     for (final status in StatusModel.statuses)
+    //       ListTile(
+    //         title: Text(status.name),
+    //         leading: Container(
+    //           height: 30,
+    //           width: 30,
+    //           alignment: Alignment.center,
+    //           decoration: const BoxDecoration(color: Colors.amber),
+    //           child: Text('${status.id}'),
+    //         ),
+    //       ),
+    //   ],
+    // );
   }
 
-  static Future<PickedFile> _imagePick(ImageSource source) => ImagePicker().getImage(
+  static Future<PickedFile> _imagePick(ImageSource source) =>
+      ImagePicker().getImage(
         source: source,
       );
 
-  static Future<File> _imageCrop(PickedFile imageFile) => ImageCropper.cropImage(
+  static Future<File> _imageCrop(PickedFile imageFile) =>
+      ImageCropper.cropImage(
         sourcePath: imageFile.path,
         androidUiSettings: const AndroidUiSettings(
           toolbarWidgetColor: Colors.white,
@@ -343,7 +368,8 @@ class OrderStatusWidget extends StatelessWidget with ApiCaller {
     for (final status in StatusModel.statuses) {
       if (status.id == 2) continue;
 
-      final bool isActive = (status.id == order.status.id) || (order.status.id == 2 && status.id == 1);
+      final bool isActive = (status.id == order.status.id) ||
+          (order.status.id == 2 && status.id == 1);
 
       steps.add(
         CustomStep(

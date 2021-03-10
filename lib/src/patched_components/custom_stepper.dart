@@ -103,7 +103,9 @@ class _CustomStepperState extends State<CustomStepper> with TickerProviderStateM
       (int i) => GlobalKey(),
     );
 
-    for (int i = 0; i < widget.steps.length; i += 1) _oldStates[i] = widget.steps[i].state;
+    for (int i = 0; i < widget.steps.length; i += 1) {
+      _oldStates[i] = widget.steps[i].state;
+    }
   }
 
   @override
@@ -111,7 +113,9 @@ class _CustomStepperState extends State<CustomStepper> with TickerProviderStateM
     super.didUpdateWidget(oldWidget);
     assert(widget.steps.length == oldWidget.steps.length);
 
-    for (int i = 0; i < oldWidget.steps.length; i += 1) _oldStates[i] = oldWidget.steps[i].state;
+    for (int i = 0; i < oldWidget.steps.length; i += 1) {
+      _oldStates[i] = oldWidget.steps[i].state;
+    }
   }
 
   bool _isFirst(int index) {
@@ -228,10 +232,11 @@ class _CustomStepperState extends State<CustomStepper> with TickerProviderStateM
         duration: kThemeAnimationDuration,
       );
     } else {
-      if (widget.steps[index].state != CustomStepState.error)
+      if (widget.steps[index].state != CustomStepState.error) {
         return _buildCircle(index, false);
-      else
+      } else {
         return _buildTriangle(index, false);
+      }
     }
   }
 
@@ -525,10 +530,11 @@ class _CustomStepperState extends State<CustomStepper> with TickerProviderStateM
     assert(debugCheckHasMaterial(context));
     assert(debugCheckHasMaterialLocalizations(context));
     assert(() {
-      if (context.findAncestorWidgetOfExactType<CustomStepper>() != null)
+      if (context.findAncestorWidgetOfExactType<CustomStepper>() != null) {
         throw FlutterError('CustomSteppers must not be nested.\n'
             'The material specification advises that one should avoid embedding '
             'steppers within steppers. ');
+      }
       return true;
     }());
     assert(widget.type != null);

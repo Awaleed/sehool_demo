@@ -1,12 +1,12 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
-import 'package:sehool/src/repositories/auth_repository.dart';
 
 import '../../../init_injectable.dart';
 import '../../core/api_caller.dart';
 import '../../helpers/helper.dart';
 import '../../models/cart_model.dart';
+import '../../repositories/auth_repository.dart';
 
 part 'checkout_cubit.freezed.dart';
 part 'checkout_state.dart';

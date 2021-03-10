@@ -1,11 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'package:sehool/src/components/organization_form.dart';
-import 'package:sehool/src/models/association_model.dart';
-
 import '../data/user_datasource.dart';
 import 'address_model.dart';
+import 'association_model.dart';
 import 'order_model.dart';
 import 'product_model.dart';
 import 'user_model.dart';
@@ -32,7 +30,7 @@ class CartModel {
 
   CouponModel coupon;
 
-  double deliveryFees = 50;
+  double deliveryFees ;
 
   double get totalWithoutDiscount => subtotalWithDelivery * 1.15;
   double get total => discountedSubtotal * 1.15;
@@ -72,7 +70,7 @@ class CartModel {
 
   double get discountAmount => subtotalWithDelivery - discountedSubtotal;
 
-  bool get validate => paymentMethod != null && (address != null || organization);
+  bool get validate =>deliveryFees!=null&& paymentMethod != null && (address != null || organization);
 
   Map<String, dynamic> toJson() {
     return {

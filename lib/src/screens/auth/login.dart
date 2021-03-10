@@ -6,9 +6,6 @@ import 'package:division/division.dart';
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:image_cropper/image_cropper.dart';
-import 'package:image_picker/image_picker.dart';
 
 import '../../../generated/l10n.dart';
 import '../../../init_injectable.dart';

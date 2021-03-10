@@ -2,7 +2,6 @@ import 'package:division/division.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sailor/sailor.dart';
-import '../../home/home.dart';
 
 import '../../../../generated/l10n.dart';
 import '../../../../init_injectable.dart';
@@ -11,6 +10,7 @@ import '../../../cubits/settings_cubit/settings_cubit.dart';
 import '../../../helpers/helper.dart';
 import '../../../models/language_model.dart';
 import '../../../routes/config_routes.dart';
+import '../../home/home.dart';
 import '../../splash.dart';
 
 class LanguageScreen extends StatefulWidget {
@@ -196,9 +196,6 @@ class _LanguageScreenState extends State<LanguageScreen> {
                       Container(
                         height: 40,
                         width: 40,
-                        child: FittedBox(
-                          child: Text(_language.code),
-                        ),
                         decoration: BoxDecoration(
                           borderRadius: const BorderRadius.all(
                             Radius.circular(40),
@@ -207,6 +204,9 @@ class _LanguageScreenState extends State<LanguageScreen> {
                           //   image: AssetImage(_language.flag),
                           //   fit: BoxFit.cover,
                           // ),
+                        ),
+                        child: FittedBox(
+                          child: Text(_language.code),
                         ),
                       ),
                       Container(

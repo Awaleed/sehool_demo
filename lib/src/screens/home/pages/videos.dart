@@ -7,9 +7,18 @@ class VideosPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.symmetric(horizontal: 0),
-      child: VideosCarouselWidget(),
+    return Padding(
+      padding: const EdgeInsets.symmetric(),
+      child: Column(
+        children: [
+          Image.asset(
+            'assets/images/logo.png',
+            height: 100,
+            width: 100,
+          ),
+          const Expanded(child: VideosCarouselWidget()),
+        ],
+      ),
     );
   }
 }

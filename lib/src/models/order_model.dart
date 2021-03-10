@@ -1,8 +1,8 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:sehool/generated/l10n.dart';
-import 'package:sehool/src/models/user_model.dart';
 
+import '../../generated/l10n.dart';
 import 'address_model.dart';
+import 'user_model.dart';
 
 part 'order_model.g.dart';
 

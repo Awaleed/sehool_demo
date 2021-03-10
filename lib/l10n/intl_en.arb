@@ -1,5 +1,7 @@
 {
   "@@locale": "en",
+  "not_in_my_points_program": "The chosen method of payment is not counted under the Neqaty program",
+  "@not_in_my_points_program": {},
   "who_are_we": "Who are we",
   "@who_are_we": {},
   "payment": "Payment",

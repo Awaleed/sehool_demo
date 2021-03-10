@@ -2,8 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:intl/intl.dart';
-import '../../helpers/helper.dart';
 
+import '../../helpers/helper.dart';
 import '../../models/product_model.dart';
 
 class CommentsListItemWidget extends StatelessWidget {

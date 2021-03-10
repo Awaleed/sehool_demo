@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../components/cart_product_preview.dart';
-import '../../../components/cart_text_field.dart';
 import '../../../models/cart_model.dart';
 
 class NotesPage extends StatelessWidget {

@@ -35,6 +35,16 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
+  /// `The chosen method of payment is not counted under the Neqaty program`
+  String get not_in_my_points_program {
+    return Intl.message(
+      'The chosen method of payment is not counted under the Neqaty program',
+      name: 'not_in_my_points_program',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Who are we`
   String get who_are_we {
     return Intl.message(

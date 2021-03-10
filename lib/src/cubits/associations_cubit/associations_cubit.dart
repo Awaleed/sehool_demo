@@ -1,13 +1,13 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
-import '../../models/association_model.dart';
+
 import '../../core/api_caller.dart';
 import '../../helpers/helper.dart';
-import '../../models/cart_model.dart';
+import '../../models/association_model.dart';
 
-part 'associations_state.dart';
 part 'associations_cubit.freezed.dart';
+part 'associations_state.dart';
 
 @injectable
 class AssociationsCubit extends Cubit<AssociationsState> with ApiCaller {

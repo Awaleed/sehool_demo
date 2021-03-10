@@ -7,8 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:package_info/package_info.dart';
-import 'package:sehool/src/helpers/helper.dart';
-import 'package:sehool/src/repositories/auth_repository.dart';
 import 'package:supercharged/supercharged.dart';
 import 'package:validators/validators.dart';
 
@@ -16,11 +14,12 @@ import '../../../../generated/l10n.dart';
 import '../../../../init_injectable.dart';
 import '../../../cubits/auth_cubit/auth_cubit.dart';
 import '../../../data/user_datasource.dart';
+import '../../../helpers/helper.dart';
 import '../../../models/user_model.dart';
+import '../../../repositories/auth_repository.dart';
 import '../../profile/pages/about.dart';
 import '../../profile/pages/addresses.dart';
 import '../../profile/pages/help.dart';
-import '../../profile/pages/language.dart';
 import '../../profile/pages/orders_history.dart';
 import '../../profile/profile_settings.dart';
 

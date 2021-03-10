@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:sehool/generated/l10n.dart';
 
+import '../../../../generated/l10n.dart';
 import '../../../../init_injectable.dart';
 import '../../../components/address_card.dart';
 import '../../../components/cart_dropdown.dart';

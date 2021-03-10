@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:arabic_numbers/arabic_numbers.dart';
 import 'package:chewie/chewie.dart';
-
 // ignore: implementation_imports
 import 'package:chewie/src/material_progress_bar.dart';
 // ignore: implementation_imports

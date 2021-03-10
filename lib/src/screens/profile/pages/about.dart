@@ -2,12 +2,12 @@ import 'package:animations/animations.dart';
 import 'package:division/division.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:sehool/src/helpers/helper.dart';
-import '../../home/home.dart';
 import 'package:supercharged/supercharged.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../generated/l10n.dart';
+import '../../../helpers/helper.dart';
+import '../../home/home.dart';
 
 class About extends StatefulWidget {
   const About({Key key}) : super(key: key);

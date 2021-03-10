@@ -1,5 +1,7 @@
 {
   "@@locale": "ar",
+  "not_in_my_points_program": "الطريقة المختارة للسداد لا تحتسب ضمن برنامج نقاطي",
+  "@not_in_my_points_program": {},
   "who_are_we": "من نحن",
   "@who_are_we": {},
   "payment": "الدفع",
@@ -216,7 +218,7 @@
   "@delete_address": {},
   "delivered": "تم التوصيل",
   "@delivered": {},
-  "delivery": "التوصيل",
+  "delivery": "جاري التوصيل",
   "@delivery": {},
   "delivery_date": "موعد التوصيل",
   "@delivery_date": {},

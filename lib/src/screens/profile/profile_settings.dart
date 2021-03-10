@@ -1,7 +1,6 @@
 import 'package:division/division.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../home/home.dart';
 
 import '../../../generated/l10n.dart';
 import '../../../init_injectable.dart';
@@ -15,6 +14,7 @@ import '../../helpers/helper.dart';
 import '../../models/form_data_model.dart';
 import '../../models/user_model.dart';
 import '../../routes/config_routes.dart';
+import '../home/home.dart';
 
 class ProfileSettingsScreen extends StatefulWidget {
   static const routeName = '/profile_settings';

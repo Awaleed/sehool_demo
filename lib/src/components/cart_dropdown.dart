@@ -1,9 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'message_check_box.dart';
-import '../models/product_model.dart';
 import 'package:supercharged/supercharged.dart';
+
 import '../../generated/l10n.dart';
 import '../../init_injectable.dart';
 import '../cubits/address_cubit/address_cubit.dart';
@@ -13,8 +12,10 @@ import '../helpers/helper.dart';
 import '../models/cart_model.dart';
 import '../models/dropdown_value_model.dart';
 import '../models/order_model.dart';
+import '../models/product_model.dart';
 import '../routes/config_routes.dart';
 import '../screens/profile/dialogs/new_address_dialog.dart';
+import 'message_check_box.dart';
 import 'my_error_widget.dart';
 
 class CartDropdown extends StatefulWidget {
@@ -62,7 +63,7 @@ class CartDropdownState extends State<CartDropdown> {
     super.dispose();
   }
 
-  void setValue(value) {
+  void setValue(dynamic value) {
     widget.onValueChanged?.call(value);
     setState(() => selectedValue = value);
   }

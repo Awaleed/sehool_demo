@@ -26,9 +26,11 @@ class _CouponCubit extends Cubit<_CouponState> with ApiCaller {
         path: '/coupon',
         data: {'name': couponStr.trim()},
       );
-      res.first['amount'] = double.tryParse('${res.first['amount']}' ?? '');
-      coupon = CouponModel.fromJson(res.first);
-      emit(_CouponState.success);
+      if (res is List<Map>) {
+        res.first['amount'] = double.tryParse('${res.first['amount']}' ?? '');
+        coupon = CouponModel.fromJson(res.first);
+        emit(_CouponState.success);
+      }
     } catch (e) {
       emit(_CouponState.failure);
       addError(e);
@@ -87,11 +89,12 @@ class _CartCouponFieldState extends State<CartCouponField> with ApiCaller {
       },
       builder: (context, state) {
         // final isLoading = state == _CouponState.loading;
-        final color = widget.cart.coupon != null || state == _CouponState.success
-            ? Colors.green.withOpacity(0.7)
-            : state == _CouponState.failure
-                ? Colors.red.withOpacity(0.7)
-                : Colors.white70;
+        final color =
+            widget.cart.coupon != null || state == _CouponState.success
+                ? Colors.green.withOpacity(0.7)
+                : state == _CouponState.failure
+                    ? Colors.red.withOpacity(0.7)
+                    : Colors.white70;
         return Padding(
           padding: const EdgeInsets.all(20.0),
           child: Column(
@@ -102,7 +105,8 @@ class _CartCouponFieldState extends State<CartCouponField> with ApiCaller {
                     value: widget.cart.fromWallet,
                     onChanged: (value) {
                       if (kUser.wallet < widget.cart.total) {
-                        Helpers.showErrorOverlay(context, error: S.current.sorry_your_balance_is_not_enough);
+                        Helpers.showErrorOverlay(context,
+                            error: S.current.sorry_your_balance_is_not_enough);
                       } else {
                         setState(() {
                           widget.cart.fromWallet = value;
@@ -218,24 +222,25 @@ class _CartCouponFieldState extends State<CartCouponField> with ApiCaller {
     );
   }
 
-  Widget _buildButton({
-    Widget label,
-    bool enabled = true,
-    VoidCallback onTap,
-  }) {
-    return ElevatedButton(
-      style: ButtonStyle(
-        minimumSize: MaterialStateProperty.all(
-          const Size.fromRadius(25),
-        ),
-        shape: MaterialStateProperty.all(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(25),
-          ),
-        ),
-      ),
-      onPressed: enabled ? onTap : null,
-      child: label,
-    );
-  }
+  // Widget _buildButton({
+  //   Widget label,
+  //   bool enabled = true,
+  //   VoidCallback onTap,
+  // }) {
+  //   return ElevatedButton(
+  //     style: ButtonStyle(
+  //       minimumSize: MaterialStateProperty.all(
+  //         const Size.fromRadius(25),
+  //       ),
+  //       shape: MaterialStateProperty.all(
+  //         RoundedRectangleBorder(
+  //           borderRadius: BorderRadius.circular(25),
+  //         ),
+  //       ),
+  //     ),
+  //     onPressed: enabled ? onTap : null,
+  //     child: label,
+  //   );
+  // }
+
 }

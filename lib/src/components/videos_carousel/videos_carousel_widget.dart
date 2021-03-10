@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supercharged/supercharged.dart';
@@ -27,14 +28,16 @@ class VideosCarouselWidget extends StatefulWidget {
 class _VideosCarouselWidgetState extends State<VideosCarouselWidget> {
   VideoCubit cubit;
   int currentItem = 0;
-  Map<int, VideoPlayerController> _controllers;
+  Map<int, VideoPlayerController> _videoControllers;
+  Map<int, ChewieController> _chewieControllers;
   bool canPlay = false;
 
   @override
   void initState() {
     super.initState();
     cubit = getIt<VideoCubit>();
-    _controllers = {};
+    _videoControllers = {};
+    _chewieControllers = {};
     selectedIndex.addListener(onPageChange);
   }
 
@@ -42,7 +45,11 @@ class _VideosCarouselWidgetState extends State<VideosCarouselWidget> {
   void dispose() {
     cubit.close();
     selectedIndex.removeListener(onPageChange);
-    for (final _controller in _controllers.values) {
+    for (final _controller in _videoControllers.values) {
+      _controller.pause();
+      _controller.dispose();
+    }
+    for (final _controller in _chewieControllers.values) {
       _controller.pause();
       _controller.dispose();
     }
@@ -52,7 +59,11 @@ class _VideosCarouselWidgetState extends State<VideosCarouselWidget> {
   void onPageChange() {
     if (selectedIndex.value != 3) {
       setState(() => canPlay = false);
-      for (final _controller in _controllers.values) {
+      for (final _controller in _videoControllers.values) {
+        _controller?.pause();
+        _controller?.seekTo(0.seconds);
+      }
+      for (final _controller in _chewieControllers.values) {
         _controller?.pause();
         _controller?.seekTo(0.seconds);
       }
@@ -65,7 +76,11 @@ class _VideosCarouselWidgetState extends State<VideosCarouselWidget> {
   Widget build(BuildContext context) {
     return RefreshIndicator(
       onRefresh: () async {
-        for (final _controller in _controllers.values) {
+        for (final _controller in _videoControllers.values) {
+          await _controller.pause();
+          await _controller.seekTo(0.seconds);
+        }
+        for (final _controller in _chewieControllers.values) {
           await _controller.pause();
           await _controller.seekTo(0.seconds);
         }
@@ -104,6 +119,18 @@ class _VideosCarouselWidgetState extends State<VideosCarouselWidget> {
     }
     return CarouselSlider.builder(
       itemCount: isLoading ? videosList.length + 5 : videosList.length,
+      options: CarouselOptions(
+        enableInfiniteScroll: false,
+        enlargeCenterPage: true,
+        scrollDirection: Axis.vertical,
+        aspectRatio: 1,
+        viewportFraction: .65,
+        onPageChanged: (index, reason) {
+          setState(() {
+            currentItem = index;
+          });
+        },
+      ),
       itemBuilder: (context, index) {
         if (index >= videosList.length) {
           return const VideosCarouselLoadingItemWidget();
@@ -119,14 +146,46 @@ class _VideosCarouselWidgetState extends State<VideosCarouselWidget> {
             ));
           }
           final video = videosList.elementAt(index);
-          VideoPlayerController _controller = _controllers[video.id];
-          if (_controller == null) {
+          VideoPlayerController _controller = _videoControllers[video.id];
+          ChewieController _chewieController = _chewieControllers[video.id];
+          if (_controller == null || _chewieController == null) {
+            if (_videoControllers.length == _chewieControllers.length &&
+                _chewieControllers.length > 3) {
+              final vC = _videoControllers.entries.first;
+              vC.value.dispose();
+              _videoControllers[vC.key] = null;
+              final cC = _chewieControllers.entries.first;
+              cC.value.dispose();
+              _chewieControllers[cC.key] = null;
+            }
             _controller = VideoPlayerController.network(video.video)
               ..initialize().then((_) {
                 _controller.setLooping(true);
                 setState(() {});
               });
-            _controllers[video.id] = _controller;
+            _chewieController = ChewieController(
+              videoPlayerController: _controller,
+              autoPlay: true,
+              looping: true,
+              showControlsOnInitialize: false,
+              allowPlaybackSpeedChanging: false,
+
+              // Try playing around with some of these other options:
+
+              // showControls: false,
+              // materialProgressColors: ChewieProgressColors(
+              //   playedColor: Colors.red,
+              //   handleColor: Colors.blue,
+              //   backgroundColor: Colors.grey,
+              //   bufferedColor: Colors.lightGreen,
+              // ),
+              // placeholder: Container(
+              //   color: Colors.grey,
+              // ),
+              // autoInitialize: true,
+            );
+            _videoControllers[video.id] = _controller;
+            _chewieControllers[video.id] = _chewieController;
           }
 
           final play = currentItem == index;
@@ -141,23 +200,11 @@ class _VideosCarouselWidgetState extends State<VideosCarouselWidget> {
           }
           return VideosCarouselItemWidget(
             play: play,
-            controller: _controller,
+            chewieController: _chewieController,
             video: video,
           );
         }
       },
-      options: CarouselOptions(
-        enableInfiniteScroll: false,
-        enlargeCenterPage: true,
-        scrollDirection: Axis.vertical,
-        aspectRatio: 1,
-        // viewportFraction: 1,
-        onPageChanged: (index, reason) {
-          setState(() {
-            currentItem = index;
-          });
-        },
-      ),
     );
   }
 }
