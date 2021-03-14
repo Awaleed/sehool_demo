@@ -144,7 +144,7 @@ class _OrganizationFormState extends State<OrganizationForm> {
             widget.cart.association = _value;
             widget.cart.associationDiscount = value.discount;
           },
-          S.current.association,
+          S.current.choose_an_association,
         ),
 
         // Form(

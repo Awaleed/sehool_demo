@@ -35,6 +35,16 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
+  /// `Choose an association`
+  String get choose_an_association {
+    return Intl.message(
+      'Choose an association',
+      name: 'choose_an_association',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Please choose an association`
   String get please_choose_an_association {
     return Intl.message(

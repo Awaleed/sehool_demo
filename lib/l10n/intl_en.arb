@@ -1,5 +1,7 @@
 {
   "@@locale": "en",
+  "choose_an_association": "Choose an association",
+  "@choose_an_association": {},
   "please_choose_an_association": "Please choose an association",
   "@please_choose_an_association": {},
   "kingdom_of_saudi_arabia_riyadh": "Kingdom of Saudi Arabia, Riyadh",

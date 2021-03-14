@@ -75,6 +75,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "charities_discount" : MessageLookupByLibrary.simpleMessage("خصم خاص بالجمعيات الخيرية"),
     "check_that_you_filled_all_fields_correctly" : MessageLookupByLibrary.simpleMessage("تأكد من أنك ملأت جميع الحقول بشكل صحيح"),
     "checkout" : MessageLookupByLibrary.simpleMessage("اكمال الطلب"),
+    "choose_an_association" : MessageLookupByLibrary.simpleMessage("اختر جمعية"),
     "choose_an_image" : MessageLookupByLibrary.simpleMessage("اختر صورة"),
     "choose_another_item" : MessageLookupByLibrary.simpleMessage("اشتر صنف اخر"),
     "cites" : MessageLookupByLibrary.simpleMessage("المدن"),

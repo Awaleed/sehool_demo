@@ -1,5 +1,7 @@
 {
   "@@locale": "ar",
+  "choose_an_association": "اختر جمعية",
+  "@choose_an_association": {},
   "please_choose_an_association": "الرجاء اختيار جمعية",
   "@please_choose_an_association": {},
   "kingdom_of_saudi_arabia_riyadh": "المملكة العربية السعودية، الرياض",

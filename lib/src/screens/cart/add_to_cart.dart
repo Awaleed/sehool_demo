@@ -365,7 +365,7 @@ class _CartScrollState extends State<CartScroll> {
         backgroundColor: enabled ? MaterialStateProperty.all(Theme.of(context).primaryColor.withOpacity(.9)) : null,
       ),
       onPressed: enabled ? onTap : null,
-      child: label,
+      child: FittedBox(child: label),
     );
   }
 

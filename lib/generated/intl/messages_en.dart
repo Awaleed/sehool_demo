@@ -75,6 +75,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "charities_discount" : MessageLookupByLibrary.simpleMessage("Charities discount"),
     "check_that_you_filled_all_fields_correctly" : MessageLookupByLibrary.simpleMessage("Check that you filled all fields correctly"),
     "checkout" : MessageLookupByLibrary.simpleMessage("Checkout"),
+    "choose_an_association" : MessageLookupByLibrary.simpleMessage("Choose an association"),
     "choose_an_image" : MessageLookupByLibrary.simpleMessage("Choose an image"),
     "choose_another_item" : MessageLookupByLibrary.simpleMessage("Buy another item"),
     "cites" : MessageLookupByLibrary.simpleMessage("Cites"),
