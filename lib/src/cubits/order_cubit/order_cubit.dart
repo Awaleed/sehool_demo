@@ -21,6 +21,18 @@ class OrderCubit extends Cubit<OrderState> {
     emit(const OrderState.loading());
     try {
       final value = await _productRepository.getOrders();
+      value.removeWhere((element) => element.status == null);
+      emit(OrderState.success(value));
+    } catch (e) {
+      emit(OrderState.failure(message: Helpers.mapErrorToMessage(e)));
+      addError(e);
+    }
+  }
+
+  Future<void> refreshOrders() async {
+    try {
+      final value = await _productRepository.getOrders();
+      value.removeWhere((element) => element.status == null);
       emit(OrderState.success(value));
     } catch (e) {
       emit(OrderState.failure(message: Helpers.mapErrorToMessage(e)));

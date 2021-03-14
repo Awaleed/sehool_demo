@@ -189,8 +189,20 @@ class _ProductScreenState extends State<ProductScreen> {
                                         color: Colors.black,
                                         borderRadius: BorderRadius.circular(25),
                                       ),
-                                      child: Text(
-                                        '${widget.product.price} ﷼ / ${S.current.piece}',
+                                      child: Text.rich(
+                                        TextSpan(
+                                          text: '${widget.product.price.toInt()} ﷼\n',
+                                          children: [
+                                            TextSpan(
+                                              text: widget.product.kilo,
+                                              style: Theme.of(context).textTheme.headline6.copyWith(
+                                                    color: Colors.amber,
+                                                    fontWeight: FontWeight.normal,
+                                                  ),
+                                            ),
+                                          ],
+                                        ),
+                                        textAlign: TextAlign.center,
                                         style: Theme.of(context).textTheme.headline5.copyWith(color: Colors.amber),
                                       ),
                                     ),

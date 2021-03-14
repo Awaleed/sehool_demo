@@ -4,10 +4,11 @@ import 'package:json_annotation/json_annotation.dart';
 part 'address_model.g.dart';
 
 @JsonSerializable(
-    fieldRename: FieldRename.snake,
-    explicitToJson: true,
-    nullable: true,
-    createToJson: false)
+  fieldRename: FieldRename.snake,
+  explicitToJson: true,
+  nullable: true,
+  createToJson: false,
+)
 class AddressModel {
   const AddressModel({
     this.city,

@@ -58,7 +58,12 @@ class UserPage extends StatelessWidget {
   }
 }
 
-class UserCard extends StatelessWidget {
+class UserCard extends StatefulWidget {
+  @override
+  _UserCardState createState() => _UserCardState();
+}
+
+class _UserCardState extends State<UserCard> {
   Widget _buildUserRow() {
     return Row(
       children: <Widget>[
@@ -66,7 +71,9 @@ class UserCard extends StatelessWidget {
           style: userImageStyle,
           child: CircleAvatar(
             radius: 40,
-            backgroundImage: isURL(kUser.image) ? CachedNetworkImageProvider(kUser.image) : const AssetImage('assets/img/user.png'),
+            backgroundImage: isURL(kUser.image)
+                ? CachedNetworkImageProvider(kUser.image)
+                : const AssetImage('assets/img/user.png'),
             onBackgroundImageError: (exception, stackTrace) => const Center(
               child: Icon(Icons.not_interested),
             ),
@@ -78,7 +85,9 @@ class UserCard extends StatelessWidget {
             Txt(kUser.name, style: nameTextStyle),
             const SizedBox(height: 5),
             Txt(
-              (kUser.level == UserLevel.merchant) ? S.current.merchant : S.current.customer,
+              (kUser.level == UserLevel.merchant)
+                  ? S.current.merchant
+                  : S.current.customer,
               style: nameDescriptionTextStyle,
             )
           ],
@@ -107,7 +116,16 @@ class UserCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
-                _buildUserStatsItem(kUser.vatNumber, FluentIcons.money_24_regular),
+                _buildUserStatsItem(
+                  '${kUser.wallet} ﷼',
+                  FluentIcons.money_24_regular,
+                  () async {
+                    final completer = Helpers.showLoading(context);
+                    await getIt<IAuthRepository>().me();
+                    setState(() {});
+                    completer.complete();
+                  },
+                ),
                 _buildUserStatsItem(kUser.storeName, Icons.store),
                 // _buildUserStatsItem(
                 //     '@${kUser.id}', FluentIcons.person_accounts_24_regular)
@@ -118,17 +136,20 @@ class UserCard extends StatelessWidget {
     );
   }
 
-  Widget _buildUserStatsItem(String value, IconData icon) {
+  Widget _buildUserStatsItem(String value, IconData icon, [Function() onTap]) {
     return Expanded(
-      child: Column(
-        children: <Widget>[
-          Icon(
-            icon,
-            color: Colors.white,
-          ),
-          const SizedBox(height: 5),
-          Txt(value, style: nameDescriptionTextStyle),
-        ],
+      child: InkWell(
+        onTap: onTap,
+        child: Column(
+          children: <Widget>[
+            Icon(
+              icon,
+              color: Colors.white,
+            ),
+            const SizedBox(height: 5),
+            Txt(value, style: nameDescriptionTextStyle),
+          ],
+        ),
       ),
     );
   }
@@ -146,8 +167,6 @@ class UserCard extends StatelessWidget {
       ),
     );
   }
-
-  //Styling
 
   final ParentStyle userCardStyle = ParentStyle()
     // ..height(175)
@@ -241,17 +260,22 @@ class _SettingsState extends State<Settings> {
           onRefresh: widget.onRefresh,
           icon: FluentIcons.sign_out_20_regular,
           title: S.current.log_out,
-          // description: S.current.change_account,
           iswarrning: true,
           onTap: () {
             final action = CupertinoActionSheet(
               title: Text(
                 S.current.log_out,
-                style: Theme.of(context).textTheme.headline3.copyWith(color: Colors.amber),
+                style: Theme.of(context)
+                    .textTheme
+                    .headline3
+                    .copyWith(color: Colors.amber),
               ),
               message: Text(
                 S.current.do_you_want_to_log_out_and_switch_account,
-                style: Theme.of(context).textTheme.bodyText2.copyWith(color: Colors.amberAccent),
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText2
+                    .copyWith(color: Colors.amberAccent),
               ),
               actions: <Widget>[
                 CupertinoActionSheetAction(
@@ -261,7 +285,10 @@ class _SettingsState extends State<Settings> {
                   },
                   child: Text(
                     S.current.yes,
-                    style: Theme.of(context).textTheme.button.copyWith(color: Colors.red),
+                    style: Theme.of(context)
+                        .textTheme
+                        .button
+                        .copyWith(color: Colors.red),
                   ),
                 ),
                 CupertinoActionSheetAction(
@@ -285,82 +312,39 @@ class _SettingsState extends State<Settings> {
                 ),
               ),
             );
-            showCupertinoModalPopup(context: context, builder: (context) => action);
+            showCupertinoModalPopup(
+                context: context, builder: (context) => action);
           },
         ),
-
         SettingsItem(
           onRefresh: widget.onRefresh,
           icon: FluentIcons.location_12_regular,
           title: S.current.addresses,
           target: const AddressesScreen(),
-          // iswarrning: true,
-          // onTap: () => AppRouter.sailor.navigate(AddressesScreen.routeName),
-          // description: S.current.your_addresses_that_you_want_us_to_reach_you,
         ),
-        // SettingsItem(
-        //   onRefresh: widget.onRefresh,
-        //   icon: FluentIcons.local_language_16_regular,
-        //   title: S.current.languages,
-        //   target: const LanguageScreen(),
-        //   // description: S.current.we_speak_more_than_one_language,
-        // ),
         SettingsItem(
           onRefresh: widget.onRefresh,
           icon: FluentIcons.settings_28_regular,
           title: S.current.settings,
           target: const ProfileSettingsScreen(),
-          // description: S.current.your_application_your_rules,
         ),
         SettingsItem(
           onRefresh: widget.onRefresh,
           icon: FluentIcons.history_20_filled,
           title: S.current.my_orders,
           target: const OrdersHistory(),
-          // description: S.current.your_journey_with_us,
         ),
-        // if (kUser.level != UserLevel.merchant)
-        SettingsItem(
-          onTap: () async {
-            final completer = Helpers.showLoading(context);
-            await getIt<IAuthRepository>().me();
-            setState(() {});
-            completer.complete();
-          },
-          icon: FluentIcons.money_24_regular,
-          title: '${S.current.my_points} ${kUser.wallet} ﷼',
-          // description: S.current.we_speak_more_than_one_language,
-        ),
-        SettingsItem(
-          onRefresh: widget.onRefresh,
-          icon: FluentIcons.chat_help_24_regular,
-          title: S.current.help_support,
-          target: const HelpAndSupport(),
-          // description: S.current.we_are_here_for_you,
-        ),
-        // SettingsItem(onRefresh: onRefresh,
-        //     icon: FluentIcons.money_16_regular,
-        //     title: S.current.balance,
-        //     target: const AddressesScreen(),
-        // description: 'محفظتك الخاصة',),
-        FutureBuilder<PackageInfo>(
-            future: PackageInfo.fromPlatform(),
-            builder: (context, snapshot) {
-              String message;
-              if (snapshot.hasData) {
-                message = snapshot.data.version;
-              } else {
-                message = 'loading';
-              }
-              // : '';
-              return SettingsItem(
-                onRefresh: widget.onRefresh,
-                icon: FluentIcons.info_16_regular,
-                title: S.current.about,
-                target: const About(),
-                description: '${S.current.version}  $message',
-              );
-            }),
+        if (kUser.level == UserLevel.customer)
+          SettingsItem(
+            onTap: () async {
+              final completer = Helpers.showLoading(context);
+              await getIt<IAuthRepository>().me();
+              setState(() {});
+              completer.complete();
+            },
+            icon: FluentIcons.money_24_regular,
+            title: '${S.current.my_points} ${kUser.wallet} ﷼',
+          ),
       ],
     );
   }
@@ -424,14 +408,17 @@ class _SettingsItemState extends State<SettingsItem> {
             children: <Widget>[
               Parent(
                 style: settingsItemIconStyle(iswarrning: widget.iswarrning),
-                child: Icon(widget.icon, color: widget.iswarrning ? Colors.red : Colors.amber, size: 20),
+                child: Icon(widget.icon,
+                    color: widget.iswarrning ? Colors.red : Colors.amber,
+                    size: 20),
               ),
               const SizedBox(width: 10),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Txt(widget.title, style: itemTitleTextStyle(iswarrning: widget.iswarrning)),
+                  Txt(widget.title,
+                      style: itemTitleTextStyle(iswarrning: widget.iswarrning)),
                   if (widget.description != null) ...[
                     const SizedBox(height: 5),
                     Txt(widget.description, style: itemDescriptionTextStyle),
@@ -457,7 +444,8 @@ class _SettingsItemState extends State<SettingsItem> {
     ..animate(150, Curves.easeInOut);
 
   ParentStyle settingsItemIconStyle({bool iswarrning}) => ParentStyle()
-    ..background.color(iswarrning ? Colors.red.withOpacity(.1) : Colors.amber.withOpacity(.1))
+    ..background.color(
+        iswarrning ? Colors.red.withOpacity(.1) : Colors.amber.withOpacity(.1))
     ..margin(horizontal: 15)
     ..padding(all: 12)
     ..borderRadius(all: 30);

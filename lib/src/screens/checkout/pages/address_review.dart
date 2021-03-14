@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:sehool/src/data/user_datasource.dart';
+import 'package:sehool/src/models/form_data_model.dart';
+import 'package:sehool/src/models/user_model.dart';
+import 'package:validators/validators.dart';
 
 import '../../../../generated/l10n.dart';
 import '../../../../init_injectable.dart';
@@ -17,11 +21,13 @@ class AddressReviewPage extends StatefulWidget {
   const AddressReviewPage({
     Key key,
     @required this.cart,
+    @required this.otherFormKey,
     this.onChanged,
   }) : super(key: key);
 
   final CartModel cart;
   final ValueChanged onChanged;
+  final GlobalKey<FormState> otherFormKey;
 
   @override
   _AddressReviewPageState createState() => _AddressReviewPageState();
@@ -52,154 +58,39 @@ class _AddressReviewPageState extends State<AddressReviewPage> {
   @override
   Widget build(BuildContext context) {
     if (widget.cart.organization) {
-      return SingleChildScrollView(
-        child: Column(
-          children: [
-            Card(
-              color: Colors.white70,
-              // shape: OutlineInputBorder(
-              //   borderRadius: BorderRadius.circular(25),
-              // ),
-              child: ListTile(
-                leading: Image.asset('assets/images/sign-warning.png'),
-                title: Text(
-                  '${S.current.org_delivery_msg_p1} ${widget.cart.association?.name ?? ''} ${S.current.org_delivery_msg_p2}',
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.black, fontWeight: FontWeight.normal),
-                ),
-              ),
-            ),
-          ],
-        ),
-      );
-    }
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          const SizedBox(height: 20),
-          ElevatedButton(
-            style: ButtonStyle(
-              minimumSize: MaterialStateProperty.all(
-                const Size.fromRadius(20),
-              ),
-              shape: MaterialStateProperty.all(
-                RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15),
-                ),
-              ),
-              backgroundColor: widget.cart.hasOtherName ? null : MaterialStateProperty.all(Theme.of(context).primaryColor.withOpacity(.9)),
-            ),
-            onPressed: widget.cart.hasOtherName
-                ? null
-                : () async {
-                    final _cubit = getIt<AddressCubit>();
-                    await AppRouter.sailor.navigate(
-                      NewAddressDialog.routeName,
-                      params: {'address_cubit': _cubit},
-                    );
-                    await _cubit.close();
-                    await cubit.getDropdownValues(DropdownValueType.addresses);
-                    setState(() {
-                      final value = cubit.state.maybeWhen(
-                            success: (values) => values?.isNotEmpty ?? false ? values.last : null,
-                            orElse: () => null,
-                          ) ??
-                          widget.cart.address;
-
-                      // widget.cart.address = value;
-                      // widget.onChanged?.call(value);
-                      addressDropdownKey?.currentState?.setValue(value);
-                    });
-                  },
-            child: Text(
-              S.current.add_a_new_address,
+      if (widget.cart.association == null) {
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 15),
+          child: ListTile(
+            leading: Image.asset('assets/images/sign-warning.png'),
+            title: Text(
+              S.current.please_choose_an_association,
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.black, fontWeight: FontWeight.normal),
             ),
           ),
-          // Card(
-          //   color: Colors.white70,
-          //   // shape: OutlineInputBorder(
-          //   //   borderRadius: BorderRadius.circular(25),
-          //   // ),
-          //   child: ListTile(
-          //     tileColor: widget.cart.hasOtherName ? Colors.grey.withOpacity(.7) : null,
-          //     title: Text(
-          //       S.current.add_a_new_address,
-          //       textAlign: TextAlign.center,
-          //       style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.black, fontWeight: FontWeight.normal),
-          //     ),
-          //     onTap: widget.cart.hasOtherName
-          //         ? null
-          //         : () async {
-          //             final _cubit = getIt<AddressCubit>();
-          //             await AppRouter.sailor.navigate(
-          //               NewAddressDialog.routeName,
-          //               params: {'address_cubit': _cubit},
-          //             );
-          //             await _cubit.close();
-          //             cubit.getDropdownValues(DropdownValueType.addresses);
-          //           },
-          //   ),
-          // ),
-
-          Row(
-            children: [
-              Switch(
-                value: widget.cart.hasOtherName,
-                onChanged: (value) {
-                  widget.cart.otherName = null;
-                  setState(() {
-                    widget.cart.hasOtherName = value;
-                  });
-                },
-              ),
-              const SizedBox(width: 10),
-              Text(S.current.the_recipient_is_someone_else),
-            ],
+        );
+      } else {
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 15),
+          child: ListTile(
+            leading: Image.asset('assets/images/sign-warning.png'),
+            title: Text(
+              '${S.current.org_delivery_msg_p1} ${widget.cart.association?.name ?? ''} ${S.current.org_delivery_msg_p2}',
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.black, fontWeight: FontWeight.normal),
+            ),
           ),
-          if (widget.cart.hasOtherName) ...[
-            TextField(
-              controller: otherNameController,
-              decoration: InputDecoration(
-                hintText: S.current.full_name,
-                hintStyle: const TextStyle(color: Colors.black26),
-                filled: true,
-                fillColor: Colors.white,
-                contentPadding: const EdgeInsets.symmetric(horizontal: 15),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(25),
-                ),
-              ),
-              keyboardType: TextInputType.text,
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.bodyText2,
-              onChanged: (value) {
-                widget.cart.otherName = value;
-              },
-            ),
-            const SizedBox(height: 10),
-            TextField(
-              controller: otherPhoneController,
-              decoration: InputDecoration(
-                hintText: S.current.phone,
-                hintStyle: const TextStyle(color: Colors.black26),
-                filled: true,
-                fillColor: Colors.white,
-                contentPadding: const EdgeInsets.symmetric(horizontal: 15),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(25),
-                ),
-              ),
-              keyboardType: TextInputType.number,
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.bodyText2,
-              onChanged: (value) {
-                widget.cart.otherPhone = value;
-              },
-            ),
-            const SizedBox(height: 10),
+        );
+      }
+    }
+    return SingleChildScrollView(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          const SizedBox(height: 20),
+          if (!widget.cart.pickup)
             ElevatedButton(
               style: ButtonStyle(
                 minimumSize: MaterialStateProperty.all(
@@ -210,94 +101,191 @@ class _AddressReviewPageState extends State<AddressReviewPage> {
                     borderRadius: BorderRadius.circular(15),
                   ),
                 ),
-                backgroundColor: MaterialStateProperty.all(Theme.of(context).primaryColor.withOpacity(.9)),
+                backgroundColor: widget.cart.hasOtherName ? null : MaterialStateProperty.all(Theme.of(context).primaryColor.withOpacity(.9)),
               ),
-              onPressed: () async {
-                final _cubit = getIt<AddressCubit>();
-                await AppRouter.sailor.navigate(
-                  NewAddressDialog.routeName,
-                  params: {'address_cubit': _cubit},
-                );
-                await _cubit.close();
-                await cubit.getDropdownValues(DropdownValueType.addresses);
-                setState(() {
-                  final value = cubit.state.maybeWhen(
-                        success: (values) => values?.isNotEmpty ?? false ? values.last : null,
-                        orElse: () => null,
-                      ) ??
-                      widget.cart.address;
+              onPressed: widget.cart.hasOtherName
+                  ? null
+                  : () async {
+                      final _cubit = getIt<AddressCubit>();
+                      await AppRouter.sailor.navigate(
+                        NewAddressDialog.routeName,
+                        params: {'address_cubit': _cubit},
+                      );
+                      await _cubit.close();
+                      await cubit.getDropdownValues(DropdownValueType.addresses);
+                      setState(() {
+                        final value = cubit.state.maybeWhen(
+                              success: (values) => values?.isNotEmpty ?? false ? values.last : null,
+                              orElse: () => null,
+                            ) ??
+                            widget.cart.address;
 
-                  // widget.cart.address = value;
-                  // widget.onChanged?.call(value);
-                  addressDropdownKey?.currentState?.setValue(value);
-                });
-              },
+                        // widget.cart.address = value;
+                        // widget.onChanged?.call(value);
+                        addressDropdownKey?.currentState?.setValue(value);
+                      });
+                    },
               child: Text(
-                S.current.add_recipient_address,
+                S.current.add_a_new_address,
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.black, fontWeight: FontWeight.normal),
               ),
             ),
-            // Card(
-            //   color: Colors.white70,
-            //   // shape: OutlineInputBorder(
-            //   //   borderRadius: BorderRadius.circular(25),
-            //   // ),
-            //   child: ListTile(
-            //     title: Text(
-            //       S.current.add_recipient_address,
-            //       textAlign: TextAlign.center,
-            //       style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.black, fontWeight: FontWeight.normal),
-            //     ),
-            //     onTap: () async {
-            //       final _cubit = getIt<AddressCubit>();
-            //       await AppRouter.sailor.navigate(
-            //         NewAddressDialog.routeName,
-            //         params: {'address_cubit': _cubit},
-            //       );
-            //       await _cubit.close();
-            //       cubit.getDropdownValues(DropdownValueType.addresses);
-            //     },
-            //   ),
-            // ),
-          ],
-          const SizedBox(height: 10),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: AddressCard(address: widget.cart.address),
-          ),
-          const SizedBox(height: 10),
-          ListTile(
-            leading: Padding(
-              padding: const EdgeInsets.all(3),
-              child: SvgPicture.asset('assets/images/31_104880.svg'),
+          if (kUser.level == UserLevel.merchant)
+            Row(
+              children: [
+                Switch(
+                  value: widget.cart.pickup,
+                  onChanged: (value) {
+                    setState(() {
+                      widget.cart.pickup = value;
+                    });
+                  },
+                ),
+                const SizedBox(width: 10),
+                Text(S.current.pickup),
+              ],
             ),
-            title: Text(
-              S.current.saved_addresses,
-              style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.black, fontWeight: FontWeight.bold),
+          if (!widget.cart.pickup) ...[
+            Row(
+              children: [
+                Switch(
+                  value: widget.cart.hasOtherName,
+                  onChanged: (value) {
+                    widget.cart.otherName = null;
+                    setState(() {
+                      widget.cart.hasOtherName = value;
+                    });
+                  },
+                ),
+                const SizedBox(width: 10),
+                Text(S.current.the_recipient_is_someone_else),
+              ],
             ),
-            subtitle: Text(S.current.please_choose_one),
-          ),
-          const SizedBox(height: 10),
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: CartDropdown(
-                key: addressDropdownKey,
-                isRadio: true,
-                dropdownType: DropdownValueType.addresses,
-                initialValue: widget.cart.address,
-                itemAsString: (value) => (value as AddressModel).address,
-                cubit: cubit,
-                onValueChanged: (value) {
-                  setState(() {
-                    widget.cart.address = value;
-                  });
-                  widget.onChanged(value);
-                },
+            if (widget.cart.hasOtherName) ...[
+              Form(
+                key: widget.otherFormKey,
+                child: Column(
+                  children: [
+                    TextFormField(
+                      controller: otherNameController,
+                      decoration: InputDecoration(
+                        hintText: S.current.full_name,
+                        hintStyle: const TextStyle(color: Colors.black26),
+                        filled: true,
+                        fillColor: Colors.white,
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 15),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25),
+                        ),
+                      ),
+                      keyboardType: TextInputType.text,
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.bodyText2,
+                      validator: Validators.shortStringValidator,
+                      onChanged: (value) {
+                        widget.cart.otherName = value;
+                      },
+                    ),
+                    const SizedBox(height: 10),
+                    TextFormField(
+                      controller: otherPhoneController,
+                      decoration: InputDecoration(
+                        hintText: S.current.phone,
+                        hintStyle: const TextStyle(color: Colors.black26),
+                        filled: true,
+                        fillColor: Colors.white,
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 15),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25),
+                        ),
+                      ),
+                      keyboardType: TextInputType.number,
+                      validator: (value) {
+                        if (!isNumeric(value.trim()) || value.isEmpty || value == null) {
+                          return S.current.enter_a_valid_number;
+                        }
+                        return null;
+                      },
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.bodyText2,
+                      onChanged: (value) {
+                        widget.cart.otherPhone = value;
+                      },
+                    ),
+                  ],
+                ),
               ),
+              const SizedBox(height: 10),
+              ElevatedButton(
+                style: ButtonStyle(
+                  minimumSize: MaterialStateProperty.all(
+                    const Size.fromRadius(20),
+                  ),
+                  shape: MaterialStateProperty.all(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                  ),
+                  backgroundColor: MaterialStateProperty.all(Theme.of(context).primaryColor.withOpacity(.9)),
+                ),
+                onPressed: () async {
+                  final _cubit = getIt<AddressCubit>();
+                  await AppRouter.sailor.navigate(
+                    NewAddressDialog.routeName,
+                    params: {'address_cubit': _cubit},
+                  );
+                  await _cubit.close();
+                  await cubit.getDropdownValues(DropdownValueType.addresses);
+                  setState(() {
+                    final value = cubit.state.maybeWhen(
+                          success: (values) => values?.isNotEmpty ?? false ? values.last : null,
+                          orElse: () => null,
+                        ) ??
+                        widget.cart.address;
+
+                    // widget.cart.address = value;
+                    // widget.onChanged?.call(value);
+                    addressDropdownKey?.currentState?.setValue(value);
+                  });
+                },
+                child: Text(
+                  S.current.add_recipient_address,
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.black, fontWeight: FontWeight.normal),
+                ),
+              ),
+            ],
+            const SizedBox(height: 10),
+            AddressCard(address: widget.cart.address),
+            const SizedBox(height: 10),
+            ListTile(
+              leading: Padding(
+                padding: const EdgeInsets.all(3),
+                child: SvgPicture.asset('assets/images/31_104880.svg'),
+              ),
+              title: Text(
+                S.current.saved_addresses,
+                style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.black, fontWeight: FontWeight.bold),
+              ),
+              subtitle: Text(S.current.please_choose_one),
             ),
-          ),
+            const SizedBox(height: 10),
+            CartDropdown(
+              key: addressDropdownKey,
+              // isRadio: true,
+              dropdownType: DropdownValueType.addresses,
+              initialValue: widget.cart.address,
+              itemAsString: (value) => (value as AddressModel).address,
+              cubit: cubit,
+              onValueChanged: (value) {
+                setState(() {
+                  widget.cart.address = value;
+                });
+                widget.onChanged(value);
+              },
+            ),
+          ],
           const SizedBox(height: 20),
         ],
       ),

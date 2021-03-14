@@ -54,10 +54,10 @@ class AddToCartScreen extends StatelessWidget {
       child: Scaffold(
         backgroundColor: Colors.white70,
         extendBodyBehindAppBar: true,
-        floatingActionButton: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: const [WhatsappFloatingActionButton(), SizedBox(height: 50)],
-        ),
+        // floatingActionButton: Column(
+        //   mainAxisSize: MainAxisSize.min,
+        //   children: const [WhatsappFloatingActionButton(), SizedBox(height: 50)],
+        // ),
         appBar: AppBar(
           title: Text(
             cartItem != null ? '${S.current.edit}: ${cartItem.product.name}' : '${S.current.add} ${product.name}',
@@ -122,6 +122,7 @@ class _CartScrollState extends State<CartScroll> {
 
   List<_StepItem> get steps => [
         _StepItem(
+          // hideLabel: true,
           label: S.current.quantity,
           child: CartQuantityCard(
             cartItem: widget.cartItem,
@@ -131,7 +132,6 @@ class _CartScrollState extends State<CartScroll> {
             'assets/images/1455739809_Kitchen_Bold_Line_Color_Mix-30_icon-icons.com_53387.svg',
             height: 50,
             width: 50,
-            // color: Colors.black,
           ),
         ),
         _StepItem(
@@ -142,7 +142,7 @@ class _CartScrollState extends State<CartScroll> {
             child: CartDropdown(
               dropdownType: DropdownValueType.slicingMethods,
               initialValue: widget.cartItem.slicingMethod,
-              isRadio: true,
+              grid: true,
               cartItem: widget.cartItem,
               messageFormKey: messageFormKey,
               onValueChanged: (value) {
@@ -194,7 +194,6 @@ class _CartScrollState extends State<CartScroll> {
           key: steps[i].key,
           elevation: 2,
           clipBehavior: Clip.hardEdge,
-          // margin: const EdgeInsets.symmetric(horizontal: 20),
           color: Colors.white70,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(25),
@@ -225,30 +224,32 @@ class _CartScrollState extends State<CartScroll> {
             ],
           ),
         ),
-        if (steps[i].key == slicingMethodKey && !widget.editing) ...[
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: _buildButton(
-              icon: 'assets/images/shopping-cart.svg',
-              enabled: widget.cartItem.validate,
-              label: Text(S.current.choose_another_item,
-                  style: Theme.of(context).textTheme.bodyText1.copyWith(
-                        color: Colors.black,
-                        fontWeight: FontWeight.normal,
-                      )),
-              onTap: () {
-                Helpers.dismissFauces(context);
-                if (messageFormKey?.currentState?.validate() ?? true) {
-                  messageFormKey?.currentState?.save();
-                  getIt<CartCubit>().addItem(widget.cartItem);
-                  AppRouter.sailor.pop();
-                } else {
-                  Helpers.showErrorOverlay(context, error: S.current.check_that_you_filled_all_fields_correctly);
-                }
-              },
-            ),
-          ),
-        ]
+        // if (steps[i].key == slicingMethodKey && !widget.editing) ...[
+        //   Padding(
+        //     padding: const EdgeInsets.all(8.0),
+        //     child: _buildButton(
+        //       icon: 'assets/images/shopping-cart.svg',
+        //       enabled: widget.cartItem.validate,
+        //       label: Text(S.current.choose_another_item,
+        //           style: Theme.of(context).textTheme.bodyText1.copyWith(
+        //                 color: Colors.black,
+        //                 fontWeight: FontWeight.normal,
+        //               )),
+        //       onTap: () {
+        //         Helpers.dismissFauces(context);
+        //         if (messageFormKey?.currentState?.validate() ?? true) {
+        //           messageFormKey?.currentState?.save();
+        //           getIt<CartCubit>().addItem(widget.cartItem);
+        //           AppRouter.sailor.pop();
+        //         } else {
+        //           Helpers.showErrorOverlay(context,
+        //               error:
+        //                   S.current.check_that_you_filled_all_fields_correctly);
+        //         }
+        //       },
+        //     ),
+        //   ),
+        // ]
       ],
       Column(
         children: [
@@ -285,53 +286,59 @@ class _CartScrollState extends State<CartScroll> {
       else
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-          child: Column(
-            // crossAxisAlignment: WrapCrossAlignment.center,
-            // alignment: WrapAlignment.spaceBetween,
-            // runAlignment: WrapAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              // _buildButton(
-              //   icon: 'assets/images/shopping-cart.svg',
-              //   enabled: widget.cartItem.validate,
-              //   label: Text(S.current.choose_another_item,
-              //       style: Theme.of(context).textTheme.bodyText1.copyWith(
-              //             color: Colors.black,
-              //             fontWeight: FontWeight.normal,
-              //           )),
-              //   onTap: () {
-              //     Helpers.dismissFauces(context);
-              //     if (messageFormKey?.currentState?.validate() ?? true) {
-              //       messageFormKey?.currentState?.save();
-              //       getIt<CartCubit>().addItem(widget.cartItem);
-              //       AppRouter.sailor.pop();
-              //     } else {
-              //       Helpers.showErrorOverlay(context, error: S.current.check_that_you_filled_all_fields_correctly);
-              //     }
-              //   },
-              // ),
-              // const SizedBox(height: 15),
-              _buildButton(
-                icon: 'assets/images/carduse_card_payment.svg',
-                enabled: widget.cartItem.validate,
-                label: Text(S.current.continue_to_checkout,
-                    style: Theme.of(context).textTheme.bodyText1.copyWith(
-                          color: Colors.black,
-                          fontWeight: FontWeight.normal,
-                        )),
-                onTap: () {
-                  Helpers.dismissFauces(context);
-                  if (messageFormKey?.currentState?.validate() ?? true) {
-                    messageFormKey?.currentState?.save();
-                    getIt<CartCubit>().addItem(widget.cartItem);
-                    AppRouter.sailor.navigate(
-                      CheckoutScreen.routeName,
-                      navigationType: NavigationType.pushReplace,
-                    );
-                  } else {
-                    Helpers.showErrorOverlay(context, error: S.current.check_that_you_filled_all_fields_correctly);
-                  }
-                },
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: _buildButton(
+                    icon: 'assets/images/Add_40971.png',
+                    enabled: widget.cartItem.validate,
+                    label: Text(S.current.back_to_shopping,
+                        style: Theme.of(context).textTheme.bodyText1.copyWith(
+                              color: Colors.black,
+                              fontWeight: FontWeight.normal,
+                            )),
+                    onTap: () {
+                      Helpers.dismissFauces(context);
+                      if (messageFormKey?.currentState?.validate() ?? true) {
+                        messageFormKey?.currentState?.save();
+                        getIt<CartCubit>().addItem(widget.cartItem);
+                        AppRouter.sailor.pop();
+                      } else {
+                        Helpers.showErrorOverlay(context, error: S.current.check_that_you_filled_all_fields_correctly);
+                      }
+                    },
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: _buildButton(
+                    icon: 'assets/images/Success_40973.png',
+                    enabled: widget.cartItem.validate,
+                    label: Text(S.current.continue_to_checkout,
+                        style: Theme.of(context).textTheme.bodyText1.copyWith(
+                              color: Colors.black,
+                              fontWeight: FontWeight.normal,
+                            )),
+                    onTap: () {
+                      Helpers.dismissFauces(context);
+                      if (messageFormKey?.currentState?.validate() ?? true) {
+                        messageFormKey?.currentState?.save();
+                        getIt<CartCubit>().addItem(widget.cartItem);
+                        AppRouter.sailor.navigate(
+                          CheckoutScreen.routeName,
+                          navigationType: NavigationType.pushReplace,
+                        );
+                      } else {
+                        Helpers.showErrorOverlay(context, error: S.current.check_that_you_filled_all_fields_correctly);
+                      }
+                    },
+                  ),
+                ),
               ),
             ],
           ),
@@ -345,37 +352,20 @@ class _CartScrollState extends State<CartScroll> {
     bool enabled = true,
     VoidCallback onTap,
   }) {
-    // return TextButton (
-    //   onPressed: enabled ? onTap : null,
-    //   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-    //   color: Theme.of(context).primaryColor.withOpacity(.9),
-    //   // child: Container(
-    //   //   alignment: Alignment.center,
-    //   //   padding: const EdgeInsets.all(12),
-    //   //   margin: const EdgeInsets.all(3),
-    //   //   decoration: BoxDecoration(
-    //   //     borderRadius: BorderRadius.circular(15),
-    //   //   ),
-    //   child: label,
-    //   // ),
-    // );
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15),
-      child: ElevatedButton(
-        style: ButtonStyle(
-          minimumSize: MaterialStateProperty.all(
-            const Size.fromRadius(20),
-          ),
-          shape: MaterialStateProperty.all(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15),
-            ),
-          ),
-          backgroundColor: enabled ? MaterialStateProperty.all(Theme.of(context).primaryColor.withOpacity(.9)) : null,
+    return ElevatedButton(
+      style: ButtonStyle(
+        minimumSize: MaterialStateProperty.all(
+          const Size.fromRadius(20),
         ),
-        onPressed: enabled ? onTap : null,
-        child: label,
+        shape: MaterialStateProperty.all(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+        ),
+        backgroundColor: enabled ? MaterialStateProperty.all(Theme.of(context).primaryColor.withOpacity(.9)) : null,
       ),
+      onPressed: enabled ? onTap : null,
+      child: label,
     );
   }
 

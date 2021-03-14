@@ -24,6 +24,8 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
     "about" : MessageLookupByLibrary.simpleMessage("About"),
+    "about_msg_p1" : MessageLookupByLibrary.simpleMessage("Sehool app version"),
+    "about_msg_p2" : MessageLookupByLibrary.simpleMessage("Designed by Panda, Khartoum - Sudan"),
     "account_number" : MessageLookupByLibrary.simpleMessage("Account number"),
     "active" : MessageLookupByLibrary.simpleMessage("Active"),
     "active_employees" : MessageLookupByLibrary.simpleMessage("Active employees"),
@@ -86,6 +88,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "confirmation" : MessageLookupByLibrary.simpleMessage("Confirmation"),
     "conform_password" : MessageLookupByLibrary.simpleMessage("Conform Password"),
     "contact_us" : MessageLookupByLibrary.simpleMessage("Contact us"),
+    "contact_us_on_all_social_networks_at" : MessageLookupByLibrary.simpleMessage("Contact us on all social networks at"),
     "continue_shopping" : MessageLookupByLibrary.simpleMessage("Continue shopping"),
     "continue_to_checkout" : MessageLookupByLibrary.simpleMessage("Continue to checkout"),
     "coupon_name" : MessageLookupByLibrary.simpleMessage("Coupon name"),
@@ -157,6 +160,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "it_can_not_be_undone_at_this_stage" : MessageLookupByLibrary.simpleMessage("It can not be undone at this stage"),
     "item" : MessageLookupByLibrary.simpleMessage("Item"),
     "john_doe" : MessageLookupByLibrary.simpleMessage("John Doe"),
+    "kingdom_of_saudi_arabia_riyadh" : MessageLookupByLibrary.simpleMessage("Kingdom of Saudi Arabia, Riyadh"),
     "koshstore" : MessageLookupByLibrary.simpleMessage("Kosh Stroe"),
     "languages" : MessageLookupByLibrary.simpleMessage("Languages"),
     "latest_products" : MessageLookupByLibrary.simpleMessage("Latest Products"),
@@ -218,7 +222,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "org_delivery_msg_p2" : MessageLookupByLibrary.simpleMessage("), and you will receive a letter from the association confirming receipt of the order after delivery"),
     "password" : MessageLookupByLibrary.simpleMessage("Password"),
     "password_should_be_more_than_6_letters" : MessageLookupByLibrary.simpleMessage("Password should be 6 letters or more"),
-    "payment" : MessageLookupByLibrary.simpleMessage("Payment"),
+    "payment_method" : MessageLookupByLibrary.simpleMessage("Payment Method"),
     "payment_mode" : MessageLookupByLibrary.simpleMessage("Payment Mode"),
     "payment_not_active" : MessageLookupByLibrary.simpleMessage("The selected payment method is not currently active, please choose another method."),
     "payment_options" : MessageLookupByLibrary.simpleMessage("Payment Options"),
@@ -229,6 +233,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "pickup_method" : MessageLookupByLibrary.simpleMessage("Pickup method"),
     "piece" : MessageLookupByLibrary.simpleMessage("Piece"),
     "pinned_orders" : MessageLookupByLibrary.simpleMessage("Pinned orders"),
+    "please_choose_an_association" : MessageLookupByLibrary.simpleMessage("Please choose an association"),
     "please_choose_one" : MessageLookupByLibrary.simpleMessage("Please choose one"),
     "please_state_the_reason" : MessageLookupByLibrary.simpleMessage("Please state the reason"),
     "please_wait" : MessageLookupByLibrary.simpleMessage("Please wait"),
@@ -337,6 +342,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "your_application_your_rules" : MessageLookupByLibrary.simpleMessage("Your application your rules"),
     "your_biography" : MessageLookupByLibrary.simpleMessage("Your biography"),
     "your_journey_with_us" : MessageLookupByLibrary.simpleMessage("Your journey with us"),
+    "your_notes_on_the_order" : MessageLookupByLibrary.simpleMessage("Your notes on the order"),
     "your_order_has_been_successfully_submitted" : MessageLookupByLibrary.simpleMessage("Your order has been successfully submitted!")
   };
 }

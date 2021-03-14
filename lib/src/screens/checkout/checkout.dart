@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:dio/dio.dart';
 import 'package:division/division.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/foundation.dart';
@@ -126,7 +125,7 @@ class _CheckoutScrollState extends State<CheckoutScroll> {
   CheckoutCubit cubit;
   final addressKey = GlobalKey();
   final paymentMethodKey = GlobalKey();
-  final organizationFormKey = GlobalKey<FormState>();
+  final otherFormKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -211,7 +210,6 @@ class _CheckoutScrollState extends State<CheckoutScroll> {
             child: CartCouponField(
               cart: widget.cart,
               onChanged: onChange,
-              organizationFormKey: organizationFormKey,
             ),
             icon: SvgPicture.asset(
               'assets/images/if-advantage-sale-1034365_88851.svg',
@@ -257,6 +255,7 @@ class _CheckoutScrollState extends State<CheckoutScroll> {
           label: S.current.shipping_address,
           child: AddressReviewPage(
             cart: widget.cart,
+            otherFormKey: otherFormKey,
             onChanged: onChange,
           ),
           icon: Image.asset(
@@ -272,15 +271,15 @@ class _CheckoutScrollState extends State<CheckoutScroll> {
         ),
         _StepItem(
           key: paymentMethodKey,
-          label: S.current.payment,
+          label: S.current.payment_method,
           child: PaymentMethodReviewPage(
             cart: widget.cart,
             onChanged: (value) {
               onChange(value);
               if (widget.cart.validate) {
                 Helpers.dismissFauces(context);
-                if (organizationFormKey?.currentState?.validate() ?? true) {
-                  organizationFormKey?.currentState?.save();
+                if (otherFormKey?.currentState?.validate() ?? true) {
+                  otherFormKey?.currentState?.save();
                   cubit.placeOrder(widget.cart);
                 } else {
                   Helpers.showErrorOverlay(context, error: S.current.check_that_you_filled_all_fields_correctly);

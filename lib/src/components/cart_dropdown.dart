@@ -28,7 +28,7 @@ class CartDropdown extends StatefulWidget {
     this.messageFormKey,
     this.cartItem,
     this.cubit,
-    this.isRadio = false,
+    this.grid = false,
     this.itemAsString,
   }) : super(key: key);
   final DropdownValueType dropdownType;
@@ -37,7 +37,7 @@ class CartDropdown extends StatefulWidget {
   final dynamic initialValue;
   final CartModel cart;
   final CartItemModel cartItem;
-  final bool isRadio;
+  final bool grid;
   final GlobalKey<FormState> messageFormKey;
   final DropdownCubit cubit;
 
@@ -101,12 +101,7 @@ class CartDropdownState extends State<CartDropdown> {
     );
   }
 
-  Widget _buildUI(List values, {bool isLoading = false}) => widget.isRadio
-      ? _buildRadio(values, isLoading: isLoading)
-      : _buildDropdown(
-          values,
-          isLoading: isLoading,
-        );
+  Widget _buildUI(List values, {bool isLoading = false}) => _buildRadio(values, isLoading: isLoading);
 
   Widget _buildRadio(List values, {bool isLoading = false}) {
     if (isLoading) {
@@ -124,94 +119,159 @@ class CartDropdownState extends State<CartDropdown> {
         ),
       );
     }
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        ...values.map(
-          (e) => InkWell(
-            onTap: () {
-              if (e is SlicingMethodModel && e.id == 3) {
-                // widget.cartItem.isGift = false;
-                widget.cartItem.event = null;
-                widget.cartItem.phrase = null;
-              }
-              if (e is PaymentMethodModel && e.type == 'wallet') {
-                if (kUser.wallet < widget.cart.total) {
-                  Helpers.showErrorOverlay(
-                    context,
-                    error: S.current.sorry_your_balance_is_not_enough,
-                  );
+    if (widget.grid) {
+      return Column(
+        children: [
+          GridView.count(
+            // crossAxisAlignment: CrossAxisAlignment.stretch,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            crossAxisCount: 2,
+            childAspectRatio: 10 / 3,
+            children: [
+              ...values.map(
+                (e) => InkWell(
+                  onTap: () {
+                    if (e is SlicingMethodModel && e.id == 3) {
+                      // widget.cartItem.isGift = false;
+                      widget.cartItem.event = null;
+                      widget.cartItem.phrase = null;
+                    }
+                    if (e is PaymentMethodModel && e.type == 'wallet') {
+                      if (kUser.wallet < widget.cart.total) {
+                        Helpers.showErrorOverlay(
+                          context,
+                          error: S.current.sorry_your_balance_is_not_enough,
+                        );
+                      } else {
+                        widget.onValueChanged?.call(e);
+                        setState(() => selectedValue = e);
+                      }
+                    } else {
+                      widget.onValueChanged?.call(e);
+                      setState(() => selectedValue = e);
+                    }
+                  },
+                  child: AnimatedContainer(
+                    padding: const EdgeInsets.all(12),
+                    margin: const EdgeInsets.all(3),
+                    duration: 300.milliseconds,
+                    decoration: BoxDecoration(
+                      color: e == selectedValue ? Theme.of(context).primaryColor.withOpacity(.9) : Colors.transparent,
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: FittedBox(
+                      child: Text(
+                        widget.itemAsString?.call(e) ?? '$e',
+                        style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.black, fontWeight: FontWeight.normal),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          if (widget.dropdownType == DropdownValueType.slicingMethods && selectedValue.id == 3) ...[
+            const SizedBox(height: 10),
+            MessageCheckBox(
+              onValueChanged: (value) {
+                setState(() {});
+              },
+              cart: widget.cartItem,
+              formKey: widget.messageFormKey,
+            ),
+          ],
+        ],
+      );
+    } else {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          ...values.map(
+            (e) => InkWell(
+              onTap: () {
+                if (e is SlicingMethodModel && e.id == 3) {
+                  // widget.cartItem.isGift = false;
+                  widget.cartItem.event = null;
+                  widget.cartItem.phrase = null;
+                }
+                if (e is PaymentMethodModel && e.type == 'wallet') {
+                  if (kUser.wallet < widget.cart.total) {
+                    Helpers.showErrorOverlay(
+                      context,
+                      error: S.current.sorry_your_balance_is_not_enough,
+                    );
+                  } else {
+                    widget.onValueChanged?.call(e);
+                    setState(() => selectedValue = e);
+                  }
                 } else {
                   widget.onValueChanged?.call(e);
                   setState(() => selectedValue = e);
                 }
-              } else {
-                widget.onValueChanged?.call(e);
-                setState(() => selectedValue = e);
-              }
-            },
-            child: AnimatedContainer(
-              padding: const EdgeInsets.all(12),
-              margin: const EdgeInsets.all(3),
-              duration: 300.milliseconds,
-              decoration: BoxDecoration(
-                color: e == selectedValue ? Theme.of(context).primaryColor.withOpacity(.9) : Colors.transparent,
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: Text(
-                widget.itemAsString?.call(e) ?? '$e',
-                style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.black, fontWeight: FontWeight.normal),
+              },
+              child: AnimatedContainer(
+                padding: const EdgeInsets.all(12),
+                margin: const EdgeInsets.all(3),
+                duration: 300.milliseconds,
+                decoration: BoxDecoration(
+                  color: e == selectedValue ? Theme.of(context).primaryColor.withOpacity(.9) : Colors.transparent,
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Text(
+                  widget.itemAsString?.call(e) ?? '$e',
+                  style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.black, fontWeight: FontWeight.normal),
+                ),
               ),
             ),
           ),
-        ),
-        // ...values.map(
-        //   (e) => Card(
-        //     elevation: 0,
-        //     color: Colors.transparent,
-        //     // shape: OutlineInputBorder(
-        //     //   borderRadius: BorderRadius.circular(25),
-        //     // ),
-        //     child: RadioListTile(
-        //       value: e,
-        //       groupValue: selectedValue,
-        //       title: Text(
-        //         widget.itemAsString?.call(e) ?? '$e',
-        //         style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.black, fontWeight: FontWeight.normal),
-        //       ),
-        //       onChanged: (value) async {
-        //         if (value is PaymentMethodModel && value.type == 'wallet') {
-        //           if (kUser.wallet < widget.cart.total) {
-        //             Helpers.showErrorOverlay(
-        //               context,
-        //               error: S.current.sorry_your_balance_is_not_enough,
-        //             );
-        //           } else {
-        //             widget.onValueChanged?.call(value);
-        //             setState(() => selectedValue = value);
-        //           }
-        //         } else {
-        //           widget.onValueChanged?.call(value);
-        //           setState(() => selectedValue = value);
-        //         }
-        //       },
-        //     ),
-        //   ),
-        // ),
+          // ...values.map(
+          //   (e) => Card(
+          //     elevation: 0,
+          //     color: Colors.transparent,
+          //     // shape: OutlineInputBorder(
+          //     //   borderRadius: BorderRadius.circular(25),
+          //     // ),
+          //     child: RadioListTile(
+          //       value: e,
+          //       groupValue: selectedValue,
+          //       title: Text(
+          //         widget.itemAsString?.call(e) ?? '$e',
+          //         style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.black, fontWeight: FontWeight.normal),
+          //       ),
+          //       onChanged: (value) async {
+          //         if (value is PaymentMethodModel && value.type == 'wallet') {
+          //           if (kUser.wallet < widget.cart.total) {
+          //             Helpers.showErrorOverlay(
+          //               context,
+          //               error: S.current.sorry_your_balance_is_not_enough,
+          //             );
+          //           } else {
+          //             widget.onValueChanged?.call(value);
+          //             setState(() => selectedValue = value);
+          //           }
+          //         } else {
+          //           widget.onValueChanged?.call(value);
+          //           setState(() => selectedValue = value);
+          //         }
+          //       },
+          //     ),
+          //   ),
+          // ),
 
-        if (widget.dropdownType == DropdownValueType.slicingMethods && selectedValue.id == 3) ...[
-          const SizedBox(height: 10),
-          MessageCheckBox(
-            onValueChanged: (value) {
-              setState(() {});
-            },
-            cart: widget.cartItem,
-            formKey: widget.messageFormKey,
-          ),
+          if (widget.dropdownType == DropdownValueType.slicingMethods && selectedValue.id == 3) ...[
+            const SizedBox(height: 10),
+            MessageCheckBox(
+              onValueChanged: (value) {
+                setState(() {});
+              },
+              cart: widget.cartItem,
+              formKey: widget.messageFormKey,
+            ),
+          ],
         ],
-      ],
-    );
+      );
+    }
   }
 
   Widget _buildDropdown(List values, {bool isLoading = false}) {

@@ -186,7 +186,7 @@ class ProductsCarouselItemWidget extends StatelessWidget {
           ),
           Positioned(
             top: 0,
-            height: 60,
+            height: 90,
             left: 30,
             right: 30,
             child: Container(
@@ -196,8 +196,20 @@ class ProductsCarouselItemWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(25),
               ),
               child: FittedBox(
-                child: Text(
-                  '${product.price} ﷼ / ${S.current.piece}',
+                child: Text.rich(
+                  TextSpan(
+                    text: '${product.price.toInt()} ﷼\n',
+                    children: [
+                      TextSpan(
+                        text: product.kilo,
+                        style: Theme.of(context).textTheme.headline6.copyWith(
+                              color: Colors.amber,
+                              fontWeight: FontWeight.normal,
+                            ),
+                      ),
+                    ],
+                  ),
+                  textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.headline5.copyWith(color: Colors.amber),
                 ),
               ),

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:division/division.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,16 +21,22 @@ class OrdersHistory extends StatefulWidget {
 
 class _OrdersHistoryState extends State<OrdersHistory> {
   OrderCubit cubit;
+  Timer timer;
 
   @override
   void initState() {
     super.initState();
     cubit = getIt<OrderCubit>();
+    timer = Timer.periodic(
+      const Duration(seconds: 10),
+      (timer) => cubit.refreshOrders(),
+    );
   }
 
   @override
   void dispose() {
     cubit.close();
+    timer.cancel();
     super.dispose();
   }
 
@@ -43,9 +51,7 @@ class _OrdersHistoryState extends State<OrdersHistory> {
             loading: () => _buildUI([], isLoading: true),
             success: (values) => _buildUI(values),
             failure: (message) => MyErrorWidget(
-              onRetry: () {
-                cubit.getOrders();
-              },
+              onRetry: () => cubit.getOrders(),
               message: message,
             ),
           );
@@ -69,7 +75,8 @@ class _OrdersHistoryState extends State<OrdersHistory> {
           //   ],
           // ),
           ..background.color(Colors.white)
-          ..background.image(path: 'assets/images/black.png', fit: BoxFit.contain),
+          ..background
+              .image(path: 'assets/images/black.png', fit: BoxFit.contain),
         child: Scaffold(
           // floatingActionButton: WhatsappFloatingActionButton(),
           backgroundColor: Colors.white70,
@@ -78,7 +85,10 @@ class _OrdersHistoryState extends State<OrdersHistory> {
             backgroundColor: Colors.black54,
             title: Text(
               S.current.my_orders,
-              style: Theme.of(context).textTheme.headline6.copyWith(color: Colors.white),
+              style: Theme.of(context)
+                  .textTheme
+                  .headline6
+                  .copyWith(color: Colors.white),
             ),
           ),
           body: OrdersListWidget(

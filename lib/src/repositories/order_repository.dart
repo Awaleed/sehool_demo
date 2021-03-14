@@ -41,8 +41,8 @@ class OrderRepositoryImpl implements IOrderRepository {
               double.tryParse('${data['address']['lang']}' ?? '');
           data['address']['lat'] =
               double.tryParse('${data['address']['lat']}' ?? '');
-          data['address']['note'] = data['address']['description'];
-          data['address']['address'] = data['address']['description'];
+          // data['address']['note'] = data['address']['description'];
+          // data['address']['address'] = data['address']['description'];
         }
         return OrderModel.fromJson(data);
       },

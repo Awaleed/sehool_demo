@@ -26,8 +26,7 @@ class PaymentMethodReviewPage extends StatefulWidget {
   final ValueChanged onChanged;
 
   @override
-  _PaymentMethodReviewPageState createState() =>
-      _PaymentMethodReviewPageState();
+  _PaymentMethodReviewPageState createState() => _PaymentMethodReviewPageState();
 }
 
 class _PaymentMethodReviewPageState extends State<PaymentMethodReviewPage> {
@@ -112,9 +111,7 @@ class _TotalCard extends StatelessWidget {
                           Text(
                             '${cart.totalWithoutDiscount} ﷼',
                             style: TextStyle(
-                              decoration: cart.coupon != null
-                                  ? TextDecoration.lineThrough
-                                  : TextDecoration.none,
+                              decoration: cart.coupon != null ? TextDecoration.lineThrough : TextDecoration.none,
                             ),
                           ),
                         ]
@@ -227,10 +224,22 @@ class _CartDropdownState extends State<CartDropdown> {
     );
   }
 
-  Widget _buildUI(List values, {bool isLoading = false}) =>
-      _buildRadio(values, isLoading: isLoading);
+  Widget _buildUI(List values, {bool isLoading = false}) => _buildRadio(values, isLoading: isLoading);
 
   Widget _buildRadio(List _values, {bool isLoading = false}) {
+    if (widget.cart.organization && widget.cart.association == null) {
+      return Padding(
+        padding: const EdgeInsets.only(bottom: 15),
+        child: ListTile(
+          leading: Image.asset('assets/images/sign-warning.png'),
+          title: Text(
+            S.current.please_choose_an_association,
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.black, fontWeight: FontWeight.normal),
+          ),
+        ),
+      );
+    }
     if (isLoading) {
       return FittedBox(
         child: Container(
@@ -247,8 +256,7 @@ class _CartDropdownState extends State<CartDropdown> {
       );
     }
     final canPayWithPoints = kUser.wallet >= widget.cart.total;
-    final disableOtherButton =
-        (canPayWithPoints && widget.cart.fromWallet) || widget.cart.total == 0;
+    final disableOtherButton = (canPayWithPoints && widget.cart.fromWallet) || widget.cart.total == 0;
     final values = [];
     final otherValues = [];
     for (final e in _values) {
@@ -294,13 +302,11 @@ class _CartDropdownState extends State<CartDropdown> {
                                 );
                               }
                             : () async {
-                                if (e is PaymentMethodModel &&
-                                    e.type == 'wallet') {
+                                if (e is PaymentMethodModel && e.type == 'wallet') {
                                   if (kUser.wallet < widget.cart.total) {
                                     Helpers.showErrorOverlay(
                                       context,
-                                      error: S.current
-                                          .sorry_your_balance_is_not_enough,
+                                      error: S.current.sorry_your_balance_is_not_enough,
                                     );
                                   } else {
                                     // widget.onValueChanged?.call(e);
@@ -310,8 +316,7 @@ class _CartDropdownState extends State<CartDropdown> {
                                   // widget.onValueChanged?.call(e);
                                   setState(() => selectedValue = e);
                                 }
-                                if (e is PaymentMethodModel &&
-                                    e.type == 'transfer') {
+                                if (e is PaymentMethodModel && e.type == 'transfer') {
                                   await showDialog(
                                     context: context,
                                     useRootNavigator: true,
@@ -323,9 +328,7 @@ class _CartDropdownState extends State<CartDropdown> {
                     child: Card(
                       // margin: EdgeInsets.zero,
                       margin: const EdgeInsets.all(5),
-                      color: e.type != 'wallet' && disableOtherButton
-                          ? Colors.grey
-                          : null,
+                      color: e.type != 'wallet' && disableOtherButton ? Colors.grey : null,
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 50),
                         child: CachedNetworkImage(
@@ -340,7 +343,7 @@ class _CartDropdownState extends State<CartDropdown> {
               .toList(),
         ),
         ...otherValues.map((e) => InkWell(
-              onTap: e.type != 'wallet' && disableOtherButton
+              onTap: (e.type != 'wallet' && disableOtherButton) || (e.type == 'cash on delivery' && widget.cart.organization)
                   ? null
                   : e.type == 'disabled'
                       ? () {
@@ -354,8 +357,7 @@ class _CartDropdownState extends State<CartDropdown> {
                             if (kUser.wallet < widget.cart.total) {
                               Helpers.showErrorOverlay(
                                 context,
-                                error:
-                                    S.current.sorry_your_balance_is_not_enough,
+                                error: S.current.sorry_your_balance_is_not_enough,
                               );
                             } else {
                               // widget.onValueChanged?.call(e);
@@ -366,9 +368,7 @@ class _CartDropdownState extends State<CartDropdown> {
                               context: context,
                               useRootNavigator: true,
                               builder: (context) => AlertDialog(
-                                content: Text(
-                                  S.current.not_in_my_points_program
-                                ),
+                                content: Text(S.current.not_in_my_points_program),
                                 actions: [
                                   TextButton(
                                     onPressed: () {
@@ -378,8 +378,7 @@ class _CartDropdownState extends State<CartDropdown> {
                                     child: Text(S.current.confirmation),
                                   ),
                                   TextButton(
-                                    onPressed: () =>
-                                        Navigator.of(context).pop(),
+                                    onPressed: () => Navigator.of(context).pop(),
                                     child: Text(
                                       S.current.cancel,
                                     ),
@@ -419,9 +418,7 @@ class _CartDropdownState extends State<CartDropdown> {
                     child: SizedBox(
                       height: 80,
                       child: Card(
-                        color: e.type != 'wallet' && disableOtherButton
-                            ? Colors.grey
-                            : null,
+                        color: (e.type != 'wallet' && disableOtherButton) || (e.type == 'cash on delivery' && widget.cart.organization) ? Colors.grey : null,
                         child: Center(child: Text(e.name)),
                       ),
                     ),
@@ -456,8 +453,7 @@ class BankInfoWidget extends StatelessWidget with ApiCaller {
               children: [
                 ...snapshot.data.map(
                   (e) => Card(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25)),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
                     child: Column(
                       children: [
                         ListTile(

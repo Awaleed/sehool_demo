@@ -29,61 +29,50 @@ class VideosCarouselItemWidget extends StatelessWidget {
           clipBehavior: Clip.none,
           fit: StackFit.expand,
           children: [
-            Card(
-              elevation: 10,
-              clipBehavior: Clip.hardEdge,
-              margin: EdgeInsets.zero,
-              color: Colors.transparent,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(25),
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(25),
-                child: VideoApp(
-                  controller: chewieController,
-                  video: video,
-                  play: play,
-                ),
-              ),
+            VideoApp(
+              controller: chewieController,
+              video: video,
+              play: play,
             ),
-            IgnorePointer(
-              child: Container(
-                padding: const EdgeInsets.only(bottom: 50, top: 20),
-                decoration: BoxDecoration(
-                  color: Colors.black38,
-                  borderRadius: BorderRadius.circular(25),
-                  gradient: const LinearGradient(
-                    begin: Alignment.bottomCenter,
-                    end: Alignment.topCenter,
-                    colors: [
-                      Colors.black,
-                      Colors.transparent,
-                      Colors.transparent,
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            if (video.description != null)
-              Positioned(
-                left: 0,
-                right: 0,
-                bottom: 35,
-                child: IgnorePointer(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        video.description,
-                        style: Theme.of(context)
-                            .textTheme
-                            .subtitle2
-                            .copyWith(color: Colors.white),
-                      )
-                    ],
-                  ),
-                ),
-              ),
+            // IgnorePointer(
+            //   child: Container(
+            //     padding: const EdgeInsets.only(bottom: 50, top: 20),
+            //     decoration: BoxDecoration(
+            //       color: Colors.black38,
+            //       borderRadius: BorderRadius.circular(25),
+            //       gradient: const LinearGradient(
+            //         begin: Alignment.bottomCenter,
+            //         end: Alignment.topCenter,
+            //         colors: [
+            //           Colors.black,
+            //           Colors.transparent,
+            //           Colors.transparent,
+            //         ],
+            //       ),
+            //     ),
+            //   ),
+            // ),
+            // if (video.description != null)
+            //   Positioned(
+            //     left: 0,
+            //     right: 0,
+            //     bottom: 35,
+            //     child: IgnorePointer(
+            //       child: Column(
+            //         mainAxisSize: MainAxisSize.min,
+            //         children: [
+            //           Text(
+            //             video.description,
+            //             style: Theme.of(context)
+            //                 .textTheme
+            //                 .subtitle2
+            //                 .copyWith(color: Colors.white),
+            //           )
+            //         ],
+            //       ),
+            //     ),
+            //   ),
+        
           ],
         ),
       ),

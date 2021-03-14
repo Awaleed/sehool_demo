@@ -27,7 +27,7 @@ class SlicingMethodPage extends StatelessWidget {
             child: CartDropdown(
               dropdownType: DropdownValueType.slicingMethods,
               initialValue: cartItem.slicingMethod,
-              isRadio: true,
+              // isRadio: true,
               onValueChanged: (value) {
                 cartItem.slicingMethod = value;
                 onChanged?.call(value);

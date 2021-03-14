@@ -188,6 +188,8 @@ abstract class Helpers {
         return S.current.there_is_no_internet_connection;
       }
     }
+    if (error.response.data is String) return error.response.data;
+
     final message = StringBuffer();
     if (error.response?.data['errors'] != null &&
         error.response?.data['errors'] is Map) {

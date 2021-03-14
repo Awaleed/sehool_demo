@@ -35,6 +35,66 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
+  /// `Please choose an association`
+  String get please_choose_an_association {
+    return Intl.message(
+      'Please choose an association',
+      name: 'please_choose_an_association',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Kingdom of Saudi Arabia, Riyadh`
+  String get kingdom_of_saudi_arabia_riyadh {
+    return Intl.message(
+      'Kingdom of Saudi Arabia, Riyadh',
+      name: 'kingdom_of_saudi_arabia_riyadh',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Contact us on all social networks at`
+  String get contact_us_on_all_social_networks_at {
+    return Intl.message(
+      'Contact us on all social networks at',
+      name: 'contact_us_on_all_social_networks_at',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your notes on the order`
+  String get your_notes_on_the_order {
+    return Intl.message(
+      'Your notes on the order',
+      name: 'your_notes_on_the_order',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Designed by Panda, Khartoum - Sudan`
+  String get about_msg_p2 {
+    return Intl.message(
+      'Designed by Panda, Khartoum - Sudan',
+      name: 'about_msg_p2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sehool app version`
+  String get about_msg_p1 {
+    return Intl.message(
+      'Sehool app version',
+      name: 'about_msg_p1',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `The chosen method of payment is not counted under the Neqaty program`
   String get not_in_my_points_program {
     return Intl.message(
@@ -55,11 +115,11 @@ class S {
     );
   }
 
-  /// `Payment`
-  String get payment {
+  /// `Payment Method`
+  String get payment_method {
     return Intl.message(
-      'Payment',
-      name: 'payment',
+      'Payment Method',
+      name: 'payment_method',
       desc: '',
       args: [],
     );

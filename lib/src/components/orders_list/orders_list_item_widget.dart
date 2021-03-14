@@ -9,6 +9,7 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:sailor/sailor.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../generated/l10n.dart';
 import '../../core/api_caller.dart';
@@ -60,16 +61,56 @@ class OrdersListItemWidget extends StatelessWidget {
             const Divider(),
             if (cart.status.id >= 4 && cart.status.id <= 5) ...[
               ListTile(
-                leading: Image.asset('assets/images/user-with-shirt-and-tie_icon-icons.com_68276.png'),
+                leading: Image.asset(
+                    'assets/images/user-with-shirt-and-tie_icon-icons.com_68276.png'),
+                trailing: cart.status.id != 4
+                    ? null
+                    : Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          IconButton(
+                            iconSize: 50,
+                            onPressed: () async {
+                              final phone =
+                                  cart.delivery.phone?.replaceFirst('0', '966');
+                              final uri =
+                                  'https://api.whatsapp.com/send?phone=$phone';
+                              if (await canLaunch(uri)) {
+                                launch(uri);
+                              } else {
+                                throw 'Could not launch $uri';
+                              }
+                            },
+                            icon: SvgPicture.asset(
+                              'assets/images/logo_whatsapp_telephone_handset_icon_143174.svg',
+                              height: 50,
+                              width: 50,
+                            ),
+                          ),
+                          IconButton(
+                            iconSize: 50,
+                            icon: SvgPicture.asset(
+                              'assets/images/call-phone-telephone_108619.svg',
+                              height: 50,
+                              width: 50,
+                            ),
+                            onPressed: () async {
+                              FlutterPhoneDirectCaller.directCall(
+                                cart.delivery.phone,
+                              );
+                            },
+                          ),
+                        ],
+                      ),
                 title: Text(cart.delivery.name),
                 subtitle: Text(cart.delivery.phone),
-                         onTap: cart.status.id == 4
-                    ? () {
-                        FlutterPhoneDirectCaller.directCall(
-                          cart.delivery.phone,
-                        );
-                      }
-                    : null,
+                // onTap: cart.status.id == 4
+                //     ? () {
+                //         FlutterPhoneDirectCaller.directCall(
+                //           cart.delivery.phone,
+                //         );
+                //       }
+                //     : null,
               ),
               // ListTile(
               //   title: Text(S.current.phone),
@@ -187,6 +228,11 @@ class OrdersListItemWidget extends StatelessWidget {
               title: Text(S.current.payment_mode),
               subtitle: Text(cart.payment),
             ),
+            if (cart.address.address != null && cart.address.address.isNotEmpty)
+              ListTile(
+                title: Text(S.current.address),
+                subtitle: Text(cart.address.address),
+              ),
 
             // Card(
             //   elevation: 2,

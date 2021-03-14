@@ -24,6 +24,8 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
     "about" : MessageLookupByLibrary.simpleMessage("حول"),
+    "about_msg_p1" : MessageLookupByLibrary.simpleMessage("تطبيق سهول نسخة"),
+    "about_msg_p2" : MessageLookupByLibrary.simpleMessage("صمم بواسطة شركة باندا، الخرطوم - السودان"),
     "account_number" : MessageLookupByLibrary.simpleMessage("رقم حساب"),
     "active" : MessageLookupByLibrary.simpleMessage("تفعيل"),
     "active_employees" : MessageLookupByLibrary.simpleMessage("الموظفين الفعالين"),
@@ -86,6 +88,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "confirmation" : MessageLookupByLibrary.simpleMessage("تأكيد"),
     "conform_password" : MessageLookupByLibrary.simpleMessage("تاكيد كلمة المرور"),
     "contact_us" : MessageLookupByLibrary.simpleMessage("تواصل معنا"),
+    "contact_us_on_all_social_networks_at" : MessageLookupByLibrary.simpleMessage("تواصل معنا على جميع شبكات التواصل الاجتماعي على"),
     "continue_shopping" : MessageLookupByLibrary.simpleMessage("متابعة التسوق"),
     "continue_to_checkout" : MessageLookupByLibrary.simpleMessage("متابعة الطلب"),
     "coupon_name" : MessageLookupByLibrary.simpleMessage("اسم الكوبون"),
@@ -157,6 +160,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "it_can_not_be_undone_at_this_stage" : MessageLookupByLibrary.simpleMessage("لايمكن التراجع في هذه المرحلة"),
     "item" : MessageLookupByLibrary.simpleMessage("الصنف"),
     "john_doe" : MessageLookupByLibrary.simpleMessage("محمد احمد"),
+    "kingdom_of_saudi_arabia_riyadh" : MessageLookupByLibrary.simpleMessage("المملكة العربية السعودية، الرياض"),
     "koshstore" : MessageLookupByLibrary.simpleMessage("كووش ستور"),
     "languages" : MessageLookupByLibrary.simpleMessage("اللغات"),
     "latest_products" : MessageLookupByLibrary.simpleMessage("أحدث المنتجات"),
@@ -218,7 +222,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "org_delivery_msg_p2" : MessageLookupByLibrary.simpleMessage(")، وستصلك رسالة من الجمعية بتأكيد استلام الطلب بعد التوصيل"),
     "password" : MessageLookupByLibrary.simpleMessage("كلمه السر"),
     "password_should_be_more_than_6_letters" : MessageLookupByLibrary.simpleMessage("كلمة السر يجب ان تتكون من ٦ أحرف فإكثر"),
-    "payment" : MessageLookupByLibrary.simpleMessage("الدفع"),
+    "payment_method" : MessageLookupByLibrary.simpleMessage("طريقة الدفع"),
     "payment_mode" : MessageLookupByLibrary.simpleMessage("كيفية الدفع"),
     "payment_not_active" : MessageLookupByLibrary.simpleMessage("طريقة السداد المختارة غير مفعلة حاليا نرجو اختيار طريقة اخرى."),
     "payment_options" : MessageLookupByLibrary.simpleMessage("خيارات الدفع"),
@@ -229,6 +233,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "pickup_method" : MessageLookupByLibrary.simpleMessage("طريقة التوصيل"),
     "piece" : MessageLookupByLibrary.simpleMessage("قطعة"),
     "pinned_orders" : MessageLookupByLibrary.simpleMessage("الطلبات المعلقة"),
+    "please_choose_an_association" : MessageLookupByLibrary.simpleMessage("الرجاء اختيار جمعية"),
     "please_choose_one" : MessageLookupByLibrary.simpleMessage("الرجاء إختيار واحد"),
     "please_state_the_reason" : MessageLookupByLibrary.simpleMessage("من فضلك اذكر السبب"),
     "please_wait" : MessageLookupByLibrary.simpleMessage("الرجاء الانتظار"),
@@ -279,7 +284,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "selected" : MessageLookupByLibrary.simpleMessage("تم اختيار"),
     "send" : MessageLookupByLibrary.simpleMessage("ارسال"),
     "settings" : MessageLookupByLibrary.simpleMessage("الإعدادات"),
-    "shipping_address" : MessageLookupByLibrary.simpleMessage("عنوان التوصيل"),
+    "shipping_address" : MessageLookupByLibrary.simpleMessage("عنوان العميل"),
     "shopping_cart" : MessageLookupByLibrary.simpleMessage("عربة التسوق"),
     "should_be_a_valid_email" : MessageLookupByLibrary.simpleMessage("يجب أن يكون بريدًا إلكترونيًا صالحًا"),
     "should_be_more_than_3_letters" : MessageLookupByLibrary.simpleMessage("يجب أن يكون أكثر من ٣ أحرف"),
@@ -337,6 +342,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "your_application_your_rules" : MessageLookupByLibrary.simpleMessage("تطبيقك قواعدك"),
     "your_biography" : MessageLookupByLibrary.simpleMessage("سيرتك الذاتية"),
     "your_journey_with_us" : MessageLookupByLibrary.simpleMessage("رحلتك معنا"),
+    "your_notes_on_the_order" : MessageLookupByLibrary.simpleMessage("ملاحظاتك على الطلب"),
     "your_order_has_been_successfully_submitted" : MessageLookupByLibrary.simpleMessage("تم تقديم طلبك بنجاح!")
   };
 }

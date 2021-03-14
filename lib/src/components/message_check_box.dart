@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -29,7 +28,9 @@ class _MessageCheckBoxState extends State<MessageCheckBox> {
   @override
   void initState() {
     super.initState();
-    messageController = TextEditingController();
+    messageController = TextEditingController(
+      text: widget.cart.customPhrase
+    );
     // cubit = getIt<CartMessagesCubit>();
     // cubit.getMessagesValues();
   }
@@ -124,6 +125,7 @@ class _MessageCheckBoxState extends State<MessageCheckBox> {
             children: [
               TextFormField(
                 // validator: Validators.shortStringValidator,
+                initialValue: widget.cart.from,
                 decoration: InputDecoration(
                   hintText: S.current.from,
                   hintStyle: const TextStyle(color: Colors.black26),
@@ -142,6 +144,7 @@ class _MessageCheckBoxState extends State<MessageCheckBox> {
               const SizedBox(height: 20),
               TextFormField(
                 // validator: Validators.shortStringValidator,
+                initialValue: widget.cart.to,
                 decoration: InputDecoration(
                   hintText: S.current.to,
                   hintStyle: const TextStyle(color: Colors.black26),

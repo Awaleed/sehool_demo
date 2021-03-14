@@ -23,7 +23,8 @@ class CartTextField extends StatelessWidget {
         cart?.note = value;
       },
       decoration: InputDecoration(
-        hintText: S.current.notes,
+        hintText: S.current.your_notes_on_the_order,
+        hintStyle: Theme.of(context).textTheme.caption,
         filled: true,
         fillColor: Colors.white70,
         border: OutlineInputBorder(

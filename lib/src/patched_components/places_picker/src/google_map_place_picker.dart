@@ -34,11 +34,116 @@ class _GoogleMapPlacePickerState extends State<GoogleMapPlacePicker> {
   bool showPickBtn = true;
   bool canChoose = true;
 
-  final center = const LatLng(
-    24.733721,
-    46.706886,
-  );
-  final distance = 30000.0;
+  List<LatLng> get _northRegion => const [
+        LatLng(25.058447599999997, 46.5468074),
+        LatLng(24.897222200000005, 46.3731562),
+        LatLng(24.793451999999995, 46.4103813),
+        LatLng(24.78780240000001, 46.5698884),
+        LatLng(24.7372821, 46.59047279999999),
+        LatLng(24.696806000000006, 46.633103),
+        LatLng(24.6786309, 46.7195805),
+        LatLng(24.757802099999996, 46.7444733),
+        LatLng(24.811768700000012, 46.7125423),
+        LatLng(24.86015090000002, 46.73674840000001),
+        LatLng(24.901378800000014, 46.7113846),
+        // LatLng(24.913536400000005, 46.7251219),
+        LatLng(24.9414138, 46.7527536),
+        LatLng(24.9776899, 46.749996),
+        LatLng(25.123447100000003, 46.67458150000001),
+        LatLng(25.058447599999997, 46.5468074),
+      ];
+  List<LatLng> get _southRegion => const [
+        LatLng(24.676370799999997, 46.6365654),
+        // LatLng(24.58706480000001, 46.6350112),
+        LatLng(24.4996319, 46.63500299999999),
+        LatLng(24.490197999999985, 46.7564148),
+        LatLng(24.492738299999996, 46.9333606),
+        LatLng(24.635827000000006, 46.9331827),
+        LatLng(24.697547200000006, 46.9221757),
+        LatLng(24.719960200000006, 46.8442531),
+        // LatLng(24.702619800000022, 46.7796754),
+        LatLng(24.6786309, 46.7195805),
+        LatLng(24.696806000000006, 46.633103),
+        LatLng(24.676370799999997, 46.6365654),
+      ];
+  List<LatLng> get _westRegion => const [
+        LatLng(24.696806000000006, 46.633103),
+        LatLng(24.7372821, 46.59047279999999),
+        LatLng(24.78780240000001, 46.5698884),
+        LatLng(24.793451999999995, 46.4103813),
+        LatLng(24.577782100000004, 46.4189677),
+        LatLng(24.547597400000004, 46.4624684),
+        LatLng(24.53684010000001, 46.5013508),
+        // LatLng(24.531381400000008, 46.5424593),
+        LatLng(24.4996319, 46.63500299999999),
+        // LatLng(24.542381299999995, 46.63613990000001),
+        // LatLng(24.58513070000001, 46.6352169),
+        LatLng(24.676370799999997, 46.6365654),
+        LatLng(24.696806000000006, 46.633103),
+      ];
+
+  List<LatLng> get _eastRegion => const [
+        LatLng(24.771138100000005, 46.9149658),
+        LatLng(24.899817100000014, 46.9678376),
+        LatLng(25.123447100000003, 46.67458150000001),
+        LatLng(24.9776899, 46.749996),
+        LatLng(24.9414138, 46.7527536),
+        LatLng(24.901378800000014, 46.7113846),
+        LatLng(24.86015090000002, 46.73674840000001),
+        LatLng(24.811768700000012, 46.7125423),
+        // LatLng(24.780839600000007, 46.730485),
+        LatLng(24.757802099999996, 46.7444733),
+        LatLng(24.6786309, 46.7195805),
+        // LatLng(24.70324769999999, 46.78825739999999),
+        LatLng(24.719960200000006, 46.8442531),
+        LatLng(24.697547200000006, 46.9221757),
+        LatLng(24.771138100000005, 46.9149658),
+      ];
+
+  int _getRegion(LatLng point) {
+    if (_checkIfValidMarker(point, _northRegion)) {
+      return 1;
+    } else if (_checkIfValidMarker(point, _southRegion)) {
+      return 2;
+    } else if (_checkIfValidMarker(point, _eastRegion)) {
+      return 4;
+    } else if (_checkIfValidMarker(point, _westRegion)) {
+      return 3;
+    } else {
+      return -1;
+    }
+  }
+
+  bool _checkIfValidMarker(LatLng tap, List<LatLng> vertices) {
+    int intersectCount = 0;
+    for (int j = 0; j < vertices.length - 1; j++) {
+      if (rayCastIntersect(tap, vertices[j], vertices[j + 1])) {
+        intersectCount++;
+      }
+    }
+
+    return ((intersectCount % 2) == 1); // odd = inside, even = outside;
+  }
+
+  bool rayCastIntersect(LatLng tap, LatLng vertA, LatLng vertB) {
+    double aY = vertA.latitude;
+    double bY = vertB.latitude;
+    double aX = vertA.longitude;
+    double bX = vertB.longitude;
+    double pY = tap.latitude;
+    double pX = tap.longitude;
+
+    if ((aY > pY && bY > pY) || (aY < pY && bY < pY) || (aX < pX && bX < pX)) {
+      return false; // a and b can't both be above or below pt.y, and a or
+      // b must be east of pt.x
+    }
+
+    double m = (aY - bY) / (aX - bX); // Rise over run
+    double bee = (-aX) * m + aY; // y = mx + b
+    double x = (pY - bee) / m; // algebra is neat!
+
+    return x > pX;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -100,63 +205,42 @@ class _GoogleMapPlacePickerState extends State<GoogleMapPlacePicker> {
     return GoogleMap(
       initialCameraPosition: initialCameraPosition,
       myLocationEnabled: true,
-      circles: {
-        Circle(
-          center: center,
-          radius: distance,
-          strokeWidth: 0,
-          fillColor: Colors.amber.withOpacity(.15),
-          circleId: CircleId('id'),
-        )
+      // circles: {
+      //   Circle(
+      //     center: center,
+      //     radius: distance,
+      //     strokeWidth: 0,
+      //     fillColor: Colors.amber.withOpacity(.15),
+      //     circleId: CircleId('id'),
+      //   )
+      // },
+      onTap: (value) {
+        print('map tapped: $value');
       },
       polygons: {
         Polygon(
           polygonId: PolygonId('north'),
-          fillColor: Colors.red.withOpacity(.2),
-          strokeWidth: 0,
-          points: [
-            LatLng(25.07068, 46.42402),
-            LatLng(24.66824, 46.40445),
-            LatLng(24.83084, 46.81454),
-            LatLng(24.88426, 47.03032),
-            LatLng(25.08203, 46.89402),
-          ],
-        ),
-        Polygon(
-          polygonId: PolygonId('west'),
-          fillColor: Colors.green.withOpacity(.2),
-          strokeWidth: 0,
-          points: [
-            LatLng(24.63704, 46.8003),
-            LatLng(24.79547, 46.72236),
-            LatLng(24.83084, 46.81454),
-            LatLng(24.88426, 47.03032),
-            LatLng(24.70832, 47.04371),
-          ],
-        ),
-        Polygon(
-          polygonId: PolygonId('east'),
           fillColor: Colors.orange.withOpacity(.2),
           strokeWidth: 0,
-          points: [
-            LatLng(24.63704, 46.8003),
-            LatLng(24.79547, 46.72236),
-            LatLng(24.65872, 46.40393),
-            LatLng(24.65857, 46.40342),
-            LatLng(24.5123, 46.45457),
-          ],
+          points: _northRegion,
         ),
         Polygon(
           polygonId: PolygonId('south'),
+          fillColor: Colors.green.withOpacity(.2),
+          strokeWidth: 0,
+          points: _southRegion,
+        ),
+        Polygon(
+          polygonId: PolygonId('west'),
+          fillColor: Colors.red.withOpacity(.2),
+          strokeWidth: 0,
+          points: _westRegion,
+        ),
+        Polygon(
+          polygonId: PolygonId('east'),
           fillColor: Colors.teal.withOpacity(.2),
           strokeWidth: 0,
-          points: [
-            LatLng(24.71939, 47.03444),
-            LatLng(24.54963, 47.16731),
-            LatLng(24.3582, 46.55362),
-            LatLng(24.42934, 46.49886),
-            LatLng(24.5123, 46.45457),
-          ],
+          points: _eastRegion,
         ),
       },
       onMapCreated: (GoogleMapController controller) {
@@ -177,28 +261,22 @@ class _GoogleMapPlacePickerState extends State<GoogleMapPlacePicker> {
       onCameraMove: (CameraPosition position) {
         provider.setCameraPosition(position);
         provider.currentPosition = Position(
-            latitude: position.target.latitude,
-            longitude: position.target.longitude);
+          latitude: position.target.latitude,
+          longitude: position.target.longitude,
+        );
+        final region = _getRegion(position.target);
+        provider.currentRegion = region;
 
         setState(() {
-          canChoose = Geolocator.distanceBetween(
-                center.latitude,
-                center.longitude,
-                position.target.latitude,
-                position.target.longitude,
-              ) <=
-              distance;
+          canChoose = region != -1;
         });
-        /*
-        24.733721,
-        46.706886,
-        */
-        final vertical =
-            position.target.latitude > 24.733721 ? 'north' : 'south';
-        final horizontal =
-            position.target.longitude > 46.706886 ? 'east' : 'west';
-        print('position.target.latitude: $horizontal');
-
+        // _checkIfValidMarker(latLng, _area);
+        /* 24.733721, 46.706886 */
+        // final vertical =
+        //     position.target.latitude > 24.733721 ? 'north' : 'south';
+        // final horizontal =
+        //     position.target.longitude > 46.706886 ? 'east' : 'west';
+        // print('position.target.latitude: $horizontal');
         // print('distance ${Geolocator.distanceBetween(
         //   widget.initialTarget.latitude,
         //   widget.initialTarget.longitude,

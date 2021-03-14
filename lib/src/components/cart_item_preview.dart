@@ -22,30 +22,45 @@ class CartItemPreview extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(
-              S.current.summery,
-              style: Theme.of(context).textTheme.button,
+            Center(
+              child: Text(
+                S.current.summery,
+                style: Theme.of(context).textTheme.button,
+              ),
             ),
             const Divider(),
-            ListTile(
-              title: Text(S.current.item),
-              subtitle: Text(cartItem.product.name ?? S.current.none),
+            Row(
+              children: [
+                Expanded(
+                  child: ListTile(
+                    title: Text(S.current.item),
+                    subtitle: Text(cartItem.product.name ?? S.current.none),
+                  ),
+                ),
+                Expanded(
+                  child: ListTile(
+                    title: Text(S.current.quantity),
+                    subtitle: Text('${cartItem.quantity}'),
+                  ),
+                ),
+              ],
             ),
-            ListTile(
-              title: Text(S.current.quantity),
-              subtitle: Text('${cartItem.quantity}'),
-            ),
-            ListTile(
-              title: Text(S.current.slicing_method),
-              subtitle: Text(cartItem.slicingMethod?.name ?? S.current.none),
-            ),
-            // ListTile(
-            //   title: Text(S.current.notes),
-            //   subtitle: Text(cartItem.note ?? S.current.none),
-            // ),
-            ListTile(
-              title: Text(S.current.total),
-              subtitle: Text('${cartItem.total} ﷼'),
+            Row(
+              children: [
+                Expanded(
+                  child: ListTile(
+                    title: Text(S.current.slicing_method),
+                    subtitle:
+                        Text(cartItem.slicingMethod?.name ?? S.current.none),
+                  ),
+                ),
+                Expanded(
+                  child: ListTile(
+                    title: Text(S.current.total),
+                    subtitle: Text('${cartItem.total} ﷼'),
+                  ),
+                ),
+              ],
             ),
           ],
         ),

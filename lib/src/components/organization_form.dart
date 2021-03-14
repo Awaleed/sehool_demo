@@ -1,4 +1,3 @@
-
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -16,11 +15,9 @@ class OrganizationForm extends StatefulWidget {
     Key key,
     @required this.cart,
     @required this.onValueChanged,
-    @required this.formKey,
   }) : super(key: key);
   final ValueChanged onValueChanged;
   final CartModel cart;
-  final GlobalKey<FormState> formKey;
 
   @override
   _OrganizationFormState createState() => _OrganizationFormState();
@@ -46,15 +43,38 @@ class _OrganizationFormState extends State<OrganizationForm> {
     return BlocConsumer<AssociationsCubit, AssociationsState>(
       cubit: cubit,
       listener: (context, state) {
-        final value = state.maybeWhen(
-              success: (values) => values?.association?.isNotEmpty ?? false ? values?.association?.first : null,
-              orElse: () => null,
-            ) ??
+        final error = state.maybeWhen(
+          failure: (message) => message,
+          orElse: () => null,
+        );
+        if (error != null) {
+          setState(() {
+            widget.cart.associationDiscount = null;
+            widget.cart.association = null;
+            widget.cart.organization = false;
+            widget.onValueChanged?.call(null);
+          });
+          showDialog(
+            context: context,
+            useRootNavigator: true,
+            builder: (context) => AlertDialog(
+              content: Text(error),
+            ),
+          ); // setState(() => selectedValue = e);
+
+          return;
+        }
+        final value =
+            //  state.maybeWhen(
+            //       success: (values) => values?.association?.isNotEmpty ?? false ? values?.association?.first : null,
+            //       orElse: () => null,
+            //     ) ??
             widget.cart.association;
-        final discount = state.maybeWhen(
-              success: (values) => values?.discount,
-              orElse: () => null,
-            ) ??
+        final discount =
+            //  state.maybeWhen(
+            //       success: (values) => values?.discount,
+            //       orElse: () => null,
+            //     ) ??
             widget.cart.associationDiscount;
 
         setState(() {

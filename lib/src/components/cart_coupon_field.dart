@@ -26,7 +26,7 @@ class _CouponCubit extends Cubit<_CouponState> with ApiCaller {
         path: '/coupon',
         data: {'name': couponStr.trim()},
       );
-      if (res is List<Map>) {
+      if (res is List) {
         res.first['amount'] = double.tryParse('${res.first['amount']}' ?? '');
         coupon = CouponModel.fromJson(res.first);
         emit(_CouponState.success);
@@ -43,9 +43,7 @@ class CartCouponField extends StatefulWidget {
     Key key,
     @required this.cart,
     @required this.onChanged,
-    @required this.organizationFormKey,
   }) : super(key: key);
-  final GlobalKey<FormState> organizationFormKey;
 
   final CartModel cart;
   final ValueChanged onChanged;
@@ -89,12 +87,11 @@ class _CartCouponFieldState extends State<CartCouponField> with ApiCaller {
       },
       builder: (context, state) {
         // final isLoading = state == _CouponState.loading;
-        final color =
-            widget.cart.coupon != null || state == _CouponState.success
-                ? Colors.green.withOpacity(0.7)
-                : state == _CouponState.failure
-                    ? Colors.red.withOpacity(0.7)
-                    : Colors.white70;
+        final color = widget.cart.coupon != null || state == _CouponState.success
+            ? Colors.green.withOpacity(0.7)
+            : state == _CouponState.failure
+                ? Colors.red.withOpacity(0.7)
+                : Colors.white70;
         return Padding(
           padding: const EdgeInsets.all(20.0),
           child: Column(
@@ -105,8 +102,7 @@ class _CartCouponFieldState extends State<CartCouponField> with ApiCaller {
                     value: widget.cart.fromWallet,
                     onChanged: (value) {
                       if (kUser.wallet < widget.cart.total) {
-                        Helpers.showErrorOverlay(context,
-                            error: S.current.sorry_your_balance_is_not_enough);
+                        Helpers.showErrorOverlay(context, error: S.current.sorry_your_balance_is_not_enough);
                       } else {
                         setState(() {
                           widget.cart.fromWallet = value;
@@ -211,7 +207,6 @@ class _CartCouponFieldState extends State<CartCouponField> with ApiCaller {
               if (widget.cart.organization) ...[
                 OrganizationForm(
                   cart: widget.cart,
-                  formKey: widget.organizationFormKey,
                   onValueChanged: widget.onChanged,
                 ),
               ],

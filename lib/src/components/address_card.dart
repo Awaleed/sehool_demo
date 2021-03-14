@@ -31,28 +31,11 @@ class AddressCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(25),
             ),
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text(
-                    ' ',
-                    style: Theme.of(context).textTheme.headline5,
-                  ),
-                  const Divider(),
-                  ListTile(
-                    title: Text(S.current.city),
-                    subtitle: Text(address?.city?.name ?? S.current.none),
-                  ),
-                  ListTile(
-                    title: Text(S.current.neighborhood),
-                    subtitle: Text(address?.section?.name ?? S.current.none),
-                  ),
-                  ListTile(
-                    title: Text(S.current.address),
-                    subtitle: Text(address?.address ?? S.current.none),
-                  ),
-                ],
+              padding:
+                  const EdgeInsets.only(top: 80, bottom: 8, left: 8, right: 8),
+              child: ListTile(
+                // title: Text(S.current.address),
+                title: Text(address?.address ?? S.current.none),
               ),
             ),
           ),

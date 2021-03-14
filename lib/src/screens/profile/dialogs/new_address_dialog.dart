@@ -40,20 +40,20 @@ class _NewAddressDialogState extends State<NewAddressDialog> {
 
   CityModel selectedCity;
   CitySectionModel selectedSection;
-  DropdownCubit cityCubit;
+  // DropdownCubit cityCubit;
 
-  @override
-  void initState() {
-    super.initState();
-    cityCubit = getIt<DropdownCubit>();
-    cityCubit.getDropdownValues(DropdownValueType.cites);
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   // cityCubit = getIt<DropdownCubit>();
+  //   // cityCubit.getDropdownValues(DropdownValueType.cites);
+  // }
 
-  @override
-  void dispose() {
-    cityCubit.close();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   cityCubit.close();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +104,8 @@ class _NewAddressDialogState extends State<NewAddressDialog> {
           //   ],
           // ),
           ..background.color(Colors.white)
-          ..background.image(path: 'assets/images/black.png', fit: BoxFit.contain),
+          ..background
+              .image(path: 'assets/images/black.png', fit: BoxFit.contain),
         child: Scaffold(
           backgroundColor: Colors.white70,
           appBar: AppBar(
@@ -112,7 +113,10 @@ class _NewAddressDialogState extends State<NewAddressDialog> {
             backgroundColor: Colors.black54,
             title: Text(
               S.of(context).address,
-              style: Theme.of(context).textTheme.headline6.copyWith(color: Colors.white),
+              style: Theme.of(context)
+                  .textTheme
+                  .headline6
+                  .copyWith(color: Colors.white),
             ),
           ),
           body: Center(
@@ -139,24 +143,6 @@ class _NewAddressDialogState extends State<NewAddressDialog> {
                           enabled: !isLoading,
                         ),
                         const SizedBox(height: 8),
-                        BlocBuilder<DropdownCubit, DropdownState>(
-                          cubit: cityCubit,
-                          builder: (context, state) {
-                            return state.when(
-                              initial: () => _buildCityDropdownUI([], isLoading: true),
-                              loading: () => _buildCityDropdownUI([], isLoading: true),
-                              success: (values) => _buildCityDropdownUI(values),
-                              failure: (message) => MyErrorWidget(
-                                onRetry: () {
-                                  cityCubit.getDropdownValues(
-                                    DropdownValueType.cites,
-                                  );
-                                },
-                                message: message,
-                              ),
-                            );
-                          },
-                        ),
                         _buildAddressCard(
                           context,
                           map: data,
@@ -170,20 +156,23 @@ class _NewAddressDialogState extends State<NewAddressDialog> {
               ),
             ),
           ),
-          floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerFloat,
           floatingActionButton: Stack(
             alignment: Alignment.bottomCenter,
             children: [
-              FloatingActionButton(
-                onPressed: () async {
-                  Helpers.dismissFauces(context);
-                  if (formKey.currentState.validate()) {
-                    formKey.currentState.save();
-                    cubit.addAddress(data);
-                  }
-                },
-                child: const Icon(FluentIcons.save_24_regular, color: Colors.white),
-              ),
+              if (formKey?.currentState?.validate() ?? false)
+                FloatingActionButton(
+                  onPressed: () async {
+                    Helpers.dismissFauces(context);
+                    if (formKey.currentState.validate()) {
+                      formKey.currentState.save();
+                      cubit.addAddress(data);
+                    }
+                  },
+                  child: const Icon(FluentIcons.save_24_regular,
+                      color: Colors.white),
+                ),
               WhatsappFloatingActionButton(),
             ],
           ),
@@ -218,15 +207,18 @@ class _NewAddressDialogState extends State<NewAddressDialog> {
             MaterialPageRoute(
               builder: (context) => PlacePicker(
                 initialPosition: LatLng(
-                  location?.latitude ?? 24.860667, location?.longitude ?? 46.674167,
+                  location?.latitude ?? 24.860667,
+                  location?.longitude ?? 46.674167,
                   // 15.591851764538097,
                   // 32.520090490579605,
                 ),
-                onSave: (newValue) {
+                onSave: (newValue, region) {
                   if (newValue != null) {
                     onSaved(newValue);
                     state.didChange(newValue);
                     _model.onSave(newValue);
+                    map['city_id'] = 1;
+                    map['section_id'] = region;
                   }
                   Navigator.of(context).pop();
                 },
@@ -258,17 +250,30 @@ class _NewAddressDialogState extends State<NewAddressDialog> {
       style: const TextStyle(fontSize: 14),
       enabled: enabled,
       obscureText: obscureText,
+      onChanged: (_) {
+        setState(() {});
+      },
       decoration: InputDecoration(
         labelText: _model.labelText,
         labelStyle: TextStyle(color: Theme.of(context).accentColor),
         contentPadding: const EdgeInsets.all(12),
         hintText: _model.hintText,
-        hintStyle: TextStyle(color: Theme.of(context).focusColor.withOpacity(0.7)),
+        hintStyle:
+            TextStyle(color: Theme.of(context).focusColor.withOpacity(0.7)),
         prefixIcon: Icon(_model.iconData, color: Theme.of(context).accentColor),
         suffixIcon: suffixIcon,
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(50), borderSide: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.2))),
-        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(50), borderSide: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.5))),
-        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(50), borderSide: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.2))),
+        border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(50),
+            borderSide: BorderSide(
+                color: Theme.of(context).focusColor.withOpacity(0.2))),
+        focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(50),
+            borderSide: BorderSide(
+                color: Theme.of(context).focusColor.withOpacity(0.5))),
+        enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(50),
+            borderSide: BorderSide(
+                color: Theme.of(context).focusColor.withOpacity(0.2))),
       ),
     );
   }
@@ -310,18 +315,32 @@ class _NewAddressDialogState extends State<NewAddressDialog> {
     return DropdownButtonHideUnderline(
       child: DropdownButtonFormField(
         decoration: InputDecoration(
-          prefixIcon: Icon(_model.iconData, color: Theme.of(context).accentColor),
+          prefixIcon:
+              Icon(_model.iconData, color: Theme.of(context).accentColor),
           labelStyle: TextStyle(color: Theme.of(context).accentColor),
-          contentPadding: const EdgeInsets.symmetric(horizontal: 25, vertical: 3),
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 25, vertical: 3),
           hintText: _model.hintText,
           labelText: _model.labelText,
           hintStyle: TextStyle(color: Theme.of(context).accentColor),
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(50), borderSide: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.2))),
-          focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(50), borderSide: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.5))),
-          enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(50), borderSide: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.2))),
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(50),
+              borderSide: BorderSide(
+                  color: Theme.of(context).focusColor.withOpacity(0.2))),
+          focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(50),
+              borderSide: BorderSide(
+                  color: Theme.of(context).focusColor.withOpacity(0.5))),
+          enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(50),
+              borderSide: BorderSide(
+                  color: Theme.of(context).focusColor.withOpacity(0.2))),
         ),
         value: value,
-        style: Theme.of(context).textTheme.bodyText2.copyWith(color: Theme.of(context).accentColor),
+        style: Theme.of(context)
+            .textTheme
+            .bodyText2
+            .copyWith(color: Theme.of(context).accentColor),
         items: [
           ...values.map(
             (e) => DropdownMenuItem(

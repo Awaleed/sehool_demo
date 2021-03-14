@@ -4,12 +4,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sailor/sailor.dart';
-import 'package:sehool/src/components/my_error_widget.dart';
-import 'package:sehool/src/core/api_caller.dart';
 
 import '../../../../generated/l10n.dart';
 import '../../../../init_injectable.dart';
 import '../../../components/address_card.dart';
+import '../../../components/my_error_widget.dart';
+import '../../../core/api_caller.dart';
 import '../../../cubits/cart_cubit/cart_cubit.dart';
 import '../../../data/user_datasource.dart';
 import '../../../helpers/helper.dart';

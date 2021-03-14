@@ -1,24 +1,27 @@
+import 'dart:math';
+
 import 'package:division/division.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import '../orders/orders.dart';
-import '../profile/pages/orders_history.dart';
-import '../../../main.dart';
-import '../../components/orders_list/orders_list_sliver.dart';
-import '../../core/api_caller.dart';
-import '../../models/order_model.dart';
-import '../checkout/pages/payment_method_review.dart';
+import 'package:package_info/package_info.dart';
+import 'package:supercharged/supercharged.dart';
+import 'package:simple_animations/simple_animations.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../generated/l10n.dart';
 import '../../../init_injectable.dart';
+import '../../components/orders_list/orders_list_sliver.dart';
+import '../../core/api_caller.dart';
 import '../../cubits/cart_cubit/cart_cubit.dart';
 import '../../helpers/helper.dart';
+import '../../models/order_model.dart';
 import '../../routes/config_routes.dart';
 import '../checkout/checkout.dart';
+import '../checkout/pages/payment_method_review.dart';
+import '../profile/pages/orders_history.dart';
 import 'pages/main.dart';
 import 'pages/userpage.dart';
 import 'pages/videos.dart';
@@ -247,73 +250,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ..onTap(() async {
             showDialog(
               context: context,
-              builder: (context) => AlertDialog(
-                clipBehavior: Clip.hardEdge,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
-                backgroundColor: Colors.white,
-                title: Text(S.current.contact_us),
-                content: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    ListTile(
-                      leading: const Icon(
-                        FontAwesomeIcons.whatsapp,
-                        color: Color(
-                          0xFF20b038,
-                        ),
-                      ),
-                      title: const Text('Whatsapp'),
-                      onTap: () {
-                        launch('https://api.whatsapp.com/send?phone=966508808940');
-                      },
-                    ),
-                    // ListTile(
-                    //   leading: const Icon(
-                    //     FontAwesomeIcons.telegram,
-                    //     color: Color(
-                    //       0xFF289CDE,
-                    //     ),
-                    //   ),
-                    //   title: const Text('Telegram'),
-                    //   onTap: () {
-                    //     launch('https://t.me/'); // TelegramFloatingActionButton
-                    //   },
-                    // ),
-                    ListTile(
-                      leading: const Icon(FontAwesomeIcons.facebook),
-                      title: const Text('Facebook'),
-                      onTap: () => launchUrl('https://www.facebook.com/sehoool/'),
-                    ),
-                    ListTile(
-                      leading: const Icon(FontAwesomeIcons.snapchat),
-                      title: const Text('Snapchat'),
-                      onTap: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) => Dialog(
-                            clipBehavior: Clip.hardEdge,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(25),
-                            ),
-                            backgroundColor: Colors.transparent,
-                            child: Image.asset('assets/images/snapchat.jpeg'),
-                          ),
-                        );
-                      },
-                    ),
-                    ListTile(
-                      leading: const Icon(FontAwesomeIcons.instagram),
-                      title: const Text('Instagram'),
-                      onTap: () => launchUrl('https://www.instagram.com/sehoool/'),
-                    ),
-                    ListTile(
-                      leading: const Icon(FontAwesomeIcons.twitter),
-                      title: const Text('Twitter'),
-                      onTap: () => launchUrl('https://twitter.com/sehoool/'),
-                    ),
-                  ],
-                ),
-              ),
+              builder: (context) => const WhoAreWeDialog(),
             );
             // const url = "https://wa.me/249966787917?text=I'm redirected from sehool user app.";
             // if (await canLaunch(url)) {
@@ -332,11 +269,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ..alignmentContent.center(),
         child: const Icon(FontAwesomeIcons.shareAlt, color: Colors.amber),
       );
-  Future<void> launchUrl(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
-    }
-  }
 
   Widget _buildCartButton() => Padding(
         padding: const EdgeInsets.all(8.0),
@@ -642,6 +574,238 @@ class PinnedOrdersState extends State<PinnedOrders> with ApiCaller {
         ),
         const SizedBox(height: 10),
       ],
+    );
+  }
+}
+
+class WhoAreWeDialog extends StatelessWidget {
+  const WhoAreWeDialog({Key key}) : super(key: key);
+  final aboutAr = '''
+      شركة سهول شركة متخصصة في استيراد اللحوم السودانية من بيئتها الطبيعية بالسودان (سهول البطانة) الخضراء المترامية الاطراف حيث المراعي الطبيعية التي لا دخل ليد الإنسان فيها ..
+
+وتصل يوميا طازجة بالطيران السعودي معتمدة من هيئة الغذاء والدواء السعودية لمعاملنا بشمال الرياض حيث نقوم بتجهيزها بأحدث الوسائل واعلى معايير الجودة والسلامة المهنية ويتم توصليها اليكم عبر اسطولنا المنتشر بجميع احياء الرياض ..''';
+
+  final aboutEn = '''
+      Sehool Company is a company specialized in importing Sudanese meat from its natural environment in Sudan (Butana Plains), the sprawling green pastures where the human hand has no control.
+
+And they arrive daily fresh by Saudi aviation approved by the Saudi Food and Drug Authority for our laboratories in the north of Riyadh, where we supply them with the latest means and the highest standards of quality and occupational safety, and they are delivered to you through our fleet spread all over Riyadh.''';
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      clipBehavior: Clip.hardEdge,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+      contentPadding: const EdgeInsets.only(
+        top: 24,
+        left: 24,
+        right: 24,
+        bottom: 24,
+      ),
+      backgroundColor: Colors.white,
+      // contentPadding: EdgeInsets.zero,
+      title: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
+            children: [
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(S.current.who_are_we),
+                  InkWell(
+                    onTap: () {
+                      launchUrl('http://sehoool.com');
+                    },
+                    child: Text(
+                      'sehoool.com',
+                      style: Theme.of(context).textTheme.subtitle2,
+                    ),
+                  ),
+                ],
+              ),
+              const Spacer(),
+              _buildSocailIcons(context),
+            ],
+          ),
+          const Divider(height: 5, thickness: 1, color: Colors.black),
+        ],
+      ),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(
+            Helpers.isArabic(context) ? aboutAr : aboutEn,
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.bodyText2,
+          ),
+          const SizedBox(height: 10),
+          FutureBuilder<PackageInfo>(
+            future: PackageInfo.fromPlatform(),
+            builder: (context, snapshot) {
+              String message;
+              if (snapshot.hasData) {
+                message = snapshot.data.version;
+              } else {
+                message = 'loading';
+              }
+              // : '';
+              return ListTile(
+                contentPadding: EdgeInsets.zero,
+                title: Text(
+                  '${S.current.about_msg_p1} $message ${S.current.about_msg_p2}',
+                  style: Theme.of(context).textTheme.caption,
+                ),
+                subtitle: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const Divider(),
+                    Text(
+                      '${S.current.contact_us_on_all_social_networks_at} @panda180sd',
+                      style: Theme.of(context).textTheme.caption,
+                    ),
+                    Text(
+                      '${S.current.kingdom_of_saudi_arabia_riyadh} ${S.current.phone}: 00966508808940',
+                      style: Theme.of(context).textTheme.caption,
+                    ),
+                  ],
+                ),
+                trailing: ClipRRect(
+                  borderRadius: BorderRadius.circular(100),
+                  child: const AnimatedPandaLogo(),
+                ),
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> launchUrl(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    }
+  }
+
+  Widget _buildSocailIcons(BuildContext context) {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          InkWell(
+            onTap: () => launchUrl('https://api.whatsapp.com/send?phone=966508808940'),
+            child: Padding(
+              padding: const EdgeInsets.all(3),
+              child: const Icon(
+                FontAwesomeIcons.whatsapp,
+                size: 20,
+                color: Color(0xFF20b038),
+              ),
+            ),
+          ),
+          InkWell(
+            // title: const Text('Facebook'),
+            onTap: () => launchUrl('https://www.facebook.com/sehoool/'),
+            child: Padding(
+              padding: const EdgeInsets.all(3),
+              child: const Icon(
+                FontAwesomeIcons.facebook,
+                size: 20,
+                color: Colors.black54,
+              ),
+            ),
+          ),
+          InkWell(
+            // title: const Text('Snapchat'),
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (context) => Dialog(
+                  clipBehavior: Clip.hardEdge,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                  backgroundColor: Colors.transparent,
+                  child: Image.asset('assets/images/snapchat.jpeg'),
+                ),
+              );
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(3),
+              child: const Icon(
+                FontAwesomeIcons.snapchat,
+                size: 20,
+                color: Colors.black54,
+              ),
+            ),
+          ),
+          InkWell(
+            // title: const Text('Instagram'),
+            onTap: () => launchUrl('https://www.instagram.com/sehoool/'),
+            child: Padding(
+              padding: const EdgeInsets.all(3),
+              child: const Icon(
+                FontAwesomeIcons.instagram,
+                size: 20,
+                color: Colors.black54,
+              ),
+            ),
+          ),
+          InkWell(
+            // title: const Text('Twitter'),
+            onTap: () => launchUrl('https://twitter.com/sehoool/'),
+            child: Padding(
+              padding: const EdgeInsets.all(3),
+              child: const Icon(
+                FontAwesomeIcons.twitter,
+                size: 20,
+                color: Colors.black54,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class AnimatedPandaLogo extends StatefulWidget {
+  const AnimatedPandaLogo({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  _AnimatedPandaLogoState createState() => _AnimatedPandaLogoState();
+}
+
+class _AnimatedPandaLogoState extends State<AnimatedPandaLogo> {
+  CustomAnimationControl control = CustomAnimationControl.STOP;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          control = CustomAnimationControl.PLAY_FROM_START;
+        });
+      },
+      child: CustomAnimation(
+        control: control,
+        tween: 0.0.tweenTo(pi * 2),
+        curve: Curves.bounceOut,
+        duration: 700.milliseconds,
+        builder: (context, child, value) {
+          return Transform.rotate(
+            angle: value,
+            child: child,
+          );
+        },
+        child: Image.asset('assets/images/pp.jpg'),
+      ),
     );
   }
 }

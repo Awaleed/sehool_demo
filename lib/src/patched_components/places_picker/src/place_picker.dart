@@ -23,7 +23,7 @@ class PlacePicker extends StatefulWidget {
   final int cameraMoveDebounceInMilliseconds;
 
   final bool enableMyLocationButton;
-  final ValueChanged<LatLng> onSave;
+  final void Function(LatLng, int) onSave;
 
   @override
   _PlacePickerState createState() => _PlacePickerState();
@@ -70,7 +70,8 @@ class _PlacePickerState extends State<PlacePicker> {
 
   Future<void> _moveToCurrentPosition() async {
     if (provider.currentPosition != null) {
-      await _moveTo(provider.currentPosition.latitude, provider.currentPosition.longitude);
+      await _moveTo(provider.currentPosition.latitude,
+          provider.currentPosition.longitude);
     }
   }
 
@@ -100,6 +101,7 @@ class _PlacePickerState extends State<PlacePicker> {
           provider.currentPosition.latitude,
           provider.currentPosition.longitude,
         ),
+        provider.currentRegion,
       ),
       onMyLocation: () async {
         // Prevent to click many times in short period.

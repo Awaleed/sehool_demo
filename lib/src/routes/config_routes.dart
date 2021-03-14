@@ -1,5 +1,4 @@
 import 'package:sailor/sailor.dart';
-import 'package:sehool/src/screens/video/full_screen_video.dart';
 import 'package:supercharged/supercharged.dart';
 
 import '../screens/auth/login.dart';
@@ -15,7 +14,6 @@ import '../screens/profile/pages/language.dart';
 import '../screens/profile/pages/orders_history.dart';
 import '../screens/profile/profile_settings.dart';
 import '../screens/splash.dart';
-import '../screens/video/video.dart';
 
 abstract class AppRouter {
   static final sailor = Sailor(
@@ -62,14 +60,14 @@ abstract class AppRouter {
           params: [SailorParam(name: 'product', isRequired: true)],
         ),
 
-        /// Video Screens
-        SailorRoute(
-          name: FullScreenVideoScreen.routeName,
-          builder: (context, args, paramMap) => FullScreenVideoScreen(
-            // videoController: paramMap.param('controller'),
-          ),
-          params: [SailorParam(name: 'controller', isRequired: true)],
-        ),
+        // /// Video Screens
+        // SailorRoute(
+        //   name: FullScreenVideoScreen.routeName,
+        //   builder: (context, args, paramMap) => FullScreenVideoScreen(
+        //     // videoController: paramMap.param('controller'),
+        //   ),
+        //   params: [SailorParam(name: 'controller', isRequired: true)],
+        // ),
 
         /// Cart Screens
         SailorRoute(
