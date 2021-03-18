@@ -37,12 +37,14 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) {
     image: json['image'] as String,
     wallet: (json['wallet'] as num)?.toDouble(),
     id: json['id'] as int,
+    status: json['status'] as int,
   );
 }
 
 Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
+      'status': instance.status,
       'phone': instance.phone,
       'store_name': instance.storeName,
       'vat_number': instance.vatNumber,

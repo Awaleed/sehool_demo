@@ -59,10 +59,9 @@ class OrdersListItemWidget extends StatelessWidget {
               ),
             ),
             const Divider(),
-            if (cart.status.id >= 4 && cart.status.id <= 5) ...[
+            if ((cart.status.id >= 4 && cart.status.id <= 5) && cart.delivery != null) ...[
               ListTile(
-                leading: Image.asset(
-                    'assets/images/user-with-shirt-and-tie_icon-icons.com_68276.png'),
+                leading: Image.asset('assets/images/user-with-shirt-and-tie_icon-icons.com_68276.png'),
                 trailing: cart.status.id != 4
                     ? null
                     : Row(
@@ -71,29 +70,19 @@ class OrdersListItemWidget extends StatelessWidget {
                           IconButton(
                             iconSize: 50,
                             onPressed: () async {
-                              final phone =
-                                  cart.delivery.phone?.replaceFirst('0', '966');
-                              final uri =
-                                  'https://api.whatsapp.com/send?phone=$phone';
+                              final phone = cart.delivery.phone?.replaceFirst('0', '966');
+                              final uri = 'https://api.whatsapp.com/send?phone=$phone';
                               if (await canLaunch(uri)) {
                                 launch(uri);
                               } else {
                                 throw 'Could not launch $uri';
                               }
                             },
-                            icon: SvgPicture.asset(
-                              'assets/images/logo_whatsapp_telephone_handset_icon_143174.svg',
-                              height: 50,
-                              width: 50,
-                            ),
+                            icon: SvgPicture.asset('assets/images/logo_whatsapp_telephone_handset_icon_143174.svg', height: 50, width: 50),
                           ),
                           IconButton(
                             iconSize: 50,
-                            icon: SvgPicture.asset(
-                              'assets/images/call-phone-telephone_108619.svg',
-                              height: 50,
-                              width: 50,
-                            ),
+                            icon: SvgPicture.asset('assets/images/call-phone-telephone_108619.svg', height: 50, width: 50),
                             onPressed: () async {
                               FlutterPhoneDirectCaller.directCall(
                                 cart.delivery.phone,
@@ -296,8 +285,7 @@ class OrderStatusWidget extends StatelessWidget with ApiCaller {
                     builder: (context) => SimpleDialog(
                       children: [
                         SimpleDialogOption(
-                          onPressed: () =>
-                              Navigator.of(context).pop(ImageSource.camera),
+                          onPressed: () => Navigator.of(context).pop(ImageSource.camera),
                           child: Row(
                             children: [
                               const Icon(Icons.camera_alt),
@@ -307,8 +295,7 @@ class OrderStatusWidget extends StatelessWidget with ApiCaller {
                           ),
                         ),
                         SimpleDialogOption(
-                          onPressed: () =>
-                              Navigator.of(context).pop(ImageSource.gallery),
+                          onPressed: () => Navigator.of(context).pop(ImageSource.gallery),
                           child: Row(
                             children: [
                               const Icon(FontAwesomeIcons.images),
@@ -333,10 +320,7 @@ class OrderStatusWidget extends StatelessWidget with ApiCaller {
                     await post(
                       path: '/attached/${order.id}',
                       data: FormData.fromMap(
-                        {
-                          'attached':
-                              await MultipartFile.fromFile(croppedImage.path)
-                        },
+                        {'attached': await MultipartFile.fromFile(croppedImage.path)},
                       ),
                     );
                     AppRouter.sailor.navigate(
@@ -368,8 +352,7 @@ class OrderStatusWidget extends StatelessWidget with ApiCaller {
       );
     }
     return CustomStepper(
-      controlsBuilder: (context, {onStepCancel, onStepContinue}) =>
-          const SizedBox.shrink(),
+      controlsBuilder: (context, {onStepCancel, onStepContinue}) => const SizedBox.shrink(),
       physics: const NeverScrollableScrollPhysics(),
       currentCustomStep: (order.status.id - 2 <= 0) ? 0 : order.status.id - 2,
       steps: buildSteps(),
@@ -392,13 +375,11 @@ class OrderStatusWidget extends StatelessWidget with ApiCaller {
     // );
   }
 
-  static Future<PickedFile> _imagePick(ImageSource source) =>
-      ImagePicker().getImage(
+  static Future<PickedFile> _imagePick(ImageSource source) => ImagePicker().getImage(
         source: source,
       );
 
-  static Future<File> _imageCrop(PickedFile imageFile) =>
-      ImageCropper.cropImage(
+  static Future<File> _imageCrop(PickedFile imageFile) => ImageCropper.cropImage(
         sourcePath: imageFile.path,
         androidUiSettings: const AndroidUiSettings(
           toolbarWidgetColor: Colors.white,
@@ -414,8 +395,7 @@ class OrderStatusWidget extends StatelessWidget with ApiCaller {
     for (final status in StatusModel.statuses) {
       if (status.id == 2) continue;
 
-      final bool isActive = (status.id == order.status.id) ||
-          (order.status.id == 2 && status.id == 1);
+      final bool isActive = (status.id == order.status.id) || (order.status.id == 2 && status.id == 1);
 
       steps.add(
         CustomStep(

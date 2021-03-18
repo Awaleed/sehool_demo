@@ -2,11 +2,16 @@ import 'dart:math';
 
 import 'package:division/division.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:package_info/package_info.dart';
+import 'package:sehool/src/cubits/auth_cubit/auth_cubit.dart';
+import 'package:sehool/src/data/user_datasource.dart';
+import 'package:sehool/src/models/user_model.dart';
+import 'package:sehool/src/repositories/auth_repository.dart';
 import 'package:supercharged/supercharged.dart';
 import 'package:simple_animations/simple_animations.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -82,7 +87,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     // if (!added) WidgetsBinding.instance.addPostFrameCallback((_) => insertOverlay(context));
-
+    if (kUser.status == 0 && kUser.level == UserLevel.merchant) {
+      return _buildNotActive(context);
+    }
     return WillPopScope(
         onWillPop: () => Helpers.onWillPop(context),
         child: Parent(
@@ -326,6 +333,119 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       );
+
+  Widget _buildNotActive(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Card(
+              elevation: 2,
+              clipBehavior: Clip.hardEdge,
+              margin: const EdgeInsets.all(20),
+              color: Colors.white54,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Text(
+                  S.current.account_not_active_msg,
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.headline4,
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: _buildButton(
+                        label: Text(S.current.retry, style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.black, fontWeight: FontWeight.normal)),
+                        onTap: () async {
+                          final completer = Helpers.showLoading(context);
+                          await getIt<IAuthRepository>().me();
+                          setState(() {});
+                          completer.complete();
+                        },
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: _buildButton(
+                        label: Text(S.current.log_out, style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.white, fontWeight: FontWeight.normal)),
+                        color: Colors.red,
+                        onTap: () {
+                          final action = CupertinoActionSheet(
+                            title: Text(
+                              S.current.log_out,
+                              style: Theme.of(context).textTheme.headline3.copyWith(color: Colors.amber),
+                            ),
+                            message: Text(
+                              S.current.do_you_want_to_log_out_and_switch_account,
+                              style: Theme.of(context).textTheme.bodyText2.copyWith(color: Colors.amberAccent),
+                            ),
+                            actions: <Widget>[
+                              CupertinoActionSheetAction(
+                                isDestructiveAction: true,
+                                onPressed: () => getIt<AuthCubit>().unauthenticateUser(),
+                                child: Text(
+                                  S.current.yes,
+                                  style: Theme.of(context).textTheme.button.copyWith(color: Colors.red),
+                                ),
+                              ),
+                              CupertinoActionSheetAction(
+                                isDefaultAction: true,
+                                onPressed: () => Navigator.pop(context, false),
+                                child: Text(
+                                  S.current.no,
+                                  style: Theme.of(context).textTheme.button,
+                                ),
+                              )
+                            ],
+                            cancelButton: CupertinoActionSheetAction(
+                              onPressed: () => Navigator.pop(context, false),
+                              child: Text(
+                                S.current.cancel,
+                                style: Theme.of(context).textTheme.button,
+                              ),
+                            ),
+                          );
+                          showCupertinoModalPopup(context: context, builder: (context) => action);
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildButton({
+    Widget label,
+    Color color = Colors.amber,
+    VoidCallback onTap,
+  }) {
+    return ElevatedButton(
+      style: ButtonStyle(
+        minimumSize: MaterialStateProperty.all(const Size.fromRadius(20)),
+        shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(15))),
+        backgroundColor: MaterialStateProperty.all(color.withOpacity(.9)),
+      ),
+      onPressed: onTap,
+      child: FittedBox(child: label),
+    );
+  }
 }
 
 class WhatsappFloatingActionButton extends StatelessWidget {
@@ -461,120 +581,120 @@ class PinnedOrdersState extends State<PinnedOrders> with ApiCaller {
         ),
       ],
     );
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        FutureBuilder<List<OrderModel>>(
-          future: () async {
-            final List res = await get(path: '/pending/orders');
-            return ApiCaller.listParser(res, (data) {
-              data['total'] = double.tryParse('${data['total']}' ?? '');
-              // data['lat'] = double.tryParse('${data['lat']}' ?? '');
-              data['items'] = data['products'];
-              // data['address'] = data['description'];
-              if (data['address'] != null) {
-                data['address']['lang'] = double.tryParse('${data['address']['lang']}' ?? '');
-                data['address']['lat'] = double.tryParse('${data['address']['lat']}' ?? '');
-                data['address']['note'] = data['address']['description'];
-                data['address']['address'] = data['address']['description'];
-              }
-              return OrderModel.fromJson(data);
-            });
-          }(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              // if (snapshot.data.isEmpty) {
-              //   return const SizedBox.shrink();
-              // }
-              return Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  FloatingActionButton(
-                    heroTag: 'PinnedOrdersFloatingActionButton',
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (context) => AlertDialog(
-                          clipBehavior: Clip.hardEdge,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
-                          backgroundColor: Colors.white,
-                          contentPadding: EdgeInsets.zero,
-                          insetPadding: EdgeInsets.zero,
-                          title: Row(
-                            children: [
-                              Text(S.current.pinned_orders),
-                              const Spacer(),
-                              ElevatedButton(
-                                onPressed: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) => BankInfoWidget(),
-                                  );
-                                },
-                                child: Text(S.current.bank_info),
-                              ),
-                            ],
-                          ),
-                          content: SizedBox(
-                            width: MediaQuery.of(context).size.width * .9,
-                            height: MediaQuery.of(context).size.height * .9,
-                            child: OrdersListWidget(
-                              orders: snapshot.data,
-                              isLoading: false,
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                    child: const Icon(FontAwesomeIcons.history),
-                  ),
-                  Positioned(
-                    bottom: -10,
-                    left: -10,
-                    right: -10,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        SizedBox.fromSize(
-                          size: const Size.fromRadius(14),
-                          child: Container(
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              color: Colors.black,
-                              borderRadius: BorderRadius.circular(2),
-                            ),
-                            child: Text(
-                              '${snapshot?.data?.length}',
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(color: Colors.amber),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              );
-            } else if (snapshot.connectionState == ConnectionState.waiting) {
-              return FloatingActionButton(
-                heroTag: 'PinnedOrdersFloatingActionButton',
-                onPressed: () {
-                  // WhatsappFloatingActionButton
-                },
-                child: const Center(
-                  child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
-                  ),
-                ),
-              );
-            } else {
-              return const SizedBox.shrink();
-            }
-          },
-        ),
-        const SizedBox(height: 10),
-      ],
-    );
+    // return Column(
+    //   mainAxisSize: MainAxisSize.min,
+    //   children: [
+    //     FutureBuilder<List<OrderModel>>(
+    //       future: () async {
+    //         final List res = await get(path: '/pending/orders');
+    //         return ApiCaller.listParser(res, (data) {
+    //           data['total'] = double.tryParse('${data['total']}' ?? '');
+    //           // data['lat'] = double.tryParse('${data['lat']}' ?? '');
+    //           data['items'] = data['products'];
+    //           // data['address'] = data['description'];
+    //           if (data['address'] != null) {
+    //             data['address']['lang'] = double.tryParse('${data['address']['lang']}' ?? '');
+    //             data['address']['lat'] = double.tryParse('${data['address']['lat']}' ?? '');
+    //             data['address']['note'] = data['address']['description'];
+    //             data['address']['address'] = data['address']['description'];
+    //           }
+    //           return OrderModel.fromJson(data);
+    //         });
+    //       }(),
+    //       builder: (context, snapshot) {
+    //         if (snapshot.hasData) {
+    //           // if (snapshot.data.isEmpty) {
+    //           //   return const SizedBox.shrink();
+    //           // }
+    //           return Stack(
+    //             clipBehavior: Clip.none,
+    //             children: [
+    //               FloatingActionButton(
+    //                 heroTag: 'PinnedOrdersFloatingActionButton',
+    //                 onPressed: () {
+    //                   showDialog(
+    //                     context: context,
+    //                     builder: (context) => AlertDialog(
+    //                       clipBehavior: Clip.hardEdge,
+    //                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+    //                       backgroundColor: Colors.white,
+    //                       contentPadding: EdgeInsets.zero,
+    //                       insetPadding: EdgeInsets.zero,
+    //                       title: Row(
+    //                         children: [
+    //                           Text(S.current.pinned_orders),
+    //                           const Spacer(),
+    //                           ElevatedButton(
+    //                             onPressed: () {
+    //                               showDialog(
+    //                                 context: context,
+    //                                 builder: (context) => BankInfoWidget(),
+    //                               );
+    //                             },
+    //                             child: Text(S.current.bank_info),
+    //                           ),
+    //                         ],
+    //                       ),
+    //                       content: SizedBox(
+    //                         width: MediaQuery.of(context).size.width * .9,
+    //                         height: MediaQuery.of(context).size.height * .9,
+    //                         child: OrdersListWidget(
+    //                           orders: snapshot.data,
+    //                           isLoading: false,
+    //                         ),
+    //                       ),
+    //                     ),
+    //                   );
+    //                 },
+    //                 child: const Icon(FontAwesomeIcons.history),
+    //               ),
+    //               Positioned(
+    //                 bottom: -10,
+    //                 left: -10,
+    //                 right: -10,
+    //                 child: Row(
+    //                   mainAxisAlignment: MainAxisAlignment.end,
+    //                   children: [
+    //                     SizedBox.fromSize(
+    //                       size: const Size.fromRadius(14),
+    //                       child: Container(
+    //                         alignment: Alignment.center,
+    //                         decoration: BoxDecoration(
+    //                           color: Colors.black,
+    //                           borderRadius: BorderRadius.circular(2),
+    //                         ),
+    //                         child: Text(
+    //                           '${snapshot?.data?.length}',
+    //                           textAlign: TextAlign.center,
+    //                           style: const TextStyle(color: Colors.amber),
+    //                         ),
+    //                       ),
+    //                     ),
+    //                   ],
+    //                 ),
+    //               ),
+    //             ],
+    //           );
+    //         } else if (snapshot.connectionState == ConnectionState.waiting) {
+    //           return FloatingActionButton(
+    //             heroTag: 'PinnedOrdersFloatingActionButton',
+    //             onPressed: () {
+    //               // WhatsappFloatingActionButton
+    //             },
+    //             child: const Center(
+    //               child: CircularProgressIndicator(
+    //                 valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
+    //               ),
+    //             ),
+    //           );
+    //         } else {
+    //           return const SizedBox.shrink();
+    //         }
+    //       },
+    //     ),
+    //     const SizedBox(height: 10),
+    //   ],
+    // );
   }
 }
 

@@ -40,10 +40,12 @@ class UserModel {
     this.image,
     this.wallet,
     this.id,
+    this.status,
   });
 
   final int id;
   final String name;
+  final int status;
   final String phone;
   final String storeName;
   final String vatNumber;
@@ -59,6 +61,7 @@ class UserModel {
 
   UserModel copyWith({
     int id,
+    int status,
     String name,
     String phone,
     String storeName,
@@ -72,6 +75,7 @@ class UserModel {
   }) {
     return UserModel(
       id: id ?? this.id,
+      status: status ?? this.status,
       name: name ?? this.name,
       phone: phone ?? this.phone,
       storeName: storeName ?? this.storeName,
@@ -89,12 +93,12 @@ class UserModel {
   bool operator ==(Object o) {
     if (identical(this, o)) return true;
 
-    return o is UserModel && o.id == id && o.name == name && o.phone == phone && o.storeName == storeName && o.vatNumber == vatNumber && o.settings == settings && o.password == password && o.image == image && o.wallet == wallet && o.level == level && o.email == email;
+    return o is UserModel && o.id == id && o.status == status && o.name == name && o.phone == phone && o.storeName == storeName && o.vatNumber == vatNumber && o.settings == settings && o.password == password && o.image == image && o.wallet == wallet && o.level == level && o.email == email;
   }
 
   @override
   int get hashCode {
-    return id.hashCode ^ name.hashCode ^ phone.hashCode ^ storeName.hashCode ^ vatNumber.hashCode ^ settings.hashCode ^ password.hashCode ^ image.hashCode ^ wallet.hashCode ^ level.hashCode ^ email.hashCode;
+    return id.hashCode ^ status.hashCode ^ name.hashCode ^ phone.hashCode ^ storeName.hashCode ^ vatNumber.hashCode ^ settings.hashCode ^ password.hashCode ^ image.hashCode ^ wallet.hashCode ^ level.hashCode ^ email.hashCode;
   }
 }
 

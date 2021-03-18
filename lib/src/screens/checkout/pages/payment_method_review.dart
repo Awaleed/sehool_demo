@@ -260,7 +260,7 @@ class _CartDropdownState extends State<CartDropdown> {
     final values = [];
     final otherValues = [];
     for (final e in _values) {
-      if (e.type == 'wallet' || e.type == 'cash on delivery') {
+      if (e.type == 'wallet' || e.type == 'cash on delivery' || e.type == 'postpaid') {
         if (e.type == 'wallet' && !disableOtherButton) {
         } else {
           otherValues.add(e);

@@ -35,6 +35,16 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
+  /// `Thank you for registering. Your account will be activated after reviewing the attachments ..`
+  String get account_not_active_msg {
+    return Intl.message(
+      'Thank you for registering. Your account will be activated after reviewing the attachments ..',
+      name: 'account_not_active_msg',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Choose an association`
   String get choose_an_association {
     return Intl.message(

@@ -1,5 +1,7 @@
 {
   "@@locale": "ar",
+  "account_not_active_msg": "شكرا لتسجيلك سيتم تفعيل حسابك بعد مراجعة المرفقات ..",
+  "@account_not_active_msg": {},
   "choose_an_association": "اختر جمعية",
   "@choose_an_association": {},
   "please_choose_an_association": "الرجاء اختيار جمعية",
@@ -444,7 +446,7 @@
   "@paypal_payment": {},
   "phone": "هاتف",
   "@phone": {},
-  "pickup": "استلام من المحل",
+  "pickup": "الاستلام من متجر سهول",
   "@pickup": {},
   "pickup_method": "طريقة التوصيل",
   "@pickup_method": {},

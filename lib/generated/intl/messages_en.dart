@@ -26,6 +26,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "about" : MessageLookupByLibrary.simpleMessage("About"),
     "about_msg_p1" : MessageLookupByLibrary.simpleMessage("Sehool app version"),
     "about_msg_p2" : MessageLookupByLibrary.simpleMessage("Designed by Panda, Khartoum - Sudan"),
+    "account_not_active_msg" : MessageLookupByLibrary.simpleMessage("Thank you for registering. Your account will be activated after reviewing the attachments .."),
     "account_number" : MessageLookupByLibrary.simpleMessage("Account number"),
     "active" : MessageLookupByLibrary.simpleMessage("Active"),
     "active_employees" : MessageLookupByLibrary.simpleMessage("Active employees"),
