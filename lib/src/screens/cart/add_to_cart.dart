@@ -293,7 +293,6 @@ class _CartScrollState extends State<CartScroll> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: _buildButton(
-                    icon: 'assets/images/Add_40971.png',
                     enabled: widget.cartItem.validate,
                     label: Text(S.current.back_to_shopping,
                         style: Theme.of(context).textTheme.bodyText1.copyWith(
@@ -317,7 +316,6 @@ class _CartScrollState extends State<CartScroll> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: _buildButton(
-                    icon: 'assets/images/Success_40973.png',
                     enabled: widget.cartItem.validate,
                     label: Text(S.current.continue_to_checkout,
                         style: Theme.of(context).textTheme.bodyText1.copyWith(
@@ -348,7 +346,6 @@ class _CartScrollState extends State<CartScroll> {
 
   Widget _buildButton({
     Widget label,
-    String icon,
     bool enabled = true,
     VoidCallback onTap,
   }) {
