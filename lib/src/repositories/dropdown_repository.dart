@@ -2,7 +2,6 @@ import 'package:injectable/injectable.dart';
 
 import '../core/api_caller.dart';
 import '../data/dropdown_datasource.dart';
-import '../helpers/fake_data_generator.dart';
 import '../models/address_model.dart';
 import '../models/dropdown_value_model.dart';
 import '../models/order_model.dart';
@@ -26,7 +25,6 @@ class DropdownRepositoryImpl implements IDropdownRepository {
         case DropdownValueType.cites:
           return CityModel.fromJson(data);
         case DropdownValueType.citySections:
-          return FakeDataGenerator.citySectionModel;
           return CitySectionModel.fromJson(data);
         case DropdownValueType.slicingMethods:
           return SlicingMethodModel.fromJson(data);

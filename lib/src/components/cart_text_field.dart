@@ -6,10 +6,9 @@ import '../models/cart_model.dart';
 class CartTextField extends StatelessWidget {
   const CartTextField({
     Key key,
-    // this.cartItem,
     this.cart,
   }) : super(key: key);
-  // final CartItemModel cartItem;
+
   final CartModel cart;
 
   @override
@@ -19,7 +18,6 @@ class CartTextField extends StatelessWidget {
         TextEditingValue(text: cart?.note ?? ''),
       ),
       onChanged: (value) {
-        // cartItem?.note = value;
         cart?.note = value;
       },
       decoration: InputDecoration(

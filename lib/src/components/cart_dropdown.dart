@@ -5,7 +5,6 @@ import 'package:supercharged/supercharged.dart';
 
 import '../../generated/l10n.dart';
 import '../../init_injectable.dart';
-import '../cubits/address_cubit/address_cubit.dart';
 import '../cubits/dropdown_cubit/dropdown_cubit.dart';
 import '../data/user_datasource.dart';
 import '../helpers/helper.dart';
@@ -13,8 +12,6 @@ import '../models/cart_model.dart';
 import '../models/dropdown_value_model.dart';
 import '../models/order_model.dart';
 import '../models/product_model.dart';
-import '../routes/config_routes.dart';
-import '../screens/profile/dialogs/new_address_dialog.dart';
 import 'message_check_box.dart';
 import 'my_error_widget.dart';
 
@@ -123,7 +120,6 @@ class CartDropdownState extends State<CartDropdown> {
       return Column(
         children: [
           GridView.count(
-            // crossAxisAlignment: CrossAxisAlignment.stretch,
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             crossAxisCount: 2,
@@ -133,7 +129,6 @@ class CartDropdownState extends State<CartDropdown> {
                 (e) => InkWell(
                   onTap: () {
                     if (e is SlicingMethodModel && e.id == 3) {
-                      // widget.cartItem.isGift = false;
                       widget.cartItem.event = null;
                       widget.cartItem.phrase = null;
                     }
@@ -191,7 +186,6 @@ class CartDropdownState extends State<CartDropdown> {
             (e) => InkWell(
               onTap: () {
                 if (e is SlicingMethodModel && e.id == 3) {
-                  // widget.cartItem.isGift = false;
                   widget.cartItem.event = null;
                   widget.cartItem.phrase = null;
                 }
@@ -225,40 +219,6 @@ class CartDropdownState extends State<CartDropdown> {
               ),
             ),
           ),
-          // ...values.map(
-          //   (e) => Card(
-          //     elevation: 0,
-          //     color: Colors.transparent,
-          //     // shape: OutlineInputBorder(
-          //     //   borderRadius: BorderRadius.circular(25),
-          //     // ),
-          //     child: RadioListTile(
-          //       value: e,
-          //       groupValue: selectedValue,
-          //       title: Text(
-          //         widget.itemAsString?.call(e) ?? '$e',
-          //         style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.black, fontWeight: FontWeight.normal),
-          //       ),
-          //       onChanged: (value) async {
-          //         if (value is PaymentMethodModel && value.type == 'wallet') {
-          //           if (kUser.wallet < widget.cart.total) {
-          //             Helpers.showErrorOverlay(
-          //               context,
-          //               error: S.current.sorry_your_balance_is_not_enough,
-          //             );
-          //           } else {
-          //             widget.onValueChanged?.call(value);
-          //             setState(() => selectedValue = value);
-          //           }
-          //         } else {
-          //           widget.onValueChanged?.call(value);
-          //           setState(() => selectedValue = value);
-          //         }
-          //       },
-          //     ),
-          //   ),
-          // ),
-
           if (widget.dropdownType == DropdownValueType.slicingMethods && selectedValue.id == 3) ...[
             const SizedBox(height: 10),
             MessageCheckBox(
@@ -272,90 +232,5 @@ class CartDropdownState extends State<CartDropdown> {
         ],
       );
     }
-  }
-
-  Widget _buildDropdown(List values, {bool isLoading = false}) {
-    return InputDecorator(
-      decoration: InputDecoration(
-        filled: true,
-        fillColor: Colors.white70,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(25),
-        ),
-      ),
-      child: DropdownButtonHideUnderline(
-        child: DropdownButton(
-          value: isLoading ? null : selectedValue,
-          dropdownColor: Colors.amber.withOpacity(.8),
-          onChanged: isLoading
-              ? null
-              : (value) async {
-                  if (value == 'add_a_new_address') {
-                    final _cubit = getIt<AddressCubit>();
-                    await AppRouter.sailor.navigate(
-                      NewAddressDialog.routeName,
-                      params: {'address_cubit': _cubit},
-                    );
-                    final values = cubit.state.maybeWhen(
-                      success: (value) => value,
-                      orElse: () => null,
-                    );
-                    if (values != null) cubit.setDropdownValues(values);
-                    _cubit.close();
-                    return;
-                  } else {
-                    widget.onValueChanged?.call(value);
-                    setState(() => selectedValue = value);
-                  }
-                },
-          icon: const SizedBox.shrink(),
-          isExpanded: true,
-          hint: DropdownMenuItem(
-            child: Center(
-              child: Text(
-                () {
-                  switch (widget.dropdownType) {
-                    case DropdownValueType.cites:
-                      return S.current.cites;
-                    case DropdownValueType.citySections:
-                      return S.current.neighborhood;
-                    case DropdownValueType.slicingMethods:
-                      return S.current.slicing_method;
-                    case DropdownValueType.paymentMethods:
-                      return S.current.payment_options;
-                    case DropdownValueType.addresses:
-                      return S.current.address;
-                  }
-                }(),
-                style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.black),
-              ),
-            ),
-          ),
-          items: [
-            ...values.map(
-              (e) => DropdownMenuItem(
-                value: e,
-                child: Center(
-                  child: Text(
-                    widget.itemAsString?.call(e) ?? '$e',
-                    style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.black),
-                  ),
-                ),
-              ),
-            ),
-            if (widget.dropdownType == DropdownValueType.addresses)
-              DropdownMenuItem(
-                value: 'add_a_new_address' as dynamic,
-                child: Center(
-                  child: Text(
-                    '${S.current.add_a_new_address} +',
-                    style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.black),
-                  ),
-                ),
-              ),
-          ],
-        ),
-      ),
-    );
   }
 }

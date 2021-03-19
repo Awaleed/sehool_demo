@@ -53,8 +53,7 @@ class PatchedStepper extends StatefulWidget {
     this.controlsBuilder,
   })  : assert(patchedSteps != null),
         assert(currentPatchedStep != null),
-        assert(0 <= currentPatchedStep &&
-            currentPatchedStep < patchedSteps.length),
+        assert(0 <= currentPatchedStep && currentPatchedStep < patchedSteps.length),
         super(key: key);
 
   final List<PatchedStep> patchedSteps;
@@ -69,8 +68,7 @@ class PatchedStepper extends StatefulWidget {
   _PatchedStepperState createState() => _PatchedStepperState();
 }
 
-class _PatchedStepperState extends State<PatchedStepper>
-    with TickerProviderStateMixin {
+class _PatchedStepperState extends State<PatchedStepper> with TickerProviderStateMixin {
   final Map<int, PatchedStepState> _oldStates = <int, PatchedStepState>{};
 
   @override
@@ -95,8 +93,7 @@ class _PatchedStepperState extends State<PatchedStepper>
   }
 
   Widget _buildCircleChild(int index, bool oldState) {
-    final PatchedStepState state =
-        oldState ? _oldStates[index] : widget.patchedSteps[index].state;
+    final PatchedStepState state = oldState ? _oldStates[index] : widget.patchedSteps[index].state;
     final bool isDarkActive = _isDark() && widget.patchedSteps[index].isActive;
     assert(state != null);
     switch (state) {
@@ -105,10 +102,6 @@ class _PatchedStepperState extends State<PatchedStepper>
         return Icon(
           widget?.patchedSteps[index]?.header ?? FluentIcons.caret_24_regular,
           color: _circleColor(index),
-          // '${index + 1}',
-          // style: isDarkActive
-          //     ? _kPatchedStepStyle.copyWith(color: Colors.black87)
-          //     : _kPatchedStepStyle,
         );
       case PatchedStepState.editing:
         return Icon(
@@ -132,13 +125,9 @@ class _PatchedStepperState extends State<PatchedStepper>
   Color _circleColor(int index) {
     final ThemeData themeData = Theme.of(context);
     if (!_isDark()) {
-      return widget.patchedSteps[index].isActive
-          ? themeData.primaryColor
-          : Colors.white;
+      return widget.patchedSteps[index].isActive ? themeData.primaryColor : Colors.white;
     } else {
-      return widget.patchedSteps[index].isActive
-          ? themeData.accentColor
-          : themeData.backgroundColor;
+      return widget.patchedSteps[index].isActive ? themeData.accentColor : themeData.backgroundColor;
     }
   }
 
@@ -151,10 +140,7 @@ class _PatchedStepperState extends State<PatchedStepper>
         curve: Curves.fastOutSlowIn,
         duration: kThemeAnimationDuration,
         child: Center(
-          child: _buildCircleChild(
-              index,
-              oldState &&
-                  widget.patchedSteps[index].state == PatchedStepState.error),
+          child: _buildCircleChild(index, oldState && widget.patchedSteps[index].state == PatchedStepState.error),
         ),
       ),
     );
@@ -175,11 +161,7 @@ class _PatchedStepperState extends State<PatchedStepper>
             ),
             child: Align(
               alignment: const Alignment(0.0, 0.8),
-              child: _buildCircleChild(
-                  index,
-                  oldState &&
-                      widget.patchedSteps[index].state !=
-                          PatchedStepState.error),
+              child: _buildCircleChild(index, oldState && widget.patchedSteps[index].state != PatchedStepState.error),
             ),
           ),
         ),
@@ -195,10 +177,7 @@ class _PatchedStepperState extends State<PatchedStepper>
         firstCurve: const Interval(0.0, 0.6, curve: Curves.fastOutSlowIn),
         secondCurve: const Interval(0.4, 1.0, curve: Curves.fastOutSlowIn),
         sizeCurve: Curves.fastOutSlowIn,
-        crossFadeState:
-            widget.patchedSteps[index].state == PatchedStepState.error
-                ? CrossFadeState.showSecond
-                : CrossFadeState.showFirst,
+        crossFadeState: widget.patchedSteps[index].state == PatchedStepState.error ? CrossFadeState.showSecond : CrossFadeState.showFirst,
         duration: kThemeAnimationDuration,
       );
     } else {
@@ -221,11 +200,9 @@ class _PatchedStepperState extends State<PatchedStepper>
       case PatchedStepState.complete:
         return textTheme.bodyText1;
       case PatchedStepState.disabled:
-        return textTheme.bodyText1
-            .copyWith(color: _isDark() ? _kDisabledDark : _kDisabledLight);
+        return textTheme.bodyText1.copyWith(color: _isDark() ? _kDisabledDark : _kDisabledLight);
       case PatchedStepState.error:
-        return textTheme.bodyText1
-            .copyWith(color: _isDark() ? _kErrorDark : _kErrorLight);
+        return textTheme.bodyText1.copyWith(color: _isDark() ? _kErrorDark : _kErrorLight);
       default:
         throw UnimplementedError();
     }
@@ -256,11 +233,7 @@ class _PatchedStepperState extends State<PatchedStepper>
         Container(
           margin: const EdgeInsets.symmetric(horizontal: 8.0),
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          decoration: BoxDecoration(
-              color: widget.patchedSteps[i].state != PatchedStepState.disabled
-                  ? Colors.transparent
-                  : Colors.grey.withOpacity(.8),
-              borderRadius: const BorderRadius.all(Radius.circular(10))),
+          decoration: BoxDecoration(color: widget.patchedSteps[i].state != PatchedStepState.disabled ? Colors.transparent : Colors.grey.withOpacity(.8), borderRadius: const BorderRadius.all(Radius.circular(10))),
           child: InkResponse(
             onTap: widget.patchedSteps[i].state != PatchedStepState.disabled
                 ? () {
@@ -269,8 +242,7 @@ class _PatchedStepperState extends State<PatchedStepper>
                     }
                   }
                 : null,
-            canRequestFocus:
-                widget.patchedSteps[i].state != PatchedStepState.disabled,
+            canRequestFocus: widget.patchedSteps[i].state != PatchedStepState.disabled,
             child: Column(
               children: <Widget>[
                 SizedBox(
@@ -278,18 +250,12 @@ class _PatchedStepperState extends State<PatchedStepper>
                   child: Center(child: _buildIcon(i)),
                 ),
                 Container(
-                  // margin: const EdgeInsetsDirectional.only(start: 12.0),
                   child: _buildHeaderText(i),
                 ),
               ],
             ),
           ),
         ),
-        // Container(
-        //   margin: const EdgeInsets.symmetric(horizontal: 8.0),
-        //   height: 1.0,
-        //   color: Colors.grey.shade400,
-        // ),
       ],
     ];
 
@@ -398,7 +364,6 @@ class _Animated extends StatelessWidget {
           children: [
             Parent(
               style: ParentStyle()
-                // ..animate(100, Curves.easeInOut)
                 ..scale(value)
                 ..opacity(value),
               child: step.content,

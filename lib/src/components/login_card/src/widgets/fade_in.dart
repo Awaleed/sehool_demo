@@ -16,14 +16,10 @@ class FadeIn extends StatefulWidget {
     this.duration,
     this.curve = Curves.easeOut,
     @required this.child,
-  })  : assert(controller == null && duration != null ||
-            controller != null && duration == null),
+  })  : assert(controller == null && duration != null || controller != null && duration == null),
         assert(offset > 0),
         super(key: key);
 
-  /// [FadeIn] animation can be controlled via external [controller]. If
-  /// [controller] is not provided, it will use the default internal controller
-  /// which will run the animation in initState()
   final AnimationController controller;
   final FadeDirection fadeDirection;
   final double offset;
@@ -95,8 +91,7 @@ class _FadeInState extends State<FadeIn> with SingleTickerProviderStateMixin {
     ));
   }
 
-  AnimationController get _effectiveController =>
-      widget.controller ?? _controller;
+  AnimationController get _effectiveController => widget.controller ?? _controller;
 
   @override
   void dispose() {

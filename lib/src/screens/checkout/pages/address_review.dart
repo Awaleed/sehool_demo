@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:sehool/src/data/user_datasource.dart';
-import 'package:sehool/src/models/form_data_model.dart';
-import 'package:sehool/src/models/user_model.dart';
 import 'package:validators/validators.dart';
 
 import '../../../../generated/l10n.dart';
@@ -11,9 +8,12 @@ import '../../../components/address_card.dart';
 import '../../../components/cart_dropdown.dart';
 import '../../../cubits/address_cubit/address_cubit.dart';
 import '../../../cubits/dropdown_cubit/dropdown_cubit.dart';
+import '../../../data/user_datasource.dart';
 import '../../../models/address_model.dart';
 import '../../../models/cart_model.dart';
 import '../../../models/dropdown_value_model.dart';
+import '../../../models/form_data_model.dart';
+import '../../../models/user_model.dart';
 import '../../../routes/config_routes.dart';
 import '../../profile/dialogs/new_address_dialog.dart';
 
@@ -120,8 +120,6 @@ class _AddressReviewPageState extends State<AddressReviewPage> {
                             ) ??
                             widget.cart.address;
 
-                        // widget.cart.address = value;
-                        // widget.onChanged?.call(value);
                         addressDropdownKey?.currentState?.setValue(value);
                       });
                     },
@@ -244,8 +242,6 @@ class _AddressReviewPageState extends State<AddressReviewPage> {
                         ) ??
                         widget.cart.address;
 
-                    // widget.cart.address = value;
-                    // widget.onChanged?.call(value);
                     addressDropdownKey?.currentState?.setValue(value);
                   });
                 },
@@ -273,7 +269,6 @@ class _AddressReviewPageState extends State<AddressReviewPage> {
             const SizedBox(height: 10),
             CartDropdown(
               key: addressDropdownKey,
-              // isRadio: true,
               dropdownType: DropdownValueType.addresses,
               initialValue: widget.cart.address,
               itemAsString: (value) => (value as AddressModel).address,

@@ -48,12 +48,10 @@ class OrdersListItemWidget extends StatelessWidget {
                 children: [
                   Text(
                     '${S.current.order_id}: ${cart.id}',
-                    // style: Theme.of(context).textTheme.headline5,
                   ),
                   const Spacer(),
                   Text(
                     ' ${DateFormat.yMEd().format(cart.createdAt)}',
-                    // style: Theme.of(context).textTheme.headline5,
                   ),
                 ],
               ),
@@ -93,33 +91,10 @@ class OrdersListItemWidget extends StatelessWidget {
                       ),
                 title: Text(cart.delivery.name),
                 subtitle: Text(cart.delivery.phone),
-                // onTap: cart.status.id == 4
-                //     ? () {
-                //         FlutterPhoneDirectCaller.directCall(
-                //           cart.delivery.phone,
-                //         );
-                //       }
-                //     : null,
               ),
-              // ListTile(
-              //   title: Text(S.current.phone),
-              //   subtitle: Text(cart.delivery.phone),
-              //   onTap: cart.status.id == 4
-              //       ? () {
-              //           FlutterPhoneDirectCaller.directCall(
-              //             cart.delivery.phone,
-              //           );
-              //         }
-              //       : null,
-              // ),
               const Divider(),
             ],
-            // Text(
-            //   '${S.current.order_status}: ${cart.status.name}',
-            //   // style: Theme.of(context).textTheme.headline5,
-            // ),
             OrderStatusWidget(order: cart),
-
             const Divider(),
             if (cart.products?.isNotEmpty ?? false)
               ...cart.products.map(
@@ -132,87 +107,14 @@ class OrdersListItemWidget extends StatelessWidget {
                 ),
               ),
             const Divider(),
-            // Text(
-            //   S.current.notes,
-            //   style: Theme.of(context).textTheme.headline5,
-            // ),
             ListTile(
               title: Text(S.current.notes),
               subtitle: Text(cart.note ?? S.current.none),
             ),
-
-            // const Divider(),
-            // Card(
-            //   elevation: 2,
-            //   clipBehavior: Clip.hardEdge,
-            //   margin: EdgeInsets.zero,
-            //   color: Colors.white70,
-            //   shape: RoundedRectangleBorder(
-            //     borderRadius: BorderRadius.circular(25),
-            //   ),
-            //   child: ListTile(
-            //     title: Text(cart.note ?? S.current.none),
-            //   ),
-            // ),
-            // const Divider(),
-            // Text(
-            //   S.current.shipping_address,
-            //   style: Theme.of(context).textTheme.headline5,
-            // ),
-            // const Divider(),
-            // Card(
-            //   elevation: 2,
-            //   clipBehavior: Clip.hardEdge,
-            //   margin: EdgeInsets.zero,
-            //   color: Colors.white70,
-            //   shape: RoundedRectangleBorder(
-            //     borderRadius: BorderRadius.circular(25),
-            //   ),
-            //   child: Column(
-            //     children: [
-            //       ListTile(
-            //         title: Text(S.current.cites),
-            //         subtitle: Text(cart.address?.city?.name ?? S.current.none),
-            //       ),
-            //       ListTile(
-            //         title: Text(S.current.neighborhood),
-            //         subtitle: Text(cart.address?.section?.name ?? S.current.none),
-            //       ),
-            //       ListTile(
-            //         title: Text(S.current.address),
-            //         subtitle: Text(cart.address?.address ?? S.current.none),
-            //       ),
-            //     ],
-            //   ),
-            // ),
-            // const Divider(),
-            // Text(
-            //   S.current.total,
-            //   style: Theme.of(context).textTheme.headline5,
-            // ),
             ListTile(
               title: Text(S.current.total),
               subtitle: Text('${cart.total.format()} ﷼'),
             ),
-            // const Divider(),
-            // Card(
-            //   elevation: 2,
-            //   clipBehavior: Clip.hardEdge,
-            //   margin: EdgeInsets.zero,
-            //   color: Colors.white70,
-            //   shape: RoundedRectangleBorder(
-            //     borderRadius: BorderRadius.circular(25),
-            //   ),
-            //   child: ListTile(
-            //     title: Text('${cart.total} ﷼'),
-            //   ),
-            // ),
-            // const Divider(),
-            // Text(
-            //   S.current.payment_mode,
-            //   style: Theme.of(context).textTheme.headline5,
-            // ),
-            // const Divider(),
             ListTile(
               title: Text(S.current.payment_mode),
               subtitle: Text(cart.payment),
@@ -222,17 +124,6 @@ class OrdersListItemWidget extends StatelessWidget {
                 title: Text(S.current.address),
                 subtitle: Text(cart.address.address),
               ),
-
-            // Card(
-            //   elevation: 2,
-            //   clipBehavior: Clip.hardEdge,
-            //   margin: EdgeInsets.zero,
-            //   color: Colors.white70,
-            //   shape: RoundedRectangleBorder(
-            //     borderRadius: BorderRadius.circular(25),
-            //   ),
-            //   child: ListTile(title: Text(cart.payment ?? '')),
-            // ),
           ],
         ),
       ),
@@ -277,7 +168,7 @@ class OrderStatusWidget extends StatelessWidget with ApiCaller {
             ClipRRect(
               borderRadius: BorderRadius.circular(12),
               child: ListTile(
-                title: Text('اضغط هنا لارفاق صورة الايصال البنكي'),
+                title: const Text('اضغط هنا لارفاق صورة الايصال البنكي'),
                 onTap: () async {
                   final source = await showDialog<ImageSource>(
                     context: context,
@@ -330,21 +221,7 @@ class OrderStatusWidget extends StatelessWidget with ApiCaller {
                     );
                   } finally {
                     c.complete();
-                  } // showDialog(
-                  //   context: context,
-                  //   builder: (context) => AlertDialog(
-                  //     clipBehavior: Clip.hardEdge,
-                  //     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
-                  //     backgroundColor: Colors.white,
-                  //     contentPadding: EdgeInsets.zero,
-                  //     insetPadding: EdgeInsets.zero,
-                  //     title: Text(S.current.pinned_orders),
-                  //     content: SizedBox(
-                  //       width: MediaQuery.of(context).size.width * .9,
-                  //       height: MediaQuery.of(context).size.height * .9,
-                  //     ),
-                  //   ),
-                  // );
+                  }
                 },
               ),
             ),
@@ -357,22 +234,6 @@ class OrderStatusWidget extends StatelessWidget with ApiCaller {
       currentCustomStep: (order.status.id - 2 <= 0) ? 0 : order.status.id - 2,
       steps: buildSteps(),
     );
-    // return Column(
-    //   mainAxisSize: MainAxisSize.min,
-    //   children: [
-    //     for (final status in StatusModel.statuses)
-    //       ListTile(
-    //         title: Text(status.name),
-    //         leading: Container(
-    //           height: 30,
-    //           width: 30,
-    //           alignment: Alignment.center,
-    //           decoration: const BoxDecoration(color: Colors.amber),
-    //           child: Text('${status.id}'),
-    //         ),
-    //       ),
-    //   ],
-    // );
   }
 
   static Future<PickedFile> _imagePick(ImageSource source) => ImagePicker().getImage(

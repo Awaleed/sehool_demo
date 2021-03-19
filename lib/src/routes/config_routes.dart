@@ -6,7 +6,6 @@ import '../screens/cart/add_to_cart.dart';
 import '../screens/checkout/checkout.dart';
 import '../screens/home/home.dart';
 import '../screens/onboarding.dart';
-import '../screens/orders/orders.dart';
 import '../screens/product/product.dart';
 import '../screens/profile/dialogs/new_address_dialog.dart';
 import '../screens/profile/pages/addresses.dart';
@@ -22,7 +21,6 @@ abstract class AppRouter {
       defaultTransitionDuration: 700.milliseconds,
       defaultTransitions: [
         SailorTransition.fade_in,
-        // SailorTransition.zoom_in,
       ],
     ),
   );
@@ -30,7 +28,6 @@ abstract class AppRouter {
   static void createRoutes() {
     sailor.addRoutes(
       [
-        /// Pre Login
         SailorRoute(
           name: SplashScreen.routeName,
           builder: (context, args, paramMap) => const SplashScreen(),
@@ -39,37 +36,19 @@ abstract class AppRouter {
           name: OnboardingScreen.routeName,
           builder: (context, args, paramMap) => const OnboardingScreen(),
         ),
-
-        /// Auth Screens
         SailorRoute(
           name: LoginScreen.routeName,
           builder: (context, args, paramMap) => const LoginScreen(),
         ),
-
-        /// App Screens
         SailorRoute(
           name: HomeScreen.routeName,
           builder: (context, args, paramMap) => const HomeScreen(),
         ),
-
-        /// Product Screens
         SailorRoute(
           name: ProductScreen.routeName,
-          builder: (context, args, paramMap) =>
-              ProductScreen(product: paramMap.param('product')),
+          builder: (context, args, paramMap) => ProductScreen(product: paramMap.param('product')),
           params: [SailorParam(name: 'product', isRequired: true)],
         ),
-
-        // /// Video Screens
-        // SailorRoute(
-        //   name: FullScreenVideoScreen.routeName,
-        //   builder: (context, args, paramMap) => FullScreenVideoScreen(
-        //     // videoController: paramMap.param('controller'),
-        //   ),
-        //   params: [SailorParam(name: 'controller', isRequired: true)],
-        // ),
-
-        /// Cart Screens
         SailorRoute(
           name: AddToCartScreen.routeName,
           builder: (context, args, paramMap) => AddToCartScreen(
@@ -87,8 +66,6 @@ abstract class AppRouter {
           name: CheckoutScreen.routeName,
           builder: (context, args, paramMap) => const CheckoutScreen(),
         ),
-
-        /// Profile Screens
         SailorRoute(
           name: ProfileSettingsScreen.routeName,
           builder: (context, args, paramMap) => const ProfileSettingsScreen(),
@@ -100,10 +77,6 @@ abstract class AppRouter {
         SailorRoute(
           name: AddressesScreen.routeName,
           builder: (context, args, paramMap) => const AddressesScreen(),
-        ),
-        SailorRoute(
-          name: OrdersScreen.routeName,
-          builder: (context, args, paramMap) => const OrdersScreen(),
         ),
         SailorRoute(
           name: OrdersHistory.routeName,

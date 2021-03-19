@@ -47,15 +47,6 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
   Widget build(BuildContext context) {
     return Parent(
       style: ParentStyle()
-        // ..linearGradient(
-        //   begin: Alignment.topCenter,
-        //   end: Alignment.bottomCenter,
-        //   colors: [
-        //     Colors.black,
-        //     Colors.amber,
-        //     Colors.black,
-        //   ],
-        // ),
         ..background.color(Colors.white)
         ..background.image(path: 'assets/images/black.png', fit: BoxFit.contain),
       child: Stack(
@@ -77,7 +68,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
             ],
           ),
           Scaffold(
-            floatingActionButton: WhatsappFloatingActionButton(),
+            floatingActionButton: const WhatsappFloatingActionButton(),
             backgroundColor: Colors.white70,
             appBar: AppBar(
               title: Text(
@@ -194,26 +185,6 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                       ],
                     ),
                   ),
-
-                  // const SizedBox(height: 8),
-                  // _buildTextInput(
-                  //   map: data,
-                  //   type: FormFieldType.password,
-                  //   enabled: !isLoading,
-                  //   obscureText: hidePassword,
-                  //   suffixIcon: IconButton(
-                  //     onPressed: () {
-                  //       setState(() {
-                  //         hidePassword = !hidePassword;
-                  //       });
-                  //     },
-                  //     color: Theme.of(context).focusColor,
-                  //     icon: Icon(hidePassword
-                  //         ? Icons.visibility
-                  //         : Icons.visibility_off),
-                  //   ),
-                  // ),
-                  // const Divider(),
                   ElevatedButton(
                     onPressed: () async {
                       Helpers.dismissFauces(context);

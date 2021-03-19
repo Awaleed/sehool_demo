@@ -26,8 +26,7 @@ class LazyListRepositoryImpl implements ILazyListRepository {
     LazyListType type,
     ValueNotifier<String> pageUrl,
   }) async {
-    final res =
-        await _lazyListRemoteDataSource.getLazyListValues(type, pageUrl);
+    final res = await _lazyListRemoteDataSource.getLazyListValues(type, pageUrl);
 
     final list = ApiCaller.listParser(
       res,
@@ -45,7 +44,7 @@ class LazyListRepositoryImpl implements ILazyListRepository {
           case LazyListType.reviews:
           case LazyListType.orders:
             return data;
-          // return OrderModel.fromJson(data);
+
           default:
             throw UnsupportedError('Unsupported LazyListType with pram $type');
         }

@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:faker/faker.dart';
 import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
@@ -9,7 +8,6 @@ import 'package:supercharged/supercharged.dart';
 
 import '../../init_injectable.dart';
 import '../core/api_caller.dart';
-import '../helpers/fake_data_generator.dart';
 import '../models/user_model.dart';
 
 const String userBoxName = 'UserBox';
@@ -35,7 +33,6 @@ class UserLocalDataSource extends IUserLocalDataSource {
   UserLocalDataSource() : box = Hive.box(userBoxName);
 
   final Box box;
-  UserWithTokenModel _user;
 
   @override
   UserModel readUser() {
@@ -87,7 +84,6 @@ class UserLocalDataSource extends IUserLocalDataSource {
       final credentials = jsonDecode(credentialsEncodedJson);
       return credentials;
     } catch (e) {
-      print(e);
       return null;
     }
   }
@@ -152,7 +148,6 @@ class UserRemoteDataSource extends IUserRemoteDataSource with ApiCaller {
   @override
   Future<Map<String, dynamic>> resetPassword(Map<String, dynamic> credentials) async {
     await Future.delayed(1500.milliseconds);
-    if (random.boolean()) throw DioError(response: Response(statusCode: 400));
     return {'time_out': 5};
   }
 
@@ -194,87 +189,4 @@ class UserRemoteDataSource extends IUserRemoteDataSource with ApiCaller {
 
   @override
   Future<Map<String, dynamic>> updateProfileImage(FormData data) => post(path: '/auth/updateProfilePhoto', data: data);
-}
-
-@test
-@Singleton(as: IUserRemoteDataSource)
-class FakeUserRemoteDataSource extends IUserRemoteDataSource {
-  @override
-  Future<List> getAddresses() async {
-    await Future.delayed(random.integer(1000).milliseconds);
-    return FakeDataGenerator.addresses.map((e) => e.toJson()).toList();
-  }
-
-  @override
-  Future<List> addAddress(Map<String, dynamic> data) async {
-    await Future.delayed(random.integer(1000).milliseconds);
-    return List.generate(
-      10,
-      (_) => FakeDataGenerator.addressModel.toJson(),
-    );
-  }
-
-  @override
-  Future<Map<String, dynamic>> changePassword(Map<String, dynamic> data) {
-    throw UnimplementedError();
-  }
-
-  @override
-  Future deleteAddress(int id) async {
-    await Future.delayed(random.integer(1000).milliseconds);
-    return List.generate(
-      10,
-      (_) => FakeDataGenerator.addressModel.toJson(),
-    );
-  }
-
-  @override
-  Future<Map<String, dynamic>> forgotPassword(Map<String, dynamic> credentials) {
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<Map<String, dynamic>> login(Map<String, dynamic> credentials) async {
-    await Future.delayed(random.integer(1000).milliseconds);
-    return FakeDataGenerator.userWithTokenModel.toJson();
-  }
-
-  @override
-  Future<Map<String, dynamic>> logout() async {
-    await Future.delayed(random.integer(1000).milliseconds);
-    return {'message': 'success'};
-  }
-
-  @override
-  Future<Map<String, dynamic>> me() async {
-    await Future.delayed(random.integer(1000).milliseconds);
-    return FakeDataGenerator.userModel.toJson();
-  }
-
-  @override
-  Future<Map<String, dynamic>> register(FormData credentials) async {
-    await Future.delayed(random.integer(1000).milliseconds);
-    return FakeDataGenerator.userWithTokenModel.toJson();
-  }
-
-  @override
-  Future<Map<String, dynamic>> resetPassword(Map<String, dynamic> credentials) {
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<List> updateAddress(Map<String, dynamic> data) {
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<Map<String, dynamic>> updateProfile(Map<String, dynamic> data) async {
-    await Future.delayed(random.integer(1000).milliseconds);
-    return data;
-  }
-
-  @override
-  Future<Map<String, dynamic>> updateProfileImage(FormData data) {
-    throw UnimplementedError();
-  }
 }

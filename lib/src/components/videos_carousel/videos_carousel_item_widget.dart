@@ -34,45 +34,6 @@ class VideosCarouselItemWidget extends StatelessWidget {
               video: video,
               play: play,
             ),
-            // IgnorePointer(
-            //   child: Container(
-            //     padding: const EdgeInsets.only(bottom: 50, top: 20),
-            //     decoration: BoxDecoration(
-            //       color: Colors.black38,
-            //       borderRadius: BorderRadius.circular(25),
-            //       gradient: const LinearGradient(
-            //         begin: Alignment.bottomCenter,
-            //         end: Alignment.topCenter,
-            //         colors: [
-            //           Colors.black,
-            //           Colors.transparent,
-            //           Colors.transparent,
-            //         ],
-            //       ),
-            //     ),
-            //   ),
-            // ),
-            // if (video.description != null)
-            //   Positioned(
-            //     left: 0,
-            //     right: 0,
-            //     bottom: 35,
-            //     child: IgnorePointer(
-            //       child: Column(
-            //         mainAxisSize: MainAxisSize.min,
-            //         children: [
-            //           Text(
-            //             video.description,
-            //             style: Theme.of(context)
-            //                 .textTheme
-            //                 .subtitle2
-            //                 .copyWith(color: Colors.white),
-            //           )
-            //         ],
-            //       ),
-            //     ),
-            //   ),
-        
           ],
         ),
       ),
@@ -85,17 +46,14 @@ class VideoApp extends StatelessWidget {
   final bool play;
   final ChewieController controller;
 
-  const VideoApp({Key key, this.video, this.play, this.controller})
-      : super(key: key);
+  const VideoApp({Key key, this.video, this.play, this.controller}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: CustomAnimation<double>(
-        control: play
-            ? CustomAnimationControl.PLAY
-            : CustomAnimationControl.PLAY_REVERSE,
+        control: play ? CustomAnimationControl.PLAY : CustomAnimationControl.PLAY_REVERSE,
         tween: 0.0.tweenTo(1.0),
         duration: 500.milliseconds,
         curve: Curves.easeOut,
@@ -110,17 +68,14 @@ class VideoApp extends StatelessWidget {
                           ? IgnorePointer(child: Chewie(controller: controller))
                           : Center(
                               child: Container(
-                                margin: const EdgeInsets.only(
-                                    left: 40.0, right: 40.0),
+                                margin: const EdgeInsets.only(left: 40.0, right: 40.0),
                                 decoration: const BoxDecoration(
                                   color: Colors.black87,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(8.0)),
+                                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
                                 ),
                                 child: const Padding(
                                   padding: EdgeInsets.all(16.0),
-                                  child: CircularProgressIndicator(
-                                      strokeWidth: 2.0),
+                                  child: CircularProgressIndicator(strokeWidth: 2.0),
                                 ),
                               ),
                             ),
@@ -137,8 +92,7 @@ class VideoApp extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
             ),
-            if (!controller.videoPlayerController.value.initialized ||
-                controller.videoPlayerController.value.isBuffering)
+            if (!controller.videoPlayerController.value.initialized || controller.videoPlayerController.value.isBuffering)
               Center(
                 child: Container(
                   margin: const EdgeInsets.only(left: 40.0, right: 40.0),
@@ -164,15 +118,11 @@ class VideoApp extends StatelessWidget {
                     setState(() {});
                   },
                   child: AnimatedOpacity(
-                    // opacity: controller.videoPlayerController.value.isPlaying
-                    //     ? 0
-                    //     : 1,
                     opacity: 0,
                     duration: 500.milliseconds,
                     child: Center(
                       child: Container(
-                        constraints:
-                            BoxConstraints.loose(const Size.fromRadius(50)),
+                        constraints: BoxConstraints.loose(const Size.fromRadius(50)),
                         decoration: const BoxDecoration(
                           color: Colors.black87,
                           borderRadius: BorderRadius.all(Radius.circular(8.0)),
@@ -211,20 +161,6 @@ class VideoApp extends StatelessWidget {
           ],
         ),
       ),
-
-      // ),
-      // floatingActionButton: IconButton(
-      //   onPressed: () {
-      //     setState(() {
-      //       _controller.videoPlayerController.value.isPlaying
-      //           ? _controller.pause()
-      //           : _controller.play();
-      //     });
-      //   },
-      //   icon: Icon(
-      //     _controller.videoPlayerController.value.isPlaying ? Icons.pause : Icons.play_arrow,
-      //   ),
-      // ),
     );
   }
 }

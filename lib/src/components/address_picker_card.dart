@@ -8,10 +8,7 @@ class AddressPickerCard extends FormField<LatLng> {
     @required FormFieldSetter<LatLng> onSaved,
     @required FormFieldValidator<LatLng> validator,
     @required LatLng initialValue,
-    @required
-        void Function(
-                FormFieldSetter<LatLng> onSaved, FormFieldState<LatLng> state)
-            openMapScreen,
+    @required void Function(FormFieldSetter<LatLng> onSaved, FormFieldState<LatLng> state) openMapScreen,
   }) : super(
           key: key,
           onSaved: onSaved,
@@ -20,11 +17,8 @@ class AddressPickerCard extends FormField<LatLng> {
           autovalidateMode: AutovalidateMode.onUserInteraction,
           builder: (FormFieldState<LatLng> state) {
             return InputDecorator(
-              decoration: InputDecoration(
-                // counterText: label,
-
+              decoration: const InputDecoration(
                 border: InputBorder.none,
-                // errorText: state.errorText,
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -37,22 +31,17 @@ class AddressPickerCard extends FormField<LatLng> {
                         child: () {
                           if (state.value == null && initialValue == null) {
                             return Container(
-                              color: state.hasError
-                                  ? Colors.red.withOpacity(.5)
-                                  : null,
+                              color: state.hasError ? Colors.red.withOpacity(.5) : null,
                               child: const Icon(
                                 Icons.add,
                                 color: Colors.black,
                               ),
                             );
-                          } else if (state.value == null &&
-                              initialValue != null) {
+                          } else if (state.value == null && initialValue != null) {
                             return GoogleMap(
                               key: ValueKey(initialValue),
-                              onMapCreated: (controller) =>
-                                  onMapCreated(controller, initialValue),
-                              initialCameraPosition:
-                                  const CameraPosition(target: LatLng(0, 0)),
+                              onMapCreated: (controller) => onMapCreated(controller, initialValue),
+                              initialCameraPosition: const CameraPosition(target: LatLng(0, 0)),
                               onTap: (_) => openMapScreen(onSaved, state),
                               markers: {
                                 Marker(
@@ -64,12 +53,9 @@ class AddressPickerCard extends FormField<LatLng> {
                           }
 
                           return GoogleMap(
-                            key: ValueKey(
-                                '${state.value.latitude},${state.value.longitude}'),
-                            onMapCreated: (controller) =>
-                                onMapCreated(controller, state.value),
-                            initialCameraPosition:
-                                const CameraPosition(target: LatLng(0, 0)),
+                            key: ValueKey('${state.value.latitude},${state.value.longitude}'),
+                            onMapCreated: (controller) => onMapCreated(controller, state.value),
+                            initialCameraPosition: const CameraPosition(target: LatLng(0, 0)),
                             onTap: (_) => openMapScreen(onSaved, state),
                             markers: {
                               Marker(
@@ -93,8 +79,7 @@ class AddressPickerCard extends FormField<LatLng> {
           },
         );
 
-  static Future<void> onMapCreated(
-      GoogleMapController controller, LatLng location) async {
+  static Future<void> onMapCreated(GoogleMapController controller, LatLng location) async {
     await controller.animateCamera(
       CameraUpdate.newCameraPosition(
         CameraPosition(

@@ -8,17 +8,15 @@ import 'package:provider/provider.dart';
 import '../src/place_picker.dart';
 
 class PlaceProvider extends ChangeNotifier {
-  static PlaceProvider of(BuildContext context, {bool listen = true}) =>
-      Provider.of<PlaceProvider>(context, listen: listen);
+  static PlaceProvider of(BuildContext context, {bool listen = true}) => Provider.of<PlaceProvider>(context, listen: listen);
 
   bool isOnUpdateLocationCooldown = false;
 
   Future<void> updateCurrentLocation() async {
     try {
       final GeolocatorPlatform geolocator = GeolocatorPlatform.instance;
-      // ..forceAndroidLocationManager = forceAndroidLocationManager;
-      currentPosition = await geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.high);
+
+      currentPosition = await geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
       if (await geolocator.isLocationServiceEnabled()) {
       } else {
         currentPosition = null;

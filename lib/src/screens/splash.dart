@@ -11,7 +11,6 @@ import '../cubits/splash_cubit/splash_cubit.dart';
 import '../routes/config_routes.dart';
 import 'auth/login.dart';
 import 'home/home.dart';
-import 'onboarding.dart';
 
 class SplashScreen extends StatelessWidget {
   static const routeName = '/';
@@ -25,23 +24,15 @@ class SplashScreen extends StatelessWidget {
     return BlocListener<SplashCubit, SplashState>(
       cubit: getIt<SplashCubit>(),
       listener: (context, state) async {
-        // AppRouter.sailor.navigate(
-        //   Playground.routeName,
-        //   navigationType: NavigationType.pushAndRemoveUntil,
-        //   removeUntilPredicate: (_) => false,
-        // );
-        // return;
-        // await Future.delayed(5.seconds);
         String routeName;
         switch (state) {
           case SplashState.initial:
             break;
-          case SplashState.firstLaunch:
-            routeName = OnboardingScreen.routeName;
-            break;
           case SplashState.authenticated:
             routeName = HomeScreen.routeName;
             break;
+          case SplashState.firstLaunch:
+
           case SplashState.unauthenticated:
             routeName = LoginScreen.routeName;
             break;

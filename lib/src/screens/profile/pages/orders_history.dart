@@ -65,30 +65,16 @@ class _OrdersHistoryState extends State<OrdersHistory> {
       onRefresh: cubit.getOrders,
       child: Parent(
         style: ParentStyle()
-          // ..linearGradient(
-          //   begin: Alignment.topCenter,
-          //   end: Alignment.bottomCenter,
-          //   colors: [
-          //     Colors.black,
-          //     Colors.amber,
-          //     Colors.black,
-          //   ],
-          // ),
           ..background.color(Colors.white)
-          ..background
-              .image(path: 'assets/images/black.png', fit: BoxFit.contain),
+          ..background.image(path: 'assets/images/black.png', fit: BoxFit.contain),
         child: Scaffold(
-          // floatingActionButton: WhatsappFloatingActionButton(),
           backgroundColor: Colors.white70,
           appBar: AppBar(
             elevation: 0,
             backgroundColor: Colors.black54,
             title: Text(
               S.current.my_orders,
-              style: Theme.of(context)
-                  .textTheme
-                  .headline6
-                  .copyWith(color: Colors.white),
+              style: Theme.of(context).textTheme.headline6.copyWith(color: Colors.white),
             ),
           ),
           body: OrdersListWidget(
@@ -99,23 +85,4 @@ class _OrdersHistoryState extends State<OrdersHistory> {
       ),
     );
   }
-
-  // Widget _buildList() {
-  //   return GridView.builder(
-  //     gridDelegate:
-  //         const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-  //     itemBuilder: (context, index) {
-  //       return const ProductsCarouselItemWidget(
-  //         product: ProductModel(
-  //             id: 0,
-  //             name: 'pro',
-  //             qyt: 2,
-  //             price: 200,
-  //             description: 'bla bla bla',
-  //             image:
-  //                 'https://cdn.britannica.com/96/197396-131-0096D43E/ribeye-steak-beef-cow-meat.jpg'),
-  //       );
-  //     },
-  //   );
-  // }
 }

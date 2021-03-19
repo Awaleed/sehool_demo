@@ -7,7 +7,6 @@ import 'package:sailor/sailor.dart';
 
 import '../../../../generated/l10n.dart';
 import '../../../../init_injectable.dart';
-import '../../../components/address_card.dart';
 import '../../../components/my_error_widget.dart';
 import '../../../core/api_caller.dart';
 import '../../../cubits/cart_cubit/cart_cubit.dart';
@@ -39,77 +38,8 @@ class _DeliveryFeesCubit extends Cubit<_DeliveryFeesState> with ApiCaller {
   }
 }
 
-class CheckoutPage extends StatelessWidget {
-  const CheckoutPage({
-    Key key,
-    @required this.cart,
-    this.onChanged,
-  }) : super(key: key);
-
-  final CartModel cart;
-  final ValueChanged onChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          const SizedBox(height: 20),
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: SummeryCard(cart: cart),
-            ),
-          ),
-          const SizedBox(height: 20),
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: AddressCard(address: cart.address),
-            ),
-          ),
-          // const SizedBox(height: 20),
-          // Center(
-          //   child: Padding(
-          //     padding: const EdgeInsets.symmetric(horizontal: 20),
-          //     child: ShippingDateCard(
-          //       cart: cart,
-          //       enabeld: false,
-          //       onChanged: null,
-          //     ),
-          //   ),
-          // ),
-          // const SizedBox(height: 20),
-          // Center(
-          //   child: Padding(
-          //     padding: const EdgeInsets.symmetric(horizontal: 20),
-          //     child: TextFormField(
-          //       initialValue: cart.note,
-          //       readOnly: true,
-          //       decoration: InputDecoration(
-          //         filled: true,
-          //         fillColor: Colors.white70,
-          //         border: OutlineInputBorder(
-          //           borderRadius: BorderRadius.circular(25),
-          //         ),
-          //       ),
-          //       keyboardType: TextInputType.multiline,
-          //       minLines: 7,
-          //       maxLines: 14,
-          //     ),
-          //   ),
-          // ),
-          const SizedBox(height: 20),
-        ],
-      ),
-    );
-  }
-}
-
 class SummeryCard extends StatefulWidget {
-  const SummeryCard({Key key, @required this.cart, this.onChanged})
-      : super(key: key);
+  const SummeryCard({Key key, @required this.cart, this.onChanged}) : super(key: key);
   final CartModel cart;
   final ValueChanged onChanged;
 
@@ -156,8 +86,7 @@ class _SummeryCardState extends State<SummeryCard> {
                 }
               },
               builder: (context, state) {
-                if (state == _DeliveryFeesState.loading ||
-                    state == _DeliveryFeesState.initial) {
+                if (state == _DeliveryFeesState.loading || state == _DeliveryFeesState.initial) {
                   return const Center(
                     child: Padding(
                       padding: EdgeInsets.all(16.0),
@@ -173,11 +102,6 @@ class _SummeryCardState extends State<SummeryCard> {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      // Text(
-                      //   S.current.bill,
-                      //   style: Theme.of(context).textTheme.headline5,
-                      // ),
-                      // const Divider(),
                       ...widget.cart.cartItems.map(
                         (e) => ListTile(
                           leading: IconButton(
@@ -197,20 +121,15 @@ class _SummeryCardState extends State<SummeryCard> {
                                     children: [
                                       Expanded(
                                         child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             Text(
                                               e?.product?.name ?? '',
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .headline6,
+                                              style: Theme.of(context).textTheme.headline6,
                                             ),
                                             Text(
                                               '${e.quantity} ${S.current.piece}, ${e.slicingMethod?.name}',
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyText2,
+                                              style: Theme.of(context).textTheme.bodyText2,
                                             ),
                                           ],
                                         ),
@@ -227,16 +146,12 @@ class _SummeryCardState extends State<SummeryCard> {
                                       widget.onChanged(e);
                                       AppRouter.sailor.navigate(
                                         CheckoutScreen.routeName,
-                                        navigationType:
-                                            NavigationType.pushReplace,
+                                        navigationType: NavigationType.pushReplace,
                                       );
                                     },
                                     child: Text(
                                       S.current.confirmation,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .button
-                                          .copyWith(color: Colors.red),
+                                      style: Theme.of(context).textTheme.button.copyWith(color: Colors.red),
                                     ),
                                   ),
                                 ],
@@ -250,9 +165,7 @@ class _SummeryCardState extends State<SummeryCard> {
                                   ),
                                 ),
                               );
-                              showCupertinoModalPopup(
-                                  context: context,
-                                  builder: (context) => action);
+                              showCupertinoModalPopup(context: context, builder: (context) => action);
                             },
                           ),
                           onTap: () async {
@@ -263,11 +176,8 @@ class _SummeryCardState extends State<SummeryCard> {
                                 'editing': true,
                               },
                             );
-                            if (widget.cart.fromWallet &&
-                                kUser.wallet < widget.cart.total) {
-                              Helpers.showErrorOverlay(context,
-                                  error: S.current
-                                      .sorry_your_balance_is_not_enough);
+                            if (widget.cart.fromWallet && kUser.wallet < widget.cart.total) {
+                              Helpers.showErrorOverlay(context, error: S.current.sorry_your_balance_is_not_enough);
                               widget.cart.fromWallet = false;
                             }
                             widget.onChanged(e);
@@ -280,93 +190,37 @@ class _SummeryCardState extends State<SummeryCard> {
                         ),
                       ),
                       const Divider(),
-                      // ListTile(
-                      //   title: Text(S.current.subtotal,style: Theme.of(context).textTheme.bodyText2),
-                      //   trailing: Text('${cart.subtotal.format()} ﷼',style: Theme.of(context).textTheme.bodyText2),
-                      // ),
                       ListTile(
-                        title: Text(S.current.delivery_price,
-                            style: Theme.of(context).textTheme.bodyText2),
-                        trailing: Text('${widget.cart.deliveryFees.format()} ﷼',
-                            style: Theme.of(context).textTheme.bodyText2),
+                        title: Text(S.current.delivery_price, style: Theme.of(context).textTheme.bodyText2),
+                        trailing: Text('${widget.cart.deliveryFees.format()} ﷼', style: Theme.of(context).textTheme.bodyText2),
                       ),
                       ListTile(
-                        title: Text(S.current.total,
-                            style: Theme.of(context).textTheme.bodyText2),
-                        trailing: Text(
-                            '${widget.cart.subtotalWithDelivery.format()} ﷼',
-                            style: Theme.of(context).textTheme.bodyText2),
+                        title: Text(S.current.total, style: Theme.of(context).textTheme.bodyText2),
+                        trailing: Text('${widget.cart.subtotalWithDelivery.format()} ﷼', style: Theme.of(context).textTheme.bodyText2),
                       ),
                       const Divider(),
                       if (widget.cart.discountAmount > 0) ...[
                         ListTile(
-                          // tileColor: Colors.amber.withOpacity(.8),
-                          title: Text(S.current.discount,
-                              style: Theme.of(context).textTheme.bodyText2),
-                          trailing: Text(
-                              '${widget.cart.discountAmount.format()} ﷼',
-                              style: Theme.of(context).textTheme.bodyText2),
+                          title: Text(S.current.discount, style: Theme.of(context).textTheme.bodyText2),
+                          trailing: Text('${widget.cart.discountAmount.format()} ﷼', style: Theme.of(context).textTheme.bodyText2),
                         ),
                         ListTile(
-                          // tileColor: Colors.amber.withOpacity(.8),
-                          title: Text(S.current.discounted_total,
-                              style: Theme.of(context).textTheme.bodyText2),
-                          trailing: Text(
-                              '${widget.cart.discountedSubtotal.format()} ﷼',
-                              style: Theme.of(context).textTheme.bodyText2),
+                          title: Text(S.current.discounted_total, style: Theme.of(context).textTheme.bodyText2),
+                          trailing: Text('${widget.cart.discountedSubtotal.format()} ﷼', style: Theme.of(context).textTheme.bodyText2),
                         ),
                         const Divider(),
                       ],
                       ListTile(
-                        title: Text(S.current.tax,
-                            style: Theme.of(context).textTheme.bodyText2),
-                        trailing: Text('${widget.cart.tax.format()} ﷼',
-                            style: Theme.of(context).textTheme.bodyText2),
+                        title: Text(S.current.tax, style: Theme.of(context).textTheme.bodyText2),
+                        trailing: Text('${widget.cart.tax.format()} ﷼', style: Theme.of(context).textTheme.bodyText2),
                       ),
                       ClipRRect(
                         borderRadius: BorderRadius.circular(25),
                         child: ListTile(
-                          // tileColor: Colors.cyan.withOpacity(.8),
-                          title: Text(S.current.net_bill,
-                              style: Theme.of(context).textTheme.bodyText1),
-                          trailing: Text('${widget.cart.total.format()} ﷼',
-                              style: Theme.of(context).textTheme.bodyText1),
+                          title: Text(S.current.net_bill, style: Theme.of(context).textTheme.bodyText1),
+                          trailing: Text('${widget.cart.total.format()} ﷼', style: Theme.of(context).textTheme.bodyText1),
                         ),
                       ),
-
-                      // Text(
-                      //   S.current.total,
-                      //   style: Theme.of(context).textTheme.headline5,
-                      // ),
-                      // const Divider(),
-                      // Card(
-                      //   elevation: 2,
-                      //   clipBehavior: Clip.hardEdge,
-                      //   margin: EdgeInsets.zero,
-                      //   color: Colors.white70,
-                      //   shape: RoundedRectangleBorder(
-                      //     borderRadius: BorderRadius.circular(25),
-                      //   ),
-                      //   child: ListTile(
-                      //     title: Text('${cart.total.format()} ﷼'),
-                      //   ),
-                      // ),
-                      // const Divider(),
-                      // Text(
-                      //   S.current.payment_mode,
-                      //   style: Theme.of(context).textTheme.headline5,
-                      // ),
-                      // const Divider(),
-                      // Card(
-                      //   elevation: 2,
-                      //   clipBehavior: Clip.hardEdge,
-                      //   margin: EdgeInsets.zero,
-                      //   color: Colors.white70,
-                      //   shape: RoundedRectangleBorder(
-                      //     borderRadius: BorderRadius.circular(25),
-                      //   ),
-                      //   child: ListTile(title: Text(cart.paymentMethod.name)),
-                      // ),
                     ],
                   );
                 }

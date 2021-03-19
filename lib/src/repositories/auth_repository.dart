@@ -33,7 +33,6 @@ class AuthRepositoryImpl implements IAuthRepository {
       tokenType: res['token_type'],
     );
 
-    //pars values from string to there respective values
     res['access_token']['user']['original']['wallet'] = double.tryParse('${res['access_token']['user']['original']['wallet']}');
 
     final user = UserModel.fromJson(
@@ -44,9 +43,6 @@ class AuthRepositoryImpl implements IAuthRepository {
       accessToken: token,
     ));
 
-    // final user = UserWithTokenModel.fromJson(res);
-
-    // await _localSource.saveUser(user);
     if (rememberMe) {
       _localSource.saveCredentials({
         'email': credentials['email'],
@@ -67,7 +63,6 @@ class AuthRepositoryImpl implements IAuthRepository {
       tokenType: res['token_type'],
     );
 
-    //pars values from string to there respective values
     res['access_token']['user']['original']['wallet'] = double.tryParse('${res['access_token']['user']['original']['wallet']}');
 
     final user = UserModel.fromJson(
@@ -91,7 +86,7 @@ class AuthRepositoryImpl implements IAuthRepository {
   @override
   Future<UserModel> me() async {
     final res = await _remoteSource.me();
-    //pars values from string to there respective values
+
     res['wallet'] = double.tryParse('${res['wallet']}');
     final user = UserModel.fromJson(res);
     await _localSource.updateUser(user);

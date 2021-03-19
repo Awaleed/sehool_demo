@@ -6,7 +6,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:package_info/package_info.dart';
 import 'package:supercharged/supercharged.dart';
 import 'package:validators/validators.dart';
 
@@ -17,9 +16,7 @@ import '../../../data/user_datasource.dart';
 import '../../../helpers/helper.dart';
 import '../../../models/user_model.dart';
 import '../../../repositories/auth_repository.dart';
-import '../../profile/pages/about.dart';
 import '../../profile/pages/addresses.dart';
-import '../../profile/pages/help.dart';
 import '../../profile/pages/orders_history.dart';
 import '../../profile/profile_settings.dart';
 
@@ -40,8 +37,6 @@ class UserPage extends StatelessWidget {
     return ValueListenableBuilder(
         valueListenable: Hive.box(userBoxName).listenable(),
         builder: (BuildContext context, dynamic value, Widget child) {
-          // debugPrint('SettingsItem $value times');
-
           return Parent(
             style: contentStyle(context),
             child: Column(
@@ -49,7 +44,6 @@ class UserPage extends StatelessWidget {
               children: <Widget>[
                 Txt(S.current.profile, style: titleStyle),
                 UserCard(),
-                // ActionsRow(),
                 const Settings(),
               ],
             ),
@@ -71,9 +65,7 @@ class _UserCardState extends State<UserCard> {
           style: userImageStyle,
           child: CircleAvatar(
             radius: 40,
-            backgroundImage: isURL(kUser.image)
-                ? CachedNetworkImageProvider(kUser.image)
-                : const AssetImage('assets/img/user.png'),
+            backgroundImage: isURL(kUser.image) ? CachedNetworkImageProvider(kUser.image) : const AssetImage('assets/img/user.png'),
             onBackgroundImageError: (exception, stackTrace) => const Center(
               child: Icon(Icons.not_interested),
             ),
@@ -85,9 +77,7 @@ class _UserCardState extends State<UserCard> {
             Txt(kUser.name, style: nameTextStyle),
             const SizedBox(height: 5),
             Txt(
-              (kUser.level == UserLevel.merchant)
-                  ? S.current.merchant
-                  : S.current.customer,
+              (kUser.level == UserLevel.merchant) ? S.current.merchant : S.current.customer,
               style: nameDescriptionTextStyle,
             )
           ],
@@ -104,11 +94,8 @@ class _UserCardState extends State<UserCard> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
-              // _buildUserStatsItem('${kUser.wallet} ﷼', FluentIcons.money_24_regular),
               _buildUserStatsItem(kUser.email, FluentIcons.mail_24_regular),
               _buildUserStatsItem(kUser.phone, FluentIcons.phone_24_regular),
-              // _buildUserStatsItem(
-              //     '@${kUser.id}', FluentIcons.person_accounts_24_regular)
             ],
           ),
           if (kUser.level == UserLevel.merchant)
@@ -127,8 +114,6 @@ class _UserCardState extends State<UserCard> {
                   },
                 ),
                 _buildUserStatsItem(kUser.storeName, Icons.store),
-                // _buildUserStatsItem(
-                //     '@${kUser.id}', FluentIcons.person_accounts_24_regular)
               ],
             ),
         ],
@@ -169,7 +154,6 @@ class _UserCardState extends State<UserCard> {
   }
 
   final ParentStyle userCardStyle = ParentStyle()
-    // ..height(175)
     ..padding(horizontal: 20.0, vertical: 10)
     ..alignment.center()
     ..background.color(Colors.amber)
@@ -197,51 +181,6 @@ class _UserCardState extends State<UserCard> {
     ..fontSize(12);
 }
 
-// class ActionsRow extends StatelessWidget {
-//   Widget _buildActionsItem(String title, IconData icon) {
-//     return Parent(
-//       style: actionsItemStyle,
-//       child: Column(
-//         children: <Widget>[
-//           Parent(
-//             style: actionsItemIconStyle,
-//             child: Icon(icon, size: 20, color: Color(0xFF42526F)),
-//           ),
-//           Txt(title, style: actionsItemTextStyle)
-//         ],
-//       ),
-//     );
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Row(
-//       mainAxisAlignment: MainAxisAlignment.spaceAround,
-//       children: <Widget>[
-//         _buildActionsItem('Wallet', Icons.attach_money),
-//         _buildActionsItem('Delivery', Icons.card_giftcard),
-//         _buildActionsItem('Message', Icons.message),
-//         _buildActionsItem('Service', Icons.room_service),
-//       ],
-//     );
-//   }
-
-//   final ParentStyle actionsItemIconStyle = ParentStyle()
-//     ..alignmentContent.center()
-//     ..width(50)
-//     ..height(50)
-//     ..margin(bottom: 5)
-//     ..borderRadius(all: 30)
-//     ..background.hex('#F6F5F8')
-//     ..ripple(true);
-
-//   final ParentStyle actionsItemStyle = ParentStyle()..margin(vertical: 20.0);
-
-//   final TxtStyle actionsItemTextStyle = TxtStyle()
-//     ..textColor(Colors.black.withOpacity(0.8))
-//     ..fontSize(12);
-// }
-
 class Settings extends StatefulWidget {
   final VoidCallback onRefresh;
 
@@ -265,17 +204,11 @@ class _SettingsState extends State<Settings> {
             final action = CupertinoActionSheet(
               title: Text(
                 S.current.log_out,
-                style: Theme.of(context)
-                    .textTheme
-                    .headline3
-                    .copyWith(color: Colors.amber),
+                style: Theme.of(context).textTheme.headline3.copyWith(color: Colors.amber),
               ),
               message: Text(
                 S.current.do_you_want_to_log_out_and_switch_account,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText2
-                    .copyWith(color: Colors.amberAccent),
+                style: Theme.of(context).textTheme.bodyText2.copyWith(color: Colors.amberAccent),
               ),
               actions: <Widget>[
                 CupertinoActionSheetAction(
@@ -285,10 +218,7 @@ class _SettingsState extends State<Settings> {
                   },
                   child: Text(
                     S.current.yes,
-                    style: Theme.of(context)
-                        .textTheme
-                        .button
-                        .copyWith(color: Colors.red),
+                    style: Theme.of(context).textTheme.button.copyWith(color: Colors.red),
                   ),
                 ),
                 CupertinoActionSheetAction(
@@ -312,8 +242,7 @@ class _SettingsState extends State<Settings> {
                 ),
               ),
             );
-            showCupertinoModalPopup(
-                context: context, builder: (context) => action);
+            showCupertinoModalPopup(context: context, builder: (context) => action);
           },
         ),
         SettingsItem(
@@ -392,9 +321,6 @@ class _SettingsItemState extends State<SettingsItem> {
       ),
       openColor: Colors.transparent,
       closedBuilder: (context, action) {
-        // Timer.run(() {
-        //   widget.onRefresh?.call();
-        // });
         return Parent(
           style: settingsItemStyle(pressed: pressed),
           gesture: Gestures()
@@ -408,17 +334,14 @@ class _SettingsItemState extends State<SettingsItem> {
             children: <Widget>[
               Parent(
                 style: settingsItemIconStyle(iswarrning: widget.iswarrning),
-                child: Icon(widget.icon,
-                    color: widget.iswarrning ? Colors.red : Colors.amber,
-                    size: 20),
+                child: Icon(widget.icon, color: widget.iswarrning ? Colors.red : Colors.amber, size: 20),
               ),
               const SizedBox(width: 10),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Txt(widget.title,
-                      style: itemTitleTextStyle(iswarrning: widget.iswarrning)),
+                  Txt(widget.title, style: itemTitleTextStyle(iswarrning: widget.iswarrning)),
                   if (widget.description != null) ...[
                     const SizedBox(height: 5),
                     Txt(widget.description, style: itemDescriptionTextStyle),
@@ -444,8 +367,7 @@ class _SettingsItemState extends State<SettingsItem> {
     ..animate(150, Curves.easeInOut);
 
   ParentStyle settingsItemIconStyle({bool iswarrning}) => ParentStyle()
-    ..background.color(
-        iswarrning ? Colors.red.withOpacity(.1) : Colors.amber.withOpacity(.1))
+    ..background.color(iswarrning ? Colors.red.withOpacity(.1) : Colors.amber.withOpacity(.1))
     ..margin(horizontal: 15)
     ..padding(all: 12)
     ..borderRadius(all: 30);

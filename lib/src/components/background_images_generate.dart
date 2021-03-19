@@ -68,21 +68,11 @@ class BackgroundGeneratorGroupState extends State<BackgroundGeneratorGroup> {
         height: double.infinity,
         child: BackgroundGenerator(
           direction: widget.direction,
-          span: widget.span == null
-              ? null
-              : TextSpan(
-                  text: widget.span[widget.random.nextInt(widget.span.length)],
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyText2
-                      .copyWith(color: Colors.white.withOpacity(.5))),
+          span: widget.span == null ? null : TextSpan(text: widget.span[widget.random.nextInt(widget.span.length)], style: Theme.of(context).textTheme.bodyText2.copyWith(color: Colors.white.withOpacity(.5))),
           trajectory: widget.trajectory,
-          image: widget.image == null
-              ? ''
-              : widget.image[widget.random.nextInt(widget.image.length)],
+          image: widget.image == null ? '' : widget.image[widget.random.nextInt(widget.image.length)],
           radius: radius,
-          color: widget.colors[widget.random.nextInt(widget.colors.length)]
-              .withOpacity(widget.opacity),
+          color: widget.colors[widget.random.nextInt(widget.colors.length)].withOpacity(widget.opacity),
           time: time,
         ),
       ));
@@ -126,8 +116,7 @@ class BackgroundGenerator extends StatefulWidget {
   State<StatefulWidget> createState() => BackgroundGeneratorState();
 }
 
-class BackgroundGeneratorState extends State<BackgroundGenerator>
-    with SingleTickerProviderStateMixin {
+class BackgroundGeneratorState extends State<BackgroundGenerator> with SingleTickerProviderStateMixin {
   Random random = Random();
   bool _vertical;
   bool _inverseDir;
@@ -166,8 +155,7 @@ class BackgroundGeneratorState extends State<BackgroundGenerator>
       _destination = random.nextDouble();
     }
     _start = 150 * random.nextDouble();
-    controller = AnimationController(
-        duration: Duration(seconds: widget.time), vsync: this);
+    controller = AnimationController(duration: Duration(seconds: widget.time), vsync: this);
 
     controller.addListener(() {
       setState(() {
@@ -251,34 +239,6 @@ class BackgroundGeneratorState extends State<BackgroundGenerator>
   @override
   Widget build(BuildContext context) {
     return _buildImage();
-    // return FutureBuilder<ui.Image>(
-    //     future: sunImage.obtainKey(const ImageConfiguration()).then((key) {
-    //       return _loadImage(key);
-    //     }),
-    //     builder: (context, snapshot) {
-    //       switch (snapshot.connectionState) {
-    //         case ConnectionState.waiting:
-    //           return const Text('Image loading...');
-    //         default:
-    //           if (snapshot.hasError) {
-    //             return Text('Error: ${snapshot.error}');
-    //           } else {
-    //             return CustomPaint(
-    //               painter: DotPainter(
-    //                 vertical: _vertical,
-    //                 inverseDir: _inverseDir,
-    //                 image: snapshot.data,
-    //                 initialPosition: _initialPosition,
-    //                 destination: _destination,
-    //                 radius: widget.radius,
-    //                 start: _start,
-    //                 fraction: _fraction,
-    //                 color: widget.color,
-    //               ),
-    //             );
-    //           }
-    //       }
-    //     });
   }
 }
 
@@ -321,29 +281,15 @@ class DotPainter extends CustomPainter {
     Offset offset;
 
     if (!vertical && inverseDir) {
-      offset = Offset(
-          -start - radius + (size.width + diameter + start) * fraction,
-          size.height * (initialPosition + distance * fraction));
+      offset = Offset(-start - radius + (size.width + diameter + start) * fraction, size.height * (initialPosition + distance * fraction));
     } else if (vertical && inverseDir) {
-      offset = Offset(size.width * (initialPosition + distance * fraction),
-          -start - radius + (size.height + diameter + start) * fraction);
+      offset = Offset(size.width * (initialPosition + distance * fraction), -start - radius + (size.height + diameter + start) * fraction);
     } else if (!vertical && !inverseDir) {
-      offset = Offset(
-          size.width +
-              start +
-              radius -
-              (size.width + diameter + start) * fraction,
-          size.height * (initialPosition + distance * fraction));
+      offset = Offset(size.width + start + radius - (size.width + diameter + start) * fraction, size.height * (initialPosition + distance * fraction));
     } else if (vertical && !inverseDir) {
-      offset = Offset(
-          size.width * (initialPosition + distance * fraction),
-          size.height +
-              start +
-              radius -
-              (size.height + diameter + start) * fraction);
+      offset = Offset(size.width * (initialPosition + distance * fraction), size.height + start + radius - (size.height + diameter + start) * fraction);
     }
 
-    // ByteData data = image.toByteData();
     if (span != null) {
       final textPainter = TextPainter(
         text: span,
@@ -357,10 +303,6 @@ class DotPainter extends CustomPainter {
     } else {
       canvas.drawImage(dot, offset, _paint);
     }
-
-    // canvas.drawCircle(offset, radius, _paint);
-    // canvas.drawImage(image, offset, _paint);
-    // svg.draw(canvas, Rect.fromCircle(center: offset, radius: radius));
   }
 
   @override

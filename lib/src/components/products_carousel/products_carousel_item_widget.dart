@@ -86,69 +86,9 @@ class ProductsCarouselItemWidget extends StatelessWidget {
             child: BlocBuilder<CartCubit, CartState>(
               cubit: getIt<CartCubit>(),
               builder: (context, state) {
-                // final cartItem = getIt<CartCubit>().getItem(product.id);
                 return FloatingActionButton.extended(
                   heroTag: 'btn${product.id}',
                   onPressed: () {
-                    // if (cartItem != null) {
-                    //   final action = CupertinoActionSheet(
-                    //     title: Text(
-                    //       S.current.remove_from_cart,
-                    //       style: Theme.of(context).textTheme.headline3,
-                    //     ),
-                    //     message: Theme(
-                    //       data: Theme.of(context),
-                    //       child: Row(
-                    //         children: [
-                    //           Expanded(
-                    //             child: Column(
-                    //               crossAxisAlignment: CrossAxisAlignment.start,
-                    //               children: [
-                    //                 Text(
-                    //                   cartItem?.product?.name ?? '',
-                    //                   style: Theme.of(context).textTheme.headline6,
-                    //                 ),
-                    //                 Text(
-                    //                   '${cartItem.quantity} ${S.current.piece}, ${cartItem.slicingMethod?.name}',
-                    //                   style: Theme.of(context).textTheme.bodyText2,
-                    //                 ),
-                    //               ],
-                    //             ),
-                    //           ),
-                    //           Text('${cartItem.total} ﷼'),
-                    //         ],
-                    //       ),
-                    //     ),
-                    //     actions: <Widget>[
-                    //       CupertinoActionSheetAction(
-                    //         isDestructiveAction: true,
-                    //         onPressed: () {
-                    //           getIt<CartCubit>().removeItem(product.id);
-                    //           Navigator.pop(context, true);
-
-                    //           // AppRouter.sailor.navigate(
-                    //           //   CheckoutScreen.routeName,
-                    //           //   navigationType: NavigationType.pushReplace,
-                    //           // );
-                    //         },
-                    //         child: Text(
-                    //           S.current.confirmation,
-                    //           style: Theme.of(context).textTheme.button.copyWith(color: Colors.red),
-                    //         ),
-                    //       ),
-                    //     ],
-                    //     cancelButton: CupertinoActionSheetAction(
-                    //       onPressed: () {
-                    //         Navigator.pop(context, false);
-                    //       },
-                    //       child: Text(
-                    //         S.current.cancel,
-                    //         style: Theme.of(context).textTheme.button,
-                    //       ),
-                    //     ),
-                    //   );
-                    //   showCupertinoModalPopup(context: context, builder: (context) => action);
-                    // } else {
                     if (product.qyt <= 0) {
                       showDialog(
                         context: context,
@@ -163,7 +103,6 @@ class ProductsCarouselItemWidget extends StatelessWidget {
                         params: {'product': product},
                       );
                     }
-                    // }
                   },
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(25),
@@ -171,12 +110,8 @@ class ProductsCarouselItemWidget extends StatelessWidget {
                   backgroundColor: Colors.amber,
                   hoverColor: Colors.amber.withOpacity(.3),
                   splashColor: Colors.amber.withOpacity(.3),
-                  icon: const Icon(
-                      // cartItem != null ? FluentIcons.delete_24_regular :
-                      FluentIcons.cart_24_regular,
-                      color: Colors.black),
+                  icon: const Icon(FluentIcons.cart_24_regular, color: Colors.black),
                   label: Text(
-                    // cartItem != null ? S.current.remove_from_cart :
                     S.current.add_to_cart,
                     style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
                   ),

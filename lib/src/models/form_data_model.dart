@@ -42,17 +42,6 @@ class FormFieldModel {
     this.value,
   });
 
-  // static Map<String, dynamic> generateJson(
-  //   Map<String, dynamic> map,
-  // ) {
-  //   final jsonMap = <String, dynamic>{};
-  //   for (final item in map.entries) {
-  //     if (item.value?.value == null) continue;
-  //     jsonMap[item.value.name] = item.value.value;
-  //   }
-  //   return jsonMap;
-  // }
-
   factory FormFieldModel.mapType(FormFieldType type, Map<String, dynamic> map) {
     switch (type) {
       case FormFieldType.name:

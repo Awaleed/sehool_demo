@@ -46,7 +46,6 @@ class _GoogleMapPlacePickerState extends State<GoogleMapPlacePicker> {
         LatLng(24.811768700000012, 46.7125423),
         LatLng(24.86015090000002, 46.73674840000001),
         LatLng(24.901378800000014, 46.7113846),
-        // LatLng(24.913536400000005, 46.7251219),
         LatLng(24.9414138, 46.7527536),
         LatLng(24.9776899, 46.749996),
         LatLng(25.123447100000003, 46.67458150000001),
@@ -54,14 +53,12 @@ class _GoogleMapPlacePickerState extends State<GoogleMapPlacePicker> {
       ];
   List<LatLng> get _southRegion => const [
         LatLng(24.676370799999997, 46.6365654),
-        // LatLng(24.58706480000001, 46.6350112),
         LatLng(24.4996319, 46.63500299999999),
         LatLng(24.490197999999985, 46.7564148),
         LatLng(24.492738299999996, 46.9333606),
         LatLng(24.635827000000006, 46.9331827),
         LatLng(24.697547200000006, 46.9221757),
         LatLng(24.719960200000006, 46.8442531),
-        // LatLng(24.702619800000022, 46.7796754),
         LatLng(24.6786309, 46.7195805),
         LatLng(24.696806000000006, 46.633103),
         LatLng(24.676370799999997, 46.6365654),
@@ -74,10 +71,7 @@ class _GoogleMapPlacePickerState extends State<GoogleMapPlacePicker> {
         LatLng(24.577782100000004, 46.4189677),
         LatLng(24.547597400000004, 46.4624684),
         LatLng(24.53684010000001, 46.5013508),
-        // LatLng(24.531381400000008, 46.5424593),
         LatLng(24.4996319, 46.63500299999999),
-        // LatLng(24.542381299999995, 46.63613990000001),
-        // LatLng(24.58513070000001, 46.6352169),
         LatLng(24.676370799999997, 46.6365654),
         LatLng(24.696806000000006, 46.633103),
       ];
@@ -91,10 +85,8 @@ class _GoogleMapPlacePickerState extends State<GoogleMapPlacePicker> {
         LatLng(24.901378800000014, 46.7113846),
         LatLng(24.86015090000002, 46.73674840000001),
         LatLng(24.811768700000012, 46.7125423),
-        // LatLng(24.780839600000007, 46.730485),
         LatLng(24.757802099999996, 46.7444733),
         LatLng(24.6786309, 46.7195805),
-        // LatLng(24.70324769999999, 46.78825739999999),
         LatLng(24.719960200000006, 46.8442531),
         LatLng(24.697547200000006, 46.9221757),
         LatLng(24.771138100000005, 46.9149658),
@@ -122,25 +114,24 @@ class _GoogleMapPlacePickerState extends State<GoogleMapPlacePicker> {
       }
     }
 
-    return ((intersectCount % 2) == 1); // odd = inside, even = outside;
+    return (intersectCount % 2) == 1;
   }
 
   bool rayCastIntersect(LatLng tap, LatLng vertA, LatLng vertB) {
-    double aY = vertA.latitude;
-    double bY = vertB.latitude;
-    double aX = vertA.longitude;
-    double bX = vertB.longitude;
-    double pY = tap.latitude;
-    double pX = tap.longitude;
+    final double aY = vertA.latitude;
+    final double bY = vertB.latitude;
+    final double aX = vertA.longitude;
+    final double bX = vertB.longitude;
+    final double pY = tap.latitude;
+    final double pX = tap.longitude;
 
     if ((aY > pY && bY > pY) || (aY < pY && bY < pY) || (aX < pX && bX < pX)) {
-      return false; // a and b can't both be above or below pt.y, and a or
-      // b must be east of pt.x
+      return false;
     }
 
-    double m = (aY - bY) / (aX - bX); // Rise over run
-    double bee = (-aX) * m + aY; // y = mx + b
-    double x = (pY - bee) / m; // algebra is neat!
+    final double m = (aY - bY) / (aX - bX);
+    final double bee = (-aX) * m + aY;
+    final double x = (pY - bee) / m;
 
     return x > pX;
   }
@@ -199,24 +190,12 @@ class _GoogleMapPlacePickerState extends State<GoogleMapPlacePicker> {
   Widget _buildGoogleMap(BuildContext context) {
     final PlaceProvider provider = PlaceProvider.of(context, listen: false);
 
-    final CameraPosition initialCameraPosition =
-        CameraPosition(target: widget.initialTarget, zoom: 15);
+    final CameraPosition initialCameraPosition = CameraPosition(target: widget.initialTarget, zoom: 15);
 
     return GoogleMap(
       initialCameraPosition: initialCameraPosition,
       myLocationEnabled: true,
-      // circles: {
-      //   Circle(
-      //     center: center,
-      //     radius: distance,
-      //     strokeWidth: 0,
-      //     fillColor: Colors.amber.withOpacity(.15),
-      //     circleId: CircleId('id'),
-      //   )
-      // },
-      onTap: (value) {
-        print('map tapped: $value');
-      },
+      onTap: (value) {},
       polygons: {
         Polygon(
           polygonId: PolygonId('north'),
@@ -253,9 +232,6 @@ class _GoogleMapPlacePickerState extends State<GoogleMapPlacePicker> {
       onCameraMoveStarted: () {
         provider.setPrevCameraPosition(provider.cameraPosition);
 
-        // Cancel any other timer.
-
-        // Update state, dismiss keyboard and clear text.
         provider.pinState = PinState.dragging;
       },
       onCameraMove: (CameraPosition position) {
@@ -270,19 +246,8 @@ class _GoogleMapPlacePickerState extends State<GoogleMapPlacePicker> {
         setState(() {
           canChoose = region != -1;
         });
-        // _checkIfValidMarker(latLng, _area);
+
         /* 24.733721, 46.706886 */
-        // final vertical =
-        //     position.target.latitude > 24.733721 ? 'north' : 'south';
-        // final horizontal =
-        //     position.target.longitude > 46.706886 ? 'east' : 'west';
-        // print('position.target.latitude: $horizontal');
-        // print('distance ${Geolocator.distanceBetween(
-        //   widget.initialTarget.latitude,
-        //   widget.initialTarget.longitude,
-        //   position.target.latitude,
-        //   position.target.longitude,
-        // )}');
       },
     );
   }
@@ -330,8 +295,7 @@ class _GoogleMapPlacePickerState extends State<GoogleMapPlacePicker> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: const <Widget>[
-                AnimatedPin(
-                    child: Icon(Icons.place, size: 36, color: Colors.red)),
+                AnimatedPin(child: Icon(Icons.place, size: 36, color: Colors.red)),
                 SizedBox(height: 42),
               ],
             ),

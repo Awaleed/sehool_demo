@@ -9,28 +9,11 @@ part 'forgot_password_state.dart';
 
 @injectable
 class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
-  ForgotPasswordCubit(this._authRepository)
-      : super(const ForgotPasswordState.enterYourEmail());
+  ForgotPasswordCubit(this._authRepository) : super(const ForgotPasswordState.enterYourEmail());
 
   final IAuthRepository _authRepository;
   String _email;
   int _timeOut;
-
-  // Future<void> requestCode(String email) async {
-  //   emit(ForgotPasswordState.enterYourEmailLoading(email: email));
-  //   try {
-  //     final timeOut = await _authRepository.forgotPassword(email);
-  //     _email = email;
-  //     _timeOut = timeOut;
-  //     emit(
-  //       ForgotPasswordState.enterNewPassword(email: email, timeout: timeOut),
-  //     );
-  //       } catch (e) {
-  //     addError(e);
-  //     // TODO: Handel error messages
-  //     emit(ForgotPasswordState.failureOnEnterYourEmail(message: '$e'));
-  //   }
-  // }
 
   Future<void> setPassword(String password) async {
     emit(ForgotPasswordState.enterNewPasswordLoading(email: _email));
@@ -39,7 +22,7 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
       emit(const ForgotPasswordState.success());
     } catch (e) {
       addError(e);
-      // TODO: Handel error messages
+
       emit(ForgotPasswordState.failureOnNewPassword(
         email: _email,
         message: '$e',
@@ -49,8 +32,4 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
   }
 
   void editEmail() => emit(ForgotPasswordState.enterYourEmail(email: _email));
-
-//   void resend() {
-//     requestCode(_email);
-//   }
 }

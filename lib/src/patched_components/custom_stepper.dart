@@ -126,10 +126,6 @@ class _CustomStepperState extends State<CustomStepper> with TickerProviderStateM
     return widget.steps.length - 1 == index;
   }
 
-  bool _isCurrent(int index) {
-    return widget.currentCustomStep == index;
-  }
-
   bool _isDark() {
     return Theme.of(context).brightness == Brightness.dark;
   }
@@ -240,67 +236,6 @@ class _CustomStepperState extends State<CustomStepper> with TickerProviderStateM
     }
   }
 
-  Widget _buildVerticalControls() {
-    if (widget.controlsBuilder != null) return widget.controlsBuilder(context, onStepContinue: widget.onCustomStepContinue, onStepCancel: widget.onCustomStepCancel);
-
-    Color cancelColor;
-
-    switch (Theme.of(context).brightness) {
-      case Brightness.light:
-        cancelColor = Colors.black54;
-        break;
-      case Brightness.dark:
-        cancelColor = Colors.white70;
-        break;
-    }
-
-    assert(cancelColor != null);
-
-    final ThemeData themeData = Theme.of(context);
-    final ColorScheme colorScheme = themeData.colorScheme;
-    final MaterialLocalizations localizations = MaterialLocalizations.of(context);
-
-    const OutlinedBorder buttonShape = RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(2)));
-    const EdgeInsets buttonPadding = EdgeInsets.symmetric(horizontal: 16.0);
-
-    return Container(
-      margin: const EdgeInsets.only(top: 16.0),
-      child: ConstrainedBox(
-        constraints: const BoxConstraints.tightFor(height: 48.0),
-        child: Row(
-          children: <Widget>[
-            TextButton(
-              onPressed: widget.onCustomStepContinue,
-              style: ButtonStyle(
-                foregroundColor: MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
-                  return states.contains(MaterialState.disabled) ? null : (_isDark() ? colorScheme.onSurface : colorScheme.onPrimary);
-                }),
-                backgroundColor: MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
-                  return _isDark() || states.contains(MaterialState.disabled) ? null : colorScheme.primary;
-                }),
-                padding: MaterialStateProperty.all<EdgeInsetsGeometry>(buttonPadding),
-                shape: MaterialStateProperty.all<OutlinedBorder>(buttonShape),
-              ),
-              child: Text(localizations.continueButtonLabel),
-            ),
-            Container(
-              margin: const EdgeInsetsDirectional.only(start: 8.0),
-              child: TextButton(
-                onPressed: widget.onCustomStepCancel,
-                style: TextButton.styleFrom(
-                  primary: cancelColor,
-                  padding: buttonPadding,
-                  shape: buttonShape,
-                ),
-                child: Text(localizations.cancelButtonLabel),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   TextStyle _titleStyle(int index) {
     final ThemeData themeData = Theme.of(context);
     final TextTheme textTheme = themeData.textTheme;
@@ -384,50 +319,6 @@ class _CustomStepperState extends State<CustomStepper> with TickerProviderStateM
     );
   }
 
-  Widget _buildVerticalBody(int index) {
-    return Stack(
-      children: <Widget>[
-        PositionedDirectional(
-          start: 24.0,
-          top: 0.0,
-          bottom: 0.0,
-          child: SizedBox(
-            width: 24.0,
-            child: Center(
-              child: SizedBox(
-                width: _isLast(index) ? 0.0 : 1.0,
-                child: Container(
-                  color: Colors.grey.shade400,
-                ),
-              ),
-            ),
-          ),
-        ),
-        // AnimatedCrossFade(
-        //   firstChild: Container(height: 0.0),
-        //   secondChild: Container(
-        //     margin: const EdgeInsetsDirectional.only(
-        //       start: 60.0,
-        //       end: 24.0,
-        //       bottom: 24.0,
-        //     ),
-        //     child: Column(
-        //       children: <Widget>[
-        //         widget.steps[index].content,
-        //         _buildVerticalControls(),
-        //       ],
-        //     ),
-        //   ),
-        //   firstCurve: const Interval(0.0, 0.6, curve: Curves.fastOutSlowIn),
-        //   secondCurve: const Interval(0.4, 1.0, curve: Curves.fastOutSlowIn),
-        //   sizeCurve: Curves.fastOutSlowIn,
-        //   crossFadeState: _isCurrent(index) ? CrossFadeState.showSecond : CrossFadeState.showFirst,
-        //   duration: kThemeAnimationDuration,
-        // ),
-      ],
-    );
-  }
-
   Widget _buildVertical() {
     return ListView(
       shrinkWrap: true,
@@ -471,7 +362,7 @@ class _CustomStepperState extends State<CustomStepper> with TickerProviderStateM
           canRequestFocus: widget.steps[i].state != CustomStepState.disabled,
           child: Row(
             children: <Widget>[
-              Container(
+              SizedBox(
                 height: 72.0,
                 child: Center(
                   child: _buildIcon(i),

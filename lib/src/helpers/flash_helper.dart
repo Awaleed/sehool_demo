@@ -35,7 +35,6 @@ class FlashHelper {
   static Future<T> toast<T>(String message) async {
     final context = await _buildCompleter.future;
 
-    // Wait previous toast dismissed.
     if (_previousCompleter?.isCompleted == false) {
       final item = _MessageItem<T>(message);
       _messageQueue.add(item);
@@ -58,8 +57,7 @@ class FlashHelper {
             child: DefaultTextStyle(
               style: const TextStyle(fontSize: 16.0, color: Colors.white),
               child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                 child: Text(message),
               ),
             ),
@@ -86,14 +84,12 @@ class FlashHelper {
 
   static TextStyle _titleStyle(BuildContext context, [Color color]) {
     final theme = Theme.of(context);
-    return (theme.dialogTheme?.titleTextStyle ?? theme.textTheme.headline6)
-        .copyWith(color: color);
+    return (theme.dialogTheme?.titleTextStyle ?? theme.textTheme.headline6).copyWith(color: color);
   }
 
   static TextStyle _contentStyle(BuildContext context, [Color color]) {
     final theme = Theme.of(context);
-    return (theme.dialogTheme?.contentTextStyle ?? theme.textTheme.bodyText2)
-        .copyWith(color: color);
+    return (theme.dialogTheme?.contentTextStyle ?? theme.textTheme.bodyText2).copyWith(color: color);
   }
 
   static Future<T> infoBar<T>(
@@ -111,9 +107,7 @@ class FlashHelper {
           horizontalDismissDirection: HorizontalDismissDirection.horizontal,
           backgroundColor: Colors.black87,
           child: FlashBar(
-            title: title == null
-                ? null
-                : Text(title, style: _titleStyle(context, Colors.white)),
+            title: title == null ? null : Text(title, style: _titleStyle(context, Colors.white)),
             message: Text(message, style: _contentStyle(context, Colors.white)),
             icon: Icon(Icons.info_outline, color: Colors.green[300]),
             leftBarIndicatorColor: Colors.green[300],
@@ -138,9 +132,7 @@ class FlashHelper {
           horizontalDismissDirection: HorizontalDismissDirection.horizontal,
           backgroundColor: Colors.black87,
           child: FlashBar(
-            title: title == null
-                ? null
-                : Text(title, style: _titleStyle(context, Colors.white)),
+            title: title == null ? null : Text(title, style: _titleStyle(context, Colors.white)),
             message: Text(message, style: _contentStyle(context, Colors.white)),
             icon: Icon(Icons.check_circle, color: Colors.blue[300]),
             leftBarIndicatorColor: Colors.blue[300],
@@ -168,11 +160,8 @@ class FlashHelper {
             horizontalDismissDirection: HorizontalDismissDirection.horizontal,
             backgroundColor: Colors.black87,
             child: FlashBar(
-              title: title == null
-                  ? null
-                  : Text(title, style: _titleStyle(context, Colors.white)),
-              message:
-                  Text(message, style: _contentStyle(context, Colors.white)),
+              title: title == null ? null : Text(title, style: _titleStyle(context, Colors.white)),
+              message: Text(message, style: _contentStyle(context, Colors.white)),
               primaryAction: primaryAction?.call(context, controller, setState),
               icon: Icon(Icons.warning, color: Colors.red[300]),
               leftBarIndicatorColor: Colors.red[300],
@@ -200,11 +189,8 @@ class FlashHelper {
             horizontalDismissDirection: HorizontalDismissDirection.horizontal,
             backgroundColor: Colors.black87,
             child: FlashBar(
-              title: title == null
-                  ? null
-                  : Text(title, style: _titleStyle(context, Colors.white)),
-              message:
-                  Text(message, style: _contentStyle(context, Colors.white)),
+              title: title == null ? null : Text(title, style: _titleStyle(context, Colors.white)),
+              message: Text(message, style: _contentStyle(context, Colors.white)),
               primaryAction: primaryAction?.call(context, controller, setState),
             ),
           );
@@ -232,16 +218,11 @@ class FlashHelper {
               margin: const EdgeInsets.only(left: 40.0, right: 40.0),
               borderRadius: const BorderRadius.all(Radius.circular(8.0)),
               child: FlashBar(
-                title: title == null
-                    ? null
-                    : Text(title, style: _titleStyle(context)),
-                message:
-                    Text(message, style: _contentStyle(context, messageColor)),
+                title: title == null ? null : Text(title, style: _titleStyle(context)),
+                message: Text(message, style: _contentStyle(context, messageColor)),
                 actions: <Widget>[
-                  if (negativeAction != null)
-                    negativeAction(context, controller, setState),
-                  if (positiveAction != null)
-                    positiveAction(context, controller, setState),
+                  if (negativeAction != null) negativeAction(context, controller, setState),
+                  if (positiveAction != null) positiveAction(context, controller, setState),
                 ],
               ),
             );
@@ -279,10 +260,8 @@ class FlashHelper {
                   child: messageBuilder.call(context, controller, setState),
                 ),
                 actions: <Widget>[
-                  if (negativeAction != null)
-                    negativeAction(context, controller, setState),
-                  if (positiveAction != null)
-                    positiveAction(context, controller, setState),
+                  if (negativeAction != null) negativeAction(context, controller, setState),
+                  if (positiveAction != null) positiveAction(context, controller, setState),
                 ],
               ),
             );
@@ -342,10 +321,7 @@ class FlashHelper {
                 Text(
                   message,
                   textAlign: TextAlign.center,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyText1
-                      .copyWith(color: Colors.white),
+                  style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.white),
                 ),
               ],
             ),
@@ -383,10 +359,7 @@ class FlashHelper {
                 Text(
                   message,
                   textAlign: TextAlign.center,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyText1
-                      .copyWith(color: Colors.white),
+                  style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.white),
                 ),
               ],
             ),
@@ -417,10 +390,7 @@ class FlashHelper {
             child: Text(
               message,
               textAlign: TextAlign.center,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyText1
-                  .copyWith(color: Colors.white),
+              style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.white),
             ),
           ),
         );
@@ -451,9 +421,7 @@ class FlashHelper {
           borderWidth: 3,
           borderRadius: const BorderRadius.vertical(top: Radius.circular(8.0)),
           child: FlashBar(
-            title: title == null
-                ? null
-                : Text(title, style: const TextStyle(fontSize: 24.0)),
+            title: title == null ? null : Text(title, style: const TextStyle(fontSize: 24.0)),
             message: Column(
               children: [
                 if (message != null) Text(message),
@@ -480,5 +448,4 @@ class FlashHelper {
   }
 }
 
-typedef ChildBuilder<T> = Widget Function(
-    BuildContext context, FlashController<T> controller, StateSetter setState);
+typedef ChildBuilder<T> = Widget Function(BuildContext context, FlashController<T> controller, StateSetter setState);

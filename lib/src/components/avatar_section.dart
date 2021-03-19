@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
@@ -29,17 +28,12 @@ class AvatarSection extends FormField<File> {
                 child: Center(
                   child: InkWell(
                     onTap: () async {
-                      if (Platform.isWindows) {
-                        final value = await openFile();
-                        onChanged(File(value.path));
-                      } else {
-                        if (onTap != null) onTap();
-                        final imageFile = await _imagePick();
-                        if (imageFile == null) return;
-                        final croppedImage = await _imageCrop(imageFile);
-                        state.didChange(croppedImage);
-                        onChanged(croppedImage);
-                      }
+                      if (onTap != null) onTap();
+                      final imageFile = await _imagePick();
+                      if (imageFile == null) return;
+                      final croppedImage = await _imageCrop(imageFile);
+                      state.didChange(croppedImage);
+                      onChanged(croppedImage);
                     },
                     child: Transform.scale(
                       scale: .75,

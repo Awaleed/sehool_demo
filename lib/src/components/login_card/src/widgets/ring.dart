@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-/// A circle with a hole
 class Ring extends StatelessWidget {
   const Ring({
     Key key,

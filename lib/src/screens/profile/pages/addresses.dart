@@ -46,15 +46,6 @@ class _AddressesScreenState extends State<AddressesScreen> {
       onRefresh: cubit.getAddresses,
       child: Parent(
         style: ParentStyle()
-          // ..linearGradient(
-          //   begin: Alignment.topCenter,
-          //   end: Alignment.bottomCenter,
-          //   colors: [
-          //     Colors.black,
-          //     Colors.amber,
-          //     Colors.black,
-          //   ],
-          // ),
           ..background.color(Colors.white)
           ..background.image(path: 'assets/images/black.png', fit: BoxFit.contain),
         child: Scaffold(
@@ -96,7 +87,6 @@ class _AddressesScreenState extends State<AddressesScreen> {
             },
           ),
           floatingActionButton: Stack(
-            // crossAxisAlignment: CrossAxisAlignment.end,
             alignment: Alignment.bottomCenter,
             children: [
               RipplesAnimation(
@@ -111,7 +101,7 @@ class _AddressesScreenState extends State<AddressesScreen> {
                   color: Colors.white,
                 ),
               ),
-              WhatsappFloatingActionButton(),
+              const WhatsappFloatingActionButton(),
             ],
           ),
           floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -138,7 +128,7 @@ class _AddressesScreenState extends State<AddressesScreen> {
             padding: const EdgeInsets.all(20.0),
             child: Stack(
               children: [
-                AddressCard(address: addresses[index],hideDetails: false),
+                AddressCard(address: addresses[index], hideDetails: false),
                 Positioned(
                   bottom: 20,
                   left: 20,

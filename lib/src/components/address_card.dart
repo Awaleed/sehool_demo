@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:sehool/generated/l10n.dart';
+import '../../generated/l10n.dart';
 
 import '../models/address_model.dart';
 
 class AddressCard extends StatelessWidget {
-  const AddressCard({Key key, @required this.address, this.hideDetails = true})
-      : super(key: key);
+  const AddressCard({Key key, @required this.address, this.hideDetails = true}) : super(key: key);
   final AddressModel address;
   final bool hideDetails;
   @override
@@ -31,10 +30,8 @@ class AddressCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(25),
             ),
             child: Padding(
-              padding:
-                  const EdgeInsets.only(top: 80, bottom: 8, left: 8, right: 8),
+              padding: const EdgeInsets.only(top: 80, bottom: 8, left: 8, right: 8),
               child: ListTile(
-                // title: Text(S.current.address),
                 title: Text(address?.address ?? S.current.none),
               ),
             ),
@@ -84,8 +81,7 @@ class _HomeCard extends StatelessWidget {
                       fit: BoxFit.cover,
                     )
                   : GoogleMap(
-                      key: ValueKey(
-                          '${address.latLng.latitude},${address.latLng.longitude}'),
+                      key: ValueKey('${address.latLng.latitude},${address.latLng.longitude}'),
                       onMapCreated: (controller) async {
                         await controller.animateCamera(
                           CameraUpdate.newCameraPosition(
@@ -96,8 +92,7 @@ class _HomeCard extends StatelessWidget {
                           ),
                         );
                       },
-                      initialCameraPosition:
-                          const CameraPosition(target: LatLng(0, 0)),
+                      initialCameraPosition: const CameraPosition(target: LatLng(0, 0)),
                       markers: {
                         Marker(
                           markerId: MarkerId(''),

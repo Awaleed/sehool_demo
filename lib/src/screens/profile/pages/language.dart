@@ -44,15 +44,6 @@ class _LanguageScreenState extends State<LanguageScreen> {
   Widget build(BuildContext context) {
     return Parent(
       style: ParentStyle()
-        // ..linearGradient(
-        //   begin: Alignment.topCenter,
-        //   end: Alignment.bottomCenter,
-        //   colors: [
-        //     Colors.black,
-        //     Colors.amber,
-        //     Colors.black,
-        //   ],
-        // ),
         ..background.color(Colors.white)
         ..background.image(path: 'assets/images/black.png', fit: BoxFit.contain),
       child: Stack(
@@ -66,7 +57,7 @@ class _LanguageScreenState extends State<LanguageScreen> {
             span: List.generate(_Hello.hellos.length, (e) => _Hello.fromJson(_Hello.hellos[e]).hello),
           ),
           Scaffold(
-            floatingActionButton: WhatsappFloatingActionButton(),
+            floatingActionButton: const WhatsappFloatingActionButton(),
             backgroundColor: Colors.white70,
             appBar: AppBar(
               backgroundColor: Colors.black54,
@@ -196,14 +187,10 @@ class _LanguageScreenState extends State<LanguageScreen> {
                       Container(
                         height: 40,
                         width: 40,
-                        decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.all(
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(
                             Radius.circular(40),
                           ),
-                          // image: DecorationImage(
-                          //   image: AssetImage(_language.flag),
-                          //   fit: BoxFit.cover,
-                          // ),
                         ),
                         child: FittedBox(
                           child: Text(_language.code),

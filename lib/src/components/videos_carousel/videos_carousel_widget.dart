@@ -149,8 +149,7 @@ class _VideosCarouselWidgetState extends State<VideosCarouselWidget> {
           VideoPlayerController _controller = _videoControllers[video.id];
           ChewieController _chewieController = _chewieControllers[video.id];
           if (_controller == null || _chewieController == null) {
-            if (_videoControllers.length == _chewieControllers.length &&
-                _chewieControllers.length > 3) {
+            if (_videoControllers.length == _chewieControllers.length && _chewieControllers.length > 3) {
               final vC = _videoControllers.entries.first;
               vC.value.dispose();
               _videoControllers[vC.key] = null;
@@ -169,20 +168,6 @@ class _VideosCarouselWidgetState extends State<VideosCarouselWidget> {
               looping: true,
               showControlsOnInitialize: false,
               allowPlaybackSpeedChanging: false,
-
-              // Try playing around with some of these other options:
-
-              // showControls: false,
-              // materialProgressColors: ChewieProgressColors(
-              //   playedColor: Colors.red,
-              //   handleColor: Colors.blue,
-              //   backgroundColor: Colors.grey,
-              //   bufferedColor: Colors.lightGreen,
-              // ),
-              // placeholder: Container(
-              //   color: Colors.grey,
-              // ),
-              // autoInitialize: true,
             );
             _videoControllers[video.id] = _controller;
             _chewieControllers[video.id] = _chewieController;

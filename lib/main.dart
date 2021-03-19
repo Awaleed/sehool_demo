@@ -47,7 +47,6 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
-  // final floatingKey = ValueKey('DraggableWhatsAppIconState');
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<Box>(

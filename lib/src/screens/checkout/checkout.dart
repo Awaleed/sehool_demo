@@ -23,7 +23,6 @@ import '../../data/user_datasource.dart';
 import '../../helpers/helper.dart';
 import '../../models/cart_model.dart';
 import '../../models/user_model.dart';
-import '../../patched_components/custom_stepper.dart';
 import '../../routes/config_routes.dart';
 import '../home/home.dart';
 import 'pages/address_review.dart';
@@ -41,15 +40,6 @@ class CheckoutScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Parent(
       style: ParentStyle()
-        // ..linearGradient(
-        //   begin: Alignment.topCenter,
-        //   end: Alignment.bottomCenter,
-        //   colors: [
-        //     Colors.black,
-        //     Colors.amber,
-        //     Colors.black,
-        //   ],
-        // ),
         ..background.color(Colors.white)
         ..background.image(path: 'assets/images/black.png', fit: BoxFit.contain),
       child: Scaffold(
@@ -93,7 +83,6 @@ class _StepItem {
   final bool hideLabel;
   final Widget child;
   final Widget icon;
-  final CustomStepState state;
   final Key key;
   _StepItem({
     this.key,
@@ -105,7 +94,6 @@ class _StepItem {
       color: Colors.amber,
       size: 100,
     ),
-    this.state = CustomStepState.indexed,
   });
 }
 
@@ -216,11 +204,8 @@ class _CheckoutScrollState extends State<CheckoutScroll> {
               height: 50,
               width: 50,
             ),
-            // header: FluentIcons.plug_disconnected_28_regular,
           ),
-
         _StepItem(
-          // hideLabel: true,
           label: S.current.bill,
           icon: SizedBox(
             height: 50,
@@ -263,11 +248,6 @@ class _CheckoutScrollState extends State<CheckoutScroll> {
             height: 50,
             width: 50,
           ),
-          // const Icon(
-          //   FluentIcons.location_48_regular,
-          //   size: 50,
-          //   color: Colors.black,
-          // ),
         ),
         _StepItem(
           key: paymentMethodKey,
@@ -293,25 +273,6 @@ class _CheckoutScrollState extends State<CheckoutScroll> {
             width: 50,
           ),
         ),
-        // _StepItem(
-        //   label: S.current.is_gift,
-        //   icon: const Icon(
-        //     FluentIcons.gift_24_regular,
-        //     size: 50,
-        //     color: Colors.black,
-        //   ),
-        //   child: Padding(
-        //     padding: const EdgeInsets.symmetric(horizontal: 20),
-        //     child: MessageCheckBox(
-        //       cart: widget.cart,
-        //       formKey: organizationFormKey,
-        //       onValueChanged: (value) {
-        //         setState(() {});
-        //       },
-        //     ),
-        //   ),
-        //   header: FluentIcons.gift_24_regular,
-        // ),
       ];
 
   List<Widget> get stepsWidget {
@@ -363,85 +324,10 @@ class _CheckoutScrollState extends State<CheckoutScroll> {
                 );
               },
             ),
-          // if (widget.cart.paymentMethod == null)
-          //   MyErrorWidget(
-          //     message: S.current.select_your_preferred_payment_mode,
-          //     buttonLabel: S.current.payments_settings,
-          //     onRetry: () {
-          //       Scrollable.ensureVisible(
-          //         paymentMethodKey.currentContext,
-          //         duration: 700.milliseconds,
-          //         curve: Curves.easeOut,
-          //       );
-          //     },
-          //   ),
         ],
       ),
-      // Padding(
-      //   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-      //   child: _buildButton(
-      //     enabled: widget.cart.validate,
-      //     label: Padding(
-      //       padding: const EdgeInsets.all(20.0),
-      //       child: Text(S.current.checkout),
-      //     ),
-      //     onTap: widget.cart.validate
-      //         ? () {
-      //             Helpers.dismissFauces(context);
-      //             if (organizationFormKey?.currentState?.validate() ?? true) {
-      //               organizationFormKey?.currentState?.save();
-      //               cubit.placeOrder(widget.cart);
-      //             } else {
-      //               Helpers.showErrorOverlay(context, error: S.current.check_that_you_filled_all_fields_correctly);
-      //             }
-      //           }
-      //         : null,
-      //   ),
-      // )
     ];
   }
-
-  // Widget _buildButton({
-  //   Widget label,
-  //   bool enabled = true,
-  //   VoidCallback onTap,
-  // }) {
-  //   return Padding(
-  //     padding: const EdgeInsets.symmetric(horizontal: 15),
-  //     child: ElevatedButton(
-  //       style: ButtonStyle(
-  //         minimumSize: MaterialStateProperty.all(
-  //           const Size.fromRadius(20),
-  //         ),
-  //         shape: MaterialStateProperty.all(
-  //           RoundedRectangleBorder(
-  //             borderRadius: BorderRadius.circular(15),
-  //           ),
-  //         ),
-  //         backgroundColor: enabled ? MaterialStateProperty.all(Theme.of(context).primaryColor.withOpacity(.9)) : null,
-  //       ),
-  //       onPressed: enabled ? onTap : null,
-  //       child: label,
-  //     ),
-  //   );
-
-  //   return ElevatedButton(
-  //     // style: ButtonStyle(
-  //     //   //   minimumSize: MaterialStateProperty.all(
-  //     //   //     const Size.fromRadius(25),
-  //     //   //   ),
-  //     //   //   shape: MaterialStateProperty.all(
-  //     //   //     RoundedRectangleBorder(
-  //     //   //       borderRadius: BorderRadius.circular(25),
-  //     //   //     ),
-  //     //   //   ),
-  //     //   // backgroundColor: MaterialStateProperty.all(Colors.white70),
-  //     // ),
-  //     onPressed: enabled ? onTap : null,
-  //     child: label,
-  //   );
-  // }
-
 }
 
 class OnlinePay extends StatefulWidget {
@@ -512,9 +398,7 @@ class _OnlinePayState extends State<OnlinePay> with ApiCaller {
                 }
 
                 Helpers.showErrorDialog(context, error: json);
-              } catch (e) {
-                // Helpers.showErrorOverlay(context, error: e);
-              }
+              } catch (e) {}
             },
             onWebViewCreated: (_controller) async {
               Helpers.dismissFauces(context);

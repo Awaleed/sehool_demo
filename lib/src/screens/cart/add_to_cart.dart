@@ -17,10 +17,8 @@ import '../../helpers/helper.dart';
 import '../../models/cart_model.dart';
 import '../../models/dropdown_value_model.dart';
 import '../../models/product_model.dart';
-import '../../patched_components/custom_stepper.dart';
 import '../../routes/config_routes.dart';
 import '../checkout/checkout.dart';
-import '../home/home.dart';
 
 class AddToCartScreen extends StatelessWidget {
   static const routeName = '/add_to_cart';
@@ -40,24 +38,11 @@ class AddToCartScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Parent(
       style: ParentStyle()
-        // ..linearGradient(
-        //   begin: Alignment.topCenter,
-        //   end: Alignment.bottomCenter,
-        //   colors: [
-        //     Colors.black,
-        //     Colors.amber,
-        //     Colors.black,
-        //   ],
-        // ),
         ..background.color(Colors.white)
         ..background.image(path: 'assets/images/black.png', fit: BoxFit.contain),
       child: Scaffold(
         backgroundColor: Colors.white70,
         extendBodyBehindAppBar: true,
-        // floatingActionButton: Column(
-        //   mainAxisSize: MainAxisSize.min,
-        //   children: const [WhatsappFloatingActionButton(), SizedBox(height: 50)],
-        // ),
         appBar: AppBar(
           title: Text(
             cartItem != null ? '${S.current.edit}: ${cartItem.product.name}' : '${S.current.add} ${product.name}',
@@ -71,9 +56,6 @@ class AddToCartScreen extends StatelessWidget {
             cartItem: cartItem ?? (CartItemModel()..product = product),
             editing: editing,
           ),
-          // child: CartStepper(
-          //   cartItem: cartItem ?? (CartItemModel()..product = product),
-          // ),
         ),
       ),
     );
@@ -86,7 +68,6 @@ class _StepItem {
   final bool hideLabel;
   final Widget child;
   final Widget icon;
-  final CustomStepState state;
 
   _StepItem({
     this.key,
@@ -98,7 +79,6 @@ class _StepItem {
       color: Colors.amber,
       size: 100,
     ),
-    this.state = CustomStepState.indexed,
   });
 }
 
@@ -122,7 +102,6 @@ class _CartScrollState extends State<CartScroll> {
 
   List<_StepItem> get steps => [
         _StepItem(
-          // hideLabel: true,
           label: S.current.quantity,
           child: CartQuantityCard(
             cartItem: widget.cartItem,
@@ -155,22 +134,8 @@ class _CartScrollState extends State<CartScroll> {
             'assets/images/3808368-bloody-butcher-knife-knife-weapon_109095.svg',
             width: 50,
             height: 50,
-            // color: Colors.black,
           ),
         ),
-        // _StepItem(
-        //   hideLabel: true,
-        //   label: S.current.notes,
-        //   child: Padding(
-        //     padding: const EdgeInsets.all(20),
-        //     child: CartTextField(cartItem: widget.cartItem),
-        //   ),
-        //   icon: const Icon(
-        //     FluentIcons.note_24_regular,
-        //     size: 50,
-        //     color: Colors.black,
-        //   ),
-        // ),
         _StepItem(
           hideLabel: true,
           label: S.current.finish,
@@ -178,7 +143,7 @@ class _CartScrollState extends State<CartScroll> {
             padding: const EdgeInsets.all(20.0),
             child: CartItemPreview(cartItem: widget.cartItem),
           ),
-          state: widget.cartItem.validate ? CustomStepState.indexed : CustomStepState.disabled,
+          // state: widget.cartItem.validate ? CustomStepState.indexed : CustomStepState.disabled,
           icon: const Icon(
             FluentIcons.checkmark_48_regular,
             size: 50,
@@ -208,7 +173,6 @@ class _CartScrollState extends State<CartScroll> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       steps[i].icon,
-                      // const SizedBox(width: 10),
                       Expanded(
                         child: ListTile(
                           title: Text(steps[i].label, style: Theme.of(context).textTheme.button.copyWith(fontWeight: FontWeight.bold, color: Colors.black)),
@@ -224,32 +188,6 @@ class _CartScrollState extends State<CartScroll> {
             ],
           ),
         ),
-        // if (steps[i].key == slicingMethodKey && !widget.editing) ...[
-        //   Padding(
-        //     padding: const EdgeInsets.all(8.0),
-        //     child: _buildButton(
-        //       icon: 'assets/images/shopping-cart.svg',
-        //       enabled: widget.cartItem.validate,
-        //       label: Text(S.current.choose_another_item,
-        //           style: Theme.of(context).textTheme.bodyText1.copyWith(
-        //                 color: Colors.black,
-        //                 fontWeight: FontWeight.normal,
-        //               )),
-        //       onTap: () {
-        //         Helpers.dismissFauces(context);
-        //         if (messageFormKey?.currentState?.validate() ?? true) {
-        //           messageFormKey?.currentState?.save();
-        //           getIt<CartCubit>().addItem(widget.cartItem);
-        //           AppRouter.sailor.pop();
-        //         } else {
-        //           Helpers.showErrorOverlay(context,
-        //               error:
-        //                   S.current.check_that_you_filled_all_fields_correctly);
-        //         }
-        //       },
-        //     ),
-        //   ),
-        // ]
       ],
       Column(
         children: [

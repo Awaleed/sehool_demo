@@ -6,7 +6,7 @@ import 'package:video_player/video_player.dart';
 
 import '../../cubits/product_cubits/video_cubit/video_cubit.dart';
 import '../../models/video_model.dart';
-import '../../patched_components/custom_material_controls.dart';
+// import '../../patched_components/custom_material_controls.dart';
 
 class VideoScreen extends StatefulWidget {
   static const routeName = '/video';
@@ -33,8 +33,6 @@ class _VideoScreenState extends State<VideoScreen> {
   void initState() {
     super.initState();
 
-    // print(
-    //     'http://www.sample-videos.com/video123/mp4/720/big_buck_bunny_720p_20mb.mp4');
     _videoPlayerController = VideoPlayerController.network(widget.video.video)
       ..addListener(() {
         _chewieController = ChewieController(
@@ -49,18 +47,11 @@ class _VideoScreenState extends State<VideoScreen> {
           aspectRatio: _aspectRatio,
           autoInitialize: true,
           autoPlay: true,
-          customControls: const CustomMaterialControls(),
-          // overlay: Placeholder(),
+          // customControls: const CustomMat/erialControls(),
         );
         setState(() {});
       });
     _aspectRatio = _videoPlayerController.value.aspectRatio;
-    // SystemChrome.setPreferredOrientations([
-    //   DeviceOrientation.landscapeRight,
-    //   DeviceOrientation.landscapeLeft,
-    //   DeviceOrientation.portraitUp,
-    //   DeviceOrientation.portraitDown,
-    // ]);
     _chewieController = ChewieController(
       allowedScreenSleep: false,
       deviceOrientationsAfterFullScreen: [
@@ -73,38 +64,14 @@ class _VideoScreenState extends State<VideoScreen> {
       aspectRatio: _aspectRatio,
       autoInitialize: true,
       autoPlay: true,
-      customControls: const CustomMaterialControls(),
-      // overlay: Placeholder(),
+      // customControls: const CustomMaterialControls(),
     );
-
-    // _chewieController.addListener(() {
-    //   if (_chewieController.isFullScreen) {
-    //     SystemChrome.setPreferredOrientations([
-    //       DeviceOrientation.landscapeRight,
-    //       DeviceOrientation.landscapeLeft,
-    //     ]);
-    //   } else {
-    //     SystemChrome.setPreferredOrientations([
-    //       DeviceOrientation.portraitUp,
-    //       DeviceOrientation.portraitDown,
-    //     ]);
-    //   }
-    // });
   }
 
   @override
   void dispose() {
     _videoPlayerController.dispose();
     _chewieController.dispose();
-    // SystemChrome.setEnabledSystemUIOverlays([
-    //   SystemUiOverlay.top,
-    //   SystemUiOverlay.bottom,
-    // ]);
-
-    // SystemChrome.setPreferredOrientations([
-    //   DeviceOrientation.portraitUp,
-    //   DeviceOrientation.portraitDown,
-    // ]);
     super.dispose();
   }
 
@@ -112,15 +79,6 @@ class _VideoScreenState extends State<VideoScreen> {
   Widget build(BuildContext context) {
     return Parent(
       style: ParentStyle()
-        // ..linearGradient(
-        //   begin: Alignment.topCenter,
-        //   end: Alignment.bottomCenter,
-        //   colors: [
-        //     Colors.black,
-        //     Colors.amber,
-        //     Colors.black,
-        //   ],
-        // ),
         ..background.color(Colors.white)
         ..background.image(path: 'assets/images/black.png', fit: BoxFit.contain),
       child: Scaffold(

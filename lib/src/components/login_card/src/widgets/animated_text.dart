@@ -9,7 +9,6 @@ import '../matrix.dart';
 
 enum AnimatedTextRotation { up, down }
 
-/// https://medium.com/flutter-community/flutter-challenge-3d-bottom-navigation-bar-48952a5fd996
 class AnimatedText extends StatefulWidget {
   const AnimatedText({
     Key key,
@@ -26,8 +25,7 @@ class AnimatedText extends StatefulWidget {
   _AnimatedTextState createState() => _AnimatedTextState();
 }
 
-class _AnimatedTextState extends State<AnimatedText>
-    with SingleTickerProviderStateMixin {
+class _AnimatedTextState extends State<AnimatedText> with SingleTickerProviderStateMixin {
   var _newText = '';
   var _oldText = '';
   var _layoutHeight = 0.0;
@@ -84,7 +82,6 @@ class _AnimatedTextState extends State<AnimatedText>
   }
 
   Matrix4 get _matrix {
-    // Fix: The text is not centered after applying perspective effect in the web build. Idk why
     if (kIsWeb) {
       return Matrix4.identity();
     }
@@ -98,7 +95,7 @@ class _AnimatedTextState extends State<AnimatedText>
         -radius * sin(_animation.value),
         -radius * cos(_animation.value),
       )
-      ..rotateX(-_animation.value); // 0 -> -pi/2
+      ..rotateX(-_animation.value);
   }
 
   Matrix4 _getBackSideUp(double value) {
@@ -108,7 +105,7 @@ class _AnimatedTextState extends State<AnimatedText>
         radius * cos(_animation.value),
         -radius * sin(_animation.value),
       )
-      ..rotateX((pi / 2) - _animation.value); // pi/2 -> 0
+      ..rotateX((pi / 2) - _animation.value);
   }
 
   Matrix4 _getFrontSideDown(double value) {
@@ -118,7 +115,7 @@ class _AnimatedTextState extends State<AnimatedText>
         radius * sin(_animation.value),
         -radius * cos(_animation.value),
       )
-      ..rotateX(_animation.value); // 0 -> pi/2
+      ..rotateX(_animation.value);
   }
 
   Matrix4 _getBackSideDown(double value) {
@@ -128,7 +125,7 @@ class _AnimatedTextState extends State<AnimatedText>
         -radius * cos(_animation.value),
         -radius * sin(_animation.value),
       )
-      ..rotateX(_animation.value - pi / 2); // -pi/2 -> 0
+      ..rotateX(_animation.value - pi / 2);
   }
 
   @override
@@ -156,17 +153,13 @@ class _AnimatedTextState extends State<AnimatedText>
           if (_animation.value <= MathHelper.toRadian(85))
             Transform(
               alignment: Alignment.center,
-              transform: rollUp
-                  ? _getFrontSideUp(_animation.value)
-                  : _getFrontSideDown(_animation.value),
+              transform: rollUp ? _getFrontSideUp(_animation.value) : _getFrontSideDown(_animation.value),
               child: oldText,
             ),
           if (_animation.value >= MathHelper.toRadian(5))
             Transform(
               alignment: Alignment.center,
-              transform: rollUp
-                  ? _getBackSideUp(_animation.value)
-                  : _getBackSideDown(_animation.value),
+              transform: rollUp ? _getBackSideUp(_animation.value) : _getBackSideDown(_animation.value),
               child: newText,
             ),
         ],

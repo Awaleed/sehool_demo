@@ -208,7 +208,6 @@ class _LoginScreenState extends State<LoginScreen> {
     @required TextEditingController controller,
     Widget suffixIcon,
     bool enabled = true,
-    // bool obscureText = false,
   }) {
     final cardWidth = min(MediaQuery.of(context).size.width * 0.75, 360.0);
     const cardPadding = 16.0;
@@ -219,16 +218,14 @@ class _LoginScreenState extends State<LoginScreen> {
       labelText: _model.labelText,
       enabled: enabled,
       keyboardType: _model.keyboardType,
-      // onSaved: _model.onSave,
       validator: _model.validator,
-      // obscureText: obscureText,
       width: cardWidth - cardPadding * 2,
       onTap: () async {
         final file = await _filePick();
         if (file == null) return;
-        // setState(() {
+
         controller.text = file.path.split('/').reversed.elementAt(0);
-        // });
+
         _model.onSave(file.path);
       },
     );

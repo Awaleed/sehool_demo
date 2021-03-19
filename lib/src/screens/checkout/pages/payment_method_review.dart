@@ -34,11 +34,6 @@ class _PaymentMethodReviewPageState extends State<PaymentMethodReviewPage> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // const SizedBox(height: 20),
-        // Padding(
-        //   padding: const EdgeInsets.symmetric(horizontal: 20),
-        //   child: _TotalCard(cart: widget.cart),
-        // ),
         const SizedBox(height: 20),
         Center(
           child: Padding(
@@ -59,89 +54,6 @@ class _PaymentMethodReviewPageState extends State<PaymentMethodReviewPage> {
           ),
         ),
         const SizedBox(height: 20),
-      ],
-    );
-  }
-}
-
-class _TotalCard extends StatelessWidget {
-  const _TotalCard({
-    Key key,
-    this.cart,
-  }) : super(key: key);
-  final CartModel cart;
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      clipBehavior: Clip.none,
-      children: [
-        Card(
-          elevation: 0,
-          clipBehavior: Clip.hardEdge,
-          margin: EdgeInsets.zero,
-          color: Colors.white70,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(25),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Text(
-                  S.current.total,
-                  style: Theme.of(context).textTheme.headline5,
-                ),
-                const Divider(),
-                Card(
-                  elevation: 2,
-                  clipBehavior: Clip.hardEdge,
-                  margin: EdgeInsets.zero,
-                  color: Colors.white70,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(25),
-                  ),
-                  child: ListTile(
-                    title: Row(
-                      children: [
-                        Text('${cart.total} ﷼'),
-                        if (cart.coupon != null) ...[
-                          const SizedBox(width: 20),
-                          Text(
-                            '${cart.totalWithoutDiscount} ﷼',
-                            style: TextStyle(
-                              decoration: cart.coupon != null ? TextDecoration.lineThrough : TextDecoration.none,
-                            ),
-                          ),
-                        ]
-                      ],
-                    ),
-                  ),
-                ),
-                const Divider(),
-                Text(
-                  S.current.balance,
-                  style: Theme.of(context).textTheme.headline5,
-                ),
-                const Divider(),
-                Card(
-                  elevation: 2,
-                  clipBehavior: Clip.hardEdge,
-                  margin: EdgeInsets.zero,
-                  color: Colors.white70,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(25),
-                  ),
-                  child: ListTile(
-                    title: Text('${kUser.wallet} ﷼'),
-                  ),
-                ),
-                const Divider(),
-              ],
-            ),
-          ),
-        ),
       ],
     );
   }
@@ -194,20 +106,7 @@ class _CartDropdownState extends State<CartDropdown> {
   Widget build(BuildContext context) {
     return BlocConsumer<DropdownCubit, DropdownState>(
       cubit: cubit,
-      listener: (context, state) {
-        // if (selectedValue == null) {
-        //   setState(() {
-        //     final value = state.maybeWhen(
-        //           success: (values) =>
-        //               values?.isNotEmpty ?? false ? values.first : null,
-        //           orElse: () => null,
-        //         ) ??
-        //         selectedValue;
-        //     selectedValue = value;
-        //     // widget.onValueChanged?.call(value);
-        //   });
-        // }
-      },
+      listener: (context, state) {},
       builder: (context, state) {
         return state.when(
           initial: () => _buildUI([], isLoading: true),
@@ -277,7 +176,6 @@ class _CartDropdownState extends State<CartDropdown> {
         StaggeredGridView.count(
           shrinkWrap: true,
           crossAxisCount: 4,
-          // maxCrossAxisExtent: 150,
           staggeredTiles: [
             ...values.map((e) {
               if (e.type == 'cash on delivery' || e.type == 'wallet') {
@@ -309,11 +207,9 @@ class _CartDropdownState extends State<CartDropdown> {
                                       error: S.current.sorry_your_balance_is_not_enough,
                                     );
                                   } else {
-                                    // widget.onValueChanged?.call(e);
                                     setState(() => selectedValue = e);
                                   }
                                 } else {
-                                  // widget.onValueChanged?.call(e);
                                   setState(() => selectedValue = e);
                                 }
                                 if (e is PaymentMethodModel && e.type == 'transfer') {
@@ -326,7 +222,6 @@ class _CartDropdownState extends State<CartDropdown> {
                                 widget.onValueChanged?.call(e);
                               },
                     child: Card(
-                      // margin: EdgeInsets.zero,
                       margin: const EdgeInsets.all(5),
                       color: e.type != 'wallet' && disableOtherButton ? Colors.grey : null,
                       child: Padding(
@@ -360,7 +255,6 @@ class _CartDropdownState extends State<CartDropdown> {
                                 error: S.current.sorry_your_balance_is_not_enough,
                               );
                             } else {
-                              // widget.onValueChanged?.call(e);
                               setState(() => selectedValue = e);
                             }
                           } else if (e.type == 'cash on delivery') {
@@ -385,9 +279,8 @@ class _CartDropdownState extends State<CartDropdown> {
                                   ),
                                 ],
                               ),
-                            ); // setState(() => selectedValue = e);
+                            );
                           } else {
-                            // widget.onValueChanged?.call(e);
                             setState(() => selectedValue = e);
                           }
                           if (e is PaymentMethodModel && e.type == 'transfer') {
@@ -403,17 +296,6 @@ class _CartDropdownState extends State<CartDropdown> {
                         },
               child: Row(
                 children: [
-                  // SizedBox(
-                  //   height: 80,
-                  //   width: 80,
-                  //   child: Card(
-                  //     color: e.type != 'wallet' && disableOtherButton ? Colors.grey : null,
-                  //     child: CachedNetworkImage(
-                  //       imageUrl: e.icon,
-                  //       fit: BoxFit.contain,
-                  //     ),
-                  //   ),
-                  // ),
                   Expanded(
                     child: SizedBox(
                       height: 80,

@@ -39,7 +39,6 @@ import 'src/repositories/settings_repository.dart' as _i21;
 import 'src/repositories/user_repository.dart' as _i10;
 
 const String _prod = 'prod';
-const String _test = 'test';
 // ignore_for_file: unnecessary_lambdas
 // ignore_for_file: lines_longer_than_80_chars
 /// initializes the registration of provided dependencies inside of [GetIt]
@@ -74,14 +73,8 @@ _i1.GetIt $initGetIt(_i1.GetIt get,
   gh.singleton<_i23.CartCubit>(_i23.CartCubit());
   gh.singleton<_i24.IDropdownRemoteDataSource>(_i24.DropdownRemoteDataSource(),
       registerFor: {_prod});
-  gh.singleton<_i24.IDropdownRemoteDataSource>(
-      _i24.FakeDropdownRemoteDataSource(),
-      registerFor: {_test});
   gh.singleton<_i16.IDropdownRepository>(
       _i16.DropdownRepositoryImpl(get<_i24.IDropdownRemoteDataSource>()));
-  gh.singleton<_i25.ILazyListRemoteDataSource>(
-      _i25.FakeLazyListRemoteDataSource(),
-      registerFor: {_test});
   gh.singleton<_i25.ILazyListRemoteDataSource>(_i25.LazyListRemoteDataSource(),
       registerFor: {_prod});
   gh.singleton<_i26.ILazyListRepository>(
@@ -89,9 +82,6 @@ _i1.GetIt $initGetIt(_i1.GetIt get,
   gh.singleton<_i27.IOrderRemoteDataSource>(_i27.OrderRemoteDataSource());
   gh.singleton<_i6.IOrderRepository>(
       _i6.OrderRepositoryImpl(get<_i27.IOrderRemoteDataSource>()));
-  gh.singleton<_i28.IProductRemoteDataSource>(
-      _i28.FakeProductRemoteDataSource(),
-      registerFor: {_test});
   gh.singleton<_i28.IProductRemoteDataSource>(_i28.ProductRemoteDataSource(),
       registerFor: {_prod});
   gh.singleton<_i8.IProductRepository>(
@@ -102,8 +92,6 @@ _i1.GetIt $initGetIt(_i1.GetIt get,
   gh.singleton<_i30.IUserLocalDataSource>(_i30.UserLocalDataSource());
   gh.singleton<_i30.IUserRemoteDataSource>(_i30.UserRemoteDataSource(),
       registerFor: {_prod});
-  gh.singleton<_i30.IUserRemoteDataSource>(_i30.FakeUserRemoteDataSource(),
-      registerFor: {_test});
   gh.singleton<_i10.IUserRepository>(_i10.UserRepositoryImpl(
       get<_i30.IUserLocalDataSource>(), get<_i30.IUserRemoteDataSource>()));
   gh.singleton<_i31.SettingsCubit>(

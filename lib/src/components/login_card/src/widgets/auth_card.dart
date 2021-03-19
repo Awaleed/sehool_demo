@@ -637,70 +637,6 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
               ),
             ),
           ),
-          // Directionality(
-          //   textDirection: TextDirection.ltr,
-          //   child: Row(
-          //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          //     children: [
-          //       ...LanguageModel.languages.map(
-          //         (e) {
-          //           return Expanded(
-          //             child: Padding(
-          //               padding: const EdgeInsets.symmetric(horizontal: 30),
-          //               child: ScaleTransition(
-          //                 scale: _buttonScaleAnimation,
-          //                 child: RaisedButton(
-          //                   color: Colors.amber,
-          //                   shape: RoundedRectangleBorder(
-          //                     borderRadius: BorderRadius.circular(20),
-          //                   ),
-          //                   onPressed: () async {
-          //                     await cubit.setLanguageCode(e.code);
-          //                     AppRouter.sailor.navigate(
-          //                       SplashScreen.routeName,
-          //                       navigationType: NavigationType.pushAndRemoveUntil,
-          //                       removeUntilPredicate: (_) => false,
-          //                     );
-          //                   },
-          //                   // controller: _submitController,
-
-          //                   // icon: e.flag,
-          //                   child: Padding(
-          //                     padding: const EdgeInsets.all(8.0),
-          //                     child: Column(
-          //                       mainAxisSize: MainAxisSize.min,
-          //                       children: [
-          //                         Text(e.localName, style: const TextStyle(color: Colors.white)),
-          //                         const SizedBox(height: 10),
-          //                         ClipRRect(
-          //                           borderRadius: BorderRadius.circular(20),
-          //                           child: SvgPicture.asset(
-          //                             e.flag,
-          //                             height: 40,
-          //                             width: 40,
-          //                           ),
-          //                         ),
-          //                       ],
-          //                     ),
-          //                   ),
-          //                 ),
-          //               ),
-          //             ),
-          //           );
-          //         },
-          //       ),
-          //     ],
-          //   ),
-          // ),
-          // // BlocBuilder<SettingsCubit, SettingsState>(
-          // //   cubit: cubit,
-          // //   builder: (context, state) {
-          // //     return state.maybeWhen(
-          // //       loaded: (value) => ,
-          // //       orElse: () => const SizedBox.shrink(),
-          // //     );
-          // //   },
-          // // ),
           Container(
             padding: const EdgeInsets.only(
               left: cardPadding,
@@ -710,7 +646,6 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
             width: cardWidth,
             child: Column(
               mainAxisSize: MainAxisSize.min,
-              // crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 _buildNameField(textFieldWidth, auth),
                 const SizedBox(height: 20),

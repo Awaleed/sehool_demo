@@ -60,22 +60,12 @@ class _OrganizationFormState extends State<OrganizationForm> {
             builder: (context) => AlertDialog(
               content: Text(error),
             ),
-          ); // setState(() => selectedValue = e);
+          );
 
           return;
         }
-        final value =
-            //  state.maybeWhen(
-            //       success: (values) => values?.association?.isNotEmpty ?? false ? values?.association?.first : null,
-            //       orElse: () => null,
-            //     ) ??
-            widget.cart.association;
-        final discount =
-            //  state.maybeWhen(
-            //       success: (values) => values?.discount,
-            //       orElse: () => null,
-            //     ) ??
-            widget.cart.associationDiscount;
+        final value = widget.cart.association;
+        final discount = widget.cart.associationDiscount;
 
         setState(() {
           widget.cart.association = value;
@@ -90,7 +80,6 @@ class _OrganizationFormState extends State<OrganizationForm> {
               clipBehavior: Clip.hardEdge,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
               backgroundColor: Colors.white70,
-              // title: Text(S.current.bank_info),
               content: ListTile(
                 leading: Image.asset('assets/images/sign-warning.png'),
                 title: Text(
@@ -146,99 +135,11 @@ class _OrganizationFormState extends State<OrganizationForm> {
           },
           S.current.choose_an_association,
         ),
-
-        // Form(
-        //   key: widget.formKey,
-        //   autovalidateMode: AutovalidateMode.onUserInteraction,
-        //   child: Column(
-        //     children: [
-        //       TextFormField(
-        //         validator: Validators.shortStringValidator,
-        //         decoration: InputDecoration(
-        //           hintText: S.current.association_name,
-        //           hintStyle: const TextStyle(color: Colors.black26),
-        //           filled: true,
-        //           fillColor: Colors.white,
-        //           contentPadding: const EdgeInsets.symmetric(horizontal: 15),
-        //           border: OutlineInputBorder(
-        //             borderRadius: BorderRadius.circular(25),
-        //           ),
-        //         ),
-        //         onSaved: (value) => widget.cart.associationName = value,
-        //         keyboardType: TextInputType.text,
-        //         textAlign: TextAlign.center,
-        //         style: const TextStyle(fontWeight: FontWeight.bold),
-        //       ),
-        //       const SizedBox(height: 20),
-        //       TextFormField(
-        //         validator: Validators.shortStringValidator,
-        //         decoration: InputDecoration(
-        //           hintText: S.current.association_official,
-        //           hintStyle: const TextStyle(color: Colors.black26),
-        //           filled: true,
-        //           fillColor: Colors.white,
-        //           contentPadding: const EdgeInsets.symmetric(horizontal: 15),
-        //           border: OutlineInputBorder(
-        //             borderRadius: BorderRadius.circular(25),
-        //           ),
-        //         ),
-        //         onSaved: (value) => widget.cart.associationOfficial = value,
-        //         keyboardType: TextInputType.text,
-        //         textAlign: TextAlign.center,
-        //         style: const TextStyle(fontWeight: FontWeight.bold),
-        //       ),
-        //       const SizedBox(height: 20),
-        //       TextFormField(
-        //         validator: Validators.numericValidator,
-        //         decoration: InputDecoration(
-        //           hintText: S.current.official_number,
-        //           hintStyle: const TextStyle(color: Colors.black26),
-        //           filled: true,
-        //           fillColor: Colors.white,
-        //           contentPadding: const EdgeInsets.symmetric(horizontal: 15),
-        //           border: OutlineInputBorder(
-        //             borderRadius: BorderRadius.circular(25),
-        //           ),
-        //         ),
-        //         onSaved: (value) => widget.cart.officialNumber = value,
-        //         keyboardType: TextInputType.number,
-        //         textAlign: TextAlign.center,
-        //         style: const TextStyle(fontWeight: FontWeight.bold),
-        //       ),
-        //       const SizedBox(height: 20),
-        //       TextFormField(
-        //         validator: Validators.shortStringValidator,
-        //         decoration: InputDecoration(
-        //           hintText: S.current.applicant_name,
-        //           hintStyle: const TextStyle(color: Colors.black26),
-        //           filled: true,
-        //           fillColor: Colors.white,
-        //           contentPadding: const EdgeInsets.symmetric(horizontal: 15),
-        //           border: OutlineInputBorder(
-        //             borderRadius: BorderRadius.circular(25),
-        //           ),
-        //         ),
-        //         onSaved: (value) => widget.cart.applicantName = value,
-        //         keyboardType: TextInputType.text,
-        //         textAlign: TextAlign.center,
-        //         style: const TextStyle(fontWeight: FontWeight.bold),
-        //       ),
-        //     ],
-        //   ),
-        // ),
       ],
     );
   }
 
   Widget _buildDropdown(List<Association> values, Association value, ValueChanged onChange, String label) {
-    // if (value == null) {
-    //   Timer.run(() {
-    //     setState(() {
-    //       // setState(() => onChange(value));
-    //       widget.onValueChanged?.call(value);
-    //     });
-    //   });
-    // }
     return DropdownButtonHideUnderline(
       child: DropdownSearch<Association>(
         selectedItem: widget.cart.association,
@@ -251,9 +152,6 @@ class _OrganizationFormState extends State<OrganizationForm> {
             borderRadius: BorderRadius.circular(25),
           ),
         ),
-        // value: value,
-        // isDense: true,
-        // dropdownColor: Colors.amber.withOpacity(.8),
         showSearchBox: true,
         autoFocusSearchBox: true,
         itemAsString: (item) => item.name,
@@ -269,7 +167,6 @@ class _OrganizationFormState extends State<OrganizationForm> {
                 clipBehavior: Clip.hardEdge,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
                 backgroundColor: Colors.white70,
-                // title: Text(S.current.bank_info),
                 content: ListTile(
                   leading: Image.asset('assets/images/sign-warning.png'),
                   title: Text(
@@ -282,7 +179,6 @@ class _OrganizationFormState extends State<OrganizationForm> {
             );
           }
         },
-        // isExpanded: true,
         items: [...values],
       ),
     );

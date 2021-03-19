@@ -7,8 +7,7 @@ class LanguageModel {
   LanguageModel(
     this.code,
     this.englishName,
-    this.localName,
-     {
+    this.localName, {
     this.selected = false,
   });
 
@@ -17,13 +16,11 @@ class LanguageModel {
           'en',
           'English',
           'English',
-          // 'assets/images/usa.svg',
         ),
         LanguageModel(
           'ar',
           'Arabic',
           'العربية',
-          // 'assets/images/ksa.svg',
         ),
       ];
 }

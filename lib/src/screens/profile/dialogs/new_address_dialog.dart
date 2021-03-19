@@ -5,15 +5,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../../generated/l10n.dart';
-import '../../../../init_injectable.dart';
 import '../../../components/address_picker_card.dart';
 import '../../../components/my_error_widget.dart';
 import '../../../components/my_loading_overlay.dart';
 import '../../../cubits/address_cubit/address_cubit.dart';
-import '../../../cubits/dropdown_cubit/dropdown_cubit.dart';
 import '../../../helpers/helper.dart';
 import '../../../models/address_model.dart';
-import '../../../models/dropdown_value_model.dart';
 import '../../../models/form_data_model.dart';
 import '../../../patched_components/places_picker/src/place_picker.dart';
 import '../../../routes/config_routes.dart';
@@ -40,20 +37,6 @@ class _NewAddressDialogState extends State<NewAddressDialog> {
 
   CityModel selectedCity;
   CitySectionModel selectedSection;
-  // DropdownCubit cityCubit;
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   // cityCubit = getIt<DropdownCubit>();
-  //   // cityCubit.getDropdownValues(DropdownValueType.cites);
-  // }
-
-  // @override
-  // void dispose() {
-  //   cityCubit.close();
-  //   super.dispose();
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -94,18 +77,8 @@ class _NewAddressDialogState extends State<NewAddressDialog> {
       showSpinner: true,
       child: Parent(
         style: ParentStyle()
-          // ..linearGradient(
-          //   begin: Alignment.topCenter,
-          //   end: Alignment.bottomCenter,
-          //   colors: [
-          //     Colors.black,
-          //     Colors.amber,
-          //     Colors.black,
-          //   ],
-          // ),
           ..background.color(Colors.white)
-          ..background
-              .image(path: 'assets/images/black.png', fit: BoxFit.contain),
+          ..background.image(path: 'assets/images/black.png', fit: BoxFit.contain),
         child: Scaffold(
           backgroundColor: Colors.white70,
           appBar: AppBar(
@@ -113,10 +86,7 @@ class _NewAddressDialogState extends State<NewAddressDialog> {
             backgroundColor: Colors.black54,
             title: Text(
               S.of(context).address,
-              style: Theme.of(context)
-                  .textTheme
-                  .headline6
-                  .copyWith(color: Colors.white),
+              style: Theme.of(context).textTheme.headline6.copyWith(color: Colors.white),
             ),
           ),
           body: Center(
@@ -156,8 +126,7 @@ class _NewAddressDialogState extends State<NewAddressDialog> {
               ),
             ),
           ),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerFloat,
+          floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
           floatingActionButton: Stack(
             alignment: Alignment.bottomCenter,
             children: [
@@ -170,10 +139,9 @@ class _NewAddressDialogState extends State<NewAddressDialog> {
                       cubit.addAddress(data);
                     }
                   },
-                  child: const Icon(FluentIcons.save_24_regular,
-                      color: Colors.white),
+                  child: const Icon(FluentIcons.save_24_regular, color: Colors.white),
                 ),
-              WhatsappFloatingActionButton(),
+              const WhatsappFloatingActionButton(),
             ],
           ),
         ),
@@ -209,8 +177,6 @@ class _NewAddressDialogState extends State<NewAddressDialog> {
                 initialPosition: LatLng(
                   location?.latitude ?? 24.860667,
                   location?.longitude ?? 46.674167,
-                  // 15.591851764538097,
-                  // 32.520090490579605,
                 ),
                 onSave: (newValue, region) {
                   if (newValue != null) {
@@ -258,109 +224,12 @@ class _NewAddressDialogState extends State<NewAddressDialog> {
         labelStyle: TextStyle(color: Theme.of(context).accentColor),
         contentPadding: const EdgeInsets.all(12),
         hintText: _model.hintText,
-        hintStyle:
-            TextStyle(color: Theme.of(context).focusColor.withOpacity(0.7)),
+        hintStyle: TextStyle(color: Theme.of(context).focusColor.withOpacity(0.7)),
         prefixIcon: Icon(_model.iconData, color: Theme.of(context).accentColor),
         suffixIcon: suffixIcon,
-        border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(50),
-            borderSide: BorderSide(
-                color: Theme.of(context).focusColor.withOpacity(0.2))),
-        focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(50),
-            borderSide: BorderSide(
-                color: Theme.of(context).focusColor.withOpacity(0.5))),
-        enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(50),
-            borderSide: BorderSide(
-                color: Theme.of(context).focusColor.withOpacity(0.2))),
-      ),
-    );
-  }
-
-  Widget _buildCityDropdownUI(List values, {bool isLoading = false}) {
-    return Column(
-      children: [
-        _buildDropdownInput(
-          values: values,
-          value: selectedCity,
-          type: FormFieldType.cityId,
-          enabled: !isLoading,
-          onChanged: (value) => setState(() {
-            selectedCity = value;
-          }),
-        ),
-        const SizedBox(height: 10),
-        _buildDropdownInput(
-          values: selectedCity?.sections ?? [],
-          value: selectedSection,
-          type: FormFieldType.citySectionId,
-          enabled: !isLoading,
-          onChanged: (value) => setState(() {
-            selectedSection = value;
-          }),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildDropdownInput({
-    @required FormFieldType type,
-    List values,
-    dynamic value,
-    bool enabled = true,
-    ValueChanged onChanged,
-  }) {
-    final _model = FormFieldModel.mapType(type, data);
-    return DropdownButtonHideUnderline(
-      child: DropdownButtonFormField(
-        decoration: InputDecoration(
-          prefixIcon:
-              Icon(_model.iconData, color: Theme.of(context).accentColor),
-          labelStyle: TextStyle(color: Theme.of(context).accentColor),
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 25, vertical: 3),
-          hintText: _model.hintText,
-          labelText: _model.labelText,
-          hintStyle: TextStyle(color: Theme.of(context).accentColor),
-          border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(50),
-              borderSide: BorderSide(
-                  color: Theme.of(context).focusColor.withOpacity(0.2))),
-          focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(50),
-              borderSide: BorderSide(
-                  color: Theme.of(context).focusColor.withOpacity(0.5))),
-          enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(50),
-              borderSide: BorderSide(
-                  color: Theme.of(context).focusColor.withOpacity(0.2))),
-        ),
-        value: value,
-        style: Theme.of(context)
-            .textTheme
-            .bodyText2
-            .copyWith(color: Theme.of(context).accentColor),
-        items: [
-          ...values.map(
-            (e) => DropdownMenuItem(
-              value: e,
-              child: Text(
-                e.name,
-                overflow: TextOverflow.visible,
-                // style: Theme.of(context)
-                //     .textTheme
-                //     .bodyText2
-                //     .copyWith(color: Theme.of(context).accentColor),
-              ),
-            ),
-          )
-        ],
-        autovalidateMode: AutovalidateMode.onUserInteraction,
-        onChanged: onChanged,
-        validator: _model.validator,
-        onSaved: (newValue) => _model.onSave('${newValue.id}'),
-        onTap: () => Helpers.dismissFauces(context),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(50), borderSide: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.2))),
+        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(50), borderSide: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.5))),
+        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(50), borderSide: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.2))),
       ),
     );
   }

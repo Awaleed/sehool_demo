@@ -1,7 +1,6 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:validators/validators.dart';
 
 import '../../generated/l10n.dart';
@@ -33,7 +32,6 @@ class _CartQuantityCardState extends State<CartQuantityCard> {
                 showDialog(
                   context: context,
                   builder: (context) {
-                    // final key = GlobalKey<FormState>();
                     return AlertDialog(
                       backgroundColor: Colors.white70,
                       content: Text(S.current.delivery_qyt_msg),
@@ -145,7 +143,6 @@ class _CartQuantityCardState extends State<CartQuantityCard> {
         ),
         _buildButton(
           onTap: () {
-            // widget.cartItem.product.qyt = 5;
             widget.onChanged();
             if (widget.cartItem.quantity == widget.cartItem.product.qyt) {
               showDialog(

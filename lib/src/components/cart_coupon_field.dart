@@ -86,7 +86,6 @@ class _CartCouponFieldState extends State<CartCouponField> with ApiCaller {
         widget.onChanged?.call(widget.cart);
       },
       builder: (context, state) {
-        // final isLoading = state == _CouponState.loading;
         final color = widget.cart.coupon != null || state == _CouponState.success
             ? Colors.green.withOpacity(0.7)
             : state == _CouponState.failure
@@ -113,8 +112,6 @@ class _CartCouponFieldState extends State<CartCouponField> with ApiCaller {
                   ),
                   const SizedBox(width: 10),
                   Text(S.current.deduction_from_wallet_balance),
-                  // const SizedBox(width: 10),
-                  // Text('${kUser.wallet}'),
                 ],
               ),
               Row(
@@ -161,27 +158,6 @@ class _CartCouponFieldState extends State<CartCouponField> with ApiCaller {
                     });
                   },
                 ),
-                // if (widget.cart.coupon == null && state != _CouponState.success) ...[
-                //   const SizedBox(height: 10),
-                //   _buildButton(
-                //     label: isLoading
-                //         ? const FittedBox(
-                //             fit: BoxFit.fitHeight,
-                //             child: Padding(
-                //               padding: EdgeInsets.all(5.0),
-                //               child: CircularProgressIndicator(),
-                //             ),
-                //           )
-                //         : Text(S.current.add_coupon),
-                //     onTap: isLoading
-                //         ? null
-                //         : () async {
-                //             Helpers.dismissFauces(context);
-                //             cubit.validateCoupon(couponController.text);
-                //           },
-                //   ),
-
-                // ]
               ],
               Row(
                 children: [
@@ -216,26 +192,4 @@ class _CartCouponFieldState extends State<CartCouponField> with ApiCaller {
       },
     );
   }
-
-  // Widget _buildButton({
-  //   Widget label,
-  //   bool enabled = true,
-  //   VoidCallback onTap,
-  // }) {
-  //   return ElevatedButton(
-  //     style: ButtonStyle(
-  //       minimumSize: MaterialStateProperty.all(
-  //         const Size.fromRadius(25),
-  //       ),
-  //       shape: MaterialStateProperty.all(
-  //         RoundedRectangleBorder(
-  //           borderRadius: BorderRadius.circular(25),
-  //         ),
-  //       ),
-  //     ),
-  //     onPressed: enabled ? onTap : null,
-  //     child: label,
-  //   );
-  // }
-
 }

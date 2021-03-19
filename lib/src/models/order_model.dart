@@ -126,13 +126,5 @@ class StatusModel {
       id: 5,
       name: S.current.done,
     ),
-    // StatusModel(
-    //   id: 6,
-    //   name: 'ملغى',
-    // ),
-    // StatusModel(
-    //   id: 7,
-    //   name: 'في انتظار الموافقه من الاداره',
-    // ),
   ];
 }

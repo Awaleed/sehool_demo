@@ -24,10 +24,6 @@ class CartModel {
   String otherPhone;
   Association association;
   double associationDiscount;
-  // String associationName;
-  // String associationOfficial;
-  // String officialNumber;
-  // String applicantName;
 
   CouponModel coupon;
 
@@ -71,10 +67,7 @@ class CartModel {
 
   double get discountAmount => subtotalWithDelivery - discountedSubtotal;
 
-  bool get validate =>
-      deliveryFees != null &&
-      paymentMethod != null &&
-      (address != null || organization);
+  bool get validate => deliveryFees != null && paymentMethod != null && (address != null || organization);
 
   Map<String, dynamic> toJson() {
     return {
@@ -86,9 +79,6 @@ class CartModel {
         'other_name': otherName,
         'other_phone': otherPhone,
       },
-      // 'association_official': associationOfficial,
-      // 'official_number': officialNumber,
-      // 'applicant_name': applicantName,
       'address_id': address?.id,
       'payment_method_id': paymentMethod.id,
       'coupon_id': coupon?.id,
@@ -98,14 +88,11 @@ class CartModel {
             (e) => {
               'product_id': e.product.id,
               'qyt': e.quantity,
-              // 'note': e.note ?? '',
               'slicer_type_id': e.slicingMethod.id,
-              // if (e.isGift) ...{
               'from': e.from,
               'to': e.to,
               'event': e.event?.name,
               'phrases': e.customPhrase ?? e.phrase?.name,
-              // },
             },
           )
           .toList(),
@@ -116,31 +103,12 @@ class CartModel {
   bool operator ==(Object o) {
     if (identical(this, o)) return true;
 
-    return o is CartModel &&
-        listEquals(o.cartItems, cartItems) &&
-        o.address == address &&
-        o.paymentMethod == paymentMethod &&
-        o.hasCoupon == hasCoupon &&
-        o.organization == organization &&
-        o.fromWallet == fromWallet &&
-        o.note == note &&
-        o.association == association &&
-        o.coupon == coupon &&
-        o.deliveryFees == deliveryFees;
+    return o is CartModel && listEquals(o.cartItems, cartItems) && o.address == address && o.paymentMethod == paymentMethod && o.hasCoupon == hasCoupon && o.organization == organization && o.fromWallet == fromWallet && o.note == note && o.association == association && o.coupon == coupon && o.deliveryFees == deliveryFees;
   }
 
   @override
   int get hashCode {
-    return cartItems.hashCode ^
-        address.hashCode ^
-        paymentMethod.hashCode ^
-        hasCoupon.hashCode ^
-        organization.hashCode ^
-        fromWallet.hashCode ^
-        note.hashCode ^
-        association.hashCode ^
-        coupon.hashCode ^
-        deliveryFees.hashCode;
+    return cartItems.hashCode ^ address.hashCode ^ paymentMethod.hashCode ^ hasCoupon.hashCode ^ organization.hashCode ^ fromWallet.hashCode ^ note.hashCode ^ association.hashCode ^ coupon.hashCode ^ deliveryFees.hashCode;
   }
 }
 
@@ -149,9 +117,7 @@ class CartItemModel {
 
   ProductModel product;
   SlicingMethodModel slicingMethod;
-  // String note;
 
-  // bool isGift = false;
   ValueWithId phrase;
   ValueWithId event;
   String from;
@@ -163,8 +129,7 @@ class CartItemModel {
   void incrementCart() => quantity++;
   void decrementCart() => canDecrement ? quantity-- : quantity;
 
-  bool get canDecrement =>
-      quantity > (kUser.level == UserLevel.merchant ? 10 : 1);
+  bool get canDecrement => quantity > (kUser.level == UserLevel.merchant ? 10 : 1);
 
   bool get validate => product != null && slicingMethod != null && quantity > 0;
 
@@ -172,32 +137,16 @@ class CartItemModel {
   bool operator ==(Object o) {
     if (identical(this, o)) return true;
 
-    return o is CartItemModel &&
-        o.quantity == quantity &&
-        o.product == product &&
-        o.slicingMethod == slicingMethod &&
-        o.phrase == phrase &&
-        o.event == event &&
-        o.from == from &&
-        o.to == to &&
-        o.customPhrase == customPhrase;
+    return o is CartItemModel && o.quantity == quantity && o.product == product && o.slicingMethod == slicingMethod && o.phrase == phrase && o.event == event && o.from == from && o.to == to && o.customPhrase == customPhrase;
   }
 
   @override
   int get hashCode {
-    return quantity.hashCode ^
-        product.hashCode ^
-        slicingMethod.hashCode ^
-        phrase.hashCode ^
-        event.hashCode ^
-        from.hashCode ^
-        to.hashCode ^
-        customPhrase.hashCode;
+    return quantity.hashCode ^ product.hashCode ^ slicingMethod.hashCode ^ phrase.hashCode ^ event.hashCode ^ from.hashCode ^ to.hashCode ^ customPhrase.hashCode;
   }
 }
 
-@JsonSerializable(
-    fieldRename: FieldRename.snake, explicitToJson: true, nullable: true)
+@JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true, nullable: true)
 class CartMessageModel {
   CartMessageModel({
     this.phrases,
@@ -207,21 +156,18 @@ class CartMessageModel {
   final List<ValueWithId> phrases;
   final List<ValueWithId> event;
 
-  factory CartMessageModel.fromJson(Map<String, dynamic> json) =>
-      _$CartMessageModelFromJson(json);
+  factory CartMessageModel.fromJson(Map<String, dynamic> json) => _$CartMessageModelFromJson(json);
   Map<String, dynamic> toJson() => _$CartMessageModelToJson(this);
 }
 
-@JsonSerializable(
-    fieldRename: FieldRename.snake, explicitToJson: true, nullable: true)
+@JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true, nullable: true)
 class ValueWithId {
   ValueWithId(this.id, this.name);
 
   final int id;
   final String name;
 
-  factory ValueWithId.fromJson(Map<String, dynamic> json) =>
-      _$ValueWithIdFromJson(json);
+  factory ValueWithId.fromJson(Map<String, dynamic> json) => _$ValueWithIdFromJson(json);
   Map<String, dynamic> toJson() => _$ValueWithIdToJson(this);
   @override
   String toString() => name;
@@ -229,8 +175,7 @@ class ValueWithId {
 
 enum CouponType { fixed, percentage }
 
-@JsonSerializable(
-    fieldRename: FieldRename.snake, explicitToJson: true, nullable: true)
+@JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true, nullable: true)
 class CouponModel {
   const CouponModel({
     this.id,
@@ -249,19 +194,14 @@ class CouponModel {
     return 'CouponModel(id: $id, name: $name, amount: $amount, type: $type)';
   }
 
-  factory CouponModel.fromJson(Map<String, dynamic> json) =>
-      _$CouponModelFromJson(json);
+  factory CouponModel.fromJson(Map<String, dynamic> json) => _$CouponModelFromJson(json);
   Map<String, dynamic> toJson() => _$CouponModelToJson(this);
 
   @override
   bool operator ==(Object o) {
     if (identical(this, o)) return true;
 
-    return o is CouponModel &&
-        o.id == id &&
-        o.name == name &&
-        o.amount == amount &&
-        o.type == type;
+    return o is CouponModel && o.id == id && o.name == name && o.amount == amount && o.type == type;
   }
 
   @override
