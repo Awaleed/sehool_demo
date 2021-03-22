@@ -117,13 +117,13 @@ class OrdersListItemWidget extends StatelessWidget {
             ),
             ListTile(
               title: Text(S.current.payment_mode),
-              subtitle: Text(cart.payment),
+              subtitle: Text(cart.payment ?? S.current.none),
             ),
-            if (cart.address.address != null && cart.address.address.isNotEmpty)
-              ListTile(
-                title: Text(S.current.address),
-                subtitle: Text(cart.address.address),
-              ),
+            // if (cart?.address?.address != null && cart.address.address.isNotEmpty)
+            ListTile(
+              title: Text(S.current.address),
+              subtitle: Text(cart?.address?.address ?? S.current.pickup),
+            ),
           ],
         ),
       ),

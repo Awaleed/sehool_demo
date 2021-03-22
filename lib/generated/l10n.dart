@@ -1,7 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
 import 'intl/messages_all.dart';
 
 // **************************************************************************
@@ -15,24 +14,45 @@ import 'intl/messages_all.dart';
 
 class S {
   S();
-
+  
   static S current;
-
-  static const AppLocalizationDelegate delegate = AppLocalizationDelegate();
+  
+  static const AppLocalizationDelegate delegate =
+    AppLocalizationDelegate();
 
   static Future<S> load(Locale locale) {
     final name = (locale.countryCode?.isEmpty ?? false) ? locale.languageCode : locale.toString();
-    final localeName = Intl.canonicalizedLocale(name);
+    final localeName = Intl.canonicalizedLocale(name); 
     return initializeMessages(localeName).then((_) {
       Intl.defaultLocale = localeName;
       S.current = S();
-
+      
       return S.current;
     });
-  }
+  } 
 
   static S of(BuildContext context) {
     return Localizations.of<S>(context, S);
+  }
+
+  /// `the entered code is invalid`
+  String get the_entered_code_is_invalid {
+    return Intl.message(
+      'the entered code is invalid',
+      name: 'the_entered_code_is_invalid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Ok`
+  String get ok {
+    return Intl.message(
+      'Ok',
+      name: 'ok',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `Thank you for registering. Your account will be activated after reviewing the attachments ..`
@@ -2928,10 +2948,10 @@ class S {
     );
   }
 
-  /// `The code has been sent to:`
+  /// `The code has been sent to your phone`
   String get the_code_has_been_sent_to {
     return Intl.message(
-      'The code has been sent to:',
+      'The code has been sent to your phone',
       name: 'the_code_has_been_sent_to',
       desc: '',
       args: [],

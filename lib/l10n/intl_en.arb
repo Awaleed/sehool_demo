@@ -1,5 +1,9 @@
 {
   "@@locale": "en",
+  "the_entered_code_is_invalid": "the entered code is invalid",
+  "@the_entered_code_is_invalid": {},
+  "ok": "Ok",
+  "@ok": {},
   "account_not_active_msg": "Thank you for registering. Your account will be activated after reviewing the attachments ..",
   "@account_not_active_msg": {},
   "choose_an_association": "Choose an association",
@@ -582,7 +586,7 @@
   "@tap_back_again_to_leave": {},
   "tax": "TAX",
   "@tax": {},
-  "the_code_has_been_sent_to": "The code has been sent to:",
+  "the_code_has_been_sent_to": "The code has been sent to your phone",
   "@the_code_has_been_sent_to": {},
   "the_product_has_been_added_to_favorite": "The product has been added to favorite",
   "@the_product_has_been_added_to_favorite": {},

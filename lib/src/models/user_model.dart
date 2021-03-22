@@ -37,6 +37,7 @@ class UserModel {
     this.level,
     this.phone,
     this.password,
+    this.verification,
     this.image,
     this.wallet,
     this.id,
@@ -51,6 +52,7 @@ class UserModel {
   final String vatNumber;
   final String settings;
   final String password;
+  final String verification;
   final String image;
   final double wallet;
   final UserLevel level;
@@ -61,27 +63,29 @@ class UserModel {
 
   UserModel copyWith({
     int id,
-    int status,
     String name,
+    int status,
     String phone,
     String storeName,
     String vatNumber,
     String settings,
     String password,
+    String verification,
     String image,
     double wallet,
-    String level,
+    UserLevel level,
     String email,
   }) {
     return UserModel(
       id: id ?? this.id,
-      status: status ?? this.status,
       name: name ?? this.name,
+      status: status ?? this.status,
       phone: phone ?? this.phone,
       storeName: storeName ?? this.storeName,
       vatNumber: vatNumber ?? this.vatNumber,
       settings: settings ?? this.settings,
       password: password ?? this.password,
+      verification: verification ?? this.verification,
       image: image ?? this.image,
       wallet: wallet ?? this.wallet,
       level: level ?? this.level,
@@ -90,15 +94,15 @@ class UserModel {
   }
 
   @override
-  bool operator ==(Object o) {
-    if (identical(this, o)) return true;
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
 
-    return o is UserModel && o.id == id && o.status == status && o.name == name && o.phone == phone && o.storeName == storeName && o.vatNumber == vatNumber && o.settings == settings && o.password == password && o.image == image && o.wallet == wallet && o.level == level && o.email == email;
+    return other is UserModel && other.id == id && other.name == name && other.status == status && other.phone == phone && other.storeName == storeName && other.vatNumber == vatNumber && other.settings == settings && other.password == password && other.verification == verification && other.image == image && other.wallet == wallet && other.level == level && other.email == email;
   }
 
   @override
   int get hashCode {
-    return id.hashCode ^ status.hashCode ^ name.hashCode ^ phone.hashCode ^ storeName.hashCode ^ vatNumber.hashCode ^ settings.hashCode ^ password.hashCode ^ image.hashCode ^ wallet.hashCode ^ level.hashCode ^ email.hashCode;
+    return id.hashCode ^ name.hashCode ^ status.hashCode ^ phone.hashCode ^ storeName.hashCode ^ vatNumber.hashCode ^ settings.hashCode ^ password.hashCode ^ verification.hashCode ^ image.hashCode ^ wallet.hashCode ^ level.hashCode ^ email.hashCode;
   }
 }
 

@@ -1,5 +1,9 @@
 {
   "@@locale": "ar",
+  "the_entered_code_is_invalid": "الكود الذي تم إدخاله غير صالح",
+  "@the_entered_code_is_invalid": {},
+  "ok": "موافق",
+  "@ok": {},
   "account_not_active_msg": "شكرا لتسجيلك سيتم تفعيل حسابك بعد مراجعة المرفقات ..",
   "@account_not_active_msg": {},
   "choose_an_association": "اختر جمعية",
@@ -582,7 +586,7 @@
   "@tap_back_again_to_leave": {},
   "tax": "ضريبة",
   "@tax": {},
-  "the_code_has_been_sent_to": "تم إرسال الرمز الى:",
+  "the_code_has_been_sent_to": "تم إرسال الكود إلى رقم هاتفك",
   "@the_code_has_been_sent_to": {},
   "the_product_has_been_added_to_favorite": "تمت إضافة المنتج إلى المفضلة",
   "@the_product_has_been_added_to_favorite": {},

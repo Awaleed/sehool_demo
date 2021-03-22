@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:package_info/package_info.dart';
+import 'package:sehool/src/screens/home/verification.dart';
 import 'package:simple_animations/simple_animations.dart';
 import 'package:supercharged/supercharged.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -75,6 +76,8 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     if (kUser.status == 0 && kUser.level == UserLevel.merchant) {
       return _buildNotActive(context);
+    } else if (kUser.verification != null || (kUser.verification?.isNotEmpty ?? false)) {
+      return const VerificationScreen();
     }
     return WillPopScope(
         onWillPop: () => Helpers.onWillPop(context),
@@ -297,63 +300,64 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       child: _buildButton(
-                        label: Text(S.current.retry, style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.black, fontWeight: FontWeight.normal)),
+                        label: Text(S.current.ok, style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.black, fontWeight: FontWeight.normal)),
                         onTap: () async {
-                          final completer = Helpers.showLoading(context);
-                          await getIt<IAuthRepository>().me();
-                          setState(() {});
-                          completer.complete();
+                          // final completer = Helpers.showLoading(context);
+                          // await getIt<IAuthRepository>().me();
+                          // setState(() {});
+                          // completer.complete();
+                          getIt<AuthCubit>().unauthenticateUser();
                         },
                       ),
                     ),
                   ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: _buildButton(
-                        label: Text(S.current.log_out, style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.white, fontWeight: FontWeight.normal)),
-                        color: Colors.red,
-                        onTap: () {
-                          final action = CupertinoActionSheet(
-                            title: Text(
-                              S.current.log_out,
-                              style: Theme.of(context).textTheme.headline3.copyWith(color: Colors.amber),
-                            ),
-                            message: Text(
-                              S.current.do_you_want_to_log_out_and_switch_account,
-                              style: Theme.of(context).textTheme.bodyText2.copyWith(color: Colors.amberAccent),
-                            ),
-                            actions: <Widget>[
-                              CupertinoActionSheetAction(
-                                isDestructiveAction: true,
-                                onPressed: () => getIt<AuthCubit>().unauthenticateUser(),
-                                child: Text(
-                                  S.current.yes,
-                                  style: Theme.of(context).textTheme.button.copyWith(color: Colors.red),
-                                ),
-                              ),
-                              CupertinoActionSheetAction(
-                                isDefaultAction: true,
-                                onPressed: () => Navigator.pop(context, false),
-                                child: Text(
-                                  S.current.no,
-                                  style: Theme.of(context).textTheme.button,
-                                ),
-                              )
-                            ],
-                            cancelButton: CupertinoActionSheetAction(
-                              onPressed: () => Navigator.pop(context, false),
-                              child: Text(
-                                S.current.cancel,
-                                style: Theme.of(context).textTheme.button,
-                              ),
-                            ),
-                          );
-                          showCupertinoModalPopup(context: context, builder: (context) => action);
-                        },
-                      ),
-                    ),
-                  ),
+                  // Expanded(
+                  //   child: Padding(
+                  //     padding: const EdgeInsets.symmetric(horizontal: 10),
+                  //     child: _buildButton(
+                  //       label: Text(S.current.log_out, style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.white, fontWeight: FontWeight.normal)),
+                  //       color: Colors.red,
+                  //       onTap: () {
+                  //         final action = CupertinoActionSheet(
+                  //           title: Text(
+                  //             S.current.log_out,
+                  //             style: Theme.of(context).textTheme.headline3.copyWith(color: Colors.amber),
+                  //           ),
+                  //           message: Text(
+                  //             S.current.do_you_want_to_log_out_and_switch_account,
+                  //             style: Theme.of(context).textTheme.bodyText2.copyWith(color: Colors.amberAccent),
+                  //           ),
+                  //           actions: <Widget>[
+                  //             CupertinoActionSheetAction(
+                  //               isDestructiveAction: true,
+                  //               onPressed: () => getIt<AuthCubit>().unauthenticateUser(),
+                  //               child: Text(
+                  //                 S.current.yes,
+                  //                 style: Theme.of(context).textTheme.button.copyWith(color: Colors.red),
+                  //               ),
+                  //             ),
+                  //             CupertinoActionSheetAction(
+                  //               isDefaultAction: true,
+                  //               onPressed: () => Navigator.pop(context, false),
+                  //               child: Text(
+                  //                 S.current.no,
+                  //                 style: Theme.of(context).textTheme.button,
+                  //               ),
+                  //             )
+                  //           ],
+                  //           cancelButton: CupertinoActionSheetAction(
+                  //             onPressed: () => Navigator.pop(context, false),
+                  //             child: Text(
+                  //               S.current.cancel,
+                  //               style: Theme.of(context).textTheme.button,
+                  //             ),
+                  //           ),
+                  //         );
+                  //         showCupertinoModalPopup(context: context, builder: (context) => action);
+                  //       },
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
             ),

@@ -43,9 +43,7 @@ class _MyLoadingOverLayState extends State<MyLoadingOverLay> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: widget.isLoading
-          ? () => Helpers.onWillPop(context)
-          : () async => true,
+      onWillPop: () async => false,
       child: LoadingOverlay(
         isLoading: widget.isLoading,
         color: widget.transparent ? Colors.transparent : Colors.black38,
