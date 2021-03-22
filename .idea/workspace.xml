@@ -22,16 +22,13 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="17d2e517-7bca-4015-a87e-155737b01a67" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/lib/src/components/orders_list/orders_list_item_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/components/orders_list/orders_list_item_widget.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/models/cart_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/models/cart_model.dart" afterDir="false" />
-    </list>
+    <list default="true" id="17d2e517-7bca-4015-a87e-155737b01a67" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[192.168.8.137:5555]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[52008437ee5035c7]" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -46,7 +43,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="dart.analysis.tool.window.force.activate" value="true" />
     <property name="dart.analysis.tool.window.visible" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/android" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="SvnConfiguration">
@@ -80,11 +77,11 @@
     </state>
     <state x="703" y="176" key="#Plugins/0.0.1920.1050/1920.0.1920.1050@0.0.1920.1050" timestamp="1616102166210" />
     <state x="703" y="176" key="#Plugins/0.0.1920.1050@0.0.1920.1050" timestamp="1616130710351" />
-    <state x="740" y="279" key="FileChooserDialogImpl" timestamp="1616106149552">
+    <state x="740" y="279" key="FileChooserDialogImpl" timestamp="1616405172712">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="740" y="279" key="FileChooserDialogImpl/0.0.1920.1050/1920.0.1920.1050@0.0.1920.1050" timestamp="1616104160226" />
-    <state x="740" y="279" key="FileChooserDialogImpl/0.0.1920.1050@0.0.1920.1050" timestamp="1616106149552" />
+    <state x="740" y="279" key="FileChooserDialogImpl/0.0.1920.1050@0.0.1920.1050" timestamp="1616405172712" />
     <state width="938" height="243" key="GridCell.Tab.0.bottom" timestamp="1616106037388">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>

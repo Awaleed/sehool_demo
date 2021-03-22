@@ -157,7 +157,6 @@
     <orderEntry type="library" name="Gradle: androidx.print:print:1.0.0@aar" level="project" />
     <orderEntry type="module" module-name="android.file_picker" />
     <orderEntry type="module" module-name="android.video_player" />
-    <orderEntry type="module" module-name="android.sqflite" />
     <orderEntry type="module" module-name="android.package_info" />
     <orderEntry type="module" module-name="android.wakelock" />
     <orderEntry type="module" module-name="android.flutter_plugin_android_lifecycle" />
@@ -165,8 +164,6 @@
     <orderEntry type="module" module-name="android.onesignal_flutter" />
     <orderEntry type="module" module-name="android.url_launcher" />
     <orderEntry type="module" module-name="android.webview_flutter" />
-    <orderEntry type="module" module-name="android.path_provider" />
-    <orderEntry type="module" module-name="android.image_cropper" />
     <orderEntry type="module" module-name="android.google_maps_flutter" />
     <orderEntry type="module" module-name="android.flutter_phone_direct_caller" />
     <orderEntry type="module" module-name="android.image_picker" />
