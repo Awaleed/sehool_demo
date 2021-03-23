@@ -9,7 +9,7 @@ import 'package:injectable/injectable.dart' as _i2;
 
 import 'src/cubits/address_cubit/address_cubit.dart' as _i13;
 import 'src/cubits/associations_cubit/associations_cubit.dart' as _i3;
-import 'src/cubits/auth_cubit/auth_cubit.dart' as _i32;
+import 'src/cubits/auth_cubit/auth_cubit.dart' as _i33;
 import 'src/cubits/cart_cubit/cart_cubit.dart' as _i23;
 import 'src/cubits/checkout_cubit/checkout_cubit.dart' as _i4;
 import 'src/cubits/dropdown_cubit/dropdown_cubit.dart' as _i15;
@@ -24,6 +24,7 @@ import 'src/cubits/profile_cubit/profile_cubit.dart' as _i9;
 import 'src/cubits/registration_cubit/registration_cubit.dart' as _i19;
 import 'src/cubits/settings_cubit/settings_cubit.dart' as _i31;
 import 'src/cubits/splash_cubit/splash_cubit.dart' as _i20;
+import 'src/cubits/whatsapp_cubit/whatsapp_cubit.dart' as _i32;
 import 'src/data/dropdown_datasource.dart' as _i24;
 import 'src/data/lazy_list_datasource.dart' as _i25;
 import 'src/data/order_datasource.dart' as _i27;
@@ -96,8 +97,9 @@ _i1.GetIt $initGetIt(_i1.GetIt get,
       get<_i30.IUserLocalDataSource>(), get<_i30.IUserRemoteDataSource>()));
   gh.singleton<_i31.SettingsCubit>(
       _i31.SettingsCubit(get<_i21.ISettingsRepository>()));
+  gh.singleton<_i32.WhatsappCubit>(_i32.WhatsappCubit());
   gh.singleton<_i18.IAuthRepository>(_i18.AuthRepositoryImpl(
       get<_i30.IUserLocalDataSource>(), get<_i30.IUserRemoteDataSource>()));
-  gh.singleton<_i32.AuthCubit>(_i32.AuthCubit(get<_i18.IAuthRepository>()));
+  gh.singleton<_i33.AuthCubit>(_i33.AuthCubit(get<_i18.IAuthRepository>()));
   return get;
 }

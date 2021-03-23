@@ -35,6 +35,16 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
+  /// `Guest`
+  String get login_as_guest {
+    return Intl.message(
+      'Guest',
+      name: 'login_as_guest',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `the entered code is invalid`
   String get the_entered_code_is_invalid {
     return Intl.message(

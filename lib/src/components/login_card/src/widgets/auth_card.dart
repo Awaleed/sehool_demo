@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:sailor/sailor.dart';
+import 'package:sehool/src/screens/home/home.dart';
 import 'package:supercharged/supercharged.dart';
 import 'package:transformer_page_view/transformer_page_view.dart';
 import 'package:validators/validators.dart';
@@ -584,6 +585,23 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
     );
   }
 
+  Widget _buildGustButton(ThemeData theme, Auth auth) {
+    return FadeIn(
+      controller: _loadingController,
+      offset: .5,
+      curve: _textButtonLoadingAnimationInterval,
+      fadeDirection: FadeDirection.topToBottom,
+      child: TextButton(
+        style: TextButton.styleFrom(padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 10), textStyle: Theme.of(context).textTheme.button.copyWith(color: theme.primaryColor)),
+        onPressed: buttonEnabled ? () => AppRouter.sailor.navigate(HomeScreen.routeName) : null,
+        child: AnimatedText(
+          text: S.current.login_as_guest,
+          textRotation: AnimatedTextRotation.down,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final auth = Provider.of<Auth>(context, listen: true);
@@ -700,6 +718,8 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
                 _buildForgotPassword(theme),
                 const SizedBox(height: 10),
                 _buildSubmitButton(theme, auth),
+                const SizedBox(height: 10),
+                _buildGustButton(theme, auth),
                 const SizedBox(height: 10),
                 _buildSwitchAuthButton(theme, auth),
               ],

@@ -1,5 +1,7 @@
 {
   "@@locale": "ar",
+  "login_as_guest": "الدخول كضيف",
+  "@login_as_guest": {},
   "the_entered_code_is_invalid": "الكود الذي تم إدخاله غير صالح",
   "@the_entered_code_is_invalid": {},
   "ok": "موافق",

@@ -5,6 +5,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sehool/src/data/user_datasource.dart';
+import 'package:sehool/src/helpers/helper.dart';
 import 'package:simple_animations/simple_animations.dart';
 import 'package:supercharged/supercharged.dart';
 
@@ -43,7 +45,7 @@ class _ProductScreenState extends State<ProductScreen> {
   void initState() {
     super.initState();
     cubit = getIt<ReviewCubit>()..getReviews(widget.product.id);
-    textEditingController = TextEditingController();
+    textEditingController = TextEditingController(text: kUser == null ? S.current.you_must_login_first : '');
     textEditingController.addListener(checkIfFieldEmpty);
   }
 
@@ -217,7 +219,12 @@ class _ProductScreenState extends State<ProductScreen> {
                               return FloatingActionButton(
                                 heroTag: 'btn${widget.product.id}',
                                 onPressed: () {
-                                  if (widget.product.qyt <= 0) {
+                                  if (kUser == null) {
+                                    Helpers.showMessageOverlay(
+                                      context,
+                                      message: S.current.you_must_login_first,
+                                    );
+                                  } else if (widget.product.qyt <= 0) {
                                     showDialog(
                                       context: context,
                                       builder: (context) => AlertDialog(

@@ -3,6 +3,8 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sehool/src/data/user_datasource.dart';
+import 'package:sehool/src/helpers/helper.dart';
 
 import '../../../generated/l10n.dart';
 import '../../../init_injectable.dart';
@@ -89,7 +91,12 @@ class ProductsCarouselItemWidget extends StatelessWidget {
                 return FloatingActionButton.extended(
                   heroTag: 'btn${product.id}',
                   onPressed: () {
-                    if (product.qyt <= 0) {
+                    if (kUser == null) {
+                      Helpers.showMessageOverlay(
+                        context,
+                        message: S.current.you_must_login_first,
+                      );
+                    } else if (product.qyt <= 0) {
                       showDialog(
                         context: context,
                         builder: (context) => AlertDialog(

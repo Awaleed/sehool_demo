@@ -172,6 +172,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "light_mode" : MessageLookupByLibrary.simpleMessage("وضع النهار"),
     "log_out" : MessageLookupByLibrary.simpleMessage("تسجيل الخروج"),
     "login" : MessageLookupByLibrary.simpleMessage("دخول"),
+    "login_as_guest" : MessageLookupByLibrary.simpleMessage("الدخول كضيف"),
     "login_please" : MessageLookupByLibrary.simpleMessage("الرجاء تسجيل الدخول"),
     "login_slogin" : MessageLookupByLibrary.simpleMessage("يمكنك الحصول علي حساب لإدارة عمليات البيع\nعلي متجر كوش بإكمال تسجيل البيانات مع إدارة التطبيق"),
     "longpress_on_the_food_to_add_suplements" : MessageLookupByLibrary.simpleMessage("اضغط لفترة طويلة على الطعام لإضافة المكملات الغذائية"),

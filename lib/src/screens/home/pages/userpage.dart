@@ -37,17 +37,21 @@ class UserPage extends StatelessWidget {
     return ValueListenableBuilder(
         valueListenable: Hive.box(userBoxName).listenable(),
         builder: (BuildContext context, dynamic value, Widget child) {
-          return Parent(
-            style: contentStyle(context),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Txt(S.current.profile, style: titleStyle),
-                UserCard(),
-                const Settings(),
-              ],
-            ),
-          );
+          if (kUser == null) {
+            return Container();
+          } else {
+            return Parent(
+              style: contentStyle(context),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Txt(S.current.profile, style: titleStyle),
+                  UserCard(),
+                  const Settings(),
+                ],
+              ),
+            );
+          }
         });
   }
 }

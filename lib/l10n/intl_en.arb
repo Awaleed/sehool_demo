@@ -1,5 +1,7 @@
 {
   "@@locale": "en",
+  "login_as_guest": "Guest",
+  "@login_as_guest": {},
   "the_entered_code_is_invalid": "the entered code is invalid",
   "@the_entered_code_is_invalid": {},
   "ok": "Ok",

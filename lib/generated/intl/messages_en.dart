@@ -172,6 +172,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "light_mode" : MessageLookupByLibrary.simpleMessage("Light Mode"),
     "log_out" : MessageLookupByLibrary.simpleMessage("Log out"),
     "login" : MessageLookupByLibrary.simpleMessage("Login"),
+    "login_as_guest" : MessageLookupByLibrary.simpleMessage("Guest"),
     "login_please" : MessageLookupByLibrary.simpleMessage("Please login"),
     "login_slogin" : MessageLookupByLibrary.simpleMessage("You can get an account to manage sales\non the Kosh™ store by completing the data registration with the application management"),
     "longpress_on_the_food_to_add_suplements" : MessageLookupByLibrary.simpleMessage("Longpress on the food to add suplements"),

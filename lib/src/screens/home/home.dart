@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:package_info/package_info.dart';
+import 'package:sehool/src/cubits/whatsapp_cubit/whatsapp_cubit.dart';
 import 'package:sehool/src/screens/home/verification.dart';
 import 'package:simple_animations/simple_animations.dart';
 import 'package:supercharged/supercharged.dart';
@@ -74,13 +75,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (kUser.status == 0 && kUser.level == UserLevel.merchant) {
+    if (kUser?.status == 0 && kUser?.level == UserLevel.merchant) {
       return _buildNotActive(context);
-    } else if (kUser.verification != null || (kUser.verification?.isNotEmpty ?? false)) {
+    } else if (kUser?.verification != null || (kUser?.verification?.isNotEmpty ?? false)) {
       return const VerificationScreen();
     }
     return WillPopScope(
-        onWillPop: () => Helpers.onWillPop(context),
+        onWillPop: kUser == null ? () async => true : () => Helpers.onWillPop(context),
         child: Parent(
           style: ParentStyle()
             ..background.color(Colors.white)
@@ -154,7 +155,14 @@ class _HomeScreenState extends State<HomeScreen> {
       final tab = Parent(
         gesture: Gestures()
           ..onTap(() {
-            if (!isSelected) onPageChanged(i);
+            if (item.label == S.current.profile && kUser == null) {
+              Helpers.showMessageOverlay(
+                context,
+                message: S.current.you_must_login_first,
+              );
+            } else if (!isSelected) {
+              onPageChanged(i);
+            }
           }),
         style: ParentStyle()
           ..animate(600, Curves.easeOut)
@@ -399,20 +407,35 @@ class WhatsappFloatingActionButton extends StatelessWidget {
           Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              FloatingActionButton(
-                heroTag: 'WhatsappFloatingActionButton',
-                onPressed: () {
-                  launch('https://api.whatsapp.com/send?phone=966508808940');
+              BlocBuilder<WhatsappCubit, WhatsappState>(
+                cubit: getIt<WhatsappCubit>(),
+                builder: (context, state) {
+                  final number = getIt<WhatsappCubit>().number;
+                  if (number == null) return Container();
+
+                  return FloatingActionButton(
+                    heroTag: 'WhatsappFloatingActionButton',
+                    onPressed: () {
+                      launch('https://api.whatsapp.com/send?phone=$number');
+                    },
+                    backgroundColor: Colors.transparent,
+                    foregroundColor: Colors.transparent,
+                    child: SvgPicture.asset('assets/images/iconfinder-whatsapp-4550867_121343.svg'),
+                  );
                 },
-                backgroundColor: Colors.transparent,
-                foregroundColor: Colors.transparent,
-                child: SvgPicture.asset('assets/images/iconfinder-whatsapp-4550867_121343.svg'),
               ),
               const SizedBox(height: 10),
               FloatingActionButton(
                 heroTag: 'PinnedOrdersFloatingActionButton',
                 onPressed: () {
-                  AppRouter.sailor.navigate(OrdersHistory.routeName);
+                  if (kUser == null) {
+                    Helpers.showMessageOverlay(
+                      context,
+                      message: S.current.you_must_login_first,
+                    );
+                  } else {
+                    AppRouter.sailor.navigate(OrdersHistory.routeName);
+                  }
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(10.0),
@@ -551,16 +574,24 @@ And they arrive daily fresh by Saudi aviation approved by the Saudi Food and Dru
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          InkWell(
-            onTap: () => launchUrl('https://api.whatsapp.com/send?phone=966508808940'),
-            child: const Padding(
-              padding: EdgeInsets.all(3),
-              child: Icon(
-                FontAwesomeIcons.whatsapp,
-                size: 20,
-                color: Color(0xFF20b038),
-              ),
-            ),
+          BlocBuilder<WhatsappCubit, WhatsappState>(
+            cubit: getIt<WhatsappCubit>(),
+            builder: (context, state) {
+              final number = getIt<WhatsappCubit>().number;
+              if (number == null) return Container();
+
+              return InkWell(
+                onTap: () => launchUrl('https://api.whatsapp.com/send?phone=$number'),
+                child: const Padding(
+                  padding: EdgeInsets.all(3),
+                  child: Icon(
+                    FontAwesomeIcons.whatsapp,
+                    size: 20,
+                    color: Color(0xFF20b038),
+                  ),
+                ),
+              );
+            },
           ),
           InkWell(
             onTap: () => launchUrl('https://www.facebook.com/sehoool/'),

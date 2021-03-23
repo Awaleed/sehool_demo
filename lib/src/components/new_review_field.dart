@@ -1,6 +1,8 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:sehool/generated/l10n.dart';
+import 'package:sehool/src/data/user_datasource.dart';
 
 import '../cubits/product_cubits/review_cubit/review_cubit.dart';
 import '../helpers/helper.dart';
@@ -28,7 +30,7 @@ class _NewReviewFieldState extends State<NewReviewField> {
 
   @override
   Widget build(BuildContext context) {
-    final canSend = (widget.textEditingController?.text?.isNotEmpty ?? false) && !widget.isLoading;
+    final canSend = (widget.textEditingController?.text?.isNotEmpty ?? false) && kUser != null && !widget.isLoading;
     return Container(
       color: Colors.black54,
       padding: const EdgeInsets.all(5),
@@ -55,7 +57,7 @@ class _NewReviewFieldState extends State<NewReviewField> {
               Expanded(
                 child: TextField(
                   controller: widget.textEditingController,
-                  enabled: !widget.isLoading,
+                  enabled: kUser != null && !widget.isLoading,
                   maxLines: 10,
                   minLines: 1,
                   keyboardType: TextInputType.multiline,
