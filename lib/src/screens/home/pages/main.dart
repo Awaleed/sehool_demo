@@ -43,10 +43,10 @@ class _MainPageState extends State<MainPage> {
         cubit.getBanners();
         await productCubit.getProducts();
       },
-      child: CustomScrollView(
-        slivers: [
-          SliverToBoxAdapter(
-            child: BlocBuilder<BannerCubit, BannerState>(
+      child: Column(
+        children: [
+          Expanded(
+                      child: BlocBuilder<BannerCubit, BannerState>(
               cubit: cubit,
               builder: (context, state) {
                 return state.when(
@@ -62,10 +62,7 @@ class _MainPageState extends State<MainPage> {
               },
             ),
           ),
-          SliverFillRemaining(
-            hasScrollBody: false,
-            child: ProductsCarouselWidget(cubit: productCubit),
-          ),
+          Expanded(flex: 3,child: ProductsCarouselWidget(cubit: productCubit)),
         ],
       ),
     );

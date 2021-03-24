@@ -41,5 +41,25 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>UIBackgroundModes</key>
+<array>
+   <string>fetch</string>
+   <string>remote-notification</string>
+</array>
+<key>NSPhotoLibraryUsageDescription</key>
+<string>Explain why your app uses photo library</string>
+<key>LSApplicationQueriesSchemes</key>
+<array>
+  <string>tel</string>
+</array>
+<key>NSLocationWhenInUseUsageDescription</key>
+<string>This app needs access to location when open.</string>
+<key>NSLocationAlwaysUsageDescription</key>
+<string>This app needs access to location when in the background.</string>
+<key>NSAppTransportSecurity</key>
+<dict>
+  <key>NSAllowsArbitraryLoads</key>
+  <true/>
+</dict>
 </dict>
 </plist>

@@ -80,6 +80,11 @@ dev_dependencies:
   json_serializable: ^3.5.1
   # intl_utils: ^1.9.0
   lint: null
+  flutter_launcher_icons:
+
+flutter_icons:
+  image_path: "android/app/src/main/ic_launcher-playstore.png" 
+  ios: true
 
 # dependency_overrides:
 #   intl: ^0.17.0
